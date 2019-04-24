@@ -442,15 +442,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   //BTagEntry::OperatingPoint bwp = BTagEntry::OP_TIGHT;  // = 2
 
   //  - 2016
-  btagCuts[0][0] = 0.2217; // loose
+  btagCuts[0][0] = bjet_loose_2016; // loose
   btagCuts[0][1] = 0.6321; // medium
   btagCuts[0][2] = 0.8953; // tight
   //  - 2017
-  btagCuts[1][0] = 0.1522; // loose
+  btagCuts[1][0] = bjet_loose_2017; // loose
   btagCuts[1][1] = 0.4941; // medium
   btagCuts[1][2] = 0.8001; // tight
   //  - 2018
-  btagCuts[2][0] = 0.1241; // loose
+  btagCuts[2][0] = bjet_loose_2018; // loose
   btagCuts[2][1] = 0.4184; // medium
   btagCuts[2][2] = 0.7527; // tight
 
@@ -551,10 +551,21 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	charge_3l[i]=0;
       }
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
+      //------------------------------------------------------------ jet pt variation
+      for (unsigned j =0; j < _nJets ; j++){
+	_jetPt[j]=_jetSmearedPt[j];
+	if(systcat==8) {
+	  if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
+	  else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
+	}
+	else if(systcat==9) {
+	  if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
+	  else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
+	}
+      }
 
 
-
-
+      
       
       
     }//end loop over the entries

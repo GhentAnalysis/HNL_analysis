@@ -1,12 +1,62 @@
 
-#include "../interface/treeReader.h"
+#include "../interface/Analysis_mc.h"
 #include "../interface/kinematicTools.h"
 
-//lepton selection
+//______________________________________________FO definition!
+bool Analyis_mc::lepIsFOBase(const unsigned leptonIndex) const{
+   if( is2016() ){
+    return lepIsGoodFO2016(leptonIndex);
+  }
+  if else ( is2017() ){
+      return lepIsGoodFO2017(leptonIndex);
+    }
+  else{
+    return lepIsGoodFO2018(leptonIndex);
+  }  
+}
+//______________________________________________ele base
+bool Analyis_mc::eleIsClean(const unsigned electronIndex) const{
+    if( is2016() ){
+        return eleIsClean2016(electronIndex);
+    }
+    if else ( is2017() ){
+        return eleIsClean2017(electronIndex);
+    }
+    else{
+      return eleIsClean2018(electronIndex);
+    }     
+}
+//______________________________________________muon loose used for ele cleaning base 
+bool Analyis_mc::lepIsLoose(const unsigned leptonIndex) const{
+  if( is2016() ){
+    return lepIsLoose2016(leptonIndex);
+  }
+  if else ( is2017() ){
+      return lepIsLoose2017(leptonIndex);
+    }
+  else{
+    return lepIsLoose2018(leptonIndex);
+  }  
+}
+
+//______________________________________________ele loose ID
+bool Analyis_mc::eleIsLoose(const unsigned leptonIndex) const{
+  if( is2016() ){
+    return eleIsLoose2016(leptonIndex);
+  }
+  if else ( is2017() ){
+      return eleIsLoose2017(leptonIndex);
+    }
+  else{
+    return eleIsLoose2018(leptonIndex);
+  } 
+
+}
 
 
-//remove electrons overlapping with muons
-bool treeReader::eleIsCleanBase(const unsigned electronIndex, bool (treeReader::*looseMuon)(const unsigned) const) const{
+
+//______________________________________________remove electrons overlapping with muons
+bool Analyis_mc::eleIsCleanBase(const unsigned electronIndex, bool (Analyis_mc::*looseMuon)(const unsigned) const) const{
     //make sure this lepton is an electron
     if( !isElectron(electronIndex) ){
         std::cerr << "Error: trying to clean non-electron object from muon overlap." << std::endl;
@@ -25,106 +75,154 @@ bool treeReader::eleIsCleanBase(const unsigned electronIndex, bool (treeReader::
     }
     return true;
 }
-
-double treeReader::closestJetDeepCSV(const unsigned leptonIndex) const{
-    double closestJetDeepCSVVal = _closestJetDeepCsv_b[leptonIndex] + _closestJetDeepCsv_bb[leptonIndex];
-    bool isNan = std::isnan(closestJetDeepCSVVal);
-    if( isNan ){
-        return 0.;
-    } else {
-        return std::max(closestJetDeepCSVVal, 0.);
-    }
-}
-
-bool treeReader::eleIsClean2016(const unsigned electronIndex) const{
+//______________________________________________ele clean base 16
+bool Analyis_mc::eleIsClean2016(const unsigned electronIndex) const{
     return eleIsCleanBase(electronIndex, &treeReader::lepIsLoose2016);
 }
-
-bool treeReader::eleIsClean2017(const unsigned electronIndex) const{
+//______________________________________________ele clean base 17
+bool Analyis_mc::eleIsClean2017(const unsigned electronIndex) const{
     return eleIsCleanBase(electronIndex, &treeReader::lepIsLoose2017);
 }
+//______________________________________________ele clean base 18
+bool Analyis_mc::eleIsClean2018(const unsigned electronIndex) const{
+    return eleIsCleanBase(electronIndex, &treeReader::lepIsLoose2018);
+}
 
-bool treeReader::eleIsClean(const unsigned electronIndex) const{
-    if( is2016() ){
-        return eleIsClean2016(electronIndex);
-    } else {
-        return eleIsClean2017(electronIndex);
-    }
-} 
+//______________________________________________loose POG 16
+bool Analyis_mc::lepIsLoose2016(const unsigned leptonIndex) const{
+    return _lPOGLoose[leptonIndex];
+}
+//______________________________________________loose POG 17
+bool Analyis_mc::lepIsLoose2017(const unsigned leptonIndex) const{
+   return _lPOGLoose[leptonIndex];
+}
+//______________________________________________loose POG 18
+bool Analyis_mc::lepIsLoose2018(const unsigned leptonIndex) const{
+   return _lPOGLoose[leptonIndex];
+}
+//______________________________________________ele loose ID
+bool Analyis_mc::eleIsLoose2016(const unsigned leptonIndex) const{
+  if( !isElectron(leptonIndex)) return false;
+  
+  if (!(_lEleIsEB[leptonIndex] || _lEleIsEE[leptonIndex])) return false;
+  if(_lElefull5x5SigmaIetaIeta[leptonIndex]                  >= (_lEleIsEB[leptonIndex] ? 0.11       : 0.0314 ))       return false;
+  if(_lEleDEtaInSeed  [leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.00477    : 0.00868))       return false;
+  if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
+  if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
+  if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
+}
+//______________________________________________ele loose ID
+bool Analyis_mc::eleIsLoose2017(const unsigned leptonIndex) const{
+  if( !isElectron(leptonIndex)) return false;
+  
+  if (!(_lEleIsEB[leptonIndex] || _lEleIsEE[leptonIndex])) return false;
+  if(_lElefull5x5SigmaIetaIeta[leptonIndex]                  >= (_lEleIsEB[leptonIndex] ? 0.11       : 0.0314 ))       return false;
+  if(_lEleDEtaInSeed  [leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.00477    : 0.00868))       return false;
+  if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
+  if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
+  if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
+}
+//______________________________________________ele loose ID
+bool Analyis_mc::eleIsLoose2018(const unsigned leptonIndex) const{
+  if( !isElectron(leptonIndex)) return false;
+  
+  if (!(_lEleIsEB[leptonIndex] || _lEleIsEE[leptonIndex])) return false;
+  if(_lElefull5x5SigmaIetaIeta[leptonIndex]                  >= (_lEleIsEB[leptonIndex] ? 0.11       : 0.0314 ))       return false;
+  if(_lEleDEtaInSeed  [leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.00477    : 0.00868))       return false;
+  if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
+  if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
+  if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
+}
 
-bool treeReader::lepIsLooseBase(const unsigned leptonIndex) const{
+
+
+//______________________________________________muon medium ID
+bool Analyis_mc::muOurMedium(const unsigned leptonIndex) const{
+  if( !isMu(leptonIndex)) return false; 
+  bool _isOurMedium = false;
+  bool goodGlob = false;
+  goodGlob = _lGlobalMuon[leptonIndex] && _lCQChi2Position[leptonIndex] < 12   &&  _lCQTrackKink[leptonIndex] < 20;
+  _isOurMedium = _lPOGLoose[leptonIndex] &&  _muonSegComp[leptonIndex] > (goodGlob ? 0.303 : 0.451);
+  return _isOurMedium;
+}
+//______________________________________________muon medium ID
+bool Analyis_mc::muTimeVeto(const unsigned leptonIndex) const{
+  if( !isMu(leptonIndex)) return false;
+  
+  bool _passTimingVeto = false;
+  _passTimingVeto = true;
+  bool cmbok =(_lMuTimenDof[leptonIndex] >7   );
+  bool rpcok =(_lMuRPCTimenDof[leptonIndex] >1  && _lMuRPCTimeErr[leptonIndex]==0);
+  if (rpcok){
+    if ((fabs(_lMuRPCTime[leptonIndex])>10) &&	!(cmbok && fabs(_lMuTime[leptonIndex])<10))   _passTimingVeto=false;
+  }
+  else{
+    if (cmbok && (_lMuTime[leptonIndex]>20 || _lMuTime[leptonIndex]<-45)) _passTimingVeto=false;
+  }
+  return _passTimingVeto;
+}
+
+//______________________________________________FO definition!
+bool Analyis_mc::lepIsFOBase(const unsigned leptonIndex) const{
     if( isTau(leptonIndex) ) return false;
-    if( isElectron(leptonIndex) && !eleIsClean(leptonIndex) ) return false;
-    return _lEwkLoose[leptonIndex];
-}
 
-bool treeReader::lepIsLoose2016(const unsigned leptonIndex) const{
-    return lepIsLooseBase(leptonIndex);
-}
+  if( isElectron(leptonIndex) && !eleIsClean(leptonIndex)) return false;
+  if( isElectron(leptonIndex) && !eleIsLoose(leptonIndex)) return false;
+  if (isElectron(leptonIndex) && _lPt[leptonIndex] < ele_pt) return false;
+  if ( isElectron(leptonIndex) && _relIso[leptonIndex] > ele_iso_loose) return false;
 
-bool treeReader::lepIsLoose2017(const unsigned leptonIndex) const{
-    return lepIsLooseBase(leptonIndex);
-}
+  if( isMu(leptonIndex) && !muOurMedium(leptonIndex)) return false;
+  //if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
+  if (isMu(leptonIndex) && _lPt[leptonIndex] < mu_pt) return false;
+  if ( isMu(leptonIndex) && _relIso[leptonIndex] > mu_iso_loose) return false;
 
-bool treeReader::lepIsLoose(const unsigned leptonIndex) const{
-    if( is2016() ){
-        return lepIsLoose2016(leptonIndex);
-    } else {
-        return lepIsLoose2017(leptonIndex);
-    }
-}
-
-bool treeReader::lepIsGoodBase(const unsigned leptonIndex) const{
-    if( !lepIsLoose(leptonIndex) ) return false;
-    if( isElectron(leptonIndex) && !_lElectronPassEmu[leptonIndex]) return false;
-    if( isMuon(leptonIndex) && !_lPOGMedium[leptonIndex]) return false;
-    return true;
+  if (fabs(_dz[leptonIndex]) > 10) return false;
 } 
 
-bool treeReader::lepIsGood2016(const unsigned leptonIndex) const{
-    return lepIsGoodBase(leptonIndex);   
+//______________________________________________FO definition!
+bool Analyis_mc::lepIsTightDisplaced(const unsigned leptonIndex) const{
+  if (!lepIsGoodBase(leptonIndex)) return false;
+
+  if ( isElectron(leptonIndex) && _relIso[leptonIndex] > ele_iso_tight) return false;
+
+  if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
+  if (isMu(leptonIndex) && _relIso[leptonIndex] > mu_iso_tight) return false;
+}
+
+//______________________________________________FO definition!
+bool Analyis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
+  if (!lepIsGoodBase(leptonIndex)) return false;
+  //Variable
+  if (_relIso[leptonIndex] > 0.1)  return false;
+  if (fabs(_3dIPSig[leptonIndex]) > 4)  return false;
+  if (fabs(_dz[leptonIndex]) > 0.1)  return false;
+  if (fabs(_dxy[leptonIndex]) > 0.05)  return false;
+  //ID
+  if( isMu(leptonIndex) && !_lPOGMedium(leptonIndex)) return false;
+  if (isElectron(leptonIndex) && !elePassMVA[leptonIndex]) return false;
+  //pT
+  if( is2016() && isMu(leptonIndex) && _lPt[leptonIndex] < mu_2016) return false;
+  if( is2017() && isMu(leptonIndex) && _lPt[leptonIndex] < mu_2017) return false;
+  if( is2018() && isMu(leptonIndex) && _lPt[leptonIndex] < mu_2018) return false;
+  if( is2016() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2016) return false;
+  if( is2017() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2017) return false;
+  if( is2018() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2018) return false;
 } 
-
-bool treeReader::lepIsGood2017(const unsigned leptonIndex) const{
-    return lepIsGoodBase(leptonIndex);
-}
-
-bool treeReader::lepIsGood(const unsigned leptonIndex) const{
-    if( is2016() ){
-        return lepIsGood2016(leptonIndex);
-    } else {
-        return lepIsGood2017(leptonIndex);
-    }
-}
-
-bool treeReader::lepIsTightBase(const unsigned leptonIndex) const{
-    return lepIsGood(leptonIndex);
-}
-
-bool treeReader::lepIsTight2016(const unsigned leptonIndex) const{
-    return lepIsTightBase(leptonIndex);
-}
-
-bool treeReader::lepIsTight2017(const unsigned leptonIndex) const{
-    return lepIsTightBase(leptonIndex);
-}
-
-bool treeReader::lepIsTight(const unsigned leptonIndex) const{
-    if( is2016() ){
-        return lepIsTight2016(leptonIndex);
-    } else {
-        return lepIsTight2017(leptonIndex);
-    }
+//______________________________________________ele MVA ID
+bool Analyis_mc::elePassMVA(const unsigned leptonIndex) const{
+  if( !isElectron(leptonIndex)) return false;
+  bool _passedMVA90 =false;
+  int eta = -1;
+  if(TMath::Abs(_lEta[leptonIndex]) < 0.8 ) eta = 0;
+  else if(TMath::Abs(_lEta[leptonIndex]) < 1.479 ) eta = 1;
+  else eta = 2;
+  _passedMVA90 = __lElectronMvaFall17Iso[leptonIndex] >  std::min( MVA_cuts_pt15[eta], std::max(MVA_cuts_pt25[eta] , MVA_cuts_pt15[eta] + (MVA_cuts_pt25[eta] - MVA_cuts_pt15[eta])*0.1 *( _lPt[leptonIndex]-15) ) );
+  return _passedMVA90;
 }
 
 
-//jet selection
-//note that jet cleaning depends on era-specific lepton selection, but this is automatically propagated through the "lepIsGood" function
-/*
- * The general version of this function was specifically declared to facilitate an easier b-tagging efficiency determination for a number of different lepton ID's (ttW, ttZ)
- */
-
-bool treeReader::jetIsCleanBase(const unsigned jetIndex, bool (treeReader::*leptonIsFO)(const unsigned) const) const{
+//______________________________________________jet cleaning
+bool Analyis_mc::jetIsCleanBase(const unsigned jetIndex, bool (Analyis_mc::*leptonIsFO)(const unsigned) const) const{
     for(unsigned l = 0; l < _nLight; ++l){
         if( (this->*leptonIsFO)(l)){
             double deltaR = kinematics::deltaR(_lPhi[l], _lEta[l], _jetPhi[jetIndex], _jetEta[jetIndex]);
@@ -135,96 +233,27 @@ bool treeReader::jetIsCleanBase(const unsigned jetIndex, bool (treeReader::*lept
     }
     return true;
 }
-
-bool treeReader::jetIsClean(const unsigned jetIndex) const{
-    return jetIsCleanBase(jetIndex, &treeReader::lepIsGood);
+//______________________________________________jet cleaning
+bool Analyis_mc::jetIsClean(const unsigned jetIndex) const{
+    return jetIsCleanBase(jetIndex, &Analyis_mc::lepIsFOBase);
+}
+//______________________________________________jet ID
+bool Analyis_mc::jetIsGood(const unsigned jetIndex) const{
+  if (!jetIsClean[jetIndex]) return false;
+  if (!_jetIsTight[jetIndex] ) return false;
+  if (_jetPt[jetIndex] < jet_pt_cut) return false;
+}
+//______________________________________________jet ID
+bool Analyis_mc::jetIsBJet(const unsigned jetIndex) const{
+  if (!jetIsClean[jetIndex]) return false;
+  if (!_jetIsTight[jetIndex] ) return false;
+  if (_jetPt[jetIndex] < jet_pt_cut) return false;
+  if (is2016() && deepCSV(jetIndex) > bjet_loose_2016) return false;
+  if (is2017() && deepCSV(jetIndex) > bjet_loose_2017) return false;
+  if (is2018() && deepCSV(jetIndex) > bjet_loose_2018) return false;
 }
 
-bool treeReader::jetIsGood(const unsigned jetIndex, const double ptCut, const unsigned unc, const bool clean, const bool allowForward) const{
-
-    //only select loose jets in 2016 and tight jets in 2017
-    if( is2016() ){
-        if( !_jetIsLoose[jetIndex] ) return false;
-    } else {
-        if( !_jetIsTight[jetIndex] ) return false;
-    }
-
-    //only select jets in tracker volume
-    if( (!allowForward) && ( fabs(_jetEta[jetIndex]) >= 2.4 ) ) return false;
-
-    //apply jet pT cuts
-    switch(unc){
-        case 0: if(_jetPt[jetIndex] < ptCut) return false; break;
-        case 1: if(_jetPt_JECDown[jetIndex] < ptCut) return false; break;
-        case 2: if(_jetPt_JECUp[jetIndex] < ptCut) return false; break;
-        default: {
-                     std::cerr << "Error: uncertainty case larger than 2 given to jetIsGood, option not recognized" << std::endl;
-                     return false; 
-                 }
-    }
-    return !clean || jetIsClean(jetIndex);
-}
-
-
-//jet b-tagging
-double treeReader::deepCSV(const unsigned jetIndex) const{
+//______________________________________________jet b tagged
+double Analyis_mc::deepCSV(const unsigned jetIndex) const{
     return _jetDeepCsv_b[jetIndex] + _jetDeepCsv_bb[jetIndex];
-}
-
-bool treeReader::bTaggedDeepCSVBase(const unsigned jetIndex, const unsigned wp, const double bTagWP[3]) const{
-    if(wp > 2){
-        std::cerr << "Error: trying to evaluate deepCSV b-tagging WP that is out of range." << std::endl;
-    }
-    return ( deepCSV(jetIndex) > bTagWP[wp] );
-}
-
-bool treeReader::bTaggedDeepCSV2016(const unsigned jetIndex, const unsigned wp) const{
-    static const double bTagDeepCSVWP2016[3] = {0.2219, 0.6324,  0.8958}; 
-    return bTaggedDeepCSVBase(jetIndex, wp, bTagDeepCSVWP2016);
-}
-
-bool treeReader::bTaggedDeepCSV2017(const unsigned jetIndex, const unsigned wp) const{
-    static const double bTagDeepCSVWP2017[3] = {0.1522,  0.4941,  0.8001};
-    return bTaggedDeepCSVBase(jetIndex, wp, bTagDeepCSVWP2017); 
-}
-
-bool treeReader::bTaggedDeepCSV(const unsigned jetIndex, const unsigned wp) const{
-    if( is2016() ){
-        return bTaggedDeepCSV2016(jetIndex, wp);
-    } else {
-        return bTaggedDeepCSV2017(jetIndex, wp);
-    }
-}
-
-bool treeReader::bTaggedCSVv2Base(const unsigned jetIndex, const unsigned wp, const double bTagWP[3]) const{
-    if(wp > 2){
-        std::cerr << "Error: trying to evaluate CSVv2 b-tagging WP that is out of range." << std::endl;
-    }
-    return ( _jetCsvV2[jetIndex] > bTagWP[wp] );
-}
-
-bool treeReader::bTaggedCSVv22016(const unsigned jetIndex, const unsigned wp) const{
-    static const double bTagCSVv2WP2016[3] = {0.5426, 0.8484, 0.9535};
-    return bTaggedCSVv2Base(jetIndex, wp, bTagCSVv2WP2016);
-} 
-
-bool treeReader::bTaggedCSVv22017(const unsigned jetIndex, const unsigned wp) const{
-    static const double bTagCSVv2WP2017[3] = {0.5803, 0.8838, 0.9693};
-    return bTaggedCSVv2Base(jetIndex, wp, bTagCSVv2WP2017);
-}   
-
-bool treeReader::bTaggedCSVv2(const unsigned jetIndex, const unsigned wp) const{
-    if( is2016() ){
-        return bTaggedCSVv22016(jetIndex, wp);
-    } else {
-        return bTaggedCSVv22017(jetIndex, wp);
-    }
-}
-
-bool treeReader::bTagged(const unsigned ind, const unsigned wp, const bool deepCSV) const{
-    if(deepCSV){
-        return bTaggedDeepCSV(ind, wp);
-    } else {
-        return bTaggedCSVv2(ind, wp);
-    }
 }

@@ -389,6 +389,39 @@ class Analysis_mc : public TObject {
 
 
 
+  //______________________      object functions       ________________________________// 
+  //check lepton flavors 
+  bool isElectron(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 0); }
+  bool isMuon(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 1); }
+  bool isTau(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 2); }
+  
+  bool lepIsFOBase(const unsigned ) const;
+  bool eleIsClean(const unsigned ) const;
+  bool lepIsLoose(const unsigned ) const;
+  bool eleIsLoose(const unsigned ) const;
+  bool eleIsCleanBase(const unsigned , bool (*looseMuon)(const unsigned) const) const;
+  bool eleIsClean2016(const unsigned ) const;
+  bool eleIsClean2017(const unsigned ) const;
+  bool eleIsClean2018(const unsigned ) const;
+  bool lepIsLoose2016(const unsigned ) const;
+  bool lepIsLoose2017(const unsigned ) const;
+  bool lepIsLoose2018(const unsigned ) const;
+  bool eleIsLoose2016(const unsigned ) const;
+  bool eleIsLoose2017(const unsigned ) const;
+  bool eleIsLoose2018(const unsigned ) const;
+  bool muOurMedium(const unsigned ) const;
+  bool muTimeVeto(const unsigned ) const;
+  bool lepIsFOBase(const unsigned ) const;
+  bool lepIsTightDisplaced(const unsigned ) const;
+  bool lepIsTightPrompt(const unsigned ) const;
+  bool elePassMVA(const unsigned ) const;
+  bool jetIsCleanBase(const unsigned , bool (*leptonIsFO)(const unsigned) const) const;
+  bool jetIsClean(const unsigned ) const;
+  bool jetIsGood(const unsigned ) const;
+  bool jetIsBJet(const unsigned ) const;
+  double deepCSV(const unsigned ) const;
+
+
 
   
 
@@ -412,19 +445,42 @@ class Analysis_mc : public TObject {
   //check whether sample is 2017 or not
   bool isData() const { return currentSample.isData(); }
   bool isMC() const { return currentSample.isMC(); }
-
+  bool is2017() const { return (jaar == 1); }
+  bool is2016() const { return (jaar == 0); }
+  bool is2018() const { return (jaar == 2); } 
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  //pt displaced
+  const double mu_pt=3.;
+  const double ele_pt=7.;
+  //pt prompt
+  const double mu_2016=25;
+  const double mu_2017=28;
+  const double mu_2018=28;
+  const double ele_2016=30;
+  const double ele_2017=38;
+  const double ele_2018=35;
+  //iso FO
+  const double mu_iso_loose=1.2;
+  const double ele_iso_loose=1.2;
+  const double mu_iso_tight=0.2;
+  const double ele_iso_tight=0.2;
+  //jet pt
+  const double jet_pt_cut = 25.;
+  //wp bjet loose
+  const double bjet_loose_2016 = 0.2217;
+  const double bjet_loose_2017 = 0.1522;
+  const double bjet_loose_2018 = 0.1241;
+
+  
   const double met_cuts =80;
   const int number_veto_leptons=3;
 
   const double isolation_loose=1.2;
   const double isolation_tight=0.2;
     
-  const double b_jets_pt= 25;
-  const double b_jets_wp_2016= 0.2219;
-  const double b_jets_wp_2017= 0.1522;
+  
   const double MVA_cuts_pt15[3] = {0.77, 0.56, 0.48};
   const double MVA_cuts_pt25[3] = {0.52, 0.11, -0.01};
 
