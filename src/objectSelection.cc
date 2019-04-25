@@ -2,18 +2,7 @@
 #include "../interface/Analysis_mc.h"
 #include "../interface/kinematicTools.h"
 
-//______________________________________________FO definition!
-bool Analyis_mc::lepIsFOBase(const unsigned leptonIndex) const{
-   if( is2016() ){
-    return lepIsGoodFO2016(leptonIndex);
-  }
-  if else ( is2017() ){
-      return lepIsGoodFO2017(leptonIndex);
-    }
-  else{
-    return lepIsGoodFO2018(leptonIndex);
-  }  
-}
+
 //______________________________________________ele base
 bool Analyis_mc::eleIsClean(const unsigned electronIndex) const{
     if( is2016() ){
@@ -110,6 +99,8 @@ bool Analyis_mc::eleIsLoose2016(const unsigned leptonIndex) const{
   if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
   if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
   if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
+  return true;
+
 }
 //______________________________________________ele loose ID
 bool Analyis_mc::eleIsLoose2017(const unsigned leptonIndex) const{
@@ -121,6 +112,8 @@ bool Analyis_mc::eleIsLoose2017(const unsigned leptonIndex) const{
   if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
   if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
   if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
+  return true;
+
 }
 //______________________________________________ele loose ID
 bool Analyis_mc::eleIsLoose2018(const unsigned leptonIndex) const{
@@ -132,6 +125,8 @@ bool Analyis_mc::eleIsLoose2018(const unsigned leptonIndex) const{
   if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
   if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
   if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
+  return true;
+
 }
 
 
@@ -164,41 +159,46 @@ bool Analyis_mc::muTimeVeto(const unsigned leptonIndex) const{
 
 //______________________________________________FO definition!
 bool Analyis_mc::lepIsFOBase(const unsigned leptonIndex) const{
-    if( isTau(leptonIndex) ) return false;
-
+  if( isTau(leptonIndex) ) return false;
+  //ele
   if( isElectron(leptonIndex) && !eleIsClean(leptonIndex)) return false;
   if( isElectron(leptonIndex) && !eleIsLoose(leptonIndex)) return false;
   if (isElectron(leptonIndex) && _lPt[leptonIndex] < ele_pt) return false;
   if ( isElectron(leptonIndex) && _relIso[leptonIndex] > ele_iso_loose) return false;
-
+  //mu
   if( isMu(leptonIndex) && !muOurMedium(leptonIndex)) return false;
   //if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
   if (isMu(leptonIndex) && _lPt[leptonIndex] < mu_pt) return false;
   if ( isMu(leptonIndex) && _relIso[leptonIndex] > mu_iso_loose) return false;
 
   if (fabs(_dz[leptonIndex]) > 10) return false;
+  
+  return true;
 } 
 
-//______________________________________________FO definition!
+//______________________________________________tight definition!
 bool Analyis_mc::lepIsTightDisplaced(const unsigned leptonIndex) const{
-  if (!lepIsGoodBase(leptonIndex)) return false;
-
+  if (!lepIsFOBase(leptonIndex)) return false;
+  //ele
   if ( isElectron(leptonIndex) && _relIso[leptonIndex] > ele_iso_tight) return false;
-
+  //mu
   if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
   if (isMu(leptonIndex) && _relIso[leptonIndex] > mu_iso_tight) return false;
+
+  return true;
 }
 
-//______________________________________________FO definition!
+//______________________________________________tight definition for l1!
 bool Analyis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
-  if (!lepIsGoodBase(leptonIndex)) return false;
+  if (!lepIsFOBase(leptonIndex)) return false;
   //Variable
   if (_relIso[leptonIndex] > 0.1)  return false;
   if (fabs(_3dIPSig[leptonIndex]) > 4)  return false;
   if (fabs(_dz[leptonIndex]) > 0.1)  return false;
   if (fabs(_dxy[leptonIndex]) > 0.05)  return false;
   //ID
-  if( isMu(leptonIndex) && !_lPOGMedium(leptonIndex)) return false;
+  if (isMu(leptonIndex) && !_lPOGMedium(leptonIndex)) return false;
+  if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
   if (isElectron(leptonIndex) && !elePassMVA[leptonIndex]) return false;
   //pT
   if( is2016() && isMu(leptonIndex) && _lPt[leptonIndex] < mu_2016) return false;
@@ -207,7 +207,25 @@ bool Analyis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
   if( is2016() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2016) return false;
   if( is2017() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2017) return false;
   if( is2018() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2018) return false;
-} 
+  
+  return true;
+}
+//______________________________________________trigger matching for prompt leptons!
+bool Analyis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
+  if (!lepIsFOBase(leptonIndex)) return false;
+  if (!lepIsTightPrompt(leptonIndex)) return false;
+  
+  if( is2016() && isMu(leptonIndex) && ((_lHasTrigger[leptonIndex] & 1)==0 || (_lHasTrigger[leptonIndex] & 2)==0)) return true;
+  if( is2016() && isElectron(leptonIndex) && (_lHasTrigger[leptonIndex] & 1)==0) return true;
+
+  if( is2017() && isMu(leptonIndex) && ((_lHasTrigger[leptonIndex] & 1)==0 || (_lHasTrigger[leptonIndex] & 2)==0)) return true;
+  if( is2017() && isElectron(leptonIndex) && (_lHasTrigger[leptonIndex] & 1)==0) return true;
+
+  if( is2018() && isMu(leptonIndex) && ((_lHasTrigger[leptonIndex] & 1)==0 || (_lHasTrigger[leptonIndex] & 2)==0)) return true;
+  if( is2018() && isElectron(leptonIndex) && (_lHasTrigger[leptonIndex] & 1)==0) return true;
+}
+
+
 //______________________________________________ele MVA ID
 bool Analyis_mc::elePassMVA(const unsigned leptonIndex) const{
   if( !isElectron(leptonIndex)) return false;
@@ -239,18 +257,19 @@ bool Analyis_mc::jetIsClean(const unsigned jetIndex) const{
 }
 //______________________________________________jet ID
 bool Analyis_mc::jetIsGood(const unsigned jetIndex) const{
+  if (fabs(_jetEta[jetIndex]) > 2.4) return false;
   if (!jetIsClean[jetIndex]) return false;
   if (!_jetIsTight[jetIndex] ) return false;
   if (_jetPt[jetIndex] < jet_pt_cut) return false;
+  return true;
 }
 //______________________________________________jet ID
 bool Analyis_mc::jetIsBJet(const unsigned jetIndex) const{
-  if (!jetIsClean[jetIndex]) return false;
-  if (!_jetIsTight[jetIndex] ) return false;
-  if (_jetPt[jetIndex] < jet_pt_cut) return false;
-  if (is2016() && deepCSV(jetIndex) > bjet_loose_2016) return false;
-  if (is2017() && deepCSV(jetIndex) > bjet_loose_2017) return false;
-  if (is2018() && deepCSV(jetIndex) > bjet_loose_2018) return false;
+  if (!jetIsGood[jetIndex]) return false;
+  if (is2016() && deepCSV(jetIndex) < bjet_loose_2016) return false;
+  if (is2017() && deepCSV(jetIndex) < bjet_loose_2017) return false;
+  if (is2018() && deepCSV(jetIndex) < bjet_loose_2018) return false;
+  return true;
 }
 
 //______________________________________________jet b tagged

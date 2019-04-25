@@ -467,8 +467,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
   // ------------   samples info -----------------------------------------------//
-  std::vector <Sample> samples  = readSampleList(list, directory);
-  
+  std::vector <Sample> samples  = readSampleList(list, directory);  
   if (jaar == 0) {
     const int nSamples = samples.size();
     const int nSamples_eff = 2;
@@ -508,13 +507,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }
       double scal = 0;
       scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
+      bwght=1.;
 
 
-
-        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      unsigned*         ind = new unsigned[_nL];	//new indices of good leptons
-      unsigned*         _isFO= new unsigned[_nL];
-      double*           conePt = new double[_nL];
+      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      std::vector<unsigned> ind;      double*           conePt = new double[_nL];
+      double           _ptReal[_nL];
+      double           _EReal[_nL];
       Bool_t            _passedMVA90[_nL];     
       double            _vertex_X[3];
       double            _vertex_Y[3];
@@ -548,10 +547,19 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	lepton_transv[i].SetPtEtaPhiE(0.,0.,0.,0.);
 	pair[i].SetPtEtaPhiE(0.,0.,0.,0.);
 	flavors_3l[i]=0;
-	charge_3l[i]=0;
+	charge_3l[i]=0;	
       }
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
-      //------------------------------------------------------------ jet pt variation
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //------------------------------------------------------------ lepton selection for FO
+      for(unsigned i = 0; i < _nL; ++i){
+	_ptReal[i]=_lPt[i];
+	_EReal[i] =_lE[i];
+      } 
+      //select leptons
+      const unsigned lCount = selectLepConeCorr(ind);
+      if (lCount < 3) continue;
+      
+      //------------------------------------------------------------ jet pt variation and nJet and bjet
       for (unsigned j =0; j < _nJets ; j++){
 	_jetPt[j]=_jetSmearedPt[j];
 	if(systcat==8) {
@@ -562,10 +570,49 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
 	  else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
 	}
+
+	if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
+	  double bjetSf = 1.;
+	  // b-jet systematics
+	  if(systcat==10) {
+	    if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
+	    else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
+	  }
+	  // b-jet central SF
+	  else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  // Scale the b-veto event weight
+	  bwght *= bjetSf;
+	}	
       }
-
-
+      //counting bjet and njet
+      for (unsigned j =0; j < _nJets ; j++){
+	if (jetIsGood(j)) ++goodjet;
+	if (jetIsBJet(j)) ++bjet;
+      }
+      // ------------ ==================== -----------------------------------------------//
+      // ------------   event selection   -----------------------------------------------//
+      //assign the l1 index
+      ind_new_leading = l1Index(ind);
+      if (l1Index(ind) == -1) continue; //in case there are not l1 at all
+      //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
+      unsigned displacedC = 0;
+      std::vector<TLorentzVector> lepV_displaced;
+      std::vector<int> charge_displaced;
+      const std::vector<unsigned> temp_index;
+      for(unsigned l = 0; l < lCount; ++l){
+	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
+	  TLorentzVector temp_displaced;
+	  temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
+	  lepV_displaced.push_back(temp_displaced);
+	  charge_displaced.push_back(_lCharge[ind[l]]);
+	  temp_index.push_back(l);
+	  ++displacedC;
+	}
+      }
+      if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet) 
       
+      int index_to_use_for_l2_l3[2]={0,0};
+      double mass_l2_l3 = minMass_OS (*&lepV_displaced, *&charge_displaced,  indtemp_index, index_to_use_for_l2_l3 );
       
       
     }//end loop over the entries

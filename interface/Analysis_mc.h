@@ -395,7 +395,6 @@ class Analysis_mc : public TObject {
   bool isMuon(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 1); }
   bool isTau(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 2); }
   
-  bool lepIsFOBase(const unsigned ) const;
   bool eleIsClean(const unsigned ) const;
   bool lepIsLoose(const unsigned ) const;
   bool eleIsLoose(const unsigned ) const;
@@ -414,6 +413,7 @@ class Analysis_mc : public TObject {
   bool lepIsFOBase(const unsigned ) const;
   bool lepIsTightDisplaced(const unsigned ) const;
   bool lepIsTightPrompt(const unsigned ) const;
+  bool lepPromptTriggerMatching(const unsigned ) const;
   bool elePassMVA(const unsigned ) const;
   bool jetIsCleanBase(const unsigned , bool (*leptonIsFO)(const unsigned) const) const;
   bool jetIsClean(const unsigned ) const;
@@ -440,7 +440,9 @@ class Analysis_mc : public TObject {
   unsigned long nEntries = 0;
   const double lumi2017 = 41.53;                                          //in units of 1/fb
   const double lumi2016 = 35.867;                 
-  const double lumi2018 = 59.74;                 
+  const double lumi2018 = 59.74;
+  // Weight for b-jet veto
+  double bwght = 1.;
 
   //check whether sample is 2017 or not
   bool isData() const { return currentSample.isData(); }
@@ -472,6 +474,9 @@ class Analysis_mc : public TObject {
   const double bjet_loose_2016 = 0.2217;
   const double bjet_loose_2017 = 0.1522;
   const double bjet_loose_2018 = 0.1241;
+
+  //dxy
+  const double dxy_cut = 0.01;
 
   
   const double met_cuts =80;
