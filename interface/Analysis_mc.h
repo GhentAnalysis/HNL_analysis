@@ -346,7 +346,7 @@ class Analysis_mc : public TObject {
 
 
   Analysis_mc();
-  Analysis_mc(unsigned jaar, const std::string& directory);
+  Analysis_mc(unsigned jaar,const std::string& list, const std::string& directory);
   virtual ~Analysis_mc();
 
   void printProgress(double progress) ;
@@ -379,8 +379,7 @@ class Analysis_mc : public TObject {
   // 10. b tagging
   // 11. MC systematics
   //
-  void analisi( int selezione, int num_histo_kin,
-		TString outfilename,
+  void analisi(  unsigned jaar, const std::string& list, const std::string& directory,
 		int systcat = 0, int systdir = 0
 		);
 
@@ -421,7 +420,16 @@ class Analysis_mc : public TObject {
   bool jetIsBJet(const unsigned ) const;
   double deepCSV(const unsigned ) const;
 
+  //______________________      event selection functions       ________________________________// 
 
+  void orderByPt(std::vector<unsigned>& , const double* , const unsigned ) const;
+  double coneCorr(const unsigned ) const;
+  void applyConeCorrection();
+  unsigned selectLep(std::vector<unsigned>& ) const;
+  unsigned electLepConeCorr(std::vector<unsigned>& );
+  int l1Index(std::vector<unsigned>& );
+  bool lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const;
+  bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
 
   
 

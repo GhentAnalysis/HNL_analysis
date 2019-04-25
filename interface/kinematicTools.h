@@ -29,6 +29,11 @@ namespace kinematics{
      * functions to compute kinematic extrema in the event
      */
 
+    double minMass_OS(const std::vector<TLorentzVector>&, const std::vector<int>&, const std::vector<unsigned>&, int vector_pair[2]);
+    double minVar_OS(const std::vector<TLorentzVector>&, const std::vector<int>&, const std::vector<unsigned>&, int vector_pair[2],double (&computeVar)(const TLorentzVector&, const TLorentzVector&));
+    double extremum_OS(const std::vector<TLorentzVector>& , const std::vector<int>& , const std::vector<unsigned>& , int vector_pair[2], double (&computeVar)(const TLorentzVector&, const TLorentzVector&), const double& (& getExtremum) (const double&, const double&), double initVar);
+
+    
     //parameters are 2 separate arrays of TLorentzVectors, and a vector with the relevant indices to access the correct elements
     double minMass(const TLorentzVector*, const std::vector<unsigned>&, const TLorentzVector*, const std::vector<unsigned>&);
     double maxMass(const TLorentzVector*, const std::vector<unsigned>&, const TLorentzVector*, const std::vector<unsigned>&);

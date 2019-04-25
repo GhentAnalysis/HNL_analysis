@@ -46,12 +46,14 @@ using std::flush;
 using std::ofstream;
 
 //include other parts of the code
-#include "interface/tdrstyle.h"
-#include "interface/plotCode_new.h"
+#include "../interface/tdrstyle.h"
+#include "../interface/plotCode_new.h"
 
 // For b-tagging SFs and variations thereof
-#include "interface/BTagCalibrationStandalone.h"
+#include "../interface/BTagCalibrationStandalone.h"
 //#include "BTagCalibrationStandalone.cpp"
+
+
 
 using namespace std;
 
@@ -63,7 +65,7 @@ Analysis_mc::Analysis_mc():TObject()
 }
 
 //_______________________________________________________ constructor_____
-Analysis_mc::Analysis_mc(unsigned jaar) : TObject()
+Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::string& directory) : TObject()
 
 {
   if(jaar>2) {
