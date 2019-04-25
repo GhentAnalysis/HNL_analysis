@@ -136,7 +136,7 @@ void Analysis_mc::initSample(unsigned jaar,const Sample& samp){
         if( jaar == 0 ){
             dataLumi = lumi2016;
         }
-	if else ( jaar == 1 ){
+        else if ( jaar == 1 ){
             dataLumi = lumi2017;
         }
 	else dataLumi = lumi2018;
@@ -145,7 +145,7 @@ void Analysis_mc::initSample(unsigned jaar,const Sample& samp){
 }
 //_______________________________________________________ initialize sample ____
 void Analysis_mc::initSample(){ //initialize the next sample in the list 
-    initSample(samples[++currentSampleIndex]);
+  initSample(jaar,samples[++currentSampleIndex]);
 }
 //_______________________________________________________ initialize sample ____
 void Analysis_mc::GetEntry(const Sample& samp, long unsigned entry)
@@ -161,7 +161,7 @@ void Analysis_mc::GetEntry(long unsigned entry){    //currently initialized samp
     GetEntry(samples[currentSampleIndex], entry);
 }
 //_______________________________________________________ initialize tree ____
-void treeReader::initTree(TTree *tree, const bool isData, unsigned jaar)
+void Analysis_mc::initTree(TTree *tree, const bool isData, unsigned jaar)
 {
     // Set branch addresses and branch pointers
     if (!tree) return;
@@ -417,8 +417,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   cout<<"---------------------------"<<endl;   
   setTDRStyle();
   if(systdir<0) {
-    std::cout << " >>> Dummy message (to avoid warnings): selezione " << selezione
-	      << ", num_histo_kin " << num_histo_kin << ", systdir " << systdir << std::endl;
+    std::cout << " >>> Dummy message (to avoid warnings): systdir " << systdir << std::endl;
   }
 
   TFile *fout = new TFile(outfilename.Data(), "recreate");
