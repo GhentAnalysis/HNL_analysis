@@ -417,7 +417,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
-  setTDRStyle();
+  //setTDRStyle();
   if(systdir<0) {
     std::cout << " >>> Dummy message (to avoid warnings): systdir " << systdir << std::endl;
   }
