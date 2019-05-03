@@ -31,16 +31,16 @@
 #include <TPaveText.h>
 #include <THStack.h>
 
-int main (unsigned year = 0);
+int main ();
 
 
 // ********************************************************************
-int main(unsigned year){
+int main(){
     Double_t pigreco= TMath::ACos(-1);
     
     // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
     std::cout << "---------------------------" << std::endl;
-    
+    unsigned year = 0;
 
 //==========================================================================================
     Analysis_mc all(year, "sampleList/2016.txt", "/Users/Martina/Desktop/FILE/");
