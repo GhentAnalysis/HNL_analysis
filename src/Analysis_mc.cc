@@ -34,7 +34,7 @@
 #include "TGraphAsymmErrors.h"
 #include "THStack.h"
 #include "TPaveText.h"
-#include "interface/Analysis_mc.h"
+#include "../interface/Analysis_mc.h"
 #include "TApplication.h"
 #include "TColor.h"
 
@@ -48,6 +48,7 @@ using std::ofstream;
 //include other parts of the code
 #include "../interface/tdrstyle.h"
 #include "../interface/plotCode_new.h"
+#include "../interface/kinematicTools.h"
 
 // For b-tagging SFs and variations thereof
 #include "../interface/BTagCalibrationStandalone.h"
@@ -410,6 +411,7 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, unsigned jaar)
 
 //_______________________________________________________ analysis function ____
 void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::string& directory,
+			   TString outfilename,
 			   int systcat, int systdir
                           ) {
 
@@ -486,7 +488,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   } 
   // ------------   run over samples -----------------------------------------------//  
   for(int sam = 0; sam < samples.size(); ++sam){
-    initSample(samples[sam]);
+    initSample(jaar,samples[sam]);
     //check consistency
     cout<<"sample initialized: --> "<<endl;
     cout<<"fileName: "<<samples[sam].getFileName()<<"  process name: "<< samples[sam].getProcessName()<< "   xsec: "<< samples[sam].getXSec()<<endl;  
@@ -494,6 +496,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if (samples[sam].isMC()) cout<<"is MC"<<endl;
     if (samples[sam].isNewPhysicsSignal()) cout<<"is signal"<<endl;
     
+    double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
     for (Long64_t it = 0; it < nEntries; ++it){
       GetEntry(samples[sam], it);
@@ -532,7 +535,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       goodjet=0;
       bjet=0;
       lCount= 0;
-      nBjets = 0;
       promptC = 0;
       iV_ls=0;
       iV_lt=0;
@@ -599,7 +601,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       unsigned displacedC = 0;
       std::vector<TLorentzVector> lepV_displaced;
       std::vector<int> charge_displaced;
-      const std::vector<unsigned> temp_index;
+      std::vector<unsigned> temp_index;
+      
       for(unsigned l = 0; l < lCount; ++l){
 	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
 	  TLorentzVector temp_displaced;
@@ -613,7 +616,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet) 
       
       int index_to_use_for_l2_l3[2]={0,0};
-      double mass_l2_l3 = minMass_OS (*&lepV_displaced, *&charge_displaced,  indtemp_index, index_to_use_for_l2_l3 );
+      double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
       
       
     }//end loop over the entries

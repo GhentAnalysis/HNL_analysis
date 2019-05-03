@@ -84,7 +84,7 @@ double kinematics::maxVar(const TLorentzVector* vec, const std::vector<unsigned>
 
 
 //___________________________________________________________________
-double kinematics::extremum_OS(const std::vector<TLorentzVector>& vec, const std::vector<int>& charge, const std::vector<unsigned>& indices, int vector_pair[2],
+double kinematics::extremum_OS(const std::vector<TLorentzVector>& vec, const std::vector<int>& charge,  std::vector<unsigned>& indices, int vector_pair[2],
         double (&computeVar)(const TLorentzVector&, const TLorentzVector&), const double& (& getExtremum) (const double&, const double&), double initVar)
 {
     double extremum = initVar;
@@ -106,13 +106,13 @@ double kinematics::extremum_OS(const std::vector<TLorentzVector>& vec, const std
 }
 
 //___________________________________________________________________
-double kinematics::minVar_OS(const std::vector<TLorentzVector>& vec, const std::vector<int>& charge, const std::vector<unsigned>& indices, int vector_pair[2],double (&computeVar)(const TLorentzVector&, const TLorentzVector&) ){
-  return extremum_OS(vec, charge, indices,index_original, computeVar, std::min<double>, 99999.);
+double kinematics::minVar_OS(const std::vector<TLorentzVector>& vec, const std::vector<int>& charge,  std::vector<unsigned>& indices, int vector_pair[2],double (&computeVar)(const TLorentzVector&, const TLorentzVector&) ){
+  return extremum_OS(vec, charge, indices,vector_pair, computeVar, std::min<double>, 99999.);
 }
 
 //___________________________________________________________________
-double kinematics::minMass_OS(const std::vector<TLorentzVector>& vec, const std::vector<int>& charge, const std::vector<unsigned>& indices, int vector_pair[2]){
-  return minVar_OS(vec,charge, indices,index_original, mass);
+double kinematics::minMass_OS(const std::vector<TLorentzVector>& vec, const std::vector<int>& charge,  std::vector<unsigned>& indices, int vector_pair[2]){
+  return minVar_OS(vec,charge, indices,vector_pair, mass);
 }
 
 

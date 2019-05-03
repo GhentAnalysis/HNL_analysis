@@ -26,7 +26,7 @@
 #include <TClonesArray.h>
 #include <TLegendEntry.h>
 #include <TGraphAsymmErrors.h>
-#include <interface/Analysis_mc.h>
+#include "interface/Analysis_mc.h"
 #include <THStack.h>
 #include <TPaveText.h>
 #include <THStack.h>
@@ -38,13 +38,13 @@ void majo (unsigned year = 0);
 void majo(unsigned year){
     Double_t pigreco= TMath::ACos(-1);
     
-    std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
+    // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
     std::cout << "---------------------------" << std::endl;
     
 
 //==========================================================================================
     Analysis_mc all(year, "sampleList/2016.txt", "/Users/Martina/Desktop/FILE/");
-    all.analisi(0, "sampleList/2016.txt", "/Users/Martina/Desktop/FILE/",0,0);
+    all.analisi(0, "sampleList/2016.txt", "/Users/Martina/Desktop/FILE/","pippo",0,0);
 
     
     //all.analisi(selezione, 1, "prova_qcd.root", 1);

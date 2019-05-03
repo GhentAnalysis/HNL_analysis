@@ -35,6 +35,7 @@
 #include "Sample.h"
 
 
+
 class Analysis_mc : public TObject {
     
  public:
@@ -693,6 +694,7 @@ class Analysis_mc : public TObject {
   // 11. MC systematics
   //
   void analisi(  unsigned jaar, const std::string& list, const std::string& directory,
+		 TString outfilename,
 		int systcat = 0, int systdir = 0
 		);
 
@@ -704,7 +706,7 @@ class Analysis_mc : public TObject {
   //______________________      object functions       ________________________________// 
   //check lepton flavors 
   bool isElectron(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 0); }
-  bool isMuon(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 1); }
+  bool isMu(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 1); }
   bool isTau(const unsigned leptonIndex) const { return (_lFlavor[leptonIndex] == 2); }
   
   bool eleIsClean(const unsigned ) const;
@@ -739,7 +741,7 @@ class Analysis_mc : public TObject {
   double coneCorr(const unsigned ) const;
   void applyConeCorrection();
   unsigned selectLep(std::vector<unsigned>& ) const;
-  unsigned electLepConeCorr(std::vector<unsigned>& );
+  unsigned selectLepConeCorr(std::vector<unsigned>& );
   int l1Index(std::vector<unsigned>& );
   bool lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const;
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;

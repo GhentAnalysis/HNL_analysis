@@ -4,7 +4,7 @@
 * order objects by their pT
 */
 //______________________________________________pt order
-void Analyis_mc::orderByPt(std::vector<unsigned>& ind, const double* pt, const unsigned count) const{
+void Analysis_mc::orderByPt(std::vector<unsigned>& ind, const double* pt, const unsigned count) const{
     std::vector<std::pair<double, unsigned>> ptMap;
     for(unsigned p = 0; p < count; ++p){
         ptMap.push_back({pt[ind[p]], ind[p]});
@@ -15,16 +15,16 @@ void Analyis_mc::orderByPt(std::vector<unsigned>& ind, const double* pt, const u
     }
 }
 //______________________________________________cone correction
-double Analyis_mc::coneCorr(const unsigned ind) const{
+double Analysis_mc::coneCorr(const unsigned ind) const{
     double corr = 1.;
     if( lepIsFOBase(ind) && !lepIsTightDisplaced(ind) ){
-      if (isMu(leptonIndex)) corr *=( 1. + std::max(_relIso[ind] - mu_iso_tight, 0.) );
-      if (isElectron(leptonIndex)) corr *=( 1. + std::max(_relIso[ind] - ele_iso_tight, 0.) );
+      if (isMu(ind)) corr *=( 1. + std::max(_relIso[ind] - mu_iso_tight, 0.) );
+      if (isElectron(ind)) corr *=( 1. + std::max(_relIso[ind] - ele_iso_tight, 0.) );
     }
     return corr;
 }
 //______________________________________________cone correction
-void Analyis_mc::applyConeCorrection(){
+void Analysis_mc::applyConeCorrection(){
     for(unsigned l = 0; l < _nLight; ++l){
         double coneC = coneCorr(l);
         _lPt[l] *= coneC;
@@ -32,7 +32,7 @@ void Analyis_mc::applyConeCorrection(){
     }
 }
 //______________________________________________order only good leptons
-unsigned Analyis_mc::selectLep(std::vector<unsigned>& ind) const{
+unsigned Analysis_mc::selectLep(std::vector<unsigned>& ind) const{
     ind.clear();
     unsigned lCount = 0;
     for(unsigned l = 0; l < _nLight; ++l){
@@ -46,7 +46,7 @@ unsigned Analyis_mc::selectLep(std::vector<unsigned>& ind) const{
     return lCount;	
 }
 //______________________________________________order only good leptons with cone corrections
-unsigned Analyis_mc::selectLepConeCorr(std::vector<unsigned>& ind){
+unsigned Analysis_mc::selectLepConeCorr(std::vector<unsigned>& ind){
     //apply cone correction
     applyConeCorrection();
     //select and order cone-corrected leptons
@@ -54,7 +54,7 @@ unsigned Analyis_mc::selectLepConeCorr(std::vector<unsigned>& ind){
 }
 
 //______________________________________________find index of l1
-int Analyis_mc::l1Index(std::vector<unsigned>& ind){
+int Analysis_mc::l1Index(std::vector<unsigned>& ind){
   int index_leading = -1;
   int counter_leading=0;
   for(unsigned l = 0; l < lCount; ++l){
@@ -70,7 +70,7 @@ int Analyis_mc::l1Index(std::vector<unsigned>& ind){
 }
 
 //______________________________________________check if they can be called displaced
-bool Analyis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const{
+bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const{
   int number_found_verteces=-1;
   
   if (leptonIndex == index_taken_by_l1) return false;
@@ -92,7 +92,7 @@ bool Analyis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l
 }
 
 //______________________________________________function di check if 2 indeces make a vertex
-bool Analyis_mc::vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const{
+bool Analysis_mc::vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const{
   int Index1 = leptonIndex1+1;
   int Index2 = leptonIndex2+1;
   return (vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) );
