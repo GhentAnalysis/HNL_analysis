@@ -850,7 +850,7 @@ class Analysis_mc : public TObject {
   
 
   
-  ClassDef(Analysis_mc,1) 
+  // ClassDef(Analysis_mc,1) 
     };
 
 #endif
