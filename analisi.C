@@ -31,11 +31,11 @@
 #include <TPaveText.h>
 #include <THStack.h>
 
-void majo (unsigned year = 0);
+int main (unsigned year = 0);
 
 
 // ********************************************************************
-void majo(unsigned year){
+int main(unsigned year){
     Double_t pigreco= TMath::ACos(-1);
     
     // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
@@ -58,4 +58,6 @@ void majo(unsigned year){
     all.analisi(selezione, 1, "prova_stat_down.root", 11, 0);
     all.analisi(selezione, 1, "prova_stat_up.root"  , 11, 1);*/
 
+    
+    return 0;
 }
