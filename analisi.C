@@ -36,7 +36,7 @@ int main ();
 
 // ********************************************************************
 int main(){
-  /*  Double_t pigreco= TMath::ACos(-1);
+  Double_t pigreco= TMath::ACos(-1);
     
     // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
     std::cout << "---------------------------" << std::endl;
@@ -49,7 +49,7 @@ int main(){
     
     //all.analisi(selezione, 1, "prova_qcd.root", 1);
     //all.analisi(selezione, 1, "prova_pdf.root", 2);
-    */
+    
     /* all.analisi(selezione, 1, "prova_jec_down.root" ,  8, 0);
     all.analisi(selezione, 1, "prova_jec_up.root"   ,  8, 1);
     all.analisi(selezione, 1, "prova_jer_down.root" ,  9, 0);
