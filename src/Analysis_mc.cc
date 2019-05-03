@@ -559,7 +559,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	_EReal[i] =_lE[i];
       } 
       //select leptons
-      /* const unsigned lCount = selectLepConeCorr(ind);
+       const unsigned lCount = selectLepConeCorr(ind);
       if (lCount < 3) continue;
       
       //------------------------------------------------------------ jet pt variation and nJet and bjet
@@ -617,7 +617,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       
       int index_to_use_for_l2_l3[2]={0,0};
       double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
-      */
+      
       
     }//end loop over the entries
   }//loop over samples
