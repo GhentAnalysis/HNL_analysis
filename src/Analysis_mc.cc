@@ -58,7 +58,7 @@ using std::ofstream;
 
 using namespace std;
 
-ClassImp(Analysis_mc)
+//ClassImp(Analysis_mc)
 
 //_______________________________________________________default constructor_____
 Analysis_mc::Analysis_mc():TObject()
