@@ -614,9 +614,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	}
       }
       if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet) 
-      
+      cout <<"pippo"<<endl;
       int index_to_use_for_l2_l3[2]={0,0};
-      double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
+      //double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
       
       
     }//end loop over the entries
