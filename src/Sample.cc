@@ -11,7 +11,6 @@
 Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     directory( sampleDirectory)
 {
-  std::cout<<"line: "<<line<<std::endl;
     /*
     only works if input line is formatted as:
     processName    fileName    xSec
@@ -61,7 +60,6 @@ Sample::Sample( std::istream& is, const std::string& directory ){
     do{
         nextLineIsComment = false;
         if(std::getline(is, line)){
-	  std::cout<<line<<std::endl;
             nextLineIsComment =  (line[line.find_first_not_of(" \t")] == '#');
             if(!nextLineIsComment){
                 *this = Sample(line, directory); 
@@ -139,19 +137,15 @@ std::ostream& operator<<( std::ostream& os, const Sample& sam ){
 
 //read a list of samples into a vector 
 std::vector< Sample > readSampleList( const std::string& listFile, const std::string& directory ){
-  std::cout<<"in the function"<<std::endl;
 	std::vector< Sample> sampleList;
 
     //read sample info from txt file
     std::ifstream inFile(listFile);
-    std::cout<<"in file"<<std::endl;
    
 
     while( !inFile.eof() ){
-      //  std::cout<<"in loop"<<std::endl;
 
         sampleList.push_back( Sample( inFile, directory ) );
-	//     std::cout<<"in loop2"<<std::endl;
 
     }
     sampleList.pop_back();
