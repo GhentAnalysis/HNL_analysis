@@ -147,10 +147,10 @@ std::vector< Sample > readSampleList( const std::string& listFile, const std::st
    
 
     while( !inFile.eof() ){
-          std::cout<<"in loop"<<std::endl;
+      //  std::cout<<"in loop"<<std::endl;
 
         sampleList.push_back( Sample( inFile, directory ) );
-	          std::cout<<"in loop2"<<std::endl;
+	//     std::cout<<"in loop2"<<std::endl;
 
     }
     sampleList.pop_back();
