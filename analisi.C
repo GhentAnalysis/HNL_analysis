@@ -43,9 +43,10 @@ int main(){
     unsigned year = 0;
 
 //==========================================================================================
-    Analysis_mc all(year, "sampleList/2016.txt", "/Users/Martina/Desktop/FILE/");
-    all.analisi(0, "sampleList/2016.txt", "/Users/Martina/Desktop/FILE/","pippo",0,0);
+    Analysis_mc all(year, "sampleList/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/");
+    all.analisi(0, "sampleList/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
 
+    
     
     //all.analisi(selezione, 1, "prova_qcd.root", 1);
     //all.analisi(selezione, 1, "prova_pdf.root", 2);
