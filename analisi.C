@@ -43,8 +43,8 @@ int main(){
     unsigned year = 0;
 
 //==========================================================================================
-    Analysis_mc all(year, "/sampleList/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/");
-    all.analisi(0, "/sampleList/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
+    Analysis_mc all(year, "./sampleList/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/");
+    all.analisi(0, "./sampleList/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
 
     
     
