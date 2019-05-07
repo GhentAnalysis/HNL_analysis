@@ -467,10 +467,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	      BTagEntry::FLAV_B, // b-tag flavor
 	      "comb");           // measurement type
 
+  cout<<list<<"   "<<directory<<endl;
 
 
   // ------------   samples info -----------------------------------------------//
-  std::vector <Sample> samples  = readSampleList(list, directory);  
+  
+  std::vector <Sample> samples  = readSampleList(list, directory);
   /*  std::vector <Sample> samples  = readSampleList(list, directory);  
   if (jaar == 0) {
     const int nSamples = samples.size();
