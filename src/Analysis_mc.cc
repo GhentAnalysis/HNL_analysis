@@ -488,14 +488,14 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   } 
   // ------------   run over samples -----------------------------------------------//  
   for(int sam = 0; sam < samples.size(); ++sam){
-    initSample(jaar,samples[sam]);
+    /*  initSample(jaar,samples[sam]);
     //check consistency
     cout<<"sample initialized: --> "<<endl;
     cout<<"fileName: "<<samples[sam].getFileName()<<"  process name: "<< samples[sam].getProcessName()<< "   xsec: "<< samples[sam].getXSec()<<endl;  
     if (samples[sam].isData()) cout<<"is Data"<<endl;
     if (samples[sam].isMC()) cout<<"is MC"<<endl;
     if (samples[sam].isNewPhysicsSignal()) cout<<"is signal"<<endl;
-    
+    */
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
     /*   for (Long64_t it = 0; it < nEntries; ++it){
