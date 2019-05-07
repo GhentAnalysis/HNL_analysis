@@ -61,6 +61,7 @@ Sample::Sample( std::istream& is, const std::string& directory ){
     do{
         nextLineIsComment = false;
         if(std::getline(is, line)){
+	  std::cout<<line<<std::endl;
             nextLineIsComment =  (line[line.find_first_not_of(" \t")] == '#');
             if(!nextLineIsComment){
                 *this = Sample(line, directory); 
