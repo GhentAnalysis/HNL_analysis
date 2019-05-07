@@ -11,6 +11,7 @@
 Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     directory( sampleDirectory)
 {
+  std::cout<<"line: "<<line<<std::endl;
     /*
     only works if input line is formatted as:
     processName    fileName    xSec
@@ -143,6 +144,7 @@ std::vector< Sample > readSampleList( const std::string& listFile, const std::st
     //read sample info from txt file
     std::ifstream inFile(listFile);
     std::cout<<"in file"<<std::endl;
+   
 
     while( !inFile.eof() ){
           std::cout<<"in loop"<<std::endl;
