@@ -498,7 +498,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
-    for (Long64_t it = 0; it < nEntries; ++it){
+    /*   for (Long64_t it = 0; it < nEntries; ++it){
       GetEntry(samples[sam], it);
       
       //print progess
@@ -620,6 +620,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       
       
     }//end loop over the entries
+    */
   }//loop over samples
 
 }//END ANALIUSI
