@@ -429,8 +429,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
 
-  //TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
-  TFile hfile_pu("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  //TFile hfile_pu("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu.Get("puw_Run2016Inclusive_central");
 
 
