@@ -576,14 +576,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
       } 
-      //select leptons
-      //      std::cout<<"after real"<<std::endl;
-	      
+      //select leptons	      
       const unsigned lCount = selectLepConeCorr(ind);
-      //     std::cout<<"after selct lep"<<std::endl;
 
       if (lCount < 3) continue;
-
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
 	 _jetPt[j]=_jetSmearedPt[j];
@@ -618,7 +614,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // ------------   event selection   -----------------------------------------------//
       //assign the l1 index
       ind_new_leading = l1Index(ind);
-
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
@@ -673,15 +668,37 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
       _vertex_ndf =_vertices[index_l2l3][10];   
       // ------------ ==================== -----------------------------------------------//
-     
+      // ------------   tight selection   -----------------------------------------------//
+      unsigned* _isT= new unsigned[_nL];
+      unsigned* _isT_prompt= new unsigned[_nL];  // only for CR--> so higher pT threshold and the same for mu and e
+      for(unsigned l = 0; l < lCount; ++l){
+	_isT[ind[l]] = false;
+	_isT_prompt[ind[l]] = false;
+      }
+      if (lepIsTightDisplaced(l2)) _isT[l2] = true;
+      if (lepIsTightDisplaced(l3)) _isT[l3] = true;
+      std::cout<<_isT[l2]<< "  "<< _relIso[l2]<< "  "<< _relIso[index_to_use_for_l2_l3[0]]<<std::endl;
+      std::cout<<_isT[l3]<< "  "<< _relIso[l3]<< "  "<< _relIso[index_to_use_for_l2_l3[1]]<<std::endl;
 
+
+      
+      //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
 
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+       
+
+
+
+
+       
+      
       
     }//end loop over the entries
     
   }//loop over samples
-  
 }//END ANALIUSI
 
 
