@@ -565,6 +565,17 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       TLorentzVector  v4l2;
       TLorentzVector  v4l3;
 
+      double            _vertex_X=-1;
+      double            _vertex_Y=-1;
+      double            _vertex_Z=-1;
+      double            _vertex_R2D=-1;
+      double            _vertex_sR2D=-1;
+      double            _vertex_R=-1;
+      double            _vertex_sR=-1;
+      double            _vertex_chi2=-1;
+      double            _vertex_normchi2=-1;
+      double _vertex_ndf =-1;
+
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //------------------------------------------------------------ lepton selection for FO
       for(unsigned i = 0; i < _nL; ++i){
