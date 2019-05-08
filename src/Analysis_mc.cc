@@ -670,8 +670,23 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        for(unsigned v = 0; v < _nVFit; ++v){
 	 if ((_vertices[v][0] == ((l2+1) * 100 +  (l3+1))) || (_vertices[v][0] == ((l2+1)  +  (l3+1)*100))) {
 	  std::cout<<"====> "<<_vertices[v][0]<<std::endl;
+	  std::cout<<"1> "<<_vertices[v][1]<<std::endl;
+	  std::cout<<"2> "<<_vertices[v][2]<<std::endl;
+	  std::cout<<"3> "<<_vertices[v][3]<<std::endl;
 	}
        }
+
+
+       for(unsigned v = 0; v < _nVFit_os; ++v){
+	 if ((_vertices_os[v][0] == ((l2+1) * 100 +  (l3+1))) || (_vertices_os[v][0] == ((l2+1)  +  (l3+1)*100))) {
+	  std::cout<<"____> "<<_vertices_os[v][0]<<std::endl;
+	  std::cout<<"1> "<<_vertices_os[v][1]<<std::endl;
+	  std::cout<<"2> "<<_vertices_os[v][2]<<std::endl;
+	  std::cout<<"3> "<<_vertices_os[v][3]<<std::endl;
+	}
+       }
+
+       
       _vertex_X=_vertices[index_l2l3][1];
       _vertex_Y=_vertices[index_l2l3][2];
       _vertex_Z=_vertices[index_l2l3][3];
