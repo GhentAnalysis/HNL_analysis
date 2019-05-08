@@ -973,7 +973,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 			    D2_delta_pv_sv,
 			    D2_delta_pv_sv,
 			    D2_delta_pv_sv,
-			    momentum, momentum};
+			    momentum_jet, momentum_jet};
 
 			    
 			   
