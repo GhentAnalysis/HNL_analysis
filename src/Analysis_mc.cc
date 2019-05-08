@@ -615,7 +615,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       std::vector<int> charge_displaced;
       std::vector<unsigned> temp_index;
       
-      /* for(unsigned l = 0; l < lCount; ++l){
+       for(unsigned l = 0; l < lCount; ++l){
 	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
 	  TLorentzVector temp_displaced;
 	  temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
@@ -625,8 +625,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  ++displacedC;
 	}
       }
-      */
       
+       if (displacedC< 2) continue;
       int index_to_use_for_l2_l3[2]={0,0};
       //find the right OS pair with min invariant mass
       int min_test= 9999;
