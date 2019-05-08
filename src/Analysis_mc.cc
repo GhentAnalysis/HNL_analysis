@@ -679,7 +679,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	_isT[ind[l]] = false;
 	_isT_prompt[ind[l]] = false;
       }
-      tightC=0;
+      int tightC=0;
       if (lepIsTightDisplaced(l2)) _isT[l2] = true;
       if (lepIsTightDisplaced(l3)) _isT[l3] = true;
       if (_isT[l2]) tightC++;
