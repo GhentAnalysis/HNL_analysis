@@ -497,7 +497,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if (samples[sam].isData()) cout<<"is Data"<<endl;
     if (samples[sam].isMC()) cout<<"is MC"<<endl;
     if (samples[sam].isNewPhysicsSignal()) cout<<"is signal"<<endl;
-    /* 
+    
        double progress = 0; 	//For printing progress bar 
        // ------------   run over entries -----------------------------------------------//  
        for (Long64_t it = 0; it < nEntries; ++it){
@@ -565,34 +565,34 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        if (lCount < 3) continue;
       
        //------------------------------------------------------------ jet pt variation and nJet and bjet
-       for (unsigned j =0; j < _nJets ; j++){
-       _jetPt[j]=_jetSmearedPt[j];
-       if(systcat==8) {
-       if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
-       else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
-       }
-       else if(systcat==9) {
-       if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
-       else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
-       }
+       /* for (unsigned j =0; j < _nJets ; j++){
+	 _jetPt[j]=_jetSmearedPt[j];
+	 if(systcat==8) {
+	   if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
+	   else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
+	 }
+	 else if(systcat==9) {
+	   if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
+	   else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
+	 }
 
-       if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
-       double bjetSf = 1.;
-       // b-jet systematics
-       if(systcat==10) {
-       if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
-       else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
-       }
-       // b-jet central SF
-       else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-       // Scale the b-veto event weight
-       bwght *= bjetSf;
-       }	
-       }
+	 if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
+	   double bjetSf = 1.;
+	   // b-jet systematics
+	   if(systcat==10) {
+	     if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
+	     else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
+	   }
+	   // b-jet central SF
+	   else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	   // Scale the b-veto event weight
+	   bwght *= bjetSf;
+	 }	
+	 }*/
        //counting bjet and njet
        for (unsigned j =0; j < _nJets ; j++){
-       if (jetIsGood(j)) ++goodjet;
-       if (jetIsBJet(j)) ++bjet;
+	 if (jetIsGood(j)) ++goodjet;
+	 if (jetIsBJet(j)) ++bjet;
        }
        // ------------ ==================== -----------------------------------------------//
        // ------------   event selection   -----------------------------------------------//
@@ -622,7 +622,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       
       
        }//end loop over the entries
-    */
+    
   }//loop over samples
   
 }//END ANALIUSI
