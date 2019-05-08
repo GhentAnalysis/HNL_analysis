@@ -57,11 +57,11 @@ unsigned Analysis_mc::selectLepConeCorr(std::vector<unsigned>& ind){
 int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
   int index_leading = -1;
   int counter_leading=0;
-  std::cout<<"--->  "<<index_leading<<"   lcount: "<<lCount<<std::endl;
-							     for(unsigned l = 0; l < ind.size(); ++l){
-    std::cout<<l<<") "<<std::endl;
+  for(unsigned l = 0; l < ind.size(); ++l){
+    std::cout<<l<<") "<<counter_leading<<  std::endl;
 
     if (counter_leading == 0){
+      std::cout<<lepIsTightPrompt(ind[l])<<"  "<<lepPromptTriggerMatching(ind[l])<<std::endl;
       if (lepIsTightPrompt(ind[l]) && lepPromptTriggerMatching(ind[l])) {   
 	++counter_leading;
 	index_leading = ind[l];
@@ -80,7 +80,7 @@ bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_
   if (!lepIsFOBase(leptonIndex)) return false;
   if (fabs(_dxy[leptonIndex]) > dxy_cut) return false;
   //looking for a common vertex with an other lepton
-  for(unsigned sd = 0; sd < lCount; ++sd){
+  for(unsigned sd = 0; sd < ind.size(); ++sd){
     if (leptonIndex == ind[sd]) continue;
     if (ind[sd] == index_taken_by_l1) continue;
     if (fabs(_dxy[ind[sd]]) > dxy_cut) continue;
