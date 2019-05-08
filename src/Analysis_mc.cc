@@ -357,53 +357,53 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, unsigned jaar)
   fChain->SetBranchAddress("_metPhi", &_metPhi, &b__metPhi);
   fChain->SetBranchAddress("_metRawPhi", &_metRawPhi, &b__metRawPhi);
   fChain->SetBranchAddress("_metPhiJECDown", &_metPhiJECDown, &b__metPhiJECDown);
-   fChain->SetBranchAddress("_metPhiJECUp", &_metPhiJECUp, &b__metPhiJECUp);
-   fChain->SetBranchAddress("_metPhiUnclDown", &_metPhiUnclDown, &b__metPhiUnclDown);
-   fChain->SetBranchAddress("_metPhiUnclUp", &_metPhiUnclUp, &b__metPhiUnclUp);
-   fChain->SetBranchAddress("_metSignificance", &_metSignificance, &b__metSignificance);
+  fChain->SetBranchAddress("_metPhiJECUp", &_metPhiJECUp, &b__metPhiJECUp);
+  fChain->SetBranchAddress("_metPhiUnclDown", &_metPhiUnclDown, &b__metPhiUnclDown);
+  fChain->SetBranchAddress("_metPhiUnclUp", &_metPhiUnclUp, &b__metPhiUnclUp);
+  fChain->SetBranchAddress("_metSignificance", &_metSignificance, &b__metSignificance);
 
-    if(!isData){
-        fChain->SetBranchAddress("_nTrueInt", &_nTrueInt, &b__nTrueInt);
-        fChain->SetBranchAddress("_weight", &_weight, &b__weight);
-        fChain->SetBranchAddress("_lheHTIncoming", &_lheHTIncoming, &b__lheHTIncoming);
-        fChain->SetBranchAddress("_ctauHN", &_ctauHN, &b__ctauHN);
-        fChain->SetBranchAddress("_nLheTau", &_nLheTau, &b__nLheTau);
-        fChain->SetBranchAddress("_nLheWeights", &_nLheWeights, &b__nLheWeights);
-        fChain->SetBranchAddress("_lheWeight", _lheWeight, &b__lheWeight);
-        fChain->SetBranchAddress("_nPsWeights", &_nPsWeights, &b__nPsWeights);
-        fChain->SetBranchAddress("_psWeight", _psWeight, &b__psWeight);
-        fChain->SetBranchAddress("_gen_nL", &_gen_nL, &b__gen_nL);
-        fChain->SetBranchAddress("_gen_pdgID", _gen_pdgID, &b__gen_pdgID);
-        fChain->SetBranchAddress("_gen_lPt", _gen_lPt, &b__gen_lPt);
-        fChain->SetBranchAddress("_gen_lEta", _gen_lEta, &b__gen_lEta);
-        fChain->SetBranchAddress("_gen_lPhi", _gen_lPhi, &b__gen_lPhi);
-        fChain->SetBranchAddress("_gen_lE", _gen_lE, &b__gen_lE);
-        fChain->SetBranchAddress("_gen_lFlavor", _gen_lFlavor, &b__gen_lFlavor);
-        fChain->SetBranchAddress("_gen_lCharge", _gen_lCharge, &b__gen_lCharge);
-        fChain->SetBranchAddress("_gen_lMomPdg", _gen_lMomPdg, &b__gen_lMomPdg);
-        fChain->SetBranchAddress("_gen_vertex_x", _gen_vertex_x, &b__gen_vertex_x);
-        fChain->SetBranchAddress("_gen_vertex_y", _gen_vertex_y, &b__gen_vertex_y);
-        fChain->SetBranchAddress("_gen_vertex_z", _gen_vertex_z, &b__gen_vertex_z);
-        fChain->SetBranchAddress("_gen_lIsPrompt", _gen_lIsPrompt, &b__gen_lIsPrompt);
-        fChain->SetBranchAddress("_gen_lMinDeltaR", _gen_lMinDeltaR, &b__gen_lMinDeltaR);
-        fChain->SetBranchAddress("_gen_lPassParentage", _gen_lPassParentage, &b__gen_lPassParentage);    
-	fChain->SetBranchAddress("_lGenIndex", _lGenIndex, &b__lGenIndex);
-        fChain->SetBranchAddress("_lMatchType", _lMatchType, &b__lMatchType);
-        fChain->SetBranchAddress("_lIsPrompt", _lIsPrompt, &b__lIsPrompt);
-        fChain->SetBranchAddress("_lIsPromptFinalState", _lIsPromptFinalState, &b__lIsPromptFinalState);
-	fChain->SetBranchAddress("_lIsPromptDecayed", _lIsPromptDecayed, &b__lIsPromptDecayed);
-	fChain->SetBranchAddress("_lMatchPdgId", _lMatchPdgId, &b__lMatchPdgId);
-        fChain->SetBranchAddress("_lMomPdgId", _lMomPdgId, &b__lMomPdgId);
-        fChain->SetBranchAddress("_lProvenance", _lProvenance, &b__lProvenance);
-        fChain->SetBranchAddress("_lProvenanceCompressed", _lProvenanceCompressed, &b__lProvenanceCompressed);
-	fChain->SetBranchAddress("_lProvenanceConversion", _lProvenanceConversion, &b__lProvenanceConversion);
-        fChain->SetBranchAddress("_lMatchPt", _lMatchPt, &b__lMatchPt);
-	fChain->SetBranchAddress("_lMatchEta", _lMatchEta, &b__lMatchEta);
-	fChain->SetBranchAddress("_lMatchPhi", _lMatchPhi, &b__lMatchPhi);
-        fChain->SetBranchAddress("_lMatchVertexX", _lMatchVertexX, &b__lMatchVertexX);
-        fChain->SetBranchAddress("_lMatchVertexY", _lMatchVertexY, &b__lMatchVertexY);
-        fChain->SetBranchAddress("_lMatchVertexZ", _lMatchVertexZ, &b__lMatchVertexZ);       
-    }
+  if(!isData){
+    fChain->SetBranchAddress("_nTrueInt", &_nTrueInt, &b__nTrueInt);
+    fChain->SetBranchAddress("_weight", &_weight, &b__weight);
+    fChain->SetBranchAddress("_lheHTIncoming", &_lheHTIncoming, &b__lheHTIncoming);
+    fChain->SetBranchAddress("_ctauHN", &_ctauHN, &b__ctauHN);
+    fChain->SetBranchAddress("_nLheTau", &_nLheTau, &b__nLheTau);
+    fChain->SetBranchAddress("_nLheWeights", &_nLheWeights, &b__nLheWeights);
+    fChain->SetBranchAddress("_lheWeight", _lheWeight, &b__lheWeight);
+    fChain->SetBranchAddress("_nPsWeights", &_nPsWeights, &b__nPsWeights);
+    fChain->SetBranchAddress("_psWeight", _psWeight, &b__psWeight);
+    fChain->SetBranchAddress("_gen_nL", &_gen_nL, &b__gen_nL);
+    fChain->SetBranchAddress("_gen_pdgID", _gen_pdgID, &b__gen_pdgID);
+    fChain->SetBranchAddress("_gen_lPt", _gen_lPt, &b__gen_lPt);
+    fChain->SetBranchAddress("_gen_lEta", _gen_lEta, &b__gen_lEta);
+    fChain->SetBranchAddress("_gen_lPhi", _gen_lPhi, &b__gen_lPhi);
+    fChain->SetBranchAddress("_gen_lE", _gen_lE, &b__gen_lE);
+    fChain->SetBranchAddress("_gen_lFlavor", _gen_lFlavor, &b__gen_lFlavor);
+    fChain->SetBranchAddress("_gen_lCharge", _gen_lCharge, &b__gen_lCharge);
+    fChain->SetBranchAddress("_gen_lMomPdg", _gen_lMomPdg, &b__gen_lMomPdg);
+    fChain->SetBranchAddress("_gen_vertex_x", _gen_vertex_x, &b__gen_vertex_x);
+    fChain->SetBranchAddress("_gen_vertex_y", _gen_vertex_y, &b__gen_vertex_y);
+    fChain->SetBranchAddress("_gen_vertex_z", _gen_vertex_z, &b__gen_vertex_z);
+    fChain->SetBranchAddress("_gen_lIsPrompt", _gen_lIsPrompt, &b__gen_lIsPrompt);
+    fChain->SetBranchAddress("_gen_lMinDeltaR", _gen_lMinDeltaR, &b__gen_lMinDeltaR);
+    fChain->SetBranchAddress("_gen_lPassParentage", _gen_lPassParentage, &b__gen_lPassParentage);    
+    fChain->SetBranchAddress("_lGenIndex", _lGenIndex, &b__lGenIndex);
+    fChain->SetBranchAddress("_lMatchType", _lMatchType, &b__lMatchType);
+    fChain->SetBranchAddress("_lIsPrompt", _lIsPrompt, &b__lIsPrompt);
+    fChain->SetBranchAddress("_lIsPromptFinalState", _lIsPromptFinalState, &b__lIsPromptFinalState);
+    fChain->SetBranchAddress("_lIsPromptDecayed", _lIsPromptDecayed, &b__lIsPromptDecayed);
+    fChain->SetBranchAddress("_lMatchPdgId", _lMatchPdgId, &b__lMatchPdgId);
+    fChain->SetBranchAddress("_lMomPdgId", _lMomPdgId, &b__lMomPdgId);
+    fChain->SetBranchAddress("_lProvenance", _lProvenance, &b__lProvenance);
+    fChain->SetBranchAddress("_lProvenanceCompressed", _lProvenanceCompressed, &b__lProvenanceCompressed);
+    fChain->SetBranchAddress("_lProvenanceConversion", _lProvenanceConversion, &b__lProvenanceConversion);
+    fChain->SetBranchAddress("_lMatchPt", _lMatchPt, &b__lMatchPt);
+    fChain->SetBranchAddress("_lMatchEta", _lMatchEta, &b__lMatchEta);
+    fChain->SetBranchAddress("_lMatchPhi", _lMatchPhi, &b__lMatchPhi);
+    fChain->SetBranchAddress("_lMatchVertexX", _lMatchVertexX, &b__lMatchVertexX);
+    fChain->SetBranchAddress("_lMatchVertexY", _lMatchVertexY, &b__lMatchVertexY);
+    fChain->SetBranchAddress("_lMatchVertexZ", _lMatchVertexZ, &b__lMatchVertexZ);       
+  }
 }
 
 //          ================= ================= ================= ================= ================= =================          // 
@@ -427,8 +427,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
 
-   TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
-    pileUpWeight[0] = (TH1D*)hfile_pu.Get("puw_Run2016Inclusive_central");
+  TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  pileUpWeight[0] = (TH1D*)hfile_pu.Get("puw_Run2016Inclusive_central");
   if (jaar == 0 ) {
    
   }
@@ -500,136 +500,141 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if (samples[sam].isMC()) cout<<"is MC"<<endl;
     if (samples[sam].isNewPhysicsSignal()) cout<<"is signal"<<endl;
     
-       double progress = 0; 	//For printing progress bar 
-       // ------------   run over entries -----------------------------------------------//  
-       for (Long64_t it = 0; it < nEntries/100; ++it){
-       GetEntry(samples[sam], it);
-       //   std::cout<<"after get tree"<<std::endl;
+    double progress = 0; 	//For printing progress bar 
+    // ------------   run over entries -----------------------------------------------//  
+    for (Long64_t it = 0; it < nEntries/100; ++it){
+      GetEntry(samples[sam], it);
+      //   std::cout<<"after get tree"<<std::endl;
 
-       //print progess
-       /* if(it%100 == 0 && it != 0){
+      //print progess
+      /* if(it%100 == 0 && it != 0){
 	 progress += (double) (100./nEntries);
 	 printProgress(progress);
-       } else if(it == nEntries -1){
+	 } else if(it == nEntries -1){
 	 progress = 1.;
 	 printProgress(progress);
 	 }*/
-       double scal = 0;
-       scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
-       bwght=1.;
+      double scal = 0;
+      scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
+      bwght=1.;
 
-       // std::cout<<"after pu"<<std::endl;
+      // std::cout<<"after pu"<<std::endl;
 
-       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-       std::vector<unsigned> ind;      double*           conePt = new double[_nL];
-       double           _ptReal[_nL];
-       double           _EReal[_nL];
-       Bool_t            _passedMVA90[_nL];     
-       double            _vertex_X[3];
-       double            _vertex_Y[3];
-       double            _vertex_Z[3];
-       double            _vertex_sX[3];
-       double            _vertex_sY[3];
-       double            _vertex_sZ[3];    
-       double            _vertex_chi2[3];
-       unsigned         ind_new_leading=0;
-       unsigned         ind_new_p=0;
-       unsigned         ind_new_pp=0;
-       unsigned*         _isLooseCutBasedElectronWithoutIsolatio= new unsigned[_nL];
-       unsigned*         _isOurMedium= new unsigned[_nL];
-       unsigned*         _passTimingVeto= new unsigned[_nL];
-       goodjet=0;
-       bjet=0;
-       lCount= 0;
-       promptC = 0;
-       iV_ls=0;
-       iV_lt=0;
-       iV_st=0;  
-       _mll_min=50000;
-       METvec.SetPtEtaPhiE(0.,0.,0.,0.);
-       sum_3l_rec.SetPtEtaPhiE(0.,0.,0.,0.);
-       sum_2l_rec_pair.SetPtEtaPhiE(0.,0.,0.,0.);
-       kind[0]=-1;   
-       skip_event[0]= -1;
-       for (int i =0; i < 3; i++){
-       lepton_reco[i].SetPtEtaPhiE(0.,0.,0.,0.);
-       lepton_transv[i].SetPtEtaPhiE(0.,0.,0.,0.);
-       pair[i].SetPtEtaPhiE(0.,0.,0.,0.);
-       flavors_3l[i]=0;
-       charge_3l[i]=0;	
-       }
-       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-       //------------------------------------------------------------ lepton selection for FO
-       for(unsigned i = 0; i < _nL; ++i){
-       _ptReal[i]=_lPt[i];
-       _EReal[i] =_lE[i];
-       } 
-       //select leptons
-       //      std::cout<<"after real"<<std::endl;
+      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      std::vector<unsigned> ind;      double*           conePt = new double[_nL];
+      double           _ptReal[_nL];
+      double           _EReal[_nL];
+      Bool_t            _passedMVA90[_nL];     
+      double            _vertex_X[3];
+      double            _vertex_Y[3];
+      double            _vertex_Z[3];
+      double            _vertex_sX[3];
+      double            _vertex_sY[3];
+      double            _vertex_sZ[3];    
+      double            _vertex_chi2[3];
+      unsigned         ind_new_leading=0;
+      unsigned         ind_new_p=0;
+      unsigned         ind_new_pp=0;
+      unsigned*         _isLooseCutBasedElectronWithoutIsolatio= new unsigned[_nL];
+      unsigned*         _isOurMedium= new unsigned[_nL];
+      unsigned*         _passTimingVeto= new unsigned[_nL];
+      goodjet=0;
+      bjet=0;
+      lCount= 0;
+      promptC = 0;
+      iV_ls=0;
+      iV_lt=0;
+      iV_st=0;  
+      _mll_min=50000;
+      METvec.SetPtEtaPhiE(0.,0.,0.,0.);
+      sum_3l_rec.SetPtEtaPhiE(0.,0.,0.,0.);
+      sum_2l_rec_pair.SetPtEtaPhiE(0.,0.,0.,0.);
+      kind[0]=-1;   
+      skip_event[0]= -1;
+      for (int i =0; i < 3; i++){
+	lepton_reco[i].SetPtEtaPhiE(0.,0.,0.,0.);
+	lepton_transv[i].SetPtEtaPhiE(0.,0.,0.,0.);
+	pair[i].SetPtEtaPhiE(0.,0.,0.,0.);
+	flavors_3l[i]=0;
+	charge_3l[i]=0;	
+      }
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //------------------------------------------------------------ lepton selection for FO
+      for(unsigned i = 0; i < _nL; ++i){
+	_ptReal[i]=_lPt[i];
+	_EReal[i] =_lE[i];
+      } 
+      //select leptons
+      //      std::cout<<"after real"<<std::endl;
 	      
-       const unsigned lCount = selectLepConeCorr(ind);
-       //     std::cout<<"after selct lep"<<std::endl;
+      const unsigned lCount = selectLepConeCorr(ind);
+      //     std::cout<<"after selct lep"<<std::endl;
+      std::cout<<"-->   lCount  "<< lCount<< std::endl;
 
-       if (lCount < 3) continue;
-      
-       //------------------------------------------------------------ jet pt variation and nJet and bjet
-       /* for (unsigned j =0; j < _nJets ; j++){
+      if (lCount < 3) continue;
+            std::cout<<"==>   lCount  "<< lCount<< std::endl;
+
+      //------------------------------------------------------------ jet pt variation and nJet and bjet
+      /* for (unsigned j =0; j < _nJets ; j++){
 	 _jetPt[j]=_jetSmearedPt[j];
 	 if(systcat==8) {
-	   if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
-	   else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
+	 if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
+	 else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
 	 }
 	 else if(systcat==9) {
-	   if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
-	   else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
+	 if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
+	 else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
 	 }
 
 	 if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
-	   double bjetSf = 1.;
-	   // b-jet systematics
-	   if(systcat==10) {
-	     if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
-	     else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
-	   }
-	   // b-jet central SF
-	   else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	   // Scale the b-veto event weight
-	   bwght *= bjetSf;
+	 double bjetSf = 1.;
+	 // b-jet systematics
+	 if(systcat==10) {
+	 if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
+	 else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
+	 }
+	 // b-jet central SF
+	 else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	 // Scale the b-veto event weight
+	 bwght *= bjetSf;
 	 }	
 	 }*/
-       //counting bjet and njet
-       for (unsigned j =0; j < _nJets ; j++){
-	 if (jetIsGood(j)) ++goodjet;
-	 if (jetIsBJet(j)) ++bjet;
-       }
-       // ------------ ==================== -----------------------------------------------//
-       // ------------   event selection   -----------------------------------------------//
-       //assign the l1 index
-       ind_new_leading = l1Index(ind);
-       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
-       unsigned displacedC = 0;
-       std::vector<TLorentzVector> lepV_displaced;
-       std::vector<int> charge_displaced;
-       std::vector<unsigned> temp_index;
+      //counting bjet and njet
+      for (unsigned j =0; j < _nJets ; j++){
+	if (jetIsGood(j)) ++goodjet;
+	if (jetIsBJet(j)) ++bjet;
+      }
+      // ------------ ==================== -----------------------------------------------//
+      // ------------   event selection   -----------------------------------------------//
+      //assign the l1 index
+      ind_new_leading = l1Index(ind);
+      if (l1Index(ind) == -1) continue; //in case there are not l1 at all
+      //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
+      unsigned displacedC = 0;
+      std::vector<TLorentzVector> lepV_displaced;
+      std::vector<int> charge_displaced;
+      std::vector<unsigned> temp_index;
       
-       for(unsigned l = 0; l < lCount; ++l){
-       if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
-       TLorentzVector temp_displaced;
-       temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
-       lepV_displaced.push_back(temp_displaced);
-       charge_displaced.push_back(_lCharge[ind[l]]);
-       temp_index.push_back(l);
-       ++displacedC;
-       }
-       }
-       if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet) 
-       cout <<"pippo"<<endl;
-       int index_to_use_for_l2_l3[2]={0,0};
-       //double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
+      for(unsigned l = 0; l < lCount; ++l){
+	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
+	  TLorentzVector temp_displaced;
+	  temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
+	  lepV_displaced.push_back(temp_displaced);
+	  charge_displaced.push_back(_lCharge[ind[l]]);
+	  temp_index.push_back(l);
+	  ++displacedC;
+	}
+      }
+      std::cout<<"-->   displacedC"<< displacedC<< std::endl;
+      if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet)
+      std::cout<<"==>   displacedC"<< displacedC<< std::endl;
+
+      cout <<"pippo"<<endl;
+      int index_to_use_for_l2_l3[2]={0,0};
+      //double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
       
       
-       }//end loop over the entries
+    }//end loop over the entries
     
   }//loop over samples
   
