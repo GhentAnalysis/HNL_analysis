@@ -511,26 +511,49 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------   samples info -----------------------------------------------//
   
   std::vector <Sample> samples  = readSampleList(list, directory);
+  const int nSamples_eff = 2;
+
   //std::vector <Sample> samples  = readSampleList(list, directory);
   /*
-  if (jaar == 0) {
+    if (jaar == 0) {
     const int nSamples = samples.size();
     const int nSamples_eff = 2;
     const int nSamples_signal = 2;
-  }
-  else if (jaar == 1 ) {
+    }
+    else if (jaar == 1 ) {
     const int nSamples = samples.size();
     const int nSamples_eff = 2;
     const int nSamples_signal = 2;
-  }
-  else {
+    }
+    else {
     const int nSamples = samples.size();
     const int nSamples_eff = 2;
     const int nSamples_signal = 2;
-  } 
+    } 
   */
-  // ------------   run over samples -----------------------------------------------//  
-  for(int sam = 0; sam < samples.size(); ++sam){
+  TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
+			       
+  for(int i = 0; i < nDist; ++i){
+    float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
+    std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
+    for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+      for(int cat = 0; cat < nCat; ++cat){
+	for(int cha = 0; cha < nChannel; ++cha){               
+	  Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] + channelNames[cha] + catNames[cat] + Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
+	  Histos[i][cha][cat][effsam]->Sumw2();
+	}
+      }
+    }
+  }
+  //Calculate the center of the maximum bin of each histogram
+  double maxBinC[nDist];
+  for(int i = 0; i < nDist; ++i){
+    maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
+  }
+  
+  // ------------   run over samples -----------------------------------------------//
+
+  for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
     initSample(jaar,samples[sam]);
 
     //check consistency
@@ -538,6 +561,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
     if(samples[sam].isData()) std::cout << " is Data" << std::endl;
     if(samples[sam].isMC()  ) std::cout << " is MC"   << std::endl;
+    if(sam != 0){
+      if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;
+      cout<<"+++++++++  effsam: "<<effsam<<" "<<samples[sam].getProcessName()<<"   "<<sam<<endl;
+    }
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -754,6 +781,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (lepIsTightDisplaced(l3)) _isT[l3] = true;
       if (_isT[l2]) tightC++;
       if (_isT[l3]) tightC++;
+
+      if (isCRRun && v4l1.Pt() < 30) continue;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       bool single_fake=false;
@@ -841,6 +870,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
       // -----------------   variables useful    --------------------------------//
+      double min_delta_phi = 0;
+      min_delta_phi = fabs(v4l1.DeltaPhi(v4l2));
+      if (fabs(v4l1.DeltaPhi(v4l3)) < min_delta_phi)  min_delta_phi = fabs(v4l1.DeltaPhi(v4l3));
       //vertex
       TVector3 primary_vertex[1];
       TVector3 secondary_vertex[1];
@@ -871,13 +903,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // 2 = mme SS
       // 3 = eee
       // 4 = eem OS
-      // 5 = eem SS
-      
+      // 5 = eem SS   
       int SR_channel=0;
       SR_channel=channel(flavors_3l, charge_3l);
-      if (SR_channel == -1 ) continue;
-      	std::cout<<"-------------------------"<<std::endl;
-
+      if (isSRRun && SR_channel == -1 ) continue;
       bool less2=false;
       bool more2_10=false;
       bool more10=false;  
@@ -888,18 +917,67 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (D2_delta_pv_sv >= 10 )                      more10= true;
       if (M_l2l3_combined < 5 )   less5= true;
       if (M_l2l3_combined > 5 )   more5= true;
+      //bin histogram SR
       int bin_SR_muonCoupling =0;
       int bin_SR_eleCoupling =0;
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
-      for (int i =0; i< 3; i++){
-	std::cout<<"---> "<< flavors_3l[i] <<"   "<< charge_3l[i]<<std::endl;
-      }
-      std::cout<<"displaceemt: "<<less2<<"   "<< more2_10<< "  "<< more10<<std::endl;
-      std::cout<<"mass: "<<less5<<"     "<< more5<<std::endl;
+      
+      bool selection_0=false;
+      bool selection_1=false;
+      bool selection_2=false;
+      bool selection_3=false;
+      bool selection_4=false;
+      bool selection_5=false;
+      bool selection_final=false;
+      if (charge_3l[2] != charge_3l[1])                                        selection_0 = true;
+      if ( selection_0 && v4l2.DeltaR(v4l3) < 1)                               selection_1 = true;
+      if ( selection_1 &&  bjet == 0 )                                         selection_2 = true;
+      if ( selection_2 &&  M_3L_combined > 45 && M_3L_combined < 85)           selection_3 = true;
+      if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
+      if ( selection_4 &&  vtxRvtxPcosAlpha > 0.9)                             selection_5 = true;
+      if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
 
-      std::cout<<SR_channel<<"   "<< bin_SR_muonCoupling<< "  "<< bin_SR_eleCoupling<<std::endl;
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
+			    v4l1.Pt(),
+			    v4l2.Pt(),
+			    v4l3.Pt(),
+			    M_3L,
+			    M_l2l3,
+			    M_l2l3,
+			    M_l2l3_combined,
+			    M_l2l3_combined,
+			    M_ZPair,
+			    mT,
+			    _met,		    
+			    static_cast<double>( goodjet),
+			    static_cast<double>(bjet),
+			    _met,
+			    fabs(_dxy[l1]),fabs(_dz[l1]),fabs(_3dIPSig[l1]), fabs(_2dIPSig[l1]), 
+			    fabs(_dxy[l2]),fabs(_dz[l2]),fabs(_3dIPSig[l2]), fabs(_2dIPSig[l2]), 
+			    fabs(_dxy[l3]),fabs(_dz[l3]),fabs(_3dIPSig[l3]), fabs(_2dIPSig[l3]), 
+			    _relIso[l1],
+			    _relIso[l2],
+			    _relIso[l3],
+			    v4l1.DeltaR(v4l3),
+			    v4l2.DeltaR(v4l3),
+			    min_delta_phi,
+			    prob_vertex,
+			    _vertex_normchi2,
+			    _vertex_chi2,
+			    vtxRvtxPcosAlpha,
+			    D3_delta_pv_sv,
+			    D3_delta_pv_sv,
+			    D2_delta_pv_sv,
+			    D2_delta_pv_sv,
+			    D2_delta_pv_sv,
+			    momentum, momentum};
 
+			    
+			   
+	
       
     }//end loop over the entries    
   }//loop over samples
