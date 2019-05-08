@@ -59,16 +59,17 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
   int counter_leading=0;
   for(unsigned l = 0; l < ind.size(); ++l){
     std::cout<<l<<") "<<counter_leading<<  std::endl;
-
+    //&& lepPromptTriggerMatching(ind[l])
     if (counter_leading == 0){
       std::cout<<lepIsTightPrompt(ind[l])<<"  "<<lepPromptTriggerMatching(ind[l])<<std::endl;
-      if (lepIsTightPrompt(ind[l]) && lepPromptTriggerMatching(ind[l])) {   
+      if (lepIsTightPrompt(ind[l]) ) {   
 	++counter_leading;
 	index_leading = ind[l];
 
       }//only good tight prompt
     }//only 1
   }//loop light
+  std::cout<<"eecoolo: "<<index_leading<<std::endl;
   return index_leading;
 }
 
