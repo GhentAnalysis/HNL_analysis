@@ -742,7 +742,7 @@ class Analysis_mc : public TObject {
   void applyConeCorrection();
   unsigned selectLep(std::vector<unsigned>& ) const;
   unsigned selectLepConeCorr(std::vector<unsigned>& );
-  int l1Index(std::vector<unsigned>& );
+  int l1Index(const std::vector<unsigned>& );
   bool lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const;
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
 
