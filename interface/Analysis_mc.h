@@ -747,7 +747,16 @@ class Analysis_mc : public TObject {
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
   void l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2) const;
 
-  
+  double            _vertex_X=-1;
+  double            _vertex_Y=-1;
+  double            _vertex_Z=-1;
+  double            _vertex_R2D=-1;
+  double            _vertex_sR2D=-1;
+  double            _vertex_R=-1;
+  double            _vertex_sR=-1;
+  double            _vertex_chi2=-1;
+  double            _vertex_normchi2=-1;
+  double _vertex_ndf =-1;
 
   
  private:
@@ -838,16 +847,7 @@ class Analysis_mc : public TObject {
   
 
 
-  double            _vertex_X=-1;
-  double            _vertex_Y=-1;
-  double            _vertex_Z=-1;
-  double            _vertex_R2D=-1;
-  double            _vertex_sR2D=-1;
-  double            _vertex_R=-1;
-  double            _vertex_sR=-1;
-  double            _vertex_chi2=-1;
-  double            _vertex_normchi2=-1;
-  double _vertex_ndf =-1;
+  
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  

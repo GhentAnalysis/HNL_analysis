@@ -521,7 +521,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // std::cout<<"after pu"<<std::endl;
 
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      std::vector<unsigned> ind;      double*           conePt = new double[_nL];
+      std::vector<unsigned> ind;
+      double*           conePt = new double[_nL];
       double           _ptReal[_nL];
       double           _EReal[_nL];
       Bool_t            _passedMVA90[_nL];     
@@ -540,7 +541,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       unsigned*         _passTimingVeto= new unsigned[_nL];
       goodjet=0;
       bjet=0;
-      lCount= 0;
       promptC = 0;
       iV_ls=0;
       iV_lt=0;
@@ -660,7 +660,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
       v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
       l2l3_vertex_variable (l2,l3);
-      std::cout<<"vetrex: "<<_vertex_X<<" "<<_vertex_Y<<" "<<_vertex_Z<<" "_vertex_ndf<<std::endl;
+      std::cout<<"vetrex: "<<_vertex_X<<" "<<_vertex_Y<<" "<<_vertex_Z<<" "<<_vertex_ndf<<std::endl;
       // ------------ ==================== -----------------------------------------------//
 
 
