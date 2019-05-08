@@ -539,7 +539,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
 	for(int cha = 0; cha < nChannel; ++cha){               
-	  Histos[i][cha][cat][effsam] = new TH1D( channelNames[cha] + catNames[cat] + Histnames_ossf[i] ,  catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
+	  Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] + channelNames[cha] + catNames[cat] + Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
 	  Histos[i][cha][cat][effsam]->Sumw2();
 	}
       }
@@ -562,9 +562,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if(samples[sam].isData()) std::cout << " is Data" << std::endl;
     if(samples[sam].isMC()  ) std::cout << " is MC"   << std::endl;
     if(sam != 0){
-      if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) {--effsam;
-      cout<<"+++++++++  effsam: "<<effsam<<" "<<samples[sam].getProcessName()<<"   "<<sam<<endl;
-      }
+      if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
 
     // For lifetime re-weighting (hip hip hip hurray)

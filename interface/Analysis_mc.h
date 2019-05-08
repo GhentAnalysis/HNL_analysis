@@ -863,6 +863,18 @@ class Analysis_mc : public TObject {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  
 //******************* HISTO **********************
+  const static int nSamples_eff=8;
+  const TString eff_names[nSamples_eff +1 ] = { "data",      
+						"signal",   
+						"DY",  
+						"t#bar{t}",
+						"WJets",
+						"multiboson", 
+						"X+#gamma",    
+						"TT/T + X",		
+						"non prompt"};
+
+  
   const static int nCat=7;
   const static int nChannel=8;
   const static int nDist = 45;  //Number of distributions to plo
