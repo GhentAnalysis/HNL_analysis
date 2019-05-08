@@ -863,7 +863,7 @@ class Analysis_mc : public TObject {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  
 //******************* HISTO **********************
-  const int nCat=7;
+  const static int nCat=7;
   const int nChannel=8;
   const int nDist = 45;  //Number of distributions to plo
 
