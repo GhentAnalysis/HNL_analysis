@@ -874,6 +874,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // 5 = eem SS
       int SR_channel=0;
       SR_channel=channel(flavors_3l, charge_3l);
+      if (SR_channel == -1 ) continue;
       bool less2=false;
       bool more2_10=false;
       bool more10=false;  
@@ -889,8 +890,11 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       for (int i =0; i< 3; i++){
-	std::cout<<flavors_3l[i] <<"   "<< charge_3l[i]<<std::endl;
+	std::cout<<"---> "<< flavors_3l[i] <<"   "<< charge_3l[i]<<std::endl;
       }
+      std::cout<<"displaceemt: "<<less2<<"   "<< more2_10<< "  "<< more10<<std::endl;
+      std::cout<<"mass: "<<less5<<"     "<< more5<<std::endl;
+
       std::cout<<SR_channel<<"   "<< bin_SR_muonCoupling<< "  "<< bin_SR_eleCoupling<<std::endl;
 
       
