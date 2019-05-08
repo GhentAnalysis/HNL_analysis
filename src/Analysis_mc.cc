@@ -651,6 +651,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	}//end loop2
       }//end loop1
       if (displacedC< 2) continue;
+      
+      
+      //trigger NOT trigger matching!!!!!!
+      if (!_passTrigger_1l) continue;
      
       // ------------ changing all the lep info and vertex-----------------------------------------------//
       l1=ind_new_leading;
@@ -675,24 +679,54 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	_isT[ind[l]] = false;
 	_isT_prompt[ind[l]] = false;
       }
+      tightC=0;
       if (lepIsTightDisplaced(l2)) _isT[l2] = true;
       if (lepIsTightDisplaced(l3)) _isT[l3] = true;
-      std::cout<<_isT[l2]<< "  "<< _relIso[l2]<< "  "<< _relIso[index_to_use_for_l2_l3[0]]<<std::endl;
-      std::cout<<_isT[l3]<< "  "<< _relIso[l3]<< "  "<< _relIso[index_to_use_for_l2_l3[1]]<<std::endl;
-
-
-      
-      //trigger NOT trigger matching!!!!!!
-      if (!_passTrigger_1l) continue;
-
+      if (_isT[l2]) tightC++;
+      if (_isT[l3]) tightC++;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      bool single_fake=false;
+      bool Double_fake=false;     
+      if ( _closest_l1JetE[l2] ==  _closest_l1JetE[l3] ) Double_fake = true;
+      if (!Double_fake) single_fake = true;
+      if(Double_fake && _closest_l1JetE[l2] ==0) {
+	single_fake = true;
+	Double_fake = false;
+      }
+       // ------------ closest jet info --------------------------------------//
+      TLorentzVector  l1Jet[1] ;
+      float JEC       ;
+      TLorentzVector  lepAwareJet[1] ;
+      l1Jet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
+      JEC             = _closestJEC[l2];
+      lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
+      double momentum_jet=0.;
+      momentum_jet = lepAwareJet[0].Pt();
+      if (momentum_jet<10) momentum_jet=12; 
+      // -----------------    variables for sFR and dFR    --------------------------------//
+      bool tight_lepton_dFR = false;
+      bool loose_lepton_dFR = false;
+      if (_isT[l2] && _isT[l3]) tight_lepton_dFR = true;
+      if (!tight_lepton_dFR) loose_lepton_dFR = true;
+      bool tightFail_sFR=false;
+      tightFail_sFR = (tightC < 2);
+      bool isDataDrivenBgk= false;
+      if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
+      if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
 
-       
+      bool isMuMu=false;
+      bool isEE=false;
+      bool isMuE=false;
+      if (_lFlavor[l2]==1 && _lFlavor[l3]==1) isMuMu=true;
+      if (_lFlavor[l2]==0 && _lFlavor[l3]==0) isEE=true;
+      if ((_lFlavor[l2]==1 && _lFlavor[l3]==0) || (_lFlavor[l2]==0 && _lFlavor[l3]==1))  isMuE=true; 
+      int index_eta = 0;
+      if(TMath::Abs(lepAwareJet[0].Eta()) < 0.8 ) index_eta = 1;
+      else if(TMath::Abs(lepAwareJet[0].Eta()) < 1.479 )index_eta = 2;
+      else index_eta = 3;
 
-
-
-
+      
        
       
       
