@@ -888,6 +888,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int bin_SR_eleCoupling =0;
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
+      for (int i =0; i< 3; i++){
+	std::cout<<flavors_3l[i] <<"   "<< charge_3l[i]<<std::endl;
+      }
       std::cout<<SR_channel<<"   "<< bin_SR_muonCoupling<< "  "<< bin_SR_eleCoupling<<std::endl;
 
       
