@@ -141,6 +141,8 @@ void Analysis_mc::initSample(unsigned jaar,const Sample& samp){
       dataLumi = lumi2017;
     }
     else dataLumi = lumi2018;
+
+    // N.B.: getXSec() returns the cross section, or the *re-weighted* cross section in case of V^2 (or ctau) re-weighting
     scale = samp.getXSec()*dataLumi*1000/sumSimulatedEventWeights;       //xSec*lumi divided by total sum of simulated event weights
   }
 }
@@ -180,7 +182,7 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, unsigned jaar)
   fChain->SetBranchAddress("_Flag_EcalDeadCellTriggerPrimitiveFilter", &_Flag_EcalDeadCellTriggerPrimitiveFilter, &b__Flag_EcalDeadCellTriggerPrimitiveFilter);
   fChain->SetBranchAddress("_Flag_BadPFMuonFilter", &_Flag_BadPFMuonFilter, &b__Flag_BadPFMuonFilter);
   fChain->SetBranchAddress("_Flag_BadChargedCandidateFilter", &_Flag_BadChargedCandidateFilter, &b__Flag_BadChargedCandidateFilter);
-  fChain->SetBranchAddress("_updated_ecalBadCalibFilter", &_updated_ecalBadCalibFilter, &b__updated_ecalBadCalibFilter);  
+  //fChain->SetBranchAddress("_updated_ecalBadCalibFilter", &_updated_ecalBadCalibFilter, &b__updated_ecalBadCalibFilter);  
   fChain->SetBranchAddress("_passTrigger_1l", &_passTrigger_1l, &b__passTrigger_1l);   
   fChain->SetBranchAddress("_HLT_IsoMu24", &_HLT_IsoMu24, &b__HLT_IsoMu24);
   if (jaar==0) fChain->SetBranchAddress("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, &b__HLT_IsoTkMu24);
@@ -427,7 +429,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
 
-  TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  //TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  TFile hfile_pu("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu.Get("puw_Run2016Inclusive_central");
   if (jaar == 0 ) {
    
@@ -474,7 +477,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------   samples info -----------------------------------------------//
   
   std::vector <Sample> samples  = readSampleList(list, directory);
-  //std::vector <Sample> samples  = readSampleList(list, directory);  
+  //std::vector <Sample> samples  = readSampleList(list, directory);
+  /*
   if (jaar == 0) {
     const int nSamples = samples.size();
     const int nSamples_eff = 2;
@@ -490,16 +494,33 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     const int nSamples_eff = 2;
     const int nSamples_signal = 2;
   } 
+  */
   // ------------   run over samples -----------------------------------------------//  
   for(int sam = 0; sam < samples.size(); ++sam){
     initSample(jaar,samples[sam]);
+
     //check consistency
-    cout<<"sample initialized: --> "<<endl;
-    cout<<"fileName: "<<samples[sam].getFileName()<<"  process name: "<< samples[sam].getProcessName()<< "   xsec: "<< samples[sam].getXSec()<<endl;  
-    if (samples[sam].isData()) cout<<"is Data"<<endl;
-    if (samples[sam].isMC()) cout<<"is MC"<<endl;
-    if (samples[sam].isNewPhysicsSignal()) cout<<"is signal"<<endl;
-    
+    std::cout << "sample initialized: --> " << std::endl;
+    std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
+    if(samples[sam].isData()) std::cout << " is Data" << std::endl;
+    if(samples[sam].isMC()  ) std::cout << " is MC"   << std::endl;
+
+    // For lifetime re-weighting (hip hip hip hurray)
+    double ctauOld(0.), ctauNew(0.), ctWeight(1.);
+    if(samples[sam].isNewPhysicsSignal()) {
+      std::cout << " is signal" << std::endl;
+      if(samples[sam].getHNLV2New()>0.) {
+	ctauOld = samples[sam].getHNLctau();
+	ctauNew = samples[sam].getHNLctauNew();
+	std::cout << "  ==> HNL lifetime re-weighting: " << std::endl;
+	std::cout << "      (" << samples[sam].getHNLV2()    << ", " << ctauOld
+		  << ") --> (" << samples[sam].getHNLV2New() << ", " << ctauNew
+		  << ")" << std::endl;
+
+	ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
+      }
+    }
+
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
     for (Long64_t it = 0; it < nEntries/100; ++it){
@@ -514,9 +535,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	 progress = 1.;
 	 printProgress(progress);
 	 }*/
+      // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
       double scal = 0;
-      scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
-      bwght=1.;
+      scal = scale * _weight * ctWeight * pu_weight(*&pileUpWeight[0],_nTrueInt);
+      bwght = 1.;
 
       // std::cout<<"after pu"<<std::endl;
 

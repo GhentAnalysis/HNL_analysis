@@ -33,6 +33,13 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     // if no v2 new, it is irrelevant: set it to -1
     v2HnlNew = ( v2HnlNewString == "" ? -1. : std::stod(v2HnlNewString) );
 
+    // Initialize HNL parameters
+    couplHnl   = "";
+    isDiracHnl = false;
+    massHnl    = -1.;
+    xSecNew    = -1.;
+    ctauHnlNew = -1.;
+
     setHNL();
     setData();
     set2017();
@@ -57,6 +64,20 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     //read options
     //This might modify uniqueName. uniqueName has to be set before calling this function!
     setOptions(optionString);
+
+    // Tmp
+    std::cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+    std::cout << " File       : " << fileName         << std::endl;
+    std::cout << " couplHnl   : " << getHNLcoupling() << std::endl;
+    std::cout << " isDiracHnl : " << isHNLdirac()     << std::endl;
+    std::cout << " massHnl    : " << getHNLmass()     << std::endl;
+    std::cout << " v2Hnl      : " << getHNLV2()       << std::endl;
+    std::cout << " v2HnlNew   : " << getHNLV2New()    << std::endl;
+    std::cout << " ctauHnl    : " << getHNLctau()     << std::endl;
+    std::cout << " ctauHnlNew : " << getHNLctauNew()  << std::endl;
+    std::cout << " xSec       : " << getXSec()        << std::endl;
+    std::cout << " xSecOrig   : " << getXSecOrig()    << std::endl;
+    std::cout << " xSecNew    : " << getXSecNew()     << std::endl;
 }
 
 
@@ -85,14 +106,18 @@ void Sample::setHNL(){
 	std::string tmpstr = fileName.substr(pos);
 	pos = tmpstr.find("_");
 	massHnl = std::stod(tmpstr.substr(0, pos));
-	std::string tmpstr = tmpstr.substr(pos+3); // length of "_V-"
+	tmpstr = tmpstr.substr(pos+3); // length of "_V-"
 	pos = tmpstr.find("_");
         v2Hnl = std::stod(tmpstr.substr(0, pos));
 	v2Hnl *= v2Hnl;
-	std::string tmpstr = tmpstr.substr(pos+1); // length of "_"
+	tmpstr = tmpstr.substr(pos+1); // length of "_"
 	pos = tmpstr.find("_");
-	couplHnl = tmpstr.substr(pos);
+	couplHnl = tmpstr.substr(0, pos);
 	isDiracHnl = (tmpstr.find("_Dirac_" ) != std::string::npos);
+	if(v2HnlNew>0.) {
+	  xSecNew = xSec * (v2HnlNew/v2Hnl);
+	  ctauHnlNew = ctauHnl * (v2Hnl/v2HnlNew);
+	}
     }
 }
 
@@ -140,7 +165,7 @@ void Sample::setOptions( const std::string& optionString ){
     bool flag2018 = ( optionString.find("forceIs2018") != std::string::npos );
     unsigned ntrue = ((unsigned)flag2016) + ((unsigned)flag2017) + ((unsigned)flag2018);
     if(ntrue>1) {
-      std::cerr << "Error in sample construction: forceIs2016=" << forceIs2016 << ", forceIs2017=" << forceIs2017 << ", forceIs2018=" << forceIs2018 << ", they cannot be all set to true!" << std::endl;
+      std::cerr << "Error in sample construction: forceIs2016=" << flag2016 << ", forceIs2017=" << flag2017 << ", forceIs2018=" << flag2018 << ", they cannot be all set to true!" << std::endl;
     }
     if(flag2018){
         is2017Sample = false;

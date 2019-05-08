@@ -29,7 +29,25 @@ class Sample{
         //to prevent overlapping file names when re-using a sample in both the 2016 and 2017 data lists 
         std::string getUniqueName() const { return uniqueName; }
 
-        double getXSec() const { return xSec; }
+        double getXSecOrig() const { return xSec; }
+
+        double getXSecNew() const { return xSecNew; }
+
+        double getXSec() const { return (v2HnlNew<0. ? xSec : xSecNew); }
+
+        double getHNLmass() const { return massHnl; }
+
+        double getHNLV2() const { return v2Hnl; }
+
+        double getHNLV2New() const { return v2HnlNew; }
+
+        double getHNLctau() const { return ctauHnl; }
+
+        double getHNLctauNew() const { return ctauHnlNew; }
+
+        std::string getHNLcoupling() const { return couplHnl; }
+
+        bool isHNLdirac() const { return isDiracHnl; }
 
         bool isData() const { return isDataSample; }
 
