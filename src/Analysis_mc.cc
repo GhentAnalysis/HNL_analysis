@@ -516,6 +516,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
        bwght=1.;
 
+       std::cout<<"after pu"<<std::endl;
 
        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
        std::vector<unsigned> ind;      double*           conePt = new double[_nL];
@@ -562,7 +563,11 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        _EReal[i] =_lE[i];
        } 
        //select leptons
+              std::cout<<"after real"<<std::endl;
+	      
        const unsigned lCount = selectLepConeCorr(ind);
+              std::cout<<"after selct lep"<<std::endl;
+
        if (lCount < 3) continue;
       
        //------------------------------------------------------------ jet pt variation and nJet and bjet
