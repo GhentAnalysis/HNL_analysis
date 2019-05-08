@@ -521,7 +521,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // std::cout<<"after pu"<<std::endl;
 
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      unsigned          lCount = 0;	//Count number of FO leptons that are not taus
       std::vector<unsigned> ind;      double*           conePt = new double[_nL];
       double           _ptReal[_nL];
       double           _EReal[_nL];
