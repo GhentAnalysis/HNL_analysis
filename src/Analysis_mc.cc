@@ -505,13 +505,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        std::cout<<"after get tree"<<std::endl;
 
        //print progess
-       if(it%100 == 0 && it != 0){
+       /* if(it%100 == 0 && it != 0){
 	 progress += (double) (100./nEntries);
 	 printProgress(progress);
        } else if(it == nEntries -1){
 	 progress = 1.;
 	 printProgress(progress);
-       }
+	 }*/
        double scal = 0;
        scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
        bwght=1.;
