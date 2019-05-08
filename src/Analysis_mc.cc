@@ -526,13 +526,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       double           _ptReal[_nL];
       double           _EReal[_nL];
       Bool_t            _passedMVA90[_nL];     
-      double            _vertex_X[3];
-      double            _vertex_Y[3];
-      double            _vertex_Z[3];
-      double            _vertex_sX[3];
-      double            _vertex_sY[3];
-      double            _vertex_sZ[3];    
-      double            _vertex_chi2[3];
+      
       unsigned         ind_new_leading=0;
       unsigned         ind_new_p=0;
       unsigned         ind_new_pp=0;
