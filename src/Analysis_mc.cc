@@ -521,6 +521,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // std::cout<<"after pu"<<std::endl;
 
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      unsigned          lCount = 0;	//Count number of FO leptons that are not taus
       std::vector<unsigned> ind;      double*           conePt = new double[_nL];
       double           _ptReal[_nL];
       double           _EReal[_nL];
@@ -606,10 +607,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // ------------   event selection   -----------------------------------------------//
       //assign the l1 index
       ind_new_leading = l1Index(ind);
-      std::cout<<"-->   lindex  "<< ind_new_leading<< std::endl;
 
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      std::cout<<"==>   lindex  "<< ind_new_leading<< std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -617,7 +616,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       std::vector<int> charge_displaced;
       std::vector<unsigned> temp_index;
       
-      for(unsigned l = 0; l < lCount; ++l){
+      /*for(unsigned l = 0; l < lCount; ++l){
 	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
 	  TLorentzVector temp_displaced;
 	  temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
@@ -627,14 +626,39 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  ++displacedC;
 	}
       }
-      std::cout<<"-->   displacedC"<< displacedC<< std::endl;
-      if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet)
-      std::cout<<"==>   displacedC"<< displacedC<< std::endl;
-
-      cout <<"pippo"<<endl;
+      if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet)  */      
       int index_to_use_for_l2_l3[2]={0,0};
-      //double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
-      
+      //find the right OS pair with min invariant mass
+      int min_test= 9999;
+      int min_mass=999; 
+      for(unsigned l = 0; l < lCount; ++l){
+	for(unsigned j = l+1; j < lCount; ++j){
+	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
+	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
+	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
+	  ++displacedC;
+	  TLorentzVector temp_displaced1;
+	  TLorentzVector temp_displaced2;
+	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
+	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
+	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
+	    min_mass= (temp_displaced1+temp_displaced2).M();
+	    if (_lPt[ind[l]]> _lPt[ind[j]]){
+	      index_to_use_for_l2_l3[0] = ind[l];
+	      index_to_use_for_l2_l3[1] = ind[j];
+	    }
+	    if (_lPt[ind[l]] < _lPt[ind[j]]){
+	      index_to_use_for_l2_l3[0] = ind[j];
+	      index_to_use_for_l2_l3[1] = ind[l];
+	    }	    
+	  }
+	}//end loop2
+      }//end loop1
+      std::cout<<displacedC<<" ----->  "<< ind_new_leading<< "  "<< index_to_use_for_l2_l3[0]<<"   "<< index_to_use_for_l2_l3[1]<<std::endl;
+
+
+      if (!_passTrigger_1l) continue;
+
       
     }//end loop over the entries
     
