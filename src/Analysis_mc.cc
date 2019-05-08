@@ -521,17 +521,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // std::cout<<"after pu"<<std::endl;
 
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      std::vector<unsigned> ind;      double*           conePt = new double[_nL];
+      std::vector<unsigned> ind;
+      double*           conePt = new double[_nL];
       double           _ptReal[_nL];
       double           _EReal[_nL];
       Bool_t            _passedMVA90[_nL];     
-      double            _vertex_X[3];
-      double            _vertex_Y[3];
-      double            _vertex_Z[3];
-      double            _vertex_sX[3];
-      double            _vertex_sY[3];
-      double            _vertex_sZ[3];    
-      double            _vertex_chi2[3];
+      
       unsigned         ind_new_leading=0;
       unsigned         ind_new_p=0;
       unsigned         ind_new_pp=0;
@@ -540,7 +535,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       unsigned*         _passTimingVeto= new unsigned[_nL];
       goodjet=0;
       bjet=0;
-      lCount= 0;
       promptC = 0;
       iV_ls=0;
       iV_lt=0;
@@ -558,20 +552,34 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	flavors_3l[i]=0;
 	charge_3l[i]=0;	
       }
+      unsigned        l1=0;
+      unsigned        l2=0;
+      unsigned        l3=0;
+      TLorentzVector  v4l1;
+      TLorentzVector  v4l2;
+      TLorentzVector  v4l3;
+
+      double            _vertex_X=-1;
+      double            _vertex_Y=-1;
+      double            _vertex_Z=-1;
+      double            _vertex_R2D=-1;
+      double            _vertex_sR2D=-1;
+      double            _vertex_R=-1;
+      double            _vertex_sR=-1;
+      double            _vertex_chi2=-1;
+      double            _vertex_normchi2=-1;
+      double _vertex_ndf =-1;
+
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //------------------------------------------------------------ lepton selection for FO
       for(unsigned i = 0; i < _nL; ++i){
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
       } 
-      //select leptons
-      //      std::cout<<"after real"<<std::endl;
-	      
+      //select leptons	      
       const unsigned lCount = selectLepConeCorr(ind);
-      //     std::cout<<"after selct lep"<<std::endl;
 
       if (lCount < 3) continue;
-
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
 	 _jetPt[j]=_jetSmearedPt[j];
@@ -582,21 +590,21 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	 else if(systcat==9) {
 	 if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
 	 else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
-	 }
-
-	 if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
-	 double bjetSf = 1.;
-	 // b-jet systematics
-	 if(systcat==10) {
-	 if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
-	 else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
-	 }
-	 // b-jet central SF
-	 else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	 // Scale the b-veto event weight
-	 bwght *= bjetSf;
-	 }	
 	 }*/
+      for (unsigned j =0; j < _nJets ; j++){
+	if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
+	  double bjetSf = 1.;
+	  // b-jet systematics
+	  if(systcat==10) {
+	    if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
+	    else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
+	  }
+	  // b-jet central SF
+	  else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  // Scale the b-veto event weight
+	  bwght *= bjetSf;
+	}	
+      }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsGood(j)) ++goodjet;
@@ -606,10 +614,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // ------------   event selection   -----------------------------------------------//
       //assign the l1 index
       ind_new_leading = l1Index(ind);
-      std::cout<<"-->   lindex  "<< ind_new_leading<< std::endl;
-
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      std::cout<<"==>   lindex  "<< ind_new_leading<< std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -617,29 +622,83 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       std::vector<int> charge_displaced;
       std::vector<unsigned> temp_index;
       
-      for(unsigned l = 0; l < lCount; ++l){
-	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
-	  TLorentzVector temp_displaced;
-	  temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
-	  lepV_displaced.push_back(temp_displaced);
-	  charge_displaced.push_back(_lCharge[ind[l]]);
-	  temp_index.push_back(l);
-	  ++displacedC;
-	}
-      }
-      std::cout<<"-->   displacedC"<< displacedC<< std::endl;
-      if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet)
-      std::cout<<"==>   displacedC"<< displacedC<< std::endl;
-
-      cout <<"pippo"<<endl;
+    
       int index_to_use_for_l2_l3[2]={0,0};
-      //double mass_l2_l3 = kinematics::minMass_OS(*&lepV_displaced, *&charge_displaced, temp_index, index_to_use_for_l2_l3 );
+      //find the right OS pair with min invariant mass
+      int min_test= 9999;
+      int min_mass=999; 
+      for(unsigned l = 0; l < lCount; ++l){
+	for(unsigned j = l+1; j < lCount; ++j){
+	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
+	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
+	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
+	  ++displacedC;
+	  TLorentzVector temp_displaced1;
+	  TLorentzVector temp_displaced2;
+	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
+	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
+	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
+	    min_mass= (temp_displaced1+temp_displaced2).M();
+	    if (_lPt[ind[l]]> _lPt[ind[j]]){
+	      index_to_use_for_l2_l3[0] = ind[l];
+	      index_to_use_for_l2_l3[1] = ind[j];
+	    }
+	    if (_lPt[ind[l]] < _lPt[ind[j]]){
+	      index_to_use_for_l2_l3[0] = ind[j];
+	      index_to_use_for_l2_l3[1] = ind[l];
+	    }	    
+	  }
+	}//end loop2
+      }//end loop1
+      if (displacedC< 2) continue;
+     
+      // ------------ changing all the lep info and vertex-----------------------------------------------//
+      l1=ind_new_leading;
+      l2=index_to_use_for_l2_l3[0];
+      l3=index_to_use_for_l2_l3[1];
+      v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
+      v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
+      v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
+      //vertex l2l3 info
+      int index_l2l3= l2l3_vertex_variable (l2,l3);      
+      _vertex_X=_vertices[index_l2l3][1];
+      _vertex_Y=_vertices[index_l2l3][2];
+      _vertex_Z=_vertices[index_l2l3][3];
+      _vertex_chi2=_vertices[index_l2l3][11];
+      _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
+      _vertex_ndf =_vertices[index_l2l3][10];   
+      // ------------ ==================== -----------------------------------------------//
+      // ------------   tight selection   -----------------------------------------------//
+      unsigned* _isT= new unsigned[_nL];
+      unsigned* _isT_prompt= new unsigned[_nL];  // only for CR--> so higher pT threshold and the same for mu and e
+      for(unsigned l = 0; l < lCount; ++l){
+	_isT[ind[l]] = false;
+	_isT_prompt[ind[l]] = false;
+      }
+      if (lepIsTightDisplaced(l2)) _isT[l2] = true;
+      if (lepIsTightDisplaced(l3)) _isT[l3] = true;
+      std::cout<<_isT[l2]<< "  "<< _relIso[l2]<< "  "<< _relIso[index_to_use_for_l2_l3[0]]<<std::endl;
+      std::cout<<_isT[l3]<< "  "<< _relIso[l3]<< "  "<< _relIso[index_to_use_for_l2_l3[1]]<<std::endl;
+
+
+      
+      //trigger NOT trigger matching!!!!!!
+      if (!_passTrigger_1l) continue;
+
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+       
+
+
+
+
+       
       
       
     }//end loop over the entries
     
   }//loop over samples
-  
 }//END ANALIUSI
 
 

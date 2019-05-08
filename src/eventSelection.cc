@@ -58,10 +58,10 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
   int index_leading = -1;
   int counter_leading=0;
   for(unsigned l = 0; l < ind.size(); ++l){
-    std::cout<<l<<") "<<counter_leading<<  std::endl;
+    //std::cout<<l<<") "<<counter_leading<<  std::endl;
     //&& lepPromptTriggerMatching(ind[l])
     if (counter_leading == 0){
-      std::cout<<lepIsTightPrompt(ind[l])<<"  "<<lepPromptTriggerMatching(ind[l])<<std::endl;
+      //  std::cout<<lepIsTightPrompt(ind[l])<<"  "<<lepPromptTriggerMatching(ind[l])<<std::endl;
       if (lepIsTightPrompt(ind[l]) ) {   
 	++counter_leading;
 	index_leading = ind[l];
@@ -69,7 +69,7 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
       }//only good tight prompt
     }//only 1
   }//loop light
-  std::cout<<"eecoolo: "<<index_leading<<std::endl;
+  //  std::cout<<"eecoolo: "<<index_leading<<std::endl;
   return index_leading;
 }
 
@@ -101,7 +101,19 @@ bool Analysis_mc::vertex_found(const unsigned leptonIndex1, const unsigned lepto
   int Index2 = leptonIndex2+1;
   return (vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) );
 }
+//______________________________________________function di check if 2 indeces make a vertex
+int Analysis_mc::l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2) {
+  int Index1 = leptonIndex1+1;
+  int Index2 = leptonIndex2+1;
 
+  int indice=-1;
+  for(unsigned v = 0; v < _nVFit; ++v){
+    if (  (_vertices[v][0]   == (Index1*100 + Index2) ) || (_vertices[v][0] == (Index1 + Index2*100) )) {
+      indice = v;
+        }
+  }//loop vertecies
+  return indice;
+}
 
 
 

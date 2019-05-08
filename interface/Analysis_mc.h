@@ -745,8 +745,9 @@ class Analysis_mc : public TObject {
   int l1Index(const std::vector<unsigned>& );
   bool lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const;
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
+  int l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2);
 
-  
+
 
   
  private:
@@ -814,7 +815,7 @@ class Analysis_mc : public TObject {
   const double MVA_cuts_pt25[3] = {0.52, 0.11, -0.01};
 
 
-  unsigned          lCount = 0;	//Count number of FO leptons that are not taus
+  
   int               goodjet=0;
   int               bjet=0;
   unsigned          promptC = 0;
@@ -835,8 +836,9 @@ class Analysis_mc : public TObject {
   TLorentzVector    lepton_transv[3];
   TLorentzVector    METvec;
   
+
+
   
- 
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  
