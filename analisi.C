@@ -44,10 +44,10 @@ int main(){
 
 //==========================================================================================
     Analysis_mc all(year, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/");
-    //all.analisi(0, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
+    all.analisi(0, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
 
     // Daniele's test
-    all.analisi(0, "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/2016_signal.txt", "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/", "prova.root", 0, 0);
+    // all.analisi(0, "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/2016_signal.txt", "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/", "prova.root", 0, 0);
 
     /* 
     //all.analisi(selezione, 1, "prova_qcd.root", 1);
