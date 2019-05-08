@@ -864,8 +864,8 @@ class Analysis_mc : public TObject {
  
 //******************* HISTO **********************
   const static int nCat=7;
-  const int nChannel=8;
-  const int nDist = 45;  //Number of distributions to plo
+  const static int nChannel=8;
+  const static int nDist = 45;  //Number of distributions to plo
 
 
   const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final"};
