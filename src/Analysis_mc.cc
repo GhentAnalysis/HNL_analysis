@@ -657,46 +657,21 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }//end loop1
       if (displacedC< 2) continue;
      
-      // ------------ changing all the lep info -----------------------------------------------//
+      // ------------ changing all the lep info and vertex-----------------------------------------------//
       l1=ind_new_leading;
       l2=index_to_use_for_l2_l3[0];
       l3=index_to_use_for_l2_l3[1];
       v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
       v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
       v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
-      int index_l2l3= l2l3_vertex_variable (l2,l3);
-      std::cout<<"----------------------------------------------> "<<std::endl;
-
-      std::cout<<"----> "<<index_l2l3<<std::endl;
-
-       for(unsigned v = 0; v < _nVFit; ++v){
-	 if ((_vertices[v][0] == ((l2+1) * 100 +  (l3+1))) || (_vertices[v][0] == ((l2+1)  +  (l3+1)*100))) {
-	  std::cout<<"====> "<<_vertices[v][0]<<std::endl;
-	  std::cout<<"1> "<<_vertices[v][1]<<std::endl;
-	  std::cout<<"2> "<<_vertices[v][2]<<std::endl;
-	  std::cout<<"3> "<<_vertices[v][3]<<std::endl;
-	}
-       }
-
-
-       for(unsigned v = 0; v < _nVFit_os; ++v){
-	 if ((_vertices_os[v][0] == ((l2+1) * 100 +  (l3+1))) || (_vertices_os[v][0] == ((l2+1)  +  (l3+1)*100))) {
-	  std::cout<<"____> "<<_vertices_os[v][0]<<std::endl;
-	  std::cout<<"1> "<<_vertices_os[v][1]<<std::endl;
-	  std::cout<<"2> "<<_vertices_os[v][2]<<std::endl;
-	  std::cout<<"3> "<<_vertices_os[v][3]<<std::endl;
-	}
-       }
-
-       
+      //vertex l2l3 info
+      int index_l2l3= l2l3_vertex_variable (l2,l3);      
       _vertex_X=_vertices[index_l2l3][1];
       _vertex_Y=_vertices[index_l2l3][2];
       _vertex_Z=_vertices[index_l2l3][3];
       _vertex_chi2=_vertices[index_l2l3][11];
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
-      _vertex_ndf =_vertices[index_l2l3][10];
-      
-      std::cout<<"vetrex: "<<_vertex_X<<" "<<_vertex_Y<<" "<<_vertex_Z<<" "<<_vertex_ndf<<"    ------> "<<_vertices_os[index_l2l3][1]<< std::endl;
+      _vertex_ndf =_vertices[index_l2l3][10];   
       // ------------ ==================== -----------------------------------------------//
      
 
