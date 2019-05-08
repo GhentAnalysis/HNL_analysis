@@ -869,7 +869,7 @@ class Analysis_mc : public TObject {
 
 
   const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final"};
-  const TString channelNames[nCat]= {"mmm", "mmeOS", "mmeSS","eee", "eemOS", "eemSS","mu","e"};
+  const TString channelNames[nChannel]= {"mmm", "mmeOS", "mmeSS","eee", "eemOS", "eemSS","mu","e"};
 
   
   const TString Histnames_ossf[nDist] = {"SR","cutflow",
