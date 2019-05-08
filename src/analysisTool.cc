@@ -236,11 +236,6 @@ double Analysis_mc::sFR_factor_mu (TGraphAsymmErrors *fakeRate[3],
   return factore;
 }
 
-
-
-
-
-
 //___________________________________________________________________
 
 void Analysis_mc::from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, int number_point){

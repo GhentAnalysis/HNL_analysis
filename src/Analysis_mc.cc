@@ -429,6 +429,40 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
   TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu.Get("puw_Run2016Inclusive_central");
+
+
+  TGraphAsymmErrors *fakeRate_mu[3];
+  TGraphAsymmErrors *fakeRate_e[3];
+  TGraphAsymmErrors *fakeRate_mumu[3];
+  TGraphAsymmErrors *fakeRate_ee[3];
+  TGraphAsymmErrors *fakeRate_mue[3];
+
+
+  TFile hfile1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mu.root");
+  fakeRate_mu[0] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta1");
+  fakeRate_mu[1] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta2");
+  fakeRate_mu[2] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta3");
+  TFile hfile2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_e.root");
+  fakeRate_e[0] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta1");
+  fakeRate_e[1] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta2");
+  fakeRate_e[2] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta3");
+  TFile hfile_dfr1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mumu.root");
+  fakeRate_mumu[0]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta1");
+  fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta2");
+  fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta3");
+  TFile hfile_dfr2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_ee.root");
+  fakeRate_ee[0]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta1");
+  fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta2");
+  fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta3");
+  TFile hfile_dfr3("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_emu.root");
+  fakeRate_mue[0]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta1");
+  fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta2");
+  fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta3");
+
+
+
+
+  
   if (jaar == 0 ) {
    
   }
@@ -734,16 +768,35 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
       if (!samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
+      std::cout<<"-------------------"<<std::endl;
+      std::cout<<"double: "<< Double_fake<<"  "<<sideBandRegion<<std::endl;
+      std::cout<<"single: "<< single_fake<<"  "<<sideBandRegion<<std::endl;
+      std::cout<<"---> "<<scal<<std::endl;
       if (sideBandRegion){
 	if (samples[sam].isData()   == 0 )scal *= -1;
 	if (!samples[sam].isData()  == 0 )scal  = 1 * scal;
+	if (single_fake){
+	  if (!_isT[l2]) {
+	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+						_lEta[l2], _lFlavor[l2], _lPt[l2], index_eta,flav_dRF, momentum_jet);
+	    scal *= -fr/(1-fr);
+	  }
+	  if (!_isT[l3]) {
+	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+						_lEta[l3], _lFlavor[l3], _lPt[l3], index_eta,flav_dRF, momentum_jet);
+	    scal *= -fr/(1-fr);
+	  }	  
+	}//sFR
+	if (loose_lepton_dFR &&  Double_fake) {
+	  double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+						_lEta[l2], _lFlavor[l2], _lPt[l2], index_eta,flav_dRF, momentum_jet);
+	  scal *= -fr/(1-fr);
+	}
+      }//FR
+      std::cout<<"ciccia  > "<<scal<<std::endl;
 
-
-
-      }
       
-      
-       
+
       
       
     }//end loop over the entries
