@@ -502,14 +502,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        // ------------   run over entries -----------------------------------------------//  
        for (Long64_t it = 0; it < nEntries; ++it){
        GetEntry(samples[sam], it);
-      
+       std::cout<<"after get tree"<<std::endl;
+
        //print progess
        if(it%100 == 0 && it != 0){
-       progress += (double) (100./nEntries);
-       printProgress(progress);
+	 progress += (double) (100./nEntries);
+	 printProgress(progress);
        } else if(it == nEntries -1){
-       progress = 1.;
-       printProgress(progress);
+	 progress = 1.;
+	 printProgress(progress);
        }
        double scal = 0;
        scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
