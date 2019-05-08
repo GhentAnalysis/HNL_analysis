@@ -599,12 +599,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       METvec.SetPtEtaPhiE(0.,0.,0.,0.);
       sum_3l_rec.SetPtEtaPhiE(0.,0.,0.,0.);
       sum_2l_rec_pair.SetPtEtaPhiE(0.,0.,0.,0.);
+      other[0].SetPtEtaPhiE(0.,0.,0.,0.);
       kind[0]=-1;   
       skip_event[0]= -1;
       for (int i =0; i < 3; i++){
 	lepton_reco[i].SetPtEtaPhiE(0.,0.,0.,0.);
 	lepton_transv[i].SetPtEtaPhiE(0.,0.,0.,0.);
-	pair[i].SetPtEtaPhiE(0.,0.,0.,0.);
+	if (i !=2)pair[i].SetPtEtaPhiE(0.,0.,0.,0.);
 	flavors_3l[i]=0;
 	charge_3l[i]=0;	
       }
@@ -614,6 +615,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       TLorentzVector  v4l1;
       TLorentzVector  v4l2;
       TLorentzVector  v4l3;
+      TLorentzVector  v4l2_naked;
+      TLorentzVector  v4l3_naked;
+      TLorentzVector  v4l2_propagated;
+      TLorentzVector  v4l3_propagated;
 
       double            _vertex_X=-1;
       double            _vertex_Y=-1;
@@ -719,6 +724,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
       v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
       v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
+      v4l2_naked.SetPtEtaPhiE(_ptReal[l2],_lEta[l2], _lPhi[l2], _EReal[l2]);
+      v4l3_naked.SetPtEtaPhiE(_ptReal[l3],_lEta[l3], _lPhi[l3], _EReal[l3]);
+      flavors_3l[0]=_lFlavor[l1];
+      flavors_3l[1]=_lFlavor[l2];
+      flavors_3l[2]=_lFlavor[l3];
+      charge_3l[0]=_lCharge[l1];
+      charge_3l[1]=_lCharge[l2];
+      charge_3l[2]=_lCharge[l3];
+
       //vertex l2l3 info
       int index_l2l3= l2l3_vertex_variable (l2,l3);      
       _vertex_X=_vertices[index_l2l3][1];
@@ -790,10 +804,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
       if (!samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
-      std::cout<<"-------------------"<<std::endl;
-      std::cout<<"double: "<< Double_fake<<"  "<<sideBandRegion<<std::endl;
-      std::cout<<"single: "<< single_fake<<"  "<<sideBandRegion<<std::endl;
-      std::cout<<"---> "<<scal<<std::endl;
       if (sideBandRegion){
 	if (samples[sam].isData()   == 0 )scal *= -1;
 	if (!samples[sam].isData()  == 0 )scal  = 1 * scal;
@@ -818,27 +828,70 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      std::cout<< samples[sam].process<<std::endl;
-      /*
-       bool dy_to_be_skiped= true;
-      if (effsam == 11){
-	if (_lMatchPdgId[ind_new_leading] == 22 && _lIsPrompt[ind_new_leading] )  dy_to_be_skiped = false;
-	if (_lMatchPdgId[index_l[1]] == 22 && _lIsPrompt[index_l[1]] )  dy_to_be_skiped = false;
-	if (_lMatchPdgId[index_l[0]] == 22 && _lIsPrompt[index_l[0]] )  dy_to_be_skiped = false;
-      }
-      //if (!dy_to_be_skiped) continue;
-      if (effsam == 11) continue;
-      bool zgamma_to_be_skiped= false;
-      if (fileList[sam] == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root"){
-	if (_lMatchPdgId[ind_new_leading] == 22 && _lIsPrompt[ind_new_leading] )  zgamma_to_be_skiped = true;
-	if (_lMatchPdgId[index_l[1]] == 22 && _lIsPrompt[index_l[1]] )  zgamma_to_be_skiped = true;
-	if (_lMatchPdgId[index_l[0]] == 22 && _lIsPrompt[index_l[0]] )  zgamma_to_be_skiped = true;
-      }
-      //if (fileList[sam] == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !zgamma_to_be_skiped) continue;
-      */
+      bool internal_conv= true;
+      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
+      bool external_conv= false;
+      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;    
+      if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
+      if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !external_conv) continue;
+      // -----------------   function useful    --------------------------------//
+      zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
+      // -----------------   variables useful    --------------------------------//
+      //vertex
+      TVector3 primary_vertex[1];
+      TVector3 secondary_vertex[1];
+      primary_vertex[0].SetXYZ(_pvX,_pvY,_pvZ);
+      secondary_vertex[0].SetXYZ(_vertex_X,_vertex_Y,_vertex_Z);
+      double D3_delta_pv_sv=  (primary_vertex[0] - secondary_vertex[0]).Mag();
+      double D2_delta_pv_sv= sqrt(  (primary_vertex[0].X()-secondary_vertex[0].X())*(primary_vertex[0].X()-secondary_vertex[0].X())   +    (primary_vertex[0].Y()-secondary_vertex[0].Y())*(primary_vertex[0].Y()-secondary_vertex[0].Y()) );
+      double prob_vertex= TMath::Prob(_vertex_chi2,_vertex_ndf);
+      TVector3 l2plusl3=  (v4l2 + v4l3).Vect().Unit();
+      TVector3 svMpv =secondary_vertex[0]- primary_vertex[0];
+      double vtxR     = svMpv.Mag();
+      double vtxRvtxPcosAlpha = svMpv.Dot(l2plusl3)/vtxR;
+      // -----------------   masses
+      double M_3L= (v4l2 + v4l3 + v4l1).M();
+      double M_ZPair = (pair[0]+pair[1]).M();
+      double M_l2l3 = (v4l2 + v4l3).M();
+      double M_3L_combined = (v4l2 + v4l3 + v4l1).M();
+      if (Double_fake) M_3L_combined = (v4l2_naked + v4l3_naked + v4l1).M();
+      double M_l2l3_combined = (v4l2 + v4l3).M();
+      if (Double_fake) M_l2l3_combined = (v4l2_naked + v4l3_naked).M();
+      METvec.SetPtEtaPhiE(_met, 0, _metPhi,_met);    
+      TLorentzVector to_use_mT;
+      to_use_mT.SetPtEtaPhiE(other[0].Pt(),0, other[0].Phi(), other[0].Pt());
+      double mT=(to_use_mT+METvec).M();
+       // -----------------   function useful  2 --> SR also    --------------------------------//
+      // 0 = mmm
+      // 1 = mme OS
+      // 2 = mme SS
+      // 3 = eee
+      // 4 = eem OS
+      // 5 = eem SS
+      int SR_channel=0;
+      SR_channel=channel(flavors_3l, charge_3l);
+      bool less2=false;
+      bool more2_10=false;
+      bool more10=false;  
+      bool less5=false;
+      bool more5=false;
+      if (D2_delta_pv_sv < 2)                         less2= true;
+      if (D2_delta_pv_sv >= 2 && D2_delta_pv_sv < 10) more2_10= true;
+      if (D2_delta_pv_sv >= 10 )                      more10= true;
+      if (M_l2l3_combined < 5 )   less5= true;
+      if (M_l2l3_combined > 5 )   more5= true;
+      int bin_SR_muonCoupling =0;
+      int bin_SR_eleCoupling =0;
+      bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
+      bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
+      std::cout<<SR_channel<<"   "<< bin_SR_muonCoupling<< "  "<< bin_SR_eleCoupling<<std::endl;
+
       
-    }//end loop over the entries
-    
+    }//end loop over the entries    
   }//loop over samples
 }//END ANALIUSI
 

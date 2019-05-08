@@ -755,7 +755,10 @@ class Analysis_mc : public TObject {
   double sFR_factor_e (TGraphAsymmErrors *fakeRate[3], double eta,     double lptcone );
   double sFR_factor_mu (TGraphAsymmErrors *fakeRate[3], double eta,     double lptcone );
   void from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, int number_point);
-
+  void zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]);
+  int channel(int  flavors_3l[3], int  charge_3l[3]);
+  int SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 );
+  int SR_bin_muon(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 );
 
 
 
@@ -840,7 +843,9 @@ class Analysis_mc : public TObject {
   int               flavors_3l[3];
   int               charge_3l[3];
   TLorentzVector    sum_3l_rec;	//M_3l
-  TLorentzVector    pair [3];
+  TLorentzVector    pair [2];
+  TLorentzVector    other [2];
+
   int               kind[1] ={-1}; // 0 no-ossf
   TLorentzVector    sum_2l_rec_pair; 	//M_2l best Z candidate
   int               event_clas[1]={-1}; // 1* = eee   2* = emm   3* = eem  4* = mmm

@@ -1,7 +1,189 @@
 #include "../interface/Analysis_mc.h"
 
 
+int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 ){
+  int bin = -1;
+  if (channel == 0 || channel == 1 || channel == 2  ){
+    if (channel == 0){
+      if (less2 && less5)    bin =1;
+      if (less2 && more5)    bin =2;
+      if (more2_10 && less5) bin =3;
+      if (more2_10 && more5) bin =4;
+      if (more10 && less5)   bin =5;
+      if (more10 && more5)   bin =6;
+    }
+    if (channel == 1){
+      if (less2 && less5)    bin =7;
+      if (less2 && more5)    bin =8;
+      if (more2_10 && less5) bin =9;
+      if (more2_10 && more5) bin =10;
+      if (more10 && less5)   bin =11;
+      if (more10 && more5)   bin =12;
+    }
+    if (channel == 2){
+      if (less2 && less5)    bin =13;
+      if (less2 && more5)    bin =14;
+      if (more2_10 && less5) bin =15;
+      if (more2_10 && more5) bin =16;
+      if (more10 && less5)   bin =17;
+      if (more10 && more5)   bin =18;
+    }
+  }
+  return bin;
+}
+int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 ){
+  int bin = -1;
+  if (channel == 3 || channel == 4 || channel == 5  ){
+    if (channel == 0){
+      if (less2 && less5)    bin =1;
+      if (less2 && more5)    bin =2;
+      if (more2_10 && less5) bin =3;
+      if (more2_10 && more5) bin =4;
+      if (more10 && less5)   bin =5;
+      if (more10 && more5)   bin =6;
+    }
+    if (channel == 1){
+      if (less2 && less5)    bin =7;
+      if (less2 && more5)    bin =8;
+      if (more2_10 && less5) bin =9;
+      if (more2_10 && more5) bin =10;
+      if (more10 && less5)   bin =11;
+      if (more10 && more5)   bin =12;
+    }
+    if (channel == 2){
+      if (less2 && less5)    bin =13;
+      if (less2 && more5)    bin =14;
+      if (more2_10 && less5) bin =15;
+      if (more2_10 && more5) bin =16;
+      if (more10 && less5)   bin =17;
+      if (more10 && more5)   bin =18;
+    }
+  }
+  return bin;
+}
+//_____________________________________________
+int Analysis_mc::channel(int  flavors_3l[3], int  charge_3l[3]){
+  int canale=-1;
+  if (flavors_3l[0] == flavors_3l[1] && flavors_3l[0] == flavors_3l[2] ) {
+    if (flavors_3l[0] == 0) canale = 3;
+    if (flavors_3l[0] == 1) canale = 0;
+  }
+  if (flavors_3l[0] == 1){
+    if (flavors_3l[1]==1 && flavors_3l[2]==0){
+      if (charge_3l[0] != charge_3l[1]) canale = 1;	    
+      if (charge_3l[0] == charge_3l[1]) canale = 2;
+    }
+    if (flavors_3l[2]==1 && flavors_3l[1]==0){
+      if (charge_3l[0] != charge_3l[2]) canale = 1;	    
+      if (charge_3l[0] == charge_3l[2]) canale = 2;
+    }   
+  }//mme
 
+  if (flavors_3l[0] == 0){
+    if (flavors_3l[1]==0 && flavors_3l[2]==1){
+      if (charge_3l[0] != charge_3l[1]) canale = 4;	    
+      if (charge_3l[0] == charge_3l[1]) canale = 5;
+    }
+    if (flavors_3l[2]==0 && flavors_3l[1]==1){
+      if (charge_3l[0] != charge_3l[2]) canale = 4;	    
+      if (charge_3l[0] == charge_3l[2]) canale = 5;
+    }   
+  }//eem
+
+  // 0 = mmm
+  // 1 = mme OS
+  // 2 = mme SS
+  // 3 = eee
+  // 4 = eem OS
+  // 5 = eem SS
+  return canale;
+  
+}
+//_____________________________________________
+void Analysis_mc::zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]){
+int ch_lepton1=charge_3l[0];
+  int ch_lepton2=charge_3l[1];
+  int ch_lepton3=charge_3l[2];
+  int fl_lepton1=flavors_3l[0];
+  int fl_lepton2=flavors_3l[1];
+  int fl_lepton3=flavors_3l[2];
+  
+  // OSSF
+  if (     ((ch_lepton1 != ch_lepton2)    && (fl_lepton1 == fl_lepton2))  || ((ch_lepton1 != ch_lepton3)   && (fl_lepton1 == fl_lepton3)) || ((ch_lepton2 != ch_lepton3)  && (fl_lepton3 == fl_lepton2)) ){ // ossf
+    //cout<<"in function where kind is 1: "<<kind[0]<<endl;
+        
+    double i_m[3]={33333,33333,33333};
+    double mass_inv=0;
+    int index_inv=100;
+    double min_mass=999;
+    if ((ch_lepton1 != ch_lepton2)  && (fl_lepton1 == fl_lepton2)) i_m[0]= TMath:: Abs((leep1 + leep2).Mag() - 91.1876);
+    if ((ch_lepton1 != ch_lepton3)  && (fl_lepton1 == fl_lepton3)) i_m[1]= TMath:: Abs((leep1 + leep3).Mag() - 91.1876);
+    if ((ch_lepton2 != ch_lepton3)  && (fl_lepton3 == fl_lepton2)) i_m[2]= TMath:: Abs((leep2 + leep3).Mag() - 91.1876);
+    for (int i =0; i < 3; i++){
+      if (i_m[i] == 33333) continue;
+      mass_inv = i_m[i];
+      if (min_mass > mass_inv ){
+	min_mass = mass_inv;
+	index_inv = i;
+      }
+    }
+    if (index_inv == 0) {
+      pair[0].SetPtEtaPhiE( leep1.Pt(),  leep1.Eta(), leep1.Phi(), leep1.E());
+      pair[1].SetPtEtaPhiE( leep2.Pt(),  leep2.Eta(), leep2.Phi(), leep2.E());
+      other[0].SetPtEtaPhiE( leep3.Pt(),  leep3.Eta(), leep3.Phi(), leep3.E());
+    }
+    if (index_inv == 1) {
+      pair[0].SetPtEtaPhiE( leep1.Pt(),  leep1.Eta(), leep1.Phi(), leep1.E());
+      pair[1].SetPtEtaPhiE( leep3.Pt(),  leep3.Eta(), leep3.Phi(), leep3.E());
+      other[0].SetPtEtaPhiE( leep2.Pt(),  leep2.Eta(), leep2.Phi(), leep2.E());
+            
+    }
+    if (index_inv == 2) {
+      pair[0].SetPtEtaPhiE( leep2.Pt(),  leep2.Eta(), leep2.Phi(), leep2.E());
+      pair[1].SetPtEtaPhiE( leep3.Pt(),  leep3.Eta(), leep3.Phi(), leep3.E());
+      other[0].SetPtEtaPhiE( leep1.Pt(),  leep1.Eta(), leep1.Phi(), leep1.E());
+            
+    }
+  }// end ossf
+  // No_OSSF
+  else if (   ((ch_lepton1 + ch_lepton2) == 0  )  || ((ch_lepton1 + ch_lepton3) == 0   ) || ((ch_lepton3 + ch_lepton2) == 0   )   ){
+    //cout<<"in function where kind is 0: "<<kind[0]<<endl;
+    double i_m[3]={33333,33333,33333};
+    double mass_inv=0;
+    int index_inv=100;
+    double min_mass=999;
+    if ((ch_lepton1 != ch_lepton2) ) i_m[0]= TMath:: Abs((leep1 + leep2).Mag() - 91.1876);
+    if ((ch_lepton1 != ch_lepton3)  ) i_m[1]= TMath:: Abs((leep1 + leep3).Mag() - 91.1876);
+    if ((ch_lepton2 != ch_lepton3) ) i_m[2]= TMath:: Abs((leep2 + leep3).Mag() - 91.1876);
+    for (int i =0; i < 3; i++){
+      if (i_m[i] == 33333) continue;
+      mass_inv = i_m[i];
+      if (min_mass > mass_inv ){
+	min_mass = mass_inv;
+	index_inv = i;
+      }
+    }
+    if (index_inv == 0) {
+      pair[0].SetPtEtaPhiE( leep1.Pt(),  leep1.Eta(), leep1.Phi(), leep1.E());
+      pair[1].SetPtEtaPhiE( leep2.Pt(),  leep2.Eta(), leep2.Phi(), leep2.E());
+      other[0].SetPtEtaPhiE( leep3.Pt(),  leep3.Eta(), leep3.Phi(), leep3.E());
+    }
+    if (index_inv == 1) {
+      pair[0].SetPtEtaPhiE( leep1.Pt(),  leep1.Eta(), leep1.Phi(), leep1.E());
+      pair[1].SetPtEtaPhiE( leep3.Pt(),  leep3.Eta(), leep3.Phi(), leep3.E());
+      other[0].SetPtEtaPhiE( leep2.Pt(),  leep2.Eta(), leep2.Phi(), leep2.E());
+            
+    }
+    if (index_inv == 2) {
+      pair[0].SetPtEtaPhiE( leep2.Pt(),  leep2.Eta(), leep2.Phi(), leep2.E());
+      pair[1].SetPtEtaPhiE( leep3.Pt(),  leep3.Eta(), leep3.Phi(), leep3.E());
+      other[0].SetPtEtaPhiE( leep1.Pt(),  leep1.Eta(), leep1.Phi(), leep1.E());
+            
+    }
+        
+
+
+}
 //______________________________________________
 double Analysis_mc::FR_weight(TGraphAsymmErrors *fakeRate_mu_sFR[3],
                               TGraphAsymmErrors *fakeRate_e_sFR[3],
