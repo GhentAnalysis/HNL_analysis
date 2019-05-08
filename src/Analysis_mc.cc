@@ -659,10 +659,18 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
       v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
       v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
-      l2l3_vertex_variable (l2,l3);
-      std::cout<<"vetrex: "<<_vertex_X<<" "<<_vertex_Y<<" "<<_vertex_Z<<" "<<_vertex_ndf<<std::endl;
-      // ------------ ==================== -----------------------------------------------//
+      int index_l2l3= l2l3_vertex_variable (l2,l3);
 
+      _vertex_X=_vertices[index_l2l3][1];
+      _vertex_Y=_vertices[index_l2l3][2];
+      _vertex_Z=_vertices[index_l2l3][3];
+      _vertex_chi2=_vertices[index_l2l3][11];
+      _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
+      _vertex_ndf =_vertices[index_l2l3][10];
+      
+      std::cout<<"vetrex: "<<_vertex_X<<" "<<_vertex_Y<<" "<<_vertex_Z<<" "<<_vertex_ndf<<"    ------> "<<_vertices_os[index_l2l3][1]<< std::endl;
+      // ------------ ==================== -----------------------------------------------//
+     
 
       if (!_passTrigger_1l) continue;
 

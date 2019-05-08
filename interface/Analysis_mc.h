@@ -745,7 +745,7 @@ class Analysis_mc : public TObject {
   int l1Index(const std::vector<unsigned>& );
   bool lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const;
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
-  void l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2);
+  int l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2);
 
   double            _vertex_X=-1;
   double            _vertex_Y=-1;
