@@ -109,7 +109,7 @@ int Analysis_mc::l2l3_vertex_variable(const unsigned leptonIndex1, const unsigne
   int indice=-1;
   for(unsigned v = 0; v < _nVFit; ++v){
     if (  (_vertices[v][0]   == (Index1*100 + Index2) ) || (_vertices[v][0] == (Index1 + Index2*100) )) {
-      indice = _vertices[v][0];
+      indice = v;
         }
   }//loop vertecies
   return indice;
