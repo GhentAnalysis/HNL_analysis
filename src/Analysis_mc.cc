@@ -615,7 +615,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       std::vector<int> charge_displaced;
       std::vector<unsigned> temp_index;
       
-      for(unsigned l = 0; l < lCount; ++l){
+      /* for(unsigned l = 0; l < lCount; ++l){
 	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
 	  TLorentzVector temp_displaced;
 	  temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
@@ -625,8 +625,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  ++displacedC;
 	}
       }
-      std::cout<<"before: "<<displacedC<<std::endl;
-      if (displacedC < 2) continue; // atleast 2 (OS or SS, not checked yet)
+      */
       
       int index_to_use_for_l2_l3[2]={0,0};
       //find the right OS pair with min invariant mass
@@ -656,6 +655,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	}//end loop2
       }//end loop1
       std::cout<<displacedC<<" ----->  "<< ind_new_leading<< "  "<< index_to_use_for_l2_l3[0]<<"   "<< index_to_use_for_l2_l3[1]<<std::endl;
+      std::cout<<displacedC<<" ----->  "<< _lPt[ind_new_leading]<< "  "<< _lPt[index_to_use_for_l2_l3[0]]<<"   "<< _lPt[index_to_use_for_l2_l3[1]]<<std::endl;
 
 
       if (!_passTrigger_1l) continue;
