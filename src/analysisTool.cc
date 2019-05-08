@@ -44,7 +44,7 @@ int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10,
 int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 ){
   int bin = -1;
   if (channel == 3 || channel == 4 || channel == 5  ){
-    if (channel == 0){
+    if (channel == 3){
       if (less2 && less5)    bin =1;
       if (less2 && more5)    bin =2;
       if (more2_10 && less5) bin =3;
@@ -53,7 +53,7 @@ int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, 
       if (more10 && more5)   bin =6;
       std::cout<<"inside: "<<bin<<std::endl;
     }
-    if (channel == 1){
+    if (channel == 4){
       if (less2 && less5)    bin =7;
       if (less2 && more5)    bin =8;
       if (more2_10 && less5) bin =9;
@@ -63,7 +63,7 @@ int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, 
             std::cout<<"inside: "<<bin<<std::endl;
 
     }
-    if (channel == 2){
+    if (channel == 5){
       if (less2 && less5)    bin =13;
       if (less2 && more5)    bin =14;
       if (more2_10 && less5) bin =15;
