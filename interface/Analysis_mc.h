@@ -754,6 +754,7 @@ class Analysis_mc : public TObject {
   double dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],       int eta,  double lptcone  );
   double sFR_factor_e (TGraphAsymmErrors *fakeRate[3], double eta,     double lptcone );
   double sFR_factor_mu (TGraphAsymmErrors *fakeRate[3], double eta,     double lptcone );
+  void from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, int number_point);
 
 
 
