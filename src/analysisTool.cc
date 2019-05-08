@@ -1,5 +1,7 @@
+
 #include "../interface/Analysis_mc.h"
 
+//_____________________________________________
 
 int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 ){
   int bin = -1;
@@ -31,6 +33,8 @@ int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10,
   }
   return bin;
 }
+//_____________________________________________
+
 int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 ){
   int bin = -1;
   if (channel == 3 || channel == 4 || channel == 5  ){
@@ -101,7 +105,7 @@ int Analysis_mc::channel(int  flavors_3l[3], int  charge_3l[3]){
 }
 //_____________________________________________
 void Analysis_mc::zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]){
-int ch_lepton1=charge_3l[0];
+  int ch_lepton1=charge_3l[0];
   int ch_lepton2=charge_3l[1];
   int ch_lepton3=charge_3l[2];
   int fl_lepton1=flavors_3l[0];
@@ -182,22 +186,22 @@ int ch_lepton1=charge_3l[0];
     }
         
 
-
+  }
 }
 //______________________________________________
 double Analysis_mc::FR_weight(TGraphAsymmErrors *fakeRate_mu_sFR[3],
-                              TGraphAsymmErrors *fakeRate_e_sFR[3],
+			      TGraphAsymmErrors *fakeRate_e_sFR[3],
 			      TGraphAsymmErrors *fakeRate_mumu_dFR[3],
-                              TGraphAsymmErrors *fakeRate_ee_dFR[3],
+			      TGraphAsymmErrors *fakeRate_ee_dFR[3],
 			      TGraphAsymmErrors *fakeRate_emu_dFR[3],
 			      bool   isSFR,
 			      bool   isDFR,
 			      double etaLepton,
-                              double flavorsLepton,
-                              double ptLepton,
+			      double flavorsLepton,
+			      double ptLepton,
 			      double etaJet,
-                              double flavorsJet,
-                              double ptJet
+			      double flavorsJet,
+			      double ptJet
 			      ) {
   double factor=0;
 
@@ -254,9 +258,9 @@ double Analysis_mc::dFR_factor_ee(TGraphAsymmErrors *fakeRate_e[3],
 
 //==================================================================
 double Analysis_mc::dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],                             
-				  int eta,
-				  double lptcone
-				  ){
+				   int eta,
+				   double lptcone
+				   ){
     
   const int nBinMu=5;
   const int nBinMu3=4;
@@ -293,9 +297,9 @@ double Analysis_mc::dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],
 
 //==================================================================
 double Analysis_mc::dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],                             
-				  int eta,
-				  double lptcone
-				  ){
+				    int eta,
+				    double lptcone
+				    ){
     
   const int nBinMu=5;
   const int nBinMu3=4;
@@ -375,9 +379,9 @@ double Analysis_mc::sFR_factor_e (TGraphAsymmErrors *fakeRate[3],
 
 //______________________________________________
 double Analysis_mc::sFR_factor_mu (TGraphAsymmErrors *fakeRate[3],                             
-				  double eta,                          
-				  double lptcone
-				  ){
+				   double eta,                          
+				   double lptcone
+				   ){
   eta = fabs(eta);
   TH1D *fakeRate_histo[3];
   Double_t newBins[7] = {5,10, 15, 25, 35, 50, 70};
