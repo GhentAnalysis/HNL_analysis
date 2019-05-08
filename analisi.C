@@ -44,21 +44,24 @@ int main(){
 
 //==========================================================================================
     Analysis_mc all(year, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/");
-    all.analisi(0, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
+    //all.analisi(0, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
 
-    
-    
+    // Daniele's test
+    all.analisi(0, "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/2016_signal.txt", "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/", "prova.root", 0, 0);
+
+    /* 
     //all.analisi(selezione, 1, "prova_qcd.root", 1);
     //all.analisi(selezione, 1, "prova_pdf.root", 2);
-    
-    /* all.analisi(selezione, 1, "prova_jec_down.root" ,  8, 0);
+
+    all.analisi(selezione, 1, "prova_jec_down.root" ,  8, 0);
     all.analisi(selezione, 1, "prova_jec_up.root"   ,  8, 1);
     all.analisi(selezione, 1, "prova_jer_down.root" ,  9, 0);
     all.analisi(selezione, 1, "prova_jer_up.root"   ,  9, 1);
     all.analisi(selezione, 1, "prova_btag_down.root", 10, 0);
     all.analisi(selezione, 1, "prova_btag_up.root"  , 10, 1);
     all.analisi(selezione, 1, "prova_stat_down.root", 11, 0);
-    all.analisi(selezione, 1, "prova_stat_up.root"  , 11, 1);*/
+    all.analisi(selezione, 1, "prova_stat_up.root"  , 11, 1);
+    */
 
     
     return 0;

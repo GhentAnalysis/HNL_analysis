@@ -1,0 +1,2 @@
+HNL_2_1.23e-4 HeavyNeutrino_trilepton_M-2_V-0.0110905365064_e_massiveAndCKM_LO.root 5.261e-01
+HNL_2_2.50e-4 HeavyNeutrino_trilepton_M-2_V-0.0110905365064_e_massiveAndCKM_LO.root 5.261e-01 156.24 2.50e-4
