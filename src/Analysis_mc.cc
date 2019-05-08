@@ -703,7 +703,16 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
       double momentum_jet=0.;
       momentum_jet = lepAwareJet[0].Pt();
-      if (momentum_jet<10) momentum_jet=12; 
+      if (momentum_jet<10) momentum_jet=12;
+      // ------------ closest jet info --------------------------------------//
+      int flav_dRF = -1;
+      if (_lFlavor[l2]==1 && _lFlavor[l3]==1) flav_dRF=1;
+      if (_lFlavor[l2]==0 && _lFlavor[l3]==0) flav_dRF=0;
+      if ((_lFlavor[l2]==1 && _lFlavor[l3]==0) || (_lFlavor[l2]==0 && _lFlavor[l3]==1))  flav_dRF=2;
+      int index_eta = 0;
+      if(TMath::Abs(lepAwareJet[0].Eta()) < 0.8 ) index_eta = 1;
+      else if(TMath::Abs(lepAwareJet[0].Eta()) < 1.479 )index_eta = 2;
+      else index_eta = 3;
       // -----------------    variables for sFR and dFR    --------------------------------//
       bool tight_lepton_dFR = false;
       bool loose_lepton_dFR = false;
@@ -714,18 +723,25 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       bool isDataDrivenBgk= false;
       if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
       if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
+      //where the FR has to be applied
+      bool sideBandRegion= false;
+      if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
+      if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
+      // ------------------ prompt check for MC ------------------------//
+      promptC=0;
+      if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
+      if (_lIsPrompt[l2] || _lProvenanceCompressed[l2]==0) promptC++;
+      if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
+      if (!samples[sam].isData() && promptC!=3) continue;
+      // -----------------    applying the FRs    --------------------------------//
+      if (sideBandRegion){
+	if (samples[sam].isData()   == 0 )scal *= -1;
+	if (!samples[sam].isData()  == 0 )scal  = 1 * scal;
 
-      bool isMuMu=false;
-      bool isEE=false;
-      bool isMuE=false;
-      if (_lFlavor[l2]==1 && _lFlavor[l3]==1) isMuMu=true;
-      if (_lFlavor[l2]==0 && _lFlavor[l3]==0) isEE=true;
-      if ((_lFlavor[l2]==1 && _lFlavor[l3]==0) || (_lFlavor[l2]==0 && _lFlavor[l3]==1))  isMuE=true; 
-      int index_eta = 0;
-      if(TMath::Abs(lepAwareJet[0].Eta()) < 0.8 ) index_eta = 1;
-      else if(TMath::Abs(lepAwareJet[0].Eta()) < 1.479 )index_eta = 2;
-      else index_eta = 3;
 
+
+      }
+      
       
        
       
