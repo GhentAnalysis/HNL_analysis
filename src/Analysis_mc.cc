@@ -665,7 +665,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
       v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
       int index_l2l3= l2l3_vertex_variable (l2,l3);
+      std::cout<<"----> "<<index_l2l3<<std::endl;
 
+       for(unsigned v = 0; v < _nVFit; ++v){
+	 if ((_vertices[v][0] == ((l2+1) * 100 +  (l3+1))) || (_vertices[v][0] == ((l2+1)  +  (l3+1)*100))) {
+	  std::cout<<"====> "<<_vertices[v][0]<<std::endl;
+	}
       _vertex_X=_vertices[index_l2l3][1];
       _vertex_Y=_vertices[index_l2l3][2];
       _vertex_Z=_vertices[index_l2l3][3];
