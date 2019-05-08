@@ -57,7 +57,10 @@ unsigned Analysis_mc::selectLepConeCorr(std::vector<unsigned>& ind){
 int Analysis_mc::l1Index(std::vector<unsigned>& ind){
   int index_leading = -1;
   int counter_leading=0;
+  std::cout<<index_leading<<std::endl;
   for(unsigned l = 0; l < lCount; ++l){
+    std::cout<<l<<") "<<std::endl;
+
     if (counter_leading == 0){
       if (lepIsTightPrompt(ind[l]) && lepPromptTriggerMatching(ind[l])) {   
 	++counter_leading;
