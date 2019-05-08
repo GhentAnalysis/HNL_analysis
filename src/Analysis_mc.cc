@@ -558,6 +558,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	flavors_3l[i]=0;
 	charge_3l[i]=0;	
       }
+      unsigned        l1=0;
+      unsigned        l2=0;
+      unsigned        l3=0;
+      TLorentzVector  v4l1;
+      TLorentzVector  v4l2;
+      TLorentzVector  v4l3;
+
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //------------------------------------------------------------ lepton selection for FO
       for(unsigned i = 0; i < _nL; ++i){
@@ -582,21 +589,21 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	 else if(systcat==9) {
 	 if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
 	 else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
-	 }
-
-	 if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
-	 double bjetSf = 1.;
-	 // b-jet systematics
-	 if(systcat==10) {
-	 if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
-	 else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
-	 }
-	 // b-jet central SF
-	 else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	 // Scale the b-veto event weight
-	 bwght *= bjetSf;
-	 }	
 	 }*/
+      for (unsigned j =0; j < _nJets ; j++){
+	if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
+	  double bjetSf = 1.;
+	  // b-jet systematics
+	  if(systcat==10) {
+	    if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
+	    else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
+	  }
+	  // b-jet central SF
+	  else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  // Scale the b-veto event weight
+	  bwght *= bjetSf;
+	}	
+      }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsGood(j)) ++goodjet;
@@ -615,18 +622,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       std::vector<int> charge_displaced;
       std::vector<unsigned> temp_index;
       
-       for(unsigned l = 0; l < lCount; ++l){
-	if(lepIsDisplaced(ind[l] , ind_new_leading, ind)){
-	  TLorentzVector temp_displaced;
-	  temp_displaced.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
-	  lepV_displaced.push_back(temp_displaced);
-	  charge_displaced.push_back(_lCharge[ind[l]]);
-	  temp_index.push_back(l);
-	  ++displacedC;
-	}
-      }
-      
-       if (displacedC< 2) continue;
+    
       int index_to_use_for_l2_l3[2]={0,0};
       //find the right OS pair with min invariant mass
       int min_test= 9999;
@@ -654,10 +650,19 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  }
 	}//end loop2
       }//end loop1
-      if (index_to_use_for_l2_l3[1]< index_to_use_for_l2_l3[0]){
-      std::cout<<displacedC<<" ----->  "<< ind_new_leading<< "  "<< index_to_use_for_l2_l3[0]<<"   "<< index_to_use_for_l2_l3[1]<<std::endl;
-      std::cout<<displacedC<<" ----->  "<< _lPt[ind_new_leading]<< "  "<< _lPt[index_to_use_for_l2_l3[0]]<<"   "<< _lPt[index_to_use_for_l2_l3[1]]<<std::endl;
-      }
+      if (displacedC< 2) continue;
+     
+      // ------------ changing all the lep info -----------------------------------------------//
+      l1=ind_new_leading;
+      l2=index_to_use_for_l2_l3[0];
+      l3=index_to_use_for_l2_l3[1];
+      v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
+      v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
+      v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
+      l2l3_vertex_variable (l2,l3);
+      std::cout<<"vetrex: "<<_vertex_X<<" "<<_vertex_Y<<" "<<_vertex_Z<<" "_vertex_ndf<<std::endl;
+      // ------------ ==================== -----------------------------------------------//
+
 
       if (!_passTrigger_1l) continue;
 
