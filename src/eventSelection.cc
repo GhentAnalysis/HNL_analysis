@@ -102,7 +102,7 @@ bool Analysis_mc::vertex_found(const unsigned leptonIndex1, const unsigned lepto
   return (vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) );
 }
 //______________________________________________function di check if 2 indeces make a vertex
-void Analysis_mc::l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2) const{
+void Analysis_mc::l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2) {
   int Index1 = leptonIndex1+1;
   int Index2 = leptonIndex2+1;
   for(unsigned v = 0; v < _nVFit; ++v){
