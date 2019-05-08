@@ -815,11 +815,27 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  scal *= -fr/(1-fr);
 	}
       }//FR
-      std::cout<<"ciccia  > "<<scal<<std::endl;
 
-      
-
-      
+       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      std::cout<< samples[sam].process<<std::endl;
+      /*
+       bool dy_to_be_skiped= true;
+      if (effsam == 11){
+	if (_lMatchPdgId[ind_new_leading] == 22 && _lIsPrompt[ind_new_leading] )  dy_to_be_skiped = false;
+	if (_lMatchPdgId[index_l[1]] == 22 && _lIsPrompt[index_l[1]] )  dy_to_be_skiped = false;
+	if (_lMatchPdgId[index_l[0]] == 22 && _lIsPrompt[index_l[0]] )  dy_to_be_skiped = false;
+      }
+      //if (!dy_to_be_skiped) continue;
+      if (effsam == 11) continue;
+      bool zgamma_to_be_skiped= false;
+      if (fileList[sam] == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root"){
+	if (_lMatchPdgId[ind_new_leading] == 22 && _lIsPrompt[ind_new_leading] )  zgamma_to_be_skiped = true;
+	if (_lMatchPdgId[index_l[1]] == 22 && _lIsPrompt[index_l[1]] )  zgamma_to_be_skiped = true;
+	if (_lMatchPdgId[index_l[0]] == 22 && _lIsPrompt[index_l[0]] )  zgamma_to_be_skiped = true;
+      }
+      //if (fileList[sam] == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !zgamma_to_be_skiped) continue;
+      */
       
     }//end loop over the entries
     
