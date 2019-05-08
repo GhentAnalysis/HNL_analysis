@@ -872,9 +872,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // 3 = eee
       // 4 = eem OS
       // 5 = eem SS
+      
       int SR_channel=0;
       SR_channel=channel(flavors_3l, charge_3l);
       if (SR_channel == -1 ) continue;
+      	std::cout<<"-------------------------"<<std::endl;
+
       bool less2=false;
       bool more2_10=false;
       bool more10=false;  
