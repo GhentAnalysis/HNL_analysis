@@ -504,7 +504,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        // ------------   run over entries -----------------------------------------------//  
        for (Long64_t it = 0; it < nEntries; ++it){
        GetEntry(samples[sam], it);
-       std::cout<<"after get tree"<<std::endl;
+       //   std::cout<<"after get tree"<<std::endl;
 
        //print progess
        /* if(it%100 == 0 && it != 0){
@@ -518,7 +518,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        scal = scale*_weight * pu_weight(*&pileUpWeight[0],_nTrueInt);
        bwght=1.;
 
-       std::cout<<"after pu"<<std::endl;
+       // std::cout<<"after pu"<<std::endl;
 
        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
        std::vector<unsigned> ind;      double*           conePt = new double[_nL];
@@ -565,10 +565,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        _EReal[i] =_lE[i];
        } 
        //select leptons
-              std::cout<<"after real"<<std::endl;
+       //      std::cout<<"after real"<<std::endl;
 	      
        const unsigned lCount = selectLepConeCorr(ind);
-              std::cout<<"after selct lep"<<std::endl;
+       //     std::cout<<"after selct lep"<<std::endl;
 
        if (lCount < 3) continue;
       
