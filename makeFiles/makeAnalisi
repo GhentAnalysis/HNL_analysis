@@ -1,7 +1,7 @@
 CC=g++ -Wall -Wno-reorder -Wextra 
 CFLAGS= -Wl,--no-as-needed
 LDFLAGS=`root-config --glibs --cflags`
-SOURCES= src/Sample.cc src/Analysis_mc.cc src/kinematicTools.cc src/eventSelection.cc src/tdrstyle.cc src/objectSelection.cc bTagging/BTagCalibrationStandalone.cpp src/stringTools.cc analisi.C
+SOURCES= src/Sample.cc src/Analysis_mc.cc src/kinematicTools.cc src/eventSelection.cc src/tdrstyle.cc src/objectSelection.cc src/analysisTool.cc bTagging/BTagCalibrationStandalone.cpp src/stringTools.cc analisi.C
 OBJECTS=$(SOURCES:.cc=.o)
 EXECUTABLE= analisi_hnl
 

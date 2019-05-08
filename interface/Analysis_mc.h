@@ -747,6 +747,17 @@ class Analysis_mc : public TObject {
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
   int l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2);
 
+  //______________________      analysis tool functions       ________________________________// 
+  double FR_weight(TGraphAsymmErrors *fakeRate_mu_sFR[3],  TGraphAsymmErrors *fakeRate_e_sFR[3], TGraphAsymmErrors *fakeRate_mumu_dFR[3], TGraphAsymmErrors *fakeRate_ee_dFR[3],   TGraphAsymmErrors *fakeRate_emu_dFR[3],bool   isSFR, bool   isDFR,double etaLepton,double flavorsLepton, double ptLepton, double etaJet,double flavorsJet,double ptJe ) ;
+  double dFR_factor_ee(TGraphAsymmErrors *fakeRate_e[3],       int eta,  double lptcone  );
+  double dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],       int eta,  double lptcone  );
+  double dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],       int eta,  double lptcone  );
+  double sFR_factor_e (TGraphAsymmErrors *fakeRate[3], double eta,     double lptcone );
+  double sFR_factor_mu (TGraphAsymmErrors *fakeRate[3], double eta,     double lptcone );
+
+
+
+
 
 
   
