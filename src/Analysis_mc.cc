@@ -671,6 +671,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	 if ((_vertices[v][0] == ((l2+1) * 100 +  (l3+1))) || (_vertices[v][0] == ((l2+1)  +  (l3+1)*100))) {
 	  std::cout<<"====> "<<_vertices[v][0]<<std::endl;
 	}
+       }
       _vertex_X=_vertices[index_l2l3][1];
       _vertex_Y=_vertices[index_l2l3][2];
       _vertex_Z=_vertices[index_l2l3][3];
