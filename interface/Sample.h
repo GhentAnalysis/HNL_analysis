@@ -35,9 +35,11 @@ class Sample{
 
         bool isMC() const { return !isDataSample; }
 
-        bool is2017() const { return is2017Sample; }
+        bool is2016() const { return !is2017Sample && !is2018Sample; }
 
-        bool is2016() const { return !is2017Sample; }
+        bool is2017() const { return  is2017Sample && !is2018Sample; }
+
+        bool is2018() const { return !is2017Sample &&  is2018Sample; }
 
         bool isSMSignal() const { return smSignal; }
 
@@ -46,9 +48,13 @@ class Sample{
         std::shared_ptr<TFile> getFile() const;
 
     private:
+        void setHNL(); 
+
         void setData(); 
 
         void set2017();
+  
+        void set2018();
 
         void setOptions(const std::string&);
 
@@ -60,9 +66,19 @@ class Sample{
         double xSec;
         bool isDataSample;
         bool is2017Sample;
+        bool is2018Sample;
         bool smSignal;
         bool newPhysicsSignal;
-
+        // HNL parameters
+        std::string couplHnl;
+        bool isDiracHnl;
+        double massHnl;
+        double v2Hnl;
+        double ctauHnl;
+        // For re-weighting
+        double xSecNew;
+        double v2HnlNew;
+        double ctauHnlNew;
 };
 
 //read a txt file containing a list of samples
