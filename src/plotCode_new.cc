@@ -359,11 +359,11 @@ void plotDataVSMC_e(int categoria,int channel,int istogramma,
     }
     if (channel == 4){
         c->SaveAs("plots_pdf/eemOS/"+ name_cut + "/"+ name_histo + ".pdf");
-        c->SaveAs("plots_root/eeeOS/"+ name_cut + "/"+ name_histo + ".root");
+        c->SaveAs("plots_root/eemOS/"+ name_cut + "/"+ name_histo + ".root");
     }
     if (channel == 5){
-        c->SaveAs("plots_pdf/eeeSS/"+ name_cut + "/"+ name_histo + ".pdf");
-        c->SaveAs("plots_root/eeeSS/"+ name_cut + "/"+ name_histo + ".root");
+        c->SaveAs("plots_pdf/eemSS/"+ name_cut + "/"+ name_histo + ".pdf");
+        c->SaveAs("plots_root/eemSS/"+ name_cut + "/"+ name_histo + ".root");
     }
     if (channel == 7){
         c->SaveAs("plots_pdf/e/"+ name_cut + "/"+ name_histo + ".pdf");
