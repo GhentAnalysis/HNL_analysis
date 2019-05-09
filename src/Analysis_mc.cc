@@ -1007,12 +1007,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
              
       // ------------------- Histo SR
       if (SR_channel <= 2) {
-	std::cout<<"sr channel: "<< SR_channel<<"  channel bin "<<channel_bin<< "  "<< bin_SR_muonCoupling<<"  check: ("<<flavors_3l[0]<<","<<flavors_3l[1]<<","<<flavors_3l[2]<<")"<< std::endl;
+	//std::cout<<"sr channel: "<< SR_channel<<"  channel bin "<<channel_bin<< "  "<< bin_SR_muonCoupling<<"  check: ("<<flavors_3l[0]<<","<<flavors_3l[1]<<","<<flavors_3l[2]<<")"<< std::endl;
 	Histos[0][SR_channel][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	Histos[0][6][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
       }
       if (SR_channel > 2) {
-	std::cout<<"sr channel: "<< SR_channel<<"  channel bin "<<channel_bin<< "  "<< bin_SR_eleCoupling<<"  check: ("<<flavors_3l[0]<<","<<flavors_3l[1]<<","<<flavors_3l[2]<<")"<< std::endl;
+	//std::cout<<"sr channel: "<< SR_channel<<"  channel bin "<<channel_bin<< "  "<< bin_SR_eleCoupling<<"  check: ("<<flavors_3l[0]<<","<<flavors_3l[1]<<","<<flavors_3l[2]<<")"<< std::endl;
 	Histos[0][SR_channel][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	Histos[0][7][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
       }
