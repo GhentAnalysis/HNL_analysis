@@ -1064,31 +1064,28 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   }
 
 
-  TH1D* signals_mu[nSamples_signal_mu];
-  TH1D* signals_e[nSamples_signal_e];
+  TH1D* signals[nSamples_signal];
 
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
-	for (unsigned signal_sample = 0; signal_sample< nSamples_signal_mu; signal_sample++){
-	  signals_mu[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	  signals[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
-	for (unsigned signal_sample = 0; signal_sample< nSamples_signal_e; signal_sample++){
-	  signals_e[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1+nSamples_signal_e]->Clone() ;     
-	}
+}
 
-	if (cha ==0 || cha ==1 ||cha ==2 ||cha == 6) plotDataVSMC_mu(cat,cha,dist,
-								     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-								     eff_names,nSamples_eff -  nSamples_signal_mu - 10,
-								     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-								     true,
-								     2, true, signals_mu,  sigNames_mu , nSamples_signal_mu, false);
-	if (cha ==3 || cha ==4 ||cha ==5 ||cha == 7) plotDataVSMC_e (cat,cha,dist,
+      plotDataVSMC(cat,cha,dist,
+		      dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+		      eff_names,nSamples_eff -  nSamples_signal,
+		      catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+		      true,
+		      2, true, signals,  sigNames, nSamples_signal, false);
+      /*  if (cha ==3 || cha ==4 ||cha ==5 ||cha == 7) plotDataVSMC_e (cat,cha,dist,
 								     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 								     eff_names,nSamples_eff -  nSamples_signal_mu - 10,
 								     catNames[cat], channelNames[cha],channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 								     true,
-								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);
+								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);*/
     
       }
     }

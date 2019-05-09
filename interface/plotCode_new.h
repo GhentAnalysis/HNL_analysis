@@ -36,5 +36,10 @@ void plotDataVSMC_e(int categoria,int channel,int istogramma,
 		     const TString& name_cut,const TString& name_channel, const TString& name_histo,
 		     const bool ylog,
 		    const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm);
-  
+  void plotDataVSMC(int categoria,int channel,int istogramma,
+                    TH1D* data, TH1D** bkg,
+                    const TString* names, const unsigned nHist,
+                    const TString& name_cut,const TString& name_channel, const TString& name_histo,
+                    const bool ylog,
+                    const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm);
 #endif
