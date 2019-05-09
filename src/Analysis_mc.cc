@@ -942,6 +942,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (selection_5) cut_bin = 6;
       if (selection_final) cut_bin = 7;
 
+      if (!selection_0) continue;
+
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
@@ -991,11 +993,14 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (isDataYield)     scal = 1;
       if (isDataYield)     continue;
 
-      
+     
  
 
       int channel_bin = -1;
       channel_bin = SR_channel+1;
+      if (isSRRun && channel_bin == -1 ) continue;
+
+      
       
       // ------------------- Histo SR
       if (SR_channel <= 2) {
