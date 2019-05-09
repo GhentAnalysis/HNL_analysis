@@ -509,8 +509,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
   // ------------   samples info -----------------------------------------------//
-  
+          std::cout<<"before read"<<std::endl;
+
   std::vector <Sample> samples  = readSampleList(list, directory);
+          std::cout<<"after read"<<std::endl;
 
   //std::vector <Sample> samples  = readSampleList(list, directory);
   /*
@@ -531,7 +533,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     } 
   */
   TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
-  //	 Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] + channelNames[cha] + catNames[cat] + Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);		       
+		       
   for(int i = 0; i < nDist; ++i){
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
     std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
@@ -544,6 +546,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }
     }
   }
+            std::cout<<"after histo"<<std::endl;
+
   //Calculate the center of the maximum bin of each histogram
   double maxBinC[nDist];
   for(int i = 0; i < nDist; ++i){
