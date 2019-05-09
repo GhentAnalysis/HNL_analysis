@@ -401,14 +401,15 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if(signames==nullptr) {} // dummy, just to avoid warning
     
     //Make a legend for data and all backgrounds
-    TLegend* legend = new TLegend(0.15,0.69,0.95,0.88,NULL,"brNDC");
+    TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");
     
     legend->SetFillStyle(0);
     
     //Add signal to the legenD
     if(plotsig){
         for(unsigned sig = 0; sig < nSig; ++sig){
-
+	  if (sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
+	  
 	  if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
 	  if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
 	  signal[sig]->SetLineColor(sigCols[sig]);
@@ -428,6 +429,32 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
         legend->     SetNColumns(5);
     }
+
+    if (istogramma == 1 ){
+      signal[3]->SetStats(0);
+      signal[3]-> GetXaxis()->LabelsOption("vu");
+      signal[3]-> GetXaxis()->SetBinLabel(1, "3 leptons");
+      signal[3]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
+      signal[3]-> GetXaxis()->SetBinLabel(3, "bveto");
+      signal[3]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
+      signal[3]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
+      signal[3]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
+      signal[3]-> GetXaxis()->SetBinLabel(6, "M_{ll} (l2-l3)");
+
+      signal[13]->SetStats(0);
+      signal[13]-> GetXaxis()->LabelsOption("vu");
+      signal[13]-> GetXaxis()->SetBinLabel(1, "3 leptons");
+      signal[13]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
+      signal[13]-> GetXaxis()->SetBinLabel(3, "bveto");
+      signal[13]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
+      signal[13]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
+      signal[13]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
+      signal[13]-> GetXaxis()->SetBinLabel(6, "M_{ll} (l2-l3)");
+  }
+    
+
+   
+    
     //Make canvas and pads for plotting
     double width, height;
     if(widthopt == 0){
@@ -443,17 +470,17 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         std::cerr << "Incorrect width option given can't make plot" << std::endl;
         return;
     }
-    TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
+   
+     TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
     c->cd();
-    
-    
+
     TPad* p1, *p2;
     //Plot data and MC yields in first pad
     p1 = new TPad(name_histo,"",0,xPad,1,1);
     p1->Draw();
     p1->cd();
      p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-    p1->SetBottomMargin(0.1);
+    p1->SetBottomMargin(0.15);
     bkgTot->SetFillStyle(3005);
     bkgTot->SetFillColor(kGray+2);
     bkgTot->SetMarkerStyle(1);
@@ -512,6 +539,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     bkgTot->Draw("e2same");
     if(plotsig){
         for(unsigned sig = 0; sig < nSig; ++sig){
+	  if (sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
 	  if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
 	  if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
 
