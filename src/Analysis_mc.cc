@@ -567,7 +567,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
-    if(samples[sam].isNewPhysicsSignal()) {
+    /* if(samples[sam].isNewPhysicsSignal()) {
       std::cout << " is signal" << std::endl;
       if(samples[sam].getHNLV2New()>0.) {
 	ctauOld = samples[sam].getHNLctau();
@@ -579,7 +579,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 	ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
       }
-    }
+      }*/
 
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
