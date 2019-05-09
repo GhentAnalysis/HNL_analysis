@@ -583,7 +583,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
-    for (Long64_t it = 0; it < nEntries; ++it){
+    for (Long64_t it = 0; it < nEntries/100; ++it){
       GetEntry(samples[sam], it);
       //   std::cout<<"after get tree"<<std::endl;
 
@@ -596,6 +596,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	 printProgress(progress);
 	 }*/
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
+      ctWeight = 1;
       double scal = 0;
       scal = scale * _weight * ctWeight * pu_weight(*&pileUpWeight[0],_nTrueInt);
       bwght = 1.;
@@ -933,10 +934,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       bool selection_final=false;
       if (charge_3l[2] != charge_3l[1])                                        selection_0 = true;
       if ( selection_0 && v4l2.DeltaR(v4l3) < 1)                               selection_1 = true;
-      if ( selection_1 &&  bjet == 0 )                                         selection_2 = true;
-      if ( selection_2 &&  M_3L_combined > 45 && M_3L_combined < 85)           selection_3 = true;
+      if ( selection_1 && bjet == 0 )                                          selection_2 = true;
+      if ( selection_2 && M_3L_combined > 45 && M_3L_combined < 85)            selection_3 = true;
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
-      if ( selection_4 &&  vtxRvtxPcosAlpha > 0.9)                             selection_5 = true;
+      if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
       int cut_bin = -1;
       if (selection_0) cut_bin = 0;
@@ -948,6 +949,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (selection_final) cut_bin = 6;
 
       if (!selection_0) continue;
+
+      std::cout<<"slection "<< selection_0<< "   "<< selection_1<< "   "<< selection_2<< "   "<< selection_3<< "   "<< selection_4<< "   "<< selection_5<< "   "<< selection_final<< std::endl;
+      std::cout<< v4l2.DeltaR(v4l3)<<std::endl;
+      std::cout<< fabs(_dxy[l1])<<"   "<<fabs(_dxy[l2])<<"   "<<fabs(_dxy[l3])<<"   "<< std::endl;
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
