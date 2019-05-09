@@ -422,6 +422,12 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	    signal[sig]->SetLineWidth(4);
 	  }
 	  legend->AddEntry(signal[sig], signames[sig]);
+	  if (sig == 0 || sig == 10 )legend->AddEntry(signal[sig], "M = 1 GeV");
+	  if (sig == 2 || sig == 12 )legend->AddEntry(signal[sig], "M = 2 GeV");
+	  if (sig == 4 || sig == 14 )legend->AddEntry(signal[sig], "M = 4 GeV");
+	  if (sig == 6 || sig == 16 )legend->AddEntry(signal[sig], "M = 6 GeV");
+	  if (sig == 8 || sig == 18 )legend->AddEntry(signal[sig], "M = 10 GeV");
+
         }
     }
     
@@ -454,6 +460,60 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[3]-> GetXaxis()->SetLabelSize(0.045);
       signal[3]-> GetXaxis()->SetLabelOffset(0.01);
       signal[13]-> GetXaxis()->SetLabelSize(0.045);
+      signal[13]-> GetXaxis()->SetLabelOffset(0.01);
+    }
+
+
+    if (istogramma == 0 ){
+      signal[3]->SetStats(0);
+      signal[3]-> GetXaxis()->LabelsOption("hu");
+      signal[3]-> GetXaxis()->SetBinLabel(1, "");
+      signal[3]-> GetXaxis()->SetBinLabel(2, "");
+      signal[3]-> GetXaxis()->SetBinLabel(3, "#mu#mu#mu");
+      signal[3]-> GetXaxis()->SetBinLabel(4, "");
+      signal[3]-> GetXaxis()->SetBinLabel(5, "");
+      signal[3]-> GetXaxis()->SetBinLabel(6, "");
+      signal[3]-> GetXaxis()->SetBinLabel(7, "");
+      signal[3]-> GetXaxis()->SetBinLabel(8, "");
+      signal[3]-> GetXaxis()->SetBinLabel(9, "#mu#mu OS e");
+      signal[3]-> GetXaxis()->SetBinLabel(10, "");
+      signal[3]-> GetXaxis()->SetBinLabel(11, "");
+      signal[3]-> GetXaxis()->SetBinLabel(12, "");
+      signal[3]-> GetXaxis()->SetBinLabel(13, "");
+      signal[3]-> GetXaxis()->SetBinLabel(14, "");
+      signal[3]-> GetXaxis()->SetBinLabel(15, "#mu#mu SS e");
+      signal[3]-> GetXaxis()->SetBinLabel(16, "");
+      signal[3]-> GetXaxis()->SetBinLabel(17, "");
+      signal[3]-> GetXaxis()->SetBinLabel(18, "");
+
+
+
+      
+
+      signal[13]->SetStats(0);
+      signal[13]-> GetXaxis()->LabelsOption("hu");
+      signal[13]-> GetXaxis()->SetBinLabel(1, "");
+      signal[13]-> GetXaxis()->SetBinLabel(2, "");
+      signal[13]-> GetXaxis()->SetBinLabel(3, "eee");
+      signal[13]-> GetXaxis()->SetBinLabel(4, "");
+      signal[13]-> GetXaxis()->SetBinLabel(5, "");
+      signal[13]-> GetXaxis()->SetBinLabel(6, "");
+      signal[13]-> GetXaxis()->SetBinLabel(7, "");
+      signal[13]-> GetXaxis()->SetBinLabel(8, "");
+      signal[13]-> GetXaxis()->SetBinLabel(9, "ee OS #mu");
+      signal[13]-> GetXaxis()->SetBinLabel(10, "");
+      signal[13]-> GetXaxis()->SetBinLabel(11, "");
+      signal[13]-> GetXaxis()->SetBinLabel(12, "");
+      signal[13]-> GetXaxis()->SetBinLabel(13, "");
+      signal[13]-> GetXaxis()->SetBinLabel(14, "");
+      signal[13]-> GetXaxis()->SetBinLabel(15, "ee SS #mu");
+      signal[13]-> GetXaxis()->SetBinLabel(16, "");
+      signal[13]-> GetXaxis()->SetBinLabel(17, "");
+      signal[13]-> GetXaxis()->SetBinLabel(18, "");
+
+      signal[3]-> GetXaxis()->SetLabelSize(0.07);
+      signal[3]-> GetXaxis()->SetLabelOffset(0.01);
+      signal[13]-> GetXaxis()->SetLabelSize(0.07);
       signal[13]-> GetXaxis()->SetLabelOffset(0.01);
     }
     
