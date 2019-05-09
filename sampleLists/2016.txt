@@ -45,6 +45,3 @@ TTX          TTZToLL_M-1to10_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.roo
 TTX          tZq_ll_4f_13TeV-amcatnlo-pythia8_Summer16.root						                                            0.0942
 TTX          TTWW_TuneCUETP8M2T4_13TeV-madgraph-pythia8_Summer16.root						                0.007834
 TTX          TTWZ_TuneCUETP8M2T4_13TeV-madgraph-pythia8_Summer16.root						                0.002938
-
-
-
