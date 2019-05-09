@@ -818,9 +818,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (!tight_lepton_dFR) loose_lepton_dFR = true;
       bool tightFail_sFR=false;
       tightFail_sFR = (tightC < 2);
-      bool isDataDrivenBgk= false;
-      if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
-      if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
       //where the FR has to be applied
       bool sideBandRegion= false;
       if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
@@ -833,8 +830,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (!samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
       if (sideBandRegion){
-	if (samples[sam].isData()   == 0 )scal *= -1;
-	if (!samples[sam].isData()  == 0 )scal  = 1 * scal;
+	if (samples[sam].isData()  )scal *= -1;
+	if (!samples[sam].isData() )scal  = 1 * scal;
 	if (single_fake){
 	  if (!_isT[l2]) {
 	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
@@ -939,42 +936,61 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
-			    v4l1.Pt(),
-			    v4l2.Pt(),
-			    v4l3.Pt(),
-			    M_3L,
-			    M_l2l3,
-			    M_l2l3,
-			    M_l2l3_combined,
-			    M_l2l3_combined,
-			    M_ZPair,
-			    mT,
-			    _met,		    
-			    static_cast<double>( goodjet),
-			    static_cast<double>(bjet),
-			    _met,
-			    fabs(_dxy[l1]),fabs(_dz[l1]),fabs(_3dIPSig[l1]), fabs(_2dIPSig[l1]), 
-			    fabs(_dxy[l2]),fabs(_dz[l2]),fabs(_3dIPSig[l2]), fabs(_2dIPSig[l2]), 
-			    fabs(_dxy[l3]),fabs(_dz[l3]),fabs(_3dIPSig[l3]), fabs(_2dIPSig[l3]), 
-			    _relIso[l1],
-			    _relIso[l2],
-			    _relIso[l3],
-			    v4l1.DeltaR(v4l3),
-			    v4l2.DeltaR(v4l3),
-			    min_delta_phi,
-			    prob_vertex,
-			    _vertex_normchi2,
-			    _vertex_chi2,
-			    vtxRvtxPcosAlpha,
-			    D3_delta_pv_sv,
-			    D3_delta_pv_sv,
-			    D2_delta_pv_sv,
-			    D2_delta_pv_sv,
-			    D2_delta_pv_sv,
-			    momentum_jet, momentum_jet};
+      double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
+			     v4l1.Pt(),
+			     v4l2.Pt(),
+			     v4l3.Pt(),
+			     M_3L,
+			     M_l2l3,
+			     M_l2l3,
+			     M_l2l3_combined,
+			     M_l2l3_combined,
+			     M_ZPair,
+			     mT,
+			     _met,		    
+			     static_cast<double>( goodjet),
+			     static_cast<double>(bjet),
+			     _met,
+			     fabs(_dxy[l1]),fabs(_dz[l1]),fabs(_3dIPSig[l1]), fabs(_2dIPSig[l1]), 
+			     fabs(_dxy[l2]),fabs(_dz[l2]),fabs(_3dIPSig[l2]), fabs(_2dIPSig[l2]), 
+			     fabs(_dxy[l3]),fabs(_dz[l3]),fabs(_3dIPSig[l3]), fabs(_2dIPSig[l3]), 
+			     _relIso[l1],
+			     _relIso[l2],
+			     _relIso[l3],
+			     v4l1.DeltaR(v4l3),
+			     v4l2.DeltaR(v4l3),
+			     min_delta_phi,
+			     prob_vertex,
+			     _vertex_normchi2,
+			     _vertex_chi2,
+			     vtxRvtxPcosAlpha,
+			     D3_delta_pv_sv,
+			     D3_delta_pv_sv,
+			     D2_delta_pv_sv,
+			     D2_delta_pv_sv,
+			     D2_delta_pv_sv,
+			     momentum_jet, momentum_jet};
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      unsigned fill = effsam;
+      bool isDataDrivenBgk= false;
+      if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
+      if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
+      bool isDataYield= false;
+      if (samples[sam].isData() && !tightFail_sFR     && single_fake)     isDataYield= true;
+      if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)      isDataYield= true;
+      if (isDataDrivenBgk) fill = nSamples_eff;
+      if (isDataYield)     fill = 0;
+      if (isDataYield)     scal = 1;
+      if (isDataYield)     continue;
 
-			    
+     
+      // ------------------- Histo SR
+      for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
+	for (int ii = 0; ii< nSR; ii++){
+	  if (bin_histo[ii] == 1)  Histos[0][0][fill]->Fill(TMath::Min(static_cast<double>(ii+1), maxBinC[0]), scal);
+	}
+      }//end histo
+      
 			   
 	
       
