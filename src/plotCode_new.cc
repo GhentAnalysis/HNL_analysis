@@ -9,7 +9,7 @@
 #include "TGraphAsymmErrors.h"
 //Include other parts of the code
 //#include "MultilepSUSYfunc.h"
-#include "plotCode_new.h"
+#include "../interface/plotCode_new.h"
 #include "drawLumi.h"
 
 extern const double xPad;
