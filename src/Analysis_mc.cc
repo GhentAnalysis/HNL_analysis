@@ -509,10 +509,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
   // ------------   samples info -----------------------------------------------//
-          std::cout<<"before read"<<std::endl;
-
   std::vector <Sample> samples  = readSampleList(list, directory);
-          std::cout<<"after read"<<std::endl;
 
   //std::vector <Sample> samples  = readSampleList(list, directory);
   /*
@@ -546,7 +543,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }
     }
   }
-            std::cout<<"after histo"<<std::endl;
 
   //Calculate the center of the maximum bin of each histogram
   double maxBinC[nDist];
@@ -557,11 +553,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------   run over samples -----------------------------------------------//
 
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
-        std::cout<<"before init"<<std::endl;
 
     initSample(jaar,samples[sam]);
 
-    std::cout<<"after init"<<std::endl;
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -870,7 +864,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
       if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !external_conv) continue;*/
 
-      //if (photonOverlap (samples[sam])) continue;
+      if (photonOverlap (samples[sam])) continue;
       
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
@@ -1083,7 +1077,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  signals_e[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1+nSamples_signal_e]->Clone() ;     
 	}
 
-	/*	if (cha ==0 || cha ==1 ||cha ==2 ||cha == 6) plotDataVSMC_mu(cat,cha,dist,
+		if (cha ==0 || cha ==1 ||cha ==2 ||cha == 6) plotDataVSMC_mu(cat,cha,dist,
 								     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 								     eff_names,nSamples_eff -  nSamples_signal_mu,
 								     catNames[cat], channelNames[cha], Histnames_ossf[dist],
@@ -1094,7 +1088,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 								     eff_names,nSamples_eff -  nSamples_signal_mu,
 								     catNames[cat], channelNames[cha], Histnames_ossf[dist],
 								     true,
-								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);*/
+								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);
     
       }
     }
