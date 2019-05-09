@@ -1077,17 +1077,19 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  signals_e[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1+nSamples_signal_e]->Clone() ;     
 	}
 
-	/*void plotDataVSMC_mu(int categoria,int channel,int istogramma,
-		     TH1D* data, TH1D** bkg,
-		     const TString* names, const unsigned nHist,
-		     const TString& name_cut,const TString& name_channel, const TString& name_histo,
-		     const bool ylog,
-		     const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm)*/
-
-	
-  //plotDataVSMC_mu(cat,dist,dataYields[dist][cat], bkgYields[dist][cat], eff_names, nSamples_eff -  nSamples_signal - 1, Histnames_ossf[dist] + "_" +  catNames[cat], catNames[cat], true, 2, true, signals,  sigNames , nSamples_signal, false);
+	if (cha ==0 || cha ==1 ||cha ==2 ||cha == 6) plotDataVSMC_mu(cat,cha,dist,
+								     dataYields[dist][cat], bkgYields[dist][cat],
+								     eff_names,nSamples_eff -  nSamples_signal_mu,
+								     catNames[cat], channelNames[cha], Histnames_ossf[dist],
+								     true,
+								     2, true, signals_mu,  sigNames_mu , nSamples_signal_mu, false);
+	if (cha ==3 || cha ==4 ||cha ==5 ||cha == 7) plotDataVSMC_e (cat,cha,dist,
+								     dataYields[dist][cat], bkgYields[dist][cat],
+								     eff_names,nSamples_eff -  nSamples_signal_mu,
+								     catNames[cat], channelNames[cha], Histnames_ossf[dist],
+								     true,
+								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);
     
-
       }
     }
   }
