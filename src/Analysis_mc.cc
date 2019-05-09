@@ -1079,13 +1079,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 	if (cha ==0 || cha ==1 ||cha ==2 ||cha == 6) plotDataVSMC_mu(cat,cha,dist,
 								     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-								     eff_names,nSamples_eff -  nSamples_signal_mu,
+								     eff_names,nSamples_eff -  nSamples_signal_mu - 10,
 								     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 								     true,
 								     2, true, signals_mu,  sigNames_mu , nSamples_signal_mu, false);
 	if (cha ==3 || cha ==4 ||cha ==5 ||cha == 7) plotDataVSMC_e (cat,cha,dist,
 								     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-								     eff_names,nSamples_eff -  nSamples_signal_mu,
+								     eff_names,nSamples_eff -  nSamples_signal_mu - 10,
 								     catNames[cat], channelNames[cha],channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 								     true,
 								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);
