@@ -511,7 +511,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------   samples info -----------------------------------------------//
   
   std::vector <Sample> samples  = readSampleList(list, directory);
-  const int nSamples_eff = 2;
 
   //std::vector <Sample> samples  = readSampleList(list, directory);
   /*
