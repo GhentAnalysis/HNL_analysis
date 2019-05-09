@@ -745,7 +745,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
 
-      std::cout<<"prima : "<< _dxy[index_to_use_for_l2_l3[0]] << "  "<< _dxy[index_to_use_for_l2_l3[1]]<<std::endl;
+      // std::cout<<"prima : "<< _dxy[index_to_use_for_l2_l3[0]] << "  "<< _dxy[index_to_use_for_l2_l3[1]]<<std::endl;
 
       
       // ------------ changing all the lep info and vertex-----------------------------------------------//
@@ -764,7 +764,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
 
-      std::cout<< _dxy[l2] << "  "<< _dxy[l3]<<std::endl;
 
 
       //vertex l2l3 info
@@ -946,20 +945,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
-      int cut_bin = -1;
-      if (selection_0) cut_bin = 0;
-      if (selection_1) cut_bin = 1;
-      if (selection_2) cut_bin = 2;
-      if (selection_3) cut_bin = 3;
-      if (selection_4) cut_bin = 4;
-      if (selection_5) cut_bin = 5;
-      if (selection_final) cut_bin = 6;
-
+     
       if (!selection_0) continue;
 
-      std::cout<<"slection "<< selection_0<< "   "<< selection_1<< "   "<< selection_2<< "   "<< selection_3<< "   "<< selection_4<< "   "<< selection_5<< "   "<< selection_final<< std::endl;
+      /* std::cout<<"slection "<< selection_0<< "   "<< selection_1<< "   "<< selection_2<< "   "<< selection_3<< "   "<< selection_4<< "   "<< selection_5<< "   "<< selection_final<< std::endl;
       std::cout<< v4l2.DeltaR(v4l3)<<std::endl;
-      std::cout<< fabs(_dxy[l1])<<"   "<<fabs(_dxy[l2])<<"   "<<fabs(_dxy[l3])<<"   "<< std::endl;
+      std::cout<< fabs(_dxy[l1])<<"   "<<fabs(_dxy[l2])<<"   "<<fabs(_dxy[l3])<<"   "<< std::endl;*/
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
