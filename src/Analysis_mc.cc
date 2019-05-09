@@ -555,6 +555,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
     initSample(jaar,samples[sam]);
 
+   
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -863,7 +864,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
       if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !external_conv) continue;*/
 
-      if (photonOverlap (samples[sam])) continue;
+      //if (photonOverlap (samples[sam])) continue;
       
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
