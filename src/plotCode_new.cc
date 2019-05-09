@@ -10,7 +10,7 @@
 //Include other parts of the code
 //#include "MultilepSUSYfunc.h"
 #include "../interface/plotCode_new.h"
-#include "drawLumi.h"
+#include "../interface/drawLumi.h"
 
 extern const double xPad;
 extern const Color_t colors[];
