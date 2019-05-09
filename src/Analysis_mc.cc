@@ -1089,10 +1089,88 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 								     catNames[cat], channelNames[cha],channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 								     true,
 								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);*/
-    
-      }
-    }
-  }
+
+      // da qui e' la roba per le data card
+
+      
+            for (int ii = 0; ii < nSR; ii++){// loop over bin
+	
+	double bgkield[6]= {0.,0.,0.,0.,0.,0.};
+	bgkield[0] = Histos[dist][cat][63] -> GetBinContent(ii+1);
+	bgkield[1] = Histos[dist][cat][64] -> GetBinContent(ii+1);
+	bgkield[2] = Histos[dist][cat][65] -> GetBinContent(ii+1);
+	bgkield[3] = Histos[dist][cat][66] -> GetBinContent(ii+1);
+	bgkield[4] = Histos[dist][cat][67] -> GetBinContent(ii+1);
+	bgkield[5] = Histos[dist][cat][68] -> GetBinContent(ii+1);
+
+
+	std::vector<std::vector<double> > systUnc (7,vector<double>(7,0.));
+
+	for (int i =0; i < 7; i++){
+	  for (int j =0; j < 7; j++){
+	    if (i != j)  systUnc[i][j] = 0;
+	    else{	    
+	      if (i == 1 && Histos[dist][cat][63] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][63] -> GetBinError(ii+1)) / (Histos[dist][cat][63] -> GetBinContent(ii+1)));
+	      if (i == 1 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
+	      if (i == 1 && Histos[dist][cat][63] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
+
+	      if (i == 2 && Histos[dist][cat][64] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][64] -> GetBinError(ii+1)) / (Histos[dist][cat][64] -> GetBinContent(ii+1)));
+	      if (i == 2 && Histos[dist][cat][64] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
+
+	      if (i == 2 && Histos[dist][cat][65] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][64] -> GetBinError(ii+1)) / (Histos[dist][cat][64] -> GetBinContent(ii+1)));
+	      if (i == 2 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
+	      if (i == 2 && Histos[dist][cat][65] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
+
+	      if (i == 3 && Histos[dist][cat][65] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][65] -> GetBinError(ii+1)) / (Histos[dist][cat][65] -> GetBinContent(ii+1)));
+	      if (i == 3 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
+	      if (i == 3 && Histos[dist][cat][65] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
+
+	      if (i == 4 && Histos[dist][cat][66] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][66] -> GetBinError(ii+1)) / (Histos[dist][cat][66] -> GetBinContent(ii+1)));
+	      if (i == 4 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
+	      if (i == 4 && Histos[dist][cat][66] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
+
+	      if (i == 5 && Histos[dist][cat][67] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][67] -> GetBinError(ii+1)) / (Histos[dist][cat][67] -> GetBinContent(ii+1)));
+	      if (i == 5 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
+	      if (i == 5 && Histos[dist][cat][67] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
+
+	      if (i == 6 && Histos[dist][cat][68] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][68] -> GetBinError(ii+1)) / (Histos[dist][cat][68] -> GetBinContent(ii+1)));
+	      if (i == 6 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
+	      if (i == 6 && Histos[dist][cat][68] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
+
+	    }
+	  }
+	}
+
+
+	for (unsigned signal_sample = 0; signal_sample< 62; signal_sample++){	  
+	  if(signals[signal_sample] -> GetBinContent(ii+1) !=0) systUnc[0][0]= (1+ (signals[signal_sample] -> GetBinError(ii+1)) / (signals[signal_sample] -> GetBinContent(ii+1)));
+	  if(systUnc[0][0] >=2 )                                systUnc[0][0] = 1.99;	  
+	  if(signals[signal_sample] -> GetBinContent(ii+1) ==0) systUnc[0][0] = 1;
+
+
+	  
+	  printDataCard(   dataYields[dist][cat] ->GetBinContent(ii+1), 
+			   signals[signal_sample]->GetBinContent(ii+1),
+			   sigNamespp[signal_sample],
+			   bgkield,
+			   6,
+			   bgkNames,
+			   systUnc, 7, systNames,systDist,
+			   sigNamespp[signal_sample]+"_bin"+std::to_string(ii+1)+".txt",
+			   false, sigNamespp[signal_sample]+"_bin"+std::to_string(ii+1), ii+1);
+
+
+	}// end loop signal
+
+
+      }//loop bin
+      
+    }//end cat
+  }//end histo
+
+
+
+
  
   
 
