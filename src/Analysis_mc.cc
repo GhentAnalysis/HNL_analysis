@@ -745,7 +745,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
 
-      std::cout<<"prima : "<< dxy[index_to_use_for_l2_l3[0]] << "  "<< dxy[index_to_use_for_l2_l3[1]]<<std::endl;
+      std::cout<<"prima : "<< _dxy[index_to_use_for_l2_l3[0]] << "  "<< _dxy[index_to_use_for_l2_l3[1]]<<std::endl;
 
       
       // ------------ changing all the lep info and vertex-----------------------------------------------//
@@ -764,7 +764,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
 
-      std::cout<< dxy[l2] << "  "<< dxy[l3]<<std::endl;
+      std::cout<< _dxy[l2] << "  "<< _dxy[l3]<<std::endl;
 
 
       //vertex l2l3 info
