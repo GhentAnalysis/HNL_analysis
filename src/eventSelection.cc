@@ -76,12 +76,12 @@ bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_
   
   if (leptonIndex == index_taken_by_l1) return false;
   if (!lepIsFOBase(leptonIndex)) return false;
-  if (fabs(_dxy[leptonIndex]) > dxy_cut) return false;
+  if (fabs(_dxy[leptonIndex]) < dxy_cut) return false;
   //looking for a common vertex with an other lepton
   for(unsigned sd = 0; sd < ind.size(); ++sd){
     if (leptonIndex == ind[sd]) continue;
     if (ind[sd] == index_taken_by_l1) continue;
-    if (fabs(_dxy[ind[sd]]) > dxy_cut) continue;
+    if (fabs(_dxy[ind[sd]]) < dxy_cut) continue;
     if (!lepIsFOBase(ind[sd])) continue;
     for(unsigned v = 0; v < _nVFit; ++v){
       if (vertex_found(leptonIndex,ind[sd],  _vertices[v][0]) ) ++number_found_verteces;   
