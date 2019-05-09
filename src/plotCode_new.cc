@@ -422,7 +422,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
     for(int effsam = nHist - 1; effsam > -1; --effsam){
         legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
-        legend->     SetNColumns(1);
+        legend->     SetNColumns(5);
     }
     //Make canvas and pads for plotting
     double width, height;
