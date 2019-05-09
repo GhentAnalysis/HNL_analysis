@@ -867,7 +867,7 @@ class Analysis_mc : public TObject {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  
 //******************* HISTO **********************
-  const static int nSamples_eff=2;
+  const static int nSamples_eff=27;
   const static int nSamples_signal=20;
   const static int nSamples_signal_mu=10;
   const static int nSamples_signal_e=10;
@@ -921,40 +921,6 @@ class Analysis_mc : public TObject {
 						       "M-6_V-0.00202484567313_mu",
 						       "M-8_V-0.00151327459504_mu",
 						       "M-10_V-0.000756967634711_mu"};
-  const TString eff_names[nSamples_eff +1 ] = { "obs",      
-						"M-1_V-0.0949736805647_mu",
-						"M-1_V-0.212367605816_mu",
-						"M-2_V-0.0110905365064_mu",
-						"M-2_V-0.0248394846967_mu",
-						"M-3_V-0.00707813534767_mu",
-						"M-4_V-0.00290516780927_mu",
-						"M-5_V-0.00145602197786_mu",
-						"M-6_V-0.00202484567313_mu",
-						"M-8_V-0.00151327459504_mu",
-						"M-10_V-0.000756967634711_mu",
-						"M-1_V-0.0949736805647_e",
-						"M-1_V-0.212367605816_e",
-						"M-2_V-0.0110905365064_e",
-						"M-2_V-0.0248394846967_e",
-						"M-3_V-0.00707813534767_e",
-						"M-4_V-0.00290516780927_e",
-						"M-5_V-0.00145602197786_e",
-						"M-6_V-0.00202484567313_e",
-						"M-8_V-0.00151327459504_e",
-						"M-10_V-0.000756967634711_e",
-						"DY",  
-						"ttbar",
-						"WJets",
-						"multiboson", 
-						"Xgamma",    
-						"TTX",		
-						"non prompt"};
-
-
-
-
-  
-
   
   const static int nCat=7;
   const static int nChannel=8;
