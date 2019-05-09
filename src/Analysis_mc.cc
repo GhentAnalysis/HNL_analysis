@@ -537,7 +537,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
 	for(int cha = 0; cha < nChannel; ++cha){               
-	  Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] + channelNames[cha] + catNames[cat] + Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
+	  Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
 	  Histos[i][cha][cat][effsam]->Sumw2();
 	}
       }
@@ -1076,7 +1076,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  signals[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 }
-
+      
       plotDataVSMC(cat,cha,dist,
 		      dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 		      eff_names,nSamples_eff -  nSamples_signal,

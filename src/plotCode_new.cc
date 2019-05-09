@@ -246,6 +246,7 @@ void plotDataVSMC_e(int categoria,int channel,int istogramma,
     //Calculate total Bkg yields
     TH1D* bkgTot = (TH1D*) bkg[0]->Clone();
     for(unsigned int i = 1; i <  nHist; ++i){
+      cout<<i<<")  "<< names[i]<< "  "<< name_histo[i]<<endl;
         bkgTot->Add(bkg[i]);
     }
     //Make a stack containing all backgrounds
@@ -253,6 +254,7 @@ void plotDataVSMC_e(int categoria,int channel,int istogramma,
     bkgStack = new THStack("bkgStack", "bkgStack");
     for(int effsam = nHist -1; effsam > -1 ; --effsam){
         StackCol(bkg[effsam], colors[effsam]);
+	cout<<effsam<<" "<< names[effsam]<<endl;
         bkgStack->Add(bkg[effsam], "f");
     }
     
