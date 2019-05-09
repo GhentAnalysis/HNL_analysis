@@ -1000,6 +1000,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
 
+      std::cout<<fill<<"  "<<channel_bin<<"  "<<cut_bin<<std::endl;
       /*   
       
       // ------------------- Histo SR
