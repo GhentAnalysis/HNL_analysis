@@ -1042,13 +1042,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
-	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][nSample_signal+1]->Clone();
+	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][nSamples_signal+1]->Clone();
 	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][0]->Clone();
       }
     }
   }
 
-  TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSample_signal]; //change to nSamples_eff if sig is removed
+  TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
@@ -1056,7 +1056,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  put_at_zero(*&Histos[dist][cha][cat][effsam1]);
 	  bkgYields[dist][cha][cat][effsam1 -nSample_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
 	  if(effsam1 > nSample_signal+1 && effsam1 < nSamples_eff){	  
-	    if (isSRRun) dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSample_signal+1]);
+	    if (isSRRun) dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal+1]);
 	  }	  
 	}
       }
