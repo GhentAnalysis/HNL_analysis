@@ -1075,7 +1075,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	  signals[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
-}
+
       
       plotDataVSMC(cat,cha,dist,
 		      dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
