@@ -823,6 +823,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
       if (sideBandRegion) continue;
+      if (tightC != 2) continue;
       // ------------------ prompt check for MC ------------------------//
       promptC=0;
       if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
@@ -854,7 +855,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      /*bool internal_conv= true;
+      bool internal_conv= true;
 	if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
 	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
 	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
@@ -863,9 +864,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
 	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;    
 	if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-	if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !external_conv) continue;*/
+	if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
 
-      if (photonOverlap (samples[sam])) continue;
+      // if (photonOverlap (samples[sam])) continue;
       
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
@@ -1036,6 +1037,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       
     }//end loop over the entries
   }//loop over samples
+
+  std::cout<<"multiboson: "<< Histos[2][6][0][24].GetIntegral()<<std::endl;
+  std::cout<<"dy: "<< Histos[2][6][0][21].GetIntegral()<<std::endl;
 
 
   // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
