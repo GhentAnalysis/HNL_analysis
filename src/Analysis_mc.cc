@@ -1085,7 +1085,7 @@ void plotDataVSMC_mu(int categoria,int channel,int istogramma,
 		     const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm){
 
 	
-	plotDataVSMC_mu(cat,dist,dataYields[dist][cat], bkgYields[dist][cat], eff_names, nSamples_eff -  nSamples_signal - 1, Histnames_ossf[dist] + "_" +  catNames[cat], catNames[cat], true, 2, true, signals,  sigNames , nSamples_signal, false);
+  //plotDataVSMC_mu(cat,dist,dataYields[dist][cat], bkgYields[dist][cat], eff_names, nSamples_eff -  nSamples_signal - 1, Histnames_ossf[dist] + "_" +  catNames[cat], catNames[cat], true, 2, true, signals,  sigNames , nSamples_signal, false);
     
 
       }
