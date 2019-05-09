@@ -439,7 +439,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[3]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
       signal[3]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
       signal[3]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
-      signal[3]-> GetXaxis()->SetBinLabel(6, "M_{ll} (l2-l3)");
+      signal[3]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
 
       signal[13]->SetStats(0);
       signal[13]-> GetXaxis()->LabelsOption("vu");
@@ -449,8 +449,13 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[13]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
       signal[13]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
       signal[13]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
-      signal[13]-> GetXaxis()->SetBinLabel(6, "M_{ll} (l2-l3)");
-  }
+      signal[13]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
+
+      signal[3]-> GetXaxis()->SetLabelSize(0.045);
+      signal[3]-> GetXaxis()->SetLabelOffset(0.01);
+      signal[13]-> GetXaxis()->SetLabelSize(0.045);
+      signal[13]-> GetXaxis()->SetLabelOffset(0.01);
+    }
     
 
    
