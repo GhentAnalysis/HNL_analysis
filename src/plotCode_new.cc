@@ -161,7 +161,7 @@ void plotDataVSMC_mu(int categoria,int channel,int istogramma,
     
     TPad* p1, *p2;
     //Plot data and MC yields in first pad
-    p1 = new TPad(file,"",0,xPad,1,1);
+    p1 = new TPad(name_histo,"",0,xPad,1,1);
     p1->Draw();
     p1->cd();
     p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
@@ -299,7 +299,7 @@ void plotDataVSMC_e(int categoria,int channel,int istogramma,
     
     TPad* p1, *p2;
     //Plot data and MC yields in first pad
-    p1 = new TPad(file,"",0,xPad,1,1);
+    p1 = new TPad(name_histo,"",0,xPad,1,1);
     p1->Draw();
     p1->cd();
     p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
