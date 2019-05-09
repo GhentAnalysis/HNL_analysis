@@ -1005,24 +1005,24 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       
       // ------------------- Histo SR
       if (SR_channel <= 2) {
-	Histos[0][channel_bin][cut_bin][fill] -> Fill(TMath::Min(static_cast<double>(bin_SR_muonCoupling), maxBinC[0]), scal);
-	Histos[0][6][cut_bin][fill] -> Fill(TMath::Min(static_cast<double>(bin_SR_muonCoupling), maxBinC[0]), scal);
+	Histos[0][channel_bin][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	Histos[0][6][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
       }
       if (SR_channel > 2) {
-	Histos[0][channel_bin][cut_bin][fill] -> Fill(TMath::Min(static_cast<double>(bin_SR_eleCoupling), maxBinC[0]), scal);
-	Histos[0][7][cut_bin][fill] -> Fill(TMath::Min(static_cast<double>(bin_SR_eleCoupling), maxBinC[0]), scal);
+	Histos[0][channel_bin][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	Histos[0][7][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
       }
 
        // ------------------- Histo cut flow
-      Histos[1][channel_bin][0][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
-      Histos[1][channel_bin][cut_bin][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+      Histos[1][channel_bin][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
+      Histos[1][channel_bin][cut_bin][fill]->Fill(static_cast<double>(cut_bin+1), scal);
       if (SR_channel <= 2){
-	Histos[1][6][0][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
-	Histos[1][6][cut_bin][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+	Histos[1][6][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
+	Histos[1][6][cut_bin][fill]->Fill(static_cast<double>(cut_bin+1), scal);
       }
       if (SR_channel > 2){
-	Histos[1][7][0][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
-	Histos[1][7][cut_bin][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+	Histos[1][7][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
+	Histos[1][7][cut_bin][fill]->Fill(static_cast<double>(cut_bin+1), scal);
       }
       
       // all the other histograms
