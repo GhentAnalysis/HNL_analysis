@@ -868,6 +868,10 @@ class Analysis_mc : public TObject {
  
 //******************* HISTO **********************
   const static int nSamples_eff=8;
+  const static int nSamples_signal=8;
+  const static int nSamples_signal_mu=8;
+  const static int nSamples_signal_e=8;
+
   const TString eff_names[nSamples_eff +1 ] = { "data",      
 						"signal",   
 						"DY",  
