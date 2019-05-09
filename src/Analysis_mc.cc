@@ -934,13 +934,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if ( selection_4 &&  vtxRvtxPcosAlpha > 0.9)                             selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
       int cut_bin = -1;
-      if (selection_0) cut_bin = 1;
-      if (selection_1) cut_bin = 2;
-      if (selection_2) cut_bin = 3;
-      if (selection_3) cut_bin = 4;
-      if (selection_4) cut_bin = 5;
-      if (selection_5) cut_bin = 6;
-      if (selection_final) cut_bin = 7;
+      if (selection_0) cut_bin = 0;
+      if (selection_1) cut_bin = 1;
+      if (selection_2) cut_bin = 2;
+      if (selection_3) cut_bin = 3;
+      if (selection_4) cut_bin = 4;
+      if (selection_5) cut_bin = 5;
+      if (selection_final) cut_bin = 6;
 
       if (!selection_0) continue;
 
@@ -1001,7 +1001,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (isSRRun && channel_bin == -1 ) continue;
 
       std::cout<<fill<<"  "<<channel_bin<<"  "<<cut_bin<<std::endl;
-      /*   
+        
       
       // ------------------- Histo SR
       if (SR_channel <= 2) {
@@ -1012,6 +1012,18 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	Histos[0][channel_bin][cut_bin][fill] -> Fill(TMath::Min(static_cast<double>(bin_SR_eleCoupling), maxBinC[0]), scal);
 	Histos[0][7][cut_bin][fill] -> Fill(TMath::Min(static_cast<double>(bin_SR_eleCoupling), maxBinC[0]), scal);
       }
+
+       // ------------------- Histo cut flow
+      Histos[1][channel_bin][0][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+      Histos[1][channel_bin][cut_bin][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+      if (SR_channel <= 2){
+	Histos[1][6][0][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+	Histos[1][6][cut_bin][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+      }
+      if (SR_channel > 2){
+	Histos[1][7][0][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+	Histos[1][7][cut_bin][fill]->Fill(TMath::Min(static_cast<double>(cut_bin+1), maxBinC[numero_histo]), scal);
+      }
       
       // all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
@@ -1019,7 +1031,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	if (SR_channel <= 2) Histos[numero_histo][6][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (SR_channel > 2)  Histos[numero_histo][7][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
       }//end histo
-      */
+      
     }//end loop over the entries
   }//loop over samples
 
