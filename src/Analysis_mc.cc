@@ -419,7 +419,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
-  //setTDRStyle();
+  setTDRStyle();
   if(systdir<0) {
     std::cout << " >>> Dummy message (to avoid warnings): systdir " << systdir << std::endl;
   }
@@ -555,7 +555,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
 
     initSample(jaar,samples[sam]);
-
+    if (samples[sam].isData()) continue;
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -822,12 +822,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       bool sideBandRegion= false;
       if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
+      if (sideBandRegion) continue;
       // ------------------ prompt check for MC ------------------------//
       promptC=0;
       if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
       if (_lIsPrompt[l2] || _lProvenanceCompressed[l2]==0) promptC++;
       if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
-      if (!samples[sam].isData() && promptC!=3) continue;
+      //if (!samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
       if (sideBandRegion){
 	if (samples[sam].isData()  )scal *= -1;
@@ -1066,6 +1067,54 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     }
   }
 
+  
+
+
+  /*
+
+const std::vector< std::string > uncNames = {"JEC_2016", "uncl", "scale", "pileup", "bTag_udsg_2016", "bTag_bc_2016", "isr", "fsr", "prefiring", "WZ_extrapolation",
+        "lepton_reco", "muon_id_stat_2016", "electron_id_stat_2016", "lepton_id_syst", "pdf", "scaleXsec", "pdfXsec"};
+
+
+
+ const std::string systNames[8]= { "lumi", "pdfAcc", "JEC","pdf","pu",   "stasignal","statDY","statttbar",	"statWJets",	"statmultiboson", "statXgamma","statTTTX", "statNonPrompt"};
+  const std::string systDist[8]= {"lnN","lnN", "lnN",	"lnN",	"lnN", 	"lnN", "lnN", "lnN","lnN"};
+  const std::string bgkNames[6]= {"DY",  	"ttbar",	"WJets",	"multiboson", 	"Xgamma",    	"TTTX"};
+
+
+
+  lumi	lnN	1.025	-	1.025	-	-	1.025	-
+pdfAcc	lnN	1.00184	-	-	-	-	-	-
+JEC	shape	1	1	1	1	1	1	-
+metUncl	shape	1	1	1	1	1	1	-
+scale_elebin4	shape	1	1	1	1	1	1	-
+pdf	shape	1	1	1	1	1	1	-
+pu	shape	1	1	1	1	1	1	-
+btagSF	shape	1	1	1	1	1	1	-
+id_eff	shape	1	1	1	1	1	1	-
+trigeff	shape	1	1	1	1	1	1	-
+fakeEWK	shape	-	-	-	-	-	-	1
+ZZmt	shape	-	1	-	-	-	-	-
+scaleAcc	shape	1	-	-	-	-	-	-
+lifetime	lnN	1.18522	-	-	-	-	-	-
+statSig4	lnN	1	-	-	-	-	-	-
+statZZH4	lnN	-	8.79488	-	-	-	-	-
+stattriboson4	lnN	-	-	1	-	-	-	-
+statWZ4	lnN	-	-	-	1.35968	-	-	-
+statXgamma4	lnN	-	-	-	-	1	-	-
+statTTX4	lnN	-	-	-	-	-	1	-
+statnonPrompt4	lnN	-	-	-	-	-	-	2.89821
+extraZZH	lnN	-	1.1	-	-	-	-	-
+extratriboson	lnN	-	-	1.5	-	-	-	-
+extraWZ	lnN	-	-	-	1.094	-	-	-
+extraXgamma	lnN	-	-	-	-	1.15	-	-
+extraTTX	lnN	-	-	-	-	-	1.5	-
+extranonPrompt	lnN	-	-	-	-	-	-	1.3
+
+
+  */
+
+  
 
   TH1D* signals[nSamples_signal];
 
@@ -1079,17 +1128,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       
       plotDataVSMC(cat,cha,dist,
 		      dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-		      eff_names,nSamples_eff -  nSamples_signal,
+		      eff_names,nSamples_eff -  nSamples_signal -1 ,
 		      catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		      true,
 		      2, true, signals,  sigNames, nSamples_signal, false);
-      /*  if (cha ==3 || cha ==4 ||cha ==5 ||cha == 7) plotDataVSMC_e (cat,cha,dist,
-								     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-								     eff_names,nSamples_eff -  nSamples_signal_mu - 10,
-								     catNames[cat], channelNames[cha],channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-								     true,
-								     2, true, signals_e,  sigNames_e , nSamples_signal_e, false);*/
-
+     
+      /*
       // da qui e' la roba per le data card
 
       
@@ -1164,7 +1208,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
       }//loop bin
-      
+      */
     }//end cat
   }//end histo
 
@@ -1185,3 +1229,5 @@ double Analysis_mc::pu_weight ( TH1D *histo, double numberInteractions){
   factore = histo->GetBinContent(histo->FindBin(nI));
   return factore;
 }
+
+ 

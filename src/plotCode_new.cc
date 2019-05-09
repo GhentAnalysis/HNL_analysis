@@ -121,7 +121,7 @@ void plotDataVSMC_mu(int categoria,int channel,int istogramma,
     if(signames==nullptr) {} // dummy, just to avoid warning
     
     //Make a legend for data and all backgrounds
-    TLegend* legend = new TLegend(0.81,0.15,0.99,0.88,NULL,"brNDC");
+    TLegend* legend = new TLegend(0.2,0.79,0.95,0.88,NULL,"brNDC");
     
     legend->SetFillStyle(0);
     
@@ -165,15 +165,15 @@ void plotDataVSMC_mu(int categoria,int channel,int istogramma,
     p1->Draw();
     p1->cd();
     p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-    p1->SetBottomMargin(0.15);
-    p1->SetRightMargin(0.2);
-    
+    p1->SetBottomMargin(0);
     bkgTot->SetFillStyle(3005);
     bkgTot->SetFillColor(kGray+2);
     bkgTot->SetMarkerStyle(1);
     data->SetMinimum(0.1);
     bkgTot->SetMinimum(0.1);
     bkgStack->SetMinimum(0.1);
+    if(!ylog) data->SetMinimum(0.01);
+    else if(ylog) p1->SetLogy();
     
     if(ylog) p1->SetLogy();
     HistLabelSizes(data,0.1,0.1,0.07,0.07);
@@ -401,7 +401,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if(signames==nullptr) {} // dummy, just to avoid warning
     
     //Make a legend for data and all backgrounds
-    TLegend* legend = new TLegend(0.81,0.15,0.99,0.88,NULL,"brNDC");
+    TLegend* legend = new TLegend(0.2,0.79,0.95,0.88,NULL,"brNDC");
     
     legend->SetFillStyle(0);
     
@@ -448,16 +448,16 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     p1 = new TPad(name_histo,"",0,xPad,1,1);
     p1->Draw();
     p1->cd();
-    p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-    p1->SetBottomMargin(0.15);
-    p1->SetRightMargin(0.2);
-    
+     p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
+    p1->SetBottomMargin(0);
     bkgTot->SetFillStyle(3005);
     bkgTot->SetFillColor(kGray+2);
     bkgTot->SetMarkerStyle(1);
     data->SetMinimum(0.1);
     bkgTot->SetMinimum(0.1);
     bkgStack->SetMinimum(0.1);
+    if(!ylog) data->SetMinimum(0.01);
+    else if(ylog) p1->SetLogy();
     
     if(ylog) p1->SetLogy();
     HistLabelSizes(data,0.1,0.1,0.07,0.07);
