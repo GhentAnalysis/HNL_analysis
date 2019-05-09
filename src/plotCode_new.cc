@@ -409,8 +409,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if(plotsig){
         for(unsigned sig = 0; sig < nSig; ++sig){
 
-	  if (channel <= 2 && sig >= 10) continue; 
-	  if (channel > 2 && sig < 10) continue; 
+	  if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
+	  if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
 	  signal[sig]->SetLineColor(sigCols[sig]);
 	  signal[sig]->SetMarkerColor(sigCols[sig]);
 	  signal[sig]->SetLineWidth(4);
@@ -467,7 +467,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     HistLabelSizes(data,0.1,0.1,0.07,0.07);
     
     //Determine the maximum range of the histogram, depending on the maximum range of the bkg or data
-    if (channel <= 2){
+    if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){
     if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[3]->GetBinContent(signal[3]->GetMaximumBin()) ){
         if(!ylog) signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
         else signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
@@ -477,7 +477,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         else signal[3]->SetMaximum(signal[3]->GetBinContent(signal[3]->GetMaximumBin())*10);
     }
     }
-     if (channel > 2){
+     if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){
     if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[13]->GetBinContent(signal[13]->GetMaximumBin()) ){
         if(!ylog) signal[13]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
         else signal[13]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
@@ -492,13 +492,13 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if(plotsig){
       for(unsigned sig = 0; sig < nSig; ++sig){
 
-            if (channel <= 2 && sig == 3){
+            if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ) && sig == 3){
                 if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
                 signal[sig]->SetMinimum(0);
                 signal[sig]->SetMinimum(0.1);
                 signal[sig]->Draw("histe ");
             }
-	    if (channel > 2 && sig == 13){
+	    if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig == 13){
                 if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
                 signal[sig]->SetMinimum(0);
                 signal[sig]->SetMinimum(0.1);
@@ -512,8 +512,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     bkgTot->Draw("e2same");
     if(plotsig){
         for(unsigned sig = 0; sig < nSig; ++sig){
-	  if (channel <= 2 && sig >= 10) continue; 
-	  if (channel > 2 && sig < 10) continue; 
+	  if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
+	  if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
 
             if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
             signal[sig]->SetMinimum(0.1);
@@ -539,5 +539,22 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if (channel == 7){
         c->SaveAs("plots_pdf/e/"+ name_cut + "/"+ name_histo + ".pdf");
         c->SaveAs("plots_root/e/"+ name_cut + "/"+ name_histo + ".root");
+    }
+
+     if (channel == 0){
+        c->SaveAs("plots_pdf/mmm/"+ name_cut + "/"+ name_histo + ".pdf");
+        c->SaveAs("plots_root/mmm/"+ name_cut + "/"+ name_histo + ".root");
+    }
+    if (channel == 1){
+        c->SaveAs("plots_pdf/mmeOS/"+ name_cut + "/"+ name_histo + ".pdf");
+        c->SaveAs("plots_root/mmeOS/"+ name_cut + "/"+ name_histo + ".root");
+    }
+    if (channel == 2){
+        c->SaveAs("plots_pdf/mmeSS/"+ name_cut + "/"+ name_histo + ".pdf");
+        c->SaveAs("plots_root/mmeSS/"+ name_cut + "/"+ name_histo + ".root");
+    }
+    if (channel == 6){
+        c->SaveAs("plots_pdf/mu/"+ name_cut + "/"+ name_histo + ".pdf");
+        c->SaveAs("plots_root/mu/"+ name_cut + "/"+ name_histo + ".root");
     }
 }
