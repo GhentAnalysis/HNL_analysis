@@ -553,9 +553,11 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // ------------   run over samples -----------------------------------------------//
 
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
+        std::cout<<"before init"<<std::endl;
+
     initSample(jaar,samples[sam]);
 
-   
+    std::cout<<"after init"<<std::endl;
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
