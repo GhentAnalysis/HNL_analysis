@@ -401,7 +401,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if(signames==nullptr) {} // dummy, just to avoid warning
     
     //Make a legend for data and all backgrounds
-    TLegend* legend = new TLegend(0.2,0.79,0.95,0.88,NULL,"brNDC");
+    TLegend* legend = new TLegend(0.15,0.69,0.95,0.88,NULL,"brNDC");
     
     legend->SetFillStyle(0);
     
@@ -411,12 +411,16 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
 	  if (channel <= 2 && sig >= 10) continue; 
 	  if (channel > 2 && sig < 10) continue; 
-
-            signal[sig]->SetLineColor(sigCols[sig]);
-            signal[sig]->SetLineColor(sigCols[sig]);
-            signal[sig]->SetMarkerColor(sigCols[sig]);
-            signal[sig]->SetLineWidth(4);
-            legend->AddEntry(signal[sig], signames[sig]);
+	  signal[sig]->SetLineColor(sigCols[sig]);
+	  signal[sig]->SetMarkerColor(sigCols[sig]);
+	  signal[sig]->SetLineWidth(4);
+	
+	  if (sig >= 10) {
+	    signal[sig]->SetLineColor(sigCols[sig-10]);
+	    signal[sig]->SetMarkerColor(sigCols[sig-10]);
+	    signal[sig]->SetLineWidth(4);
+	  }
+	  legend->AddEntry(signal[sig], signames[sig]);
         }
     }
     
@@ -449,7 +453,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     p1->Draw();
     p1->cd();
      p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-    p1->SetBottomMargin(0);
+    p1->SetBottomMargin(0.1);
     bkgTot->SetFillStyle(3005);
     bkgTot->SetFillColor(kGray+2);
     bkgTot->SetMarkerStyle(1);
