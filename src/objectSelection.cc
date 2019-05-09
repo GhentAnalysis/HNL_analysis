@@ -229,13 +229,14 @@ bool Analysis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
 //______________________________________________ele MVA ID
 bool Analysis_mc::elePassMVA(const unsigned leptonIndex) const{
   if( !isElectron(leptonIndex)) return false;
-  bool _passedMVA90 =false;
+  /* bool _passedMVA90 =false;
   int eta = -1;
   if(TMath::Abs(_lEta[leptonIndex]) < 0.8 ) eta = 0;
   else if(TMath::Abs(_lEta[leptonIndex]) < 1.479 ) eta = 1;
   else eta = 2;
   _passedMVA90 = _lElectronMvaFall17Iso[leptonIndex] >  std::min( MVA_cuts_pt15[eta], std::max(MVA_cuts_pt25[eta] , MVA_cuts_pt15[eta] + (MVA_cuts_pt25[eta] - MVA_cuts_pt15[eta])*0.1 *( _lPt[leptonIndex]-15) ) );
-  return _passedMVA90;
+  return _passedMVA90;*/
+  return _lPOGMedium[leptonIndex];
 }
 
 

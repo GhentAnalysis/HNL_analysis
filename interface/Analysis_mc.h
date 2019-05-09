@@ -746,6 +746,10 @@ class Analysis_mc : public TObject {
   bool lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const;
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
   int l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2);
+  bool lepFromMEExtConversion(const unsigned) const;
+   bool photonOverlap(const bool mcNonprompt = true) const;                                            //sample overlap due to photons
+   bool photonOverlap(const Sample&, const bool mcNonprompt = true) const;
+  
 
   //______________________      analysis tool functions       ________________________________// 
   double FR_weight(TGraphAsymmErrors *fakeRate_mu_sFR[3],  TGraphAsymmErrors *fakeRate_e_sFR[3], TGraphAsymmErrors *fakeRate_mumu_dFR[3], TGraphAsymmErrors *fakeRate_ee_dFR[3],   TGraphAsymmErrors *fakeRate_emu_dFR[3],bool   isSFR, bool   isDFR,double etaLepton,double flavorsLepton, double ptLepton, double etaJet,double flavorsJet,double ptJe ) ;

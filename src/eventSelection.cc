@@ -58,10 +58,8 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
   int index_leading = -1;
   int counter_leading=0;
   for(unsigned l = 0; l < ind.size(); ++l){
-    //std::cout<<l<<") "<<counter_leading<<  std::endl;
     //&& lepPromptTriggerMatching(ind[l])
     if (counter_leading == 0){
-      //  std::cout<<lepIsTightPrompt(ind[l])<<"  "<<lepPromptTriggerMatching(ind[l])<<std::endl;
       if (lepIsTightPrompt(ind[l]) ) {   
 	++counter_leading;
 	index_leading = ind[l];
@@ -69,7 +67,6 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
       }//only good tight prompt
     }//only 1
   }//loop light
-  //  std::cout<<"eecoolo: "<<index_leading<<std::endl;
   return index_leading;
 }
 
@@ -110,10 +107,64 @@ int Analysis_mc::l2l3_vertex_variable(const unsigned leptonIndex1, const unsigne
   for(unsigned v = 0; v < _nVFit; ++v){
     if (  (_vertices[v][0]   == (Index1*100 + Index2) ) || (_vertices[v][0] == (Index1 + Index2*100) )) {
       indice = v;
-        }
+    }
   }//loop vertecies
   return indice;
 }
+
+//______________________________________________check if lepton comes from matrix-element conversion
+bool Analysis_mc::lepFromMEExtConversion(const unsigned leptonIndex) const{
+    bool fromConversion = (_lMatchPdgId[leptonIndex] == 22);
+    // bool promptConversion = (_lIsPrompt[leptonIndex] && _lProvenanceConversion[leptonIndex] == 0);
+    bool promptConversion = (_lIsPrompt[leptonIndex] && _lProvenanceCompressed[leptonIndex] == 0);
+    return (fromConversion && promptConversion);
+}
+//______________________________________________reject events with overlapping photon-production phase-space
+bool Analysis_mc::photonOverlap(const Sample& samp, const bool mcNonprompt) const{
+
+    //in case of data-driven nonprompt estimation the only sample that is to be cleaned is Wgamma (for overlap with WZ)
+    bool isInclusiveSample;
+    bool isPhotonSample;
+    if( mcNonprompt ){
+        isInclusiveSample = (samp.getFileName().find("DYJetsToLL") != std::string::npos) ||
+            (samp.getFileName().find("TTTo2L") != std::string::npos) ||
+            (samp.getFileName().find("TTJets") != std::string::npos );
+
+        isPhotonSample = (samp.getFileName().find("ZGTo2LG") != std::string::npos) ||
+            (samp.getFileName().find("TTGJets") != std::string::npos) ||
+            (samp.getFileName().find("WGToLNuG") != std::string::npos);
+    } else {
+        isInclusiveSample = false;
+        isPhotonSample = (samp.getFileName().find("WGToLNuG") != std::string::npos);
+    }
+
+    //require inclusive sample to contain no external conversions
+    if(isInclusiveSample){
+       for(unsigned l = 0; l < _nLight; ++l){
+            if(lepIsFOBase(l) && lepFromMEExtConversion(l) ){
+                return true;
+            }
+        } 
+    //require photon samples to have atlease one external conversion
+    } if(isPhotonSample){
+        bool hasConversion = false;
+        for(unsigned l = 0; l < _nLight; ++l){
+            if(lepIsFOBase(l) && lepFromMEExtConversion(l) ){
+                hasConversion = true;
+            }
+        }
+        return !(hasConversion);
+    }
+    return false;
+}
+//______________________________________________
+bool Analysis_mc::photonOverlap(const bool mcNonprompt) const{
+    return photonOverlap(currentSample, mcNonprompt);
+}
+
+
+
+
 
 
 

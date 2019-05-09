@@ -853,7 +853,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      bool internal_conv= true;
+      /*bool internal_conv= true;
       if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
@@ -862,7 +862,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;    
       if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-      if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !external_conv) continue;
+      if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root" && !external_conv) continue;*/
+
+      if (photonOverlap (samples[sam])) continue;
+      
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
       // -----------------   variables useful    --------------------------------//
@@ -1000,9 +1003,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
 
-      std::cout<<fill<<"  "<<channel_bin<<"  "<<cut_bin<<std::endl;
-        
-      
+             
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	Histos[0][channel_bin][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1012,8 +1013,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	Histos[0][channel_bin][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	Histos[0][7][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
       }
-
-       // ------------------- Histo cut flow
+      // ------------------- Histo cut flow
       Histos[1][channel_bin][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
       Histos[1][channel_bin][cut_bin][fill]->Fill(static_cast<double>(cut_bin+1), scal);
       if (SR_channel <= 2){
@@ -1023,9 +1023,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (SR_channel > 2){
 	Histos[1][7][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
 	Histos[1][7][cut_bin][fill]->Fill(static_cast<double>(cut_bin+1), scal);
-      }
-      
-      // all the other histograms
+      }     
+      // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
 	Histos[numero_histo][channel_bin][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (SR_channel <= 2) Histos[numero_histo][6][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
@@ -1037,6 +1036,63 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
   // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
+
+  // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
+  TH1D* dataYields[nDist][nChannel][nCat];
+  for(unsigned dist = 0; dist < nDist; ++dist){
+    for(unsigned cat = 0; cat < nCat; ++cat){
+      for(int cha = 0; cha < nChannel; ++cha){               
+	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][nSample_signal+1]->Clone();
+	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][0]->Clone();
+      }
+    }
+  }
+
+  TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSample_signal]; //change to nSamples_eff if sig is removed
+  for(unsigned dist = 0; dist < nDist; ++dist){
+    for(unsigned cat = 0; cat < nCat; ++cat){
+      for(int cha = 0; cha < nChannel; ++cha){               
+	for(unsigned effsam1 = nSample_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
+	  put_at_zero(*&Histos[dist][cha][cat][effsam1]);
+	  bkgYields[dist][cha][cat][effsam1 -nSample_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
+	  if(effsam1 > nSample_signal+1 && effsam1 < nSamples_eff){	  
+	    if (isSRRun) dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSample_signal+1]);
+	  }	  
+	}
+      }
+    }
+  }
+
+
+  TH1D* signals_mu[nSamples_signal_mu];
+  TH1D* signals_e[nSamples_signal_e];
+
+  for(unsigned dist = 0; dist < nDist; ++dist){
+    for(unsigned cat = 0; cat < nCat; ++cat){
+      for(int cha = 0; cha < nChannel; ++cha){               
+	for (unsigned signal_sample = 0; signal_sample< nSamples_signal_mu; signal_sample++){
+	  signals_mu[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	}
+	for (unsigned signal_sample = 0; signal_sample< nSamples_signal_e; signal_sample++){
+	  signals_e[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1+nSamples_signal_e]->Clone() ;     
+	}
+
+void plotDataVSMC_mu(int categoria,int channel,int istogramma,
+		     TH1D* data, TH1D** bkg,
+		     const TString* names, const unsigned nHist,
+		     const TString& name_cut,const TString& name_channel, const TString& name_histo,
+		     const bool ylog,
+		     const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm){
+
+	
+	plotDataVSMC_mu(cat,dist,dataYields[dist][cat], bkgYields[dist][cat], eff_names, nSamples_eff -  nSamples_signal - 1, Histnames_ossf[dist] + "_" +  catNames[cat], catNames[cat], true, 2, true, signals,  sigNames , nSamples_signal, false);
+    
+
+      }
+    }
+  }
+ 
+  
 
 }//END ANALIUSI
 
