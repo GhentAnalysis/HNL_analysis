@@ -1141,7 +1141,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  }
 	}
 
-
+	  // IMPORTANTE   da qui e' la roba per le data card
 	for (unsigned signal_sample = 0; signal_sample< 62; signal_sample++){	  
 	  if(signals[signal_sample] -> GetBinContent(ii+1) !=0) systUnc[0][0]= (1+ (signals[signal_sample] -> GetBinError(ii+1)) / (signals[signal_sample] -> GetBinContent(ii+1)));
 	  if(systUnc[0][0] >=2 )                                systUnc[0][0] = 1.99;	  
