@@ -781,6 +781,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
 
+      std::cout<<" l2 and l3 "<< v4l2.Pt()<<"  "<<v4l3.Pt()<<std::endl;
+
 
 
       //vertex l2l3 info
