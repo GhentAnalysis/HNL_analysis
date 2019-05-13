@@ -664,13 +664,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       for(unsigned i = 0; i < _nL; ++i){
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
-	if (_lFlavor[i] !=2) std::cout<<i<<") "<<_lPt[i]<<"  "<< fabs(_dxy[i])<<"  "<<fabs(_dz[i])<<"  "<<_relIso[i]<< "  "<<_lMatchPdgId[i]<<"  mum "<<_lMomPdgId[i]<< std::endl;	
+	//if (_lFlavor[i] !=2) std::cout<<i<<") "<<_lPt[i]<<"  "<< fabs(_dxy[i])<<"  "<<fabs(_dz[i])<<"  "<<_relIso[i]<< "  "<<_lMatchPdgId[i]<<"  mum "<<_lMomPdgId[i]<< std::endl;	
       } 
       //select leptons	      
       const unsigned lCount = selectLepConeCorr(ind);
-      std::cout<<"before3"<<std::endl;
+      //std::cout<<"before3"<<std::endl;
       if (lCount < 3) continue;
-      std::cout<<"after3"<<std::endl;
+      // std::cout<<"after3"<<std::endl;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
@@ -706,9 +706,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // ------------   event selection   -----------------------------------------------//
       //assign the l1 index
       ind_new_leading = l1Index(ind);
-      std::cout<<"before leading"<<std::endl;
+      //std::cout<<"before leading"<<std::endl;
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      std::cout<<"after leading   ---> index leading is: "<<ind_new_leading<<std::endl;
+      //std::cout<<"after leading   ---> index leading is: "<<ind_new_leading<<std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -724,21 +724,21 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){
-	  std::cout<<l<<": "<<j<<":: "<< std::endl;
+	  //std::cout<<l<<": "<<j<<":: "<< std::endl;
 	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
-	  std::cout<<l<<" is a displaced"<<std::endl;				
+	  //std::cout<<l<<" is a displaced"<<std::endl;				
 	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
-	  std::cout<<j<<" is a displaced"<<std::endl;				
+	  //std::cout<<j<<" is a displaced"<<std::endl;				
 
 	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
-	  std::cout<<"they have OS"<<std::endl;			  
+	  //std::cout<<"they have OS"<<std::endl;			  
 	  ++displacedC;
-	  std::cout<<"number disaplced: "<<displacedC<<std::endl;
+	  //std::cout<<"number disaplced: "<<displacedC<<std::endl;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
 	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
 	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
-	  std::cout<< "tempt vector: "<< _lPt[ind[l]]<<"  "<<_lPt[ind[j]]<<" mass:  "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
+	  //std::cout<< "tempt vector: "<< _lPt[ind[l]]<<"  "<<_lPt[ind[j]]<<" mass:  "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
 	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
 	    min_mass= (temp_displaced1+temp_displaced2).M();
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
@@ -750,13 +750,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	      index_to_use_for_l2_l3[1] = ind[l];
 	    }	    
 	  }
-	  std::cout<<"mass min: "<<min_mass<<std::endl;
+	  //std::cout<<"mass min: "<<min_mass<<std::endl;
 	}//end loop2
       }//end loop1
 
-      std::cout<<"before displaced >=2 "<<std::endl;
+      //std::cout<<"before displaced >=2 "<<std::endl;
       if (displacedC< 1) continue;
-      std::cout<<"after displced   ---> index displaced1 is: "<<index_to_use_for_l2_l3[0]<<"  second: "<<index_to_use_for_l2_l3[1]<< std::endl;
+      //std::cout<<"after displced   ---> index displaced1 is: "<<index_to_use_for_l2_l3[0]<<"  second: "<<index_to_use_for_l2_l3[1]<< std::endl;
 
       
       //trigger NOT trigger matching!!!!!!
@@ -781,7 +781,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
 
-      std::cout<<" l2 and l3 "<< v4l2.Pt()<<"  "<<v4l3.Pt()<<std::endl;
 
 
 
@@ -1031,7 +1030,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	//std::cout<<"sr channel: "<< SR_channel<<"  channel bin "<<channel_bin<< "  "<< bin_SR_muonCoupling<<"  check: ("<<flavors_3l[0]<<","<<flavors_3l[1]<<","<<flavors_3l[2]<<")"<< std::endl;
-	//	Histos[0][SR_channel][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	//Histos[0][SR_channel][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	//Histos[0][6][cut_bin][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);

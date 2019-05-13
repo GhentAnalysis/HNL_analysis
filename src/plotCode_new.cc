@@ -421,12 +421,19 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	    signal[sig]->SetMarkerColor(sigCols[sig-10]);
 	    signal[sig]->SetLineWidth(4);
 	  }
-	 
+	  //legend->AddEntry(signal[sig], signames[sig]);
+
+	 if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "m_{N}=1 GeV");
+	 if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "m_{N}=2 GeV");
+	 if (sig == 4 ||sig == 14 ) legend->AddEntry(signal[sig], "m_{N}=4 GeV");
+	 if (sig == 6 ||sig == 16 ) legend->AddEntry(signal[sig], "m_{N}=6 GeV");
+	 if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "m_{N}=10 GeV");
+		 
         }
     }
 
 
-    legend->AddEntry(signal[0], "M = 1 GeV");
+    /* legend->AddEntry(signal[0], "M = 1 GeV");
     legend->AddEntry(signal[2], "M = 2 GeV");
     legend->AddEntry(signal[4], "M = 4 GeV");
     legend->AddEntry(signal[6], "M = 6 GeV");
@@ -435,7 +442,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     legend->AddEntry(signal[12], "M = 2 GeV");
     legend->AddEntry(signal[14], "M = 4 GeV");
     legend->AddEntry(signal[16], "M = 6 GeV");
-    legend->AddEntry(signal[18], "M = 10 GeV");
+    legend->AddEntry(signal[18], "M = 10 GeV");*/
 
     
     for(int effsam = nHist - 1; effsam > -1; --effsam){
@@ -482,13 +489,13 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[3]-> GetXaxis()->SetBinLabel(6, "");
       signal[3]-> GetXaxis()->SetBinLabel(7, "");
       signal[3]-> GetXaxis()->SetBinLabel(8, "");
-      signal[3]-> GetXaxis()->SetBinLabel(9, "#mu#mu OS e");
+      signal[3]-> GetXaxis()->SetBinLabel(9, "#mu^{#pm}#mu^{#mp}e");
       signal[3]-> GetXaxis()->SetBinLabel(10, "");
       signal[3]-> GetXaxis()->SetBinLabel(11, "");
       signal[3]-> GetXaxis()->SetBinLabel(12, "");
       signal[3]-> GetXaxis()->SetBinLabel(13, "");
       signal[3]-> GetXaxis()->SetBinLabel(14, "");
-      signal[3]-> GetXaxis()->SetBinLabel(15, "#mu#mu SS e");
+      signal[3]-> GetXaxis()->SetBinLabel(15, "#mu^{#pm}#mu^{#pm}e");
       signal[3]-> GetXaxis()->SetBinLabel(16, "");
       signal[3]-> GetXaxis()->SetBinLabel(17, "");
       signal[3]-> GetXaxis()->SetBinLabel(18, "");
@@ -507,13 +514,13 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[13]-> GetXaxis()->SetBinLabel(6, "");
       signal[13]-> GetXaxis()->SetBinLabel(7, "");
       signal[13]-> GetXaxis()->SetBinLabel(8, "");
-      signal[13]-> GetXaxis()->SetBinLabel(9, "ee OS #mu");
+      signal[13]-> GetXaxis()->SetBinLabel(9, "e^{#pm}e^{#mp}#mu");
       signal[13]-> GetXaxis()->SetBinLabel(10, "");
       signal[13]-> GetXaxis()->SetBinLabel(11, "");
       signal[13]-> GetXaxis()->SetBinLabel(12, "");
       signal[13]-> GetXaxis()->SetBinLabel(13, "");
       signal[13]-> GetXaxis()->SetBinLabel(14, "");
-      signal[13]-> GetXaxis()->SetBinLabel(15, "ee SS #mu");
+      signal[13]-> GetXaxis()->SetBinLabel(15, "e^{#pm}e^{#pm}#mu");
       signal[13]-> GetXaxis()->SetBinLabel(16, "");
       signal[13]-> GetXaxis()->SetBinLabel(17, "");
       signal[13]-> GetXaxis()->SetBinLabel(18, "");
