@@ -755,7 +755,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }//end loop1
 
       std::cout<<"before displaced >=2 "<<std::endl;
-      if (displacedC< 2) continue;
+      if (displacedC< 1) continue;
       std::cout<<"after displced   ---> index displaced1 is: "<<index_to_use_for_l2_l3[0]<<"  second: "<<index_to_use_for_l2_l3[1]<< std::endl;
 
       
