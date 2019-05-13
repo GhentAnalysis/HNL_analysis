@@ -664,7 +664,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       for(unsigned i = 0; i < _nL; ++i){
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
-	if (_lFlavor[i] !=2) std::cout<<i<<") "<<_lPt[i]<<"  "<< fabs(_dxy[i])<<"  "<<fabs(_dz[i])<<"  "<<_relIso[i]<<std::endl;	
+	if (_lFlavor[i] !=2) std::cout<<i<<") "<<_lPt[i]<<"  "<< fabs(_dxy[i])<<"  "<<fabs(_dz[i])<<"  "<<_relIso[i]<< "  "<<_lMatchPdgId[i]<<"  mum "<<_lMomPdgId[i]<< std::endl;	
       } 
       //select leptons	      
       const unsigned lCount = selectLepConeCorr(ind);
