@@ -708,7 +708,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       ind_new_leading = l1Index(ind);
       std::cout<<"before leading"<<std::endl;
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      std::cout<<"after leading"<<std::endl;
+      std::cout<<"after leading   ---> index leading is: "<<ind_new_leading<<std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -723,11 +723,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int min_mass=999;
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
-	for(unsigned j = l+1; j < lCount; ++j){
-
-	 
-
-	  
+	for(unsigned j = l+1; j < lCount; ++j){	  
 	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
 	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
 	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
@@ -749,8 +745,11 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  }
 	}//end loop2
       }//end loop1
+
+      std::cout<<"before displaced >=2 "<<std::endl;
       if (displacedC< 2) continue;
-      
+      std::cout<<"after displced   ---> index displaced1 is: "<<index_to_use_for_l2_l3[0]<<"  second: "<<index_to_use_for_l2_l3[1]<< std::endl;
+
       
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
