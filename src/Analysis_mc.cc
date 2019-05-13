@@ -568,18 +568,18 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     /* if(samples[sam].isNewPhysicsSignal()) {
-      std::cout << " is signal" << std::endl;
-      if(samples[sam].getHNLV2New()>0.) {
-	ctauOld = samples[sam].getHNLctau();
-	ctauNew = samples[sam].getHNLctauNew();
-	std::cout << "  ==> HNL lifetime re-weighting: " << std::endl;
-	std::cout << "      (" << samples[sam].getHNLV2()    << ", " << ctauOld
-		  << ") --> (" << samples[sam].getHNLV2New() << ", " << ctauNew
-		  << ")" << std::endl;
+       std::cout << " is signal" << std::endl;
+       if(samples[sam].getHNLV2New()>0.) {
+       ctauOld = samples[sam].getHNLctau();
+       ctauNew = samples[sam].getHNLctauNew();
+       std::cout << "  ==> HNL lifetime re-weighting: " << std::endl;
+       std::cout << "      (" << samples[sam].getHNLV2()    << ", " << ctauOld
+       << ") --> (" << samples[sam].getHNLV2New() << ", " << ctauNew
+       << ")" << std::endl;
 
-	ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
-      }
-      }*/
+       ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
+       }
+       }*/
 
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
@@ -724,19 +724,21 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){
-	  std::cout<<l<<"] "<<j<<") "<< std::endl;
+	  std::cout<<l<<": "<<j<<":: "<< std::endl;
 	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
-					std::cout<<l<<" is a displaced"<<std::endl;				
+	  std::cout<<l<<" is a displaced"<<std::endl;				
 	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
-				 std::cout<<j<<" is a displaced"<<std::endl;				
+	  std::cout<<j<<" is a displaced"<<std::endl;				
 
 	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
-				  std::cout<<"they have OS"<<std::endl;			  
+	  std::cout<<"they have OS"<<std::endl;			  
 	  ++displacedC;
+	  std::cout<<"number disaplced: "<<displacedC<<std::endl;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
 	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
 	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
+	  std::cout<< "tempt vector: "<< _lPt[ind[l]]<<"  "<<_lPt[ind[j]]<<" mass:  "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
 	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
 	    min_mass= (temp_displaced1+temp_displaced2).M();
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
@@ -748,6 +750,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	      index_to_use_for_l2_l3[1] = ind[l];
 	    }	    
 	  }
+	  std::cout<<"mass min: "<<min_mass<<std::endl;
 	}//end loop2
       }//end loop1
 
@@ -877,15 +880,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       bool internal_conv= true;
-	if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
-	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
-	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
-	bool external_conv= false;
-	if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
-	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
-	if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;    
-	if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-	if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
+      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
+      bool external_conv= false;
+      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;    
+      if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
+      if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
 
       // if (photonOverlap (samples[sam])) continue;
       
@@ -963,8 +966,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (!selection_0) continue;
 
       /* std::cout<<"slection "<< selection_0<< "   "<< selection_1<< "   "<< selection_2<< "   "<< selection_3<< "   "<< selection_4<< "   "<< selection_5<< "   "<< selection_final<< std::endl;
-      std::cout<< v4l2.DeltaR(v4l3)<<std::endl;
-      std::cout<< fabs(_dxy[l1])<<"   "<<fabs(_dxy[l2])<<"   "<<fabs(_dxy[l3])<<"   "<< std::endl;*/
+	 std::cout<< v4l2.DeltaR(v4l3)<<std::endl;
+	 std::cout<< fabs(_dxy[l1])<<"   "<<fabs(_dxy[l2])<<"   "<<fabs(_dxy[l3])<<"   "<< std::endl;*/
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1005,15 +1008,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       /* bool isDataDrivenBgk= false;
-      if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
-      if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
-      bool isDataYield= false;
-      if (samples[sam].isData() && !tightFail_sFR     && single_fake)     isDataYield= true;
-      if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)      isDataYield= true;
-      if (isDataDrivenBgk) fill = nSamples_eff;
-      if (isDataYield)     fill = 0;
-      if (isDataYield)     scal = 1;
-      if (isDataYield)     continue;*/
+	 if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
+	 if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
+	 bool isDataYield= false;
+	 if (samples[sam].isData() && !tightFail_sFR     && single_fake)     isDataYield= true;
+	 if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)      isDataYield= true;
+	 if (isDataDrivenBgk) fill = nSamples_eff;
+	 if (isDataYield)     fill = 0;
+	 if (isDataYield)     scal = 1;
+	 if (isDataYield)     continue;*/
 
      
  
@@ -1117,7 +1120,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  if (selection_4) Histos[numero_histo][6][4][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	  if (selection_5) Histos[numero_histo][6][5][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	  if (selection_final) Histos[numero_histo][6][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	// Histos[numero_histo][6][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  // Histos[numero_histo][6][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	}
 	if (SR_channel > 2)  {
 	  if (selection_0) Histos[numero_histo][7][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
