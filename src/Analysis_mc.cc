@@ -723,10 +723,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int min_mass=999;
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
-	for(unsigned j = l+1; j < lCount; ++j){	  
+	for(unsigned j = l+1; j < lCount; ++j){
+	  std::cout<<l<<"] "<<j<<") "<< std::endl;
 	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
+					std::cout<<l<<" is a displaced"<<std::endl;				
 	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
+				 std::cout<<j<<" is a displaced"<<std::endl;				
+
 	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
+				  std::cout<<"they have OS"<<std::endl;			  
 	  ++displacedC;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
