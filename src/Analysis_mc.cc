@@ -660,14 +660,18 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //------------------------------------------------------------ lepton selection for FO
+      std::cout<<"------------------------------------------------------------"<<std::endl;
       for(unsigned i = 0; i < _nL; ++i){
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
+	if (_lFlavor[i] !=2) std::cout<<i<<") "<<_lPt[i]<<"  "<< fabs(_dxy[i])<<"  "<<fabs(_dz[i])<<"  "<<_relIso[i]<<std::endl;	
       } 
       //select leptons	      
       const unsigned lCount = selectLepConeCorr(ind);
-
+      std::cout<<"before3"<<std::endl;
       if (lCount < 3) continue;
+      std::cout<<"after3"<<std::endl;
+
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
 	 _jetPt[j]=_jetSmearedPt[j];
@@ -702,7 +706,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // ------------   event selection   -----------------------------------------------//
       //assign the l1 index
       ind_new_leading = l1Index(ind);
+      std::cout<<"before leading"<<std::endl;
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
+      std::cout<<"after leading"<<std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -718,6 +724,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){
+
+	 
+
+	  
 	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
 	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
 	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
