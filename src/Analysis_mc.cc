@@ -663,13 +663,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       for(unsigned i = 0; i < _nL; ++i){
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
-	//if (_lFlavor[i] !=2) std::cout<<i<<") "<<_lPt[i]<<"  "<< fabs(_dxy[i])<<"  "<<fabs(_dz[i])<<"  "<<_relIso[i]<< "  "<<_lMatchPdgId[i]<<"  mum "<<_lMomPdgId[i]<< std::endl;	
       } 
       //select leptons	      
       const unsigned lCount = selectLepConeCorr(ind);
-      //std::cout<<"before3"<<std::endl;
       if (lCount < 3) continue;
-      // std::cout<<"after3"<<std::endl;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
@@ -705,9 +702,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       // ------------   event selection   -----------------------------------------------//
       //assign the l1 index
       ind_new_leading = l1Index(ind);
-      //std::cout<<"before leading"<<std::endl;
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      //std::cout<<"after leading   ---> index leading is: "<<ind_new_leading<<std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -723,21 +718,14 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){
-	  //std::cout<<l<<": "<<j<<":: "<< std::endl;
 	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
-	  //std::cout<<l<<" is a displaced"<<std::endl;				
 	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
-	  //std::cout<<j<<" is a displaced"<<std::endl;				
-
 	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
-	  //std::cout<<"they have OS"<<std::endl;			  
 	  ++displacedC;
-	  //std::cout<<"number disaplced: "<<displacedC<<std::endl;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
 	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
 	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
-	  //std::cout<< "tempt vector: "<< _lPt[ind[l]]<<"  "<<_lPt[ind[j]]<<" mass:  "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
 	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
 	    min_mass= (temp_displaced1+temp_displaced2).M();
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
@@ -753,15 +741,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	}//end loop2
       }//end loop1
 
-      //std::cout<<"before displaced >=2 "<<std::endl;
       if (displacedC< 1) continue;
-      //std::cout<<"after displced   ---> index displaced1 is: "<<index_to_use_for_l2_l3[0]<<"  second: "<<index_to_use_for_l2_l3[1]<< std::endl;
 
       
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
 
-      // std::cout<<"prima : "<< _dxy[index_to_use_for_l2_l3[0]] << "  "<< _dxy[index_to_use_for_l2_l3[1]]<<std::endl;
 
       
       // ------------ changing all the lep info and vertex-----------------------------------------------//
@@ -816,6 +801,11 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	single_fake = true;
 	Double_fake = false;
       }
+       // -----------------------------------------------------------//
+      if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
+      if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
+      if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
+      if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
       // ------------ closest jet info --------------------------------------//
       TLorentzVector  l1Jet[1] ;
       float JEC       ;
@@ -856,7 +846,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //if (!samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
       if (sideBandRegion){
-	if (samples[sam].isData()  )scal *= -1;
+	if ( samples[sam].isData()  )scal *= -1;
 	if (!samples[sam].isData() )scal  = 1 * scal;
 	if (single_fake){
 	  if (!_isT[l2]) {
@@ -876,17 +866,19 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  scal *= -fr/(1-fr);
 	}
       }//FR
-
-       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      
+      if (single_fake && tightFail && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
+      if (single_fake && tightFail && !_isT[l3] && _relIso[l3] < isolation_tight) continue;  
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       bool internal_conv= true;
       if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
-      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
+      if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) internal_conv = false;
       bool external_conv= false;
       if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
-      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;    
+      if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) external_conv = true;    
       if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
       if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
 
@@ -932,14 +924,17 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int SR_channel=0;
       SR_channel=channel(flavors_3l, charge_3l);
       if (isSRRun && SR_channel == -1 ) continue;
-      bool less2=false;
-      bool more2_10=false;
-      bool more10=false;  
-      bool less5=false;
-      bool more5=false;
-      if (D2_delta_pv_sv < 2)                         less2= true;
+      //avoid +++ or ---
+      if (isSRRun && SR_channel == 0 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
+      if (isSRRun && SR_channel == 3 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
+      bool less2     =false;
+      bool more2_10  =false;
+      bool more10    =false;  
+      bool less5     =false;
+      bool more5     =false;
+      if (D2_delta_pv_sv < 2)                         less2   = true;
       if (D2_delta_pv_sv >= 2 && D2_delta_pv_sv < 10) more2_10= true;
-      if (D2_delta_pv_sv >= 10 )                      more10= true;
+      if (D2_delta_pv_sv >= 10 )                      more10  = true;
       if (M_l2l3_combined < 5 )   less5= true;
       if (M_l2l3_combined > 5 )   more5= true;
       //bin histogram SR
@@ -947,6 +942,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int bin_SR_eleCoupling =0;
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
+
+
+      M_3L_combined = (v4l2 + v4l3 + v4l1).M();
+      M_l2l3_combined =  (v4l2 + v4l3).M();
       
       bool selection_0=false;
       bool selection_1=false;
@@ -964,10 +963,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
      
       if (!selection_0) continue;
-
-      /* std::cout<<"slection "<< selection_0<< "   "<< selection_1<< "   "<< selection_2<< "   "<< selection_3<< "   "<< selection_4<< "   "<< selection_5<< "   "<< selection_final<< std::endl;
-	 std::cout<< v4l2.DeltaR(v4l3)<<std::endl;
-	 std::cout<< fabs(_dxy[l1])<<"   "<<fabs(_dxy[l2])<<"   "<<fabs(_dxy[l3])<<"   "<< std::endl;*/
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
