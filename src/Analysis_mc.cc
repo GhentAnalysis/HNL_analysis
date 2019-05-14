@@ -716,7 +716,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //assign the l1 index
       ind_new_leading = l1Index(ind);
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after leading event 203"<<"  "<<_eventNb<<std::endl;
+      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after leading event 203"<<"  "<<_eventNb<<"   pt leading: "<< _lPt[ind_new_leading]<<std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
