@@ -676,10 +676,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	_EReal[i] =_lE[i];
       } 
       //select leptons
-      if (_eventNb==203 ) std::cout<<"event 203"<<std::endl;
+      if (_eventNb==96541 ) std::cout<<"event 203"<<std::endl;
       const unsigned lCount = selectLepConeCorr(ind);
       if (lCount < 3) continue;
-      if (_eventNb==203 ) std::cout<<"after 3 event 203"<<std::endl;
+      if (_eventNb==96541 ) std::cout<<"after 3 event 203"<<std::endl;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
@@ -716,7 +716,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //assign the l1 index
       ind_new_leading = l1Index(ind);
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      if (_eventNb==203 ) std::cout<<"after leading event 203"<<std::endl;
+      if (_eventNb==96541 ) std::cout<<"after leading event 203"<<std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -756,13 +756,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }//end loop1
 
       if (displacedC< 1) continue;
-      if (_eventNb==203 ) std::cout<<"after displaced event 203"<<std::endl;
+      if (_eventNb==96541 ) std::cout<<"after displaced event 203"<<std::endl;
 
       
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
 
-      if (_eventNb==203 ) std::cout<<"after trigger event 203"<<std::endl;
+      if (_eventNb==96541 ) std::cout<<"after trigger event 203"<<std::endl;
 
       
       // ------------ changing all the lep info and vertex-----------------------------------------------//
