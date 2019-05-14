@@ -596,7 +596,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     for (Long64_t it = 0; it < nEntries; ++it){
       GetEntry(samples[sam], it);
       //   std::cout<<"after get tree"<<std::endl;
-    if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
 
       //print progess
       /* if(it%100 == 0 && it != 0){
@@ -682,17 +681,17 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
       
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
+       //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
+       //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
+       //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
 
       
 
       //select leptons
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"event 203"<<"  "<<_eventNb<<std::endl;
+      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"event 203"<<"  "<<_eventNb<<std::endl;
       const unsigned lCount = selectLepConeCorr(ind);
       if (lCount < 3) continue;
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after 3 event 203"<<"  "<<_eventNb<<std::endl;
+      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after 3 event 203"<<"  "<<_eventNb<<std::endl;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
@@ -729,7 +728,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //assign the l1 index
       ind_new_leading = l1Index(ind);
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after leading event 203"<<"  "<<_eventNb<<"   pt leading: "<< _lPt[ind_new_leading]<<std::endl;
+      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after leading event 203"<<"  "<<_eventNb<<"   pt leading: "<< _lPt[ind_new_leading]<<std::endl;
 
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
@@ -746,29 +745,29 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int min_mass=999;
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
-	if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"===================================================="<<std::endl;
+	//if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"===================================================="<<std::endl;
 
 	
 	for(unsigned j = l+1; j < lCount; ++j){
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"==============="<<std::endl;
+	  // if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"==============="<<std::endl;
 
-	  if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         first: "<< l<<" ind[l] "<< ind[l]<<"   second "<<j<<" ind[j] "<< ind[j]<<std::endl;
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         firstI : "<<_lIndex[ind[l]]<<"  second I "<<_lIndex[ind[j]]<<std::endl;
+	  //if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
+	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         first: "<< l<<" ind[l] "<< ind[l]<<"   second "<<j<<" ind[j] "<< ind[j]<<std::endl;
+	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         firstI : "<<_lIndex[ind[l]]<<"  second I "<<_lIndex[ind[j]]<<std::endl;
 
 	  
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"inside loop leptons displaced"<<"  "<<_eventNb<<"  pt  "<<_lPt[ind[l]]<<"   "<<_lPt[ind[j]]<<std::endl;
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"dxy: "<<fabs(_dxy[ind[l]])<<"  "<<fabs(_dxy[ind[j]])<<"   reliso "<<_relIso[ind[l]]<<"  "<<_relIso[ind[j]]<<std::endl;
+	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"inside loop leptons displaced"<<"  "<<_eventNb<<"  pt  "<<_lPt[ind[l]]<<"   "<<_lPt[ind[j]]<<std::endl;
+	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"dxy: "<<fabs(_dxy[ind[l]])<<"  "<<fabs(_dxy[ind[j]])<<"   reliso "<<_relIso[ind[l]]<<"  "<<_relIso[ind[j]]<<std::endl;
 
-	  std::cout<<"calling the function lepIsDisplaced with those index: fixed one: "<<ind[l]<< "    looping over the rest"<<std::endl;
+	  //std::cout<<"calling the function lepIsDisplaced with those index: fixed one: "<<ind[l]<< "    looping over the rest"<<std::endl;
 	  if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"l is dispalced"<<"  "<<_eventNb<<_lPt[ind[l]]<<std::endl;
+	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"l is dispalced"<<"  "<<_eventNb<<_lPt[ind[l]]<<std::endl;
 
 	  if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"j is dispalced"<<"  "<<_eventNb<<_lPt[ind[j]]<<std::endl;
+	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"j is dispalced"<<"  "<<_eventNb<<_lPt[ind[j]]<<std::endl;
 
 	  if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"OS"<<"  "<<_eventNb<<std::endl;
+	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"OS"<<"  "<<_eventNb<<std::endl;
 
 	  ++displacedC;
 	  TLorentzVector temp_displaced1;
@@ -791,13 +790,13 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }//end loop1
 
       if (displacedC< 1) continue;
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after displaced event 203"<<"  "<<_eventNb<<std::endl;
+      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after displaced event 203"<<"  "<<_eventNb<<std::endl;
 
       
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
 
-      if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after trigger event 203"<<"  "<<_eventNb<<std::endl;
+      //f (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after trigger event 203"<<"  "<<_eventNb<<std::endl;
 
       
       // ------------ changing all the lep info and vertex-----------------------------------------------//

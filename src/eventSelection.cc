@@ -73,40 +73,40 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
 //______________________________________________check if they can be called displaced
 bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const{
   int number_found_verteces=0;
-  std::cout<<"                   we should run using the fixed one that is: "<<leptonIndex<<std::endl;
-  std::cout<<"      in lepIsdisplaced:"<<std::endl;
+  //std::cout<<"                   we should run using the fixed one that is: "<<leptonIndex<<std::endl;
+  //std::cout<<"      in lepIsdisplaced:"<<std::endl;
   if (leptonIndex == index_taken_by_l1) return false;
-  std::cout<<"      no leading"<<std::endl;
+  //std::cout<<"      no leading"<<std::endl;
 
   if (!lepIsFOBase(leptonIndex)) return false;
-  std::cout<<"      si FO"<<std::endl;
+  //std::cout<<"      si FO"<<std::endl;
 
   if (fabs(_dxy[leptonIndex]) < dxy_cut) return false;
-    std::cout<<"      si dxy cut"<<std::endl;
-    std::cout<<_lPt[leptonIndex]<<std::endl;
+  //std::cout<<"      si dxy cut"<<std::endl;
+  //std::cout<<_lPt[leptonIndex]<<std::endl;
   //looking for a common vertex with an other lepton
   for(unsigned sd = 0; sd < ind.size(); ++sd){
-    std::cout<<ind[sd]<<"            --> in lepIsdisplaced:"<<std::endl;
+    //std::cout<<ind[sd]<<"            --> in lepIsdisplaced:"<<std::endl;
 
     if (leptonIndex == ind[sd]) continue;
-    std::cout<<"            --> no the same:"<<std::endl;
+    //std::cout<<"            --> no the same:"<<std::endl;
 
     if (ind[sd] == index_taken_by_l1) continue;
-        std::cout<<"            --> noleading"<<std::endl;
+    //std::cout<<"            --> noleading"<<std::endl;
 
     if (fabs(_dxy[ind[sd]]) < dxy_cut) continue;
-        std::cout<<"            --> si displaced"<<std::endl;
+    //std::cout<<"            --> si displaced"<<std::endl;
 
     if (!lepIsFOBase(ind[sd])) continue;
-        std::cout<<"            --> si FO"<<std::endl;
-	std::cout<<_lPt[ind[sd]]<<"   "<<ind[sd]<<std::endl;
+    // std::cout<<"            --> si FO"<<std::endl;
+    //std::cout<<_lPt[ind[sd]]<<"   "<<ind[sd]<<std::endl;
 
     for(unsigned v = 0; v < _nVFit; ++v){
-      std::cout<<v<<": "<< _vertices[v][0]<<"               what is supposed to be: "<< leptonIndex<<"  "<<ind[sd]<<std::endl;
+      //std::cout<<v<<": "<< _vertices[v][0]<<"               what is supposed to be: "<< leptonIndex<<"  "<<ind[sd]<<std::endl;
       if (vertex_found(leptonIndex,ind[sd],  _vertices[v][0]) ) ++number_found_verteces;   
     }//loop vertecies
   }//loop second lepton
-  std::cout<<"number of common vertex: "<<number_found_verteces<<std::endl;
+  //std::cout<<"number of common vertex: "<<number_found_verteces<<std::endl;
 
   if (number_found_verteces <= 0) return false;
 
