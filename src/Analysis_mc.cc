@@ -675,9 +675,18 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
       }
+      int _lIndex[_nL];
+       for(unsigned i = 0; i < _nL; ++i){
+	_lIndex[i] = i+1;
+      }
+
+
+      
       if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
       if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
       if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
+
+      
 
       //select leptons
       if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"event 203"<<"  "<<_eventNb<<std::endl;
@@ -728,7 +737,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       std::vector<int> charge_displaced;
       std::vector<unsigned> temp_index;
       
-    
+      
+
+      
       int index_to_use_for_l2_l3[2]={0,0};
       //find the right OS pair with min invariant mass
       int min_test= 9999;
@@ -738,6 +749,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	for(unsigned j = l+1; j < lCount; ++j){
 	  if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
 	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         first: "<< l<<" ind[l] "<< ind[l]<<"   second "<<j<<" ind[j] "<< ind[j]<<std::endl;
+	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         firstI : "<<_lIndex[ind[l]]<<"  second I "<<_lIndex[ind[j]]<<std::endl;
+
+	  
 	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"inside loop leptons displaced"<<"  "<<_eventNb<<"  pt  "<<_lPt[ind[l]]<<"   "<<_lPt[ind[j]]<<std::endl;
 	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"dxy: "<<fabs(_dxy[ind[l]])<<"  "<<fabs(_dxy[ind[j]])<<"   reliso "<<_relIso[ind[l]]<<"  "<<_relIso[ind[j]]<<std::endl;
 
