@@ -417,6 +417,16 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 			   int systcat, int systdir
 			   ) {
 
+  std::ofstream zero("zero.txt"); 
+  std::ofstream one("one.txt");  
+  std::ofstream two("two.txt"); 
+  std::ofstream three("three.txt"); 
+  std::ofstream four("four.txt"); 
+  std::ofstream five("five.txt"); 
+ 
+
+
+  
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
   setTDRStyle();
@@ -564,6 +574,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
+    if (samples[sam].getProcessName() != "DY") continue;
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -768,6 +779,18 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
 
+      
+
+      if (samples[sam].getProcessName() == "DY" )   {    
+      zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		   _runNb, _lumiBlock, _eventNb,  
+		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		 _met)<< std::endl;
+      }
+
+
       //vertex l2l3 info
       int index_l2l3= l2l3_vertex_variable (l2,l3);      
       _vertex_X=_vertices[index_l2l3][1];
@@ -806,13 +829,22 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
       if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
       if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
+      if (samples[sam].getProcessName() == "DY" )   {    
+      one << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		   _runNb, _lumiBlock, _eventNb,  
+		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		 _met)<< std::endl;
+      }
+
       // ------------ closest jet info --------------------------------------//
       TLorentzVector  l1Jet[1] ;
       float JEC       ;
       TLorentzVector  lepAwareJet[1] ;
       l1Jet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
       JEC             = _closestJEC[l2];
-      lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
+      lepAwareJet[0] = (l1Jet[0] - v4l2_naked - v4l3_naked)*JEC + v4l3_naked + v4l2_naked;  
       double momentum_jet=0.;
       momentum_jet = lepAwareJet[0].Pt();
       if (momentum_jet<10) momentum_jet=12;
@@ -838,6 +870,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
       if (sideBandRegion) continue;
       if (tightC != 2) continue;
+      if (samples[sam].getProcessName() == "DY" )   {    
+      two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		   _runNb, _lumiBlock, _eventNb,  
+		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		 _met)<< std::endl;
+      }
+
       // ------------------ prompt check for MC ------------------------//
       promptC=0;
       if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
@@ -868,7 +909,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       }//FR
       
       if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
-      if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;  
+      if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;
+      if (samples[sam].getProcessName() == "DY" )   {    
+      three << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		   _runNb, _lumiBlock, _eventNb,  
+		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		 _met)<< std::endl;
+      }
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       bool internal_conv= true;
@@ -882,6 +931,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
       if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
 
+
+      if (samples[sam].getProcessName() == "DY" )   {    
+      four << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		   _runNb, _lumiBlock, _eventNb,  
+		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		 _met)<< std::endl;
+      }
       // if (photonOverlap (samples[sam])) continue;
       
       // -----------------   function useful    --------------------------------//
@@ -964,6 +1022,16 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
      
       if (!selection_0) continue;
 
+      
+      if (selection_final && samples[sam].getProcessName() == "DY" )   {    
+      five << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		   _runNb, _lumiBlock, _eventNb,  
+		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		 _met)<< std::endl;
+      }
+      
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
