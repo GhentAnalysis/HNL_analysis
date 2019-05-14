@@ -421,13 +421,13 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	    signal[sig]->SetMarkerColor(sigCols[sig-10]);
 	    signal[sig]->SetLineWidth(4);
 	  }
-	  //legend->AddEntry(signal[sig], signames[sig]);
+	  legend->AddEntry(signal[sig], signames[sig]);
 
-	 if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "m_{N}=1 GeV");
-	 if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "m_{N}=2 GeV");
-	 if (sig == 4 ||sig == 14 ) legend->AddEntry(signal[sig], "m_{N}=4 GeV");
-	 if (sig == 6 ||sig == 16 ) legend->AddEntry(signal[sig], "m_{N}=6 GeV");
-	 if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "m_{N}=10 GeV");
+	  //if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "m_{N}=1 GeV");
+	  //if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "m_{N}=2 GeV");
+	  //if (sig == 4 ||sig == 14 ) legend->AddEntry(signal[sig], "m_{N}=4 GeV");
+	  //if (sig == 6 ||sig == 16 ) legend->AddEntry(signal[sig], "m_{N}=6 GeV");
+	  //if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "m_{N}=10 GeV");
 		 
         }
     }
@@ -499,11 +499,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[3]-> GetXaxis()->SetBinLabel(16, "");
       signal[3]-> GetXaxis()->SetBinLabel(17, "");
       signal[3]-> GetXaxis()->SetBinLabel(18, "");
-
-
-
-      
-
+ 
       signal[13]->SetStats(0);
       signal[13]-> GetXaxis()->LabelsOption("hu");
       signal[13]-> GetXaxis()->SetBinLabel(1, "");
