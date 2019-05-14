@@ -867,8 +867,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	}
       }//FR
       
-      if (single_fake && tightFail && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
-      if (single_fake && tightFail && !_isT[l3] && _relIso[l3] < isolation_tight) continue;  
+      if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
+      if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;  
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       bool internal_conv= true;
