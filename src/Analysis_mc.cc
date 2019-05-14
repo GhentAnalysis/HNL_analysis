@@ -746,7 +746,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int min_mass=999;
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
+	if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"===================================================="<<std::endl;
+
+	
 	for(unsigned j = l+1; j < lCount; ++j){
+	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"==============="<<std::endl;
+
 	  if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
 	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         first: "<< l<<" ind[l] "<< ind[l]<<"   second "<<j<<" ind[j] "<< ind[j]<<std::endl;
 	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         firstI : "<<_lIndex[ind[l]]<<"  second I "<<_lIndex[ind[j]]<<std::endl;
