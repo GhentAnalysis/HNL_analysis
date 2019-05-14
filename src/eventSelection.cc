@@ -115,7 +115,8 @@ bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_
 bool Analysis_mc::vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const{
   int Index1 = leptonIndex1+1;
   int Index2 = leptonIndex2+1;
-  return (vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) );
+  std::cout<<"================> in the fucking vertex finding!!! "<<Index1<<"    "<< Index2<<std::endl;
+  return ((vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) ) );
 }
 //______________________________________________function di check if 2 indeces make a vertex
 int Analysis_mc::l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2) {
