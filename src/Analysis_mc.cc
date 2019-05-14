@@ -575,7 +575,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
     if (samples[sam].getProcessName() != "DY") continue;
-    if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     /* if(samples[sam].isNewPhysicsSignal()) {
@@ -597,6 +596,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     for (Long64_t it = 0; it < nEntries; ++it){
       GetEntry(samples[sam], it);
       //   std::cout<<"after get tree"<<std::endl;
+    if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
 
       //print progess
       /* if(it%100 == 0 && it != 0){
