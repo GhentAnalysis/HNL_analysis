@@ -732,7 +732,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){
-	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"inside loop leptons displaced"<<"  "<<_eventNb<<"  pt  "<<_lPt[ind[l]]<<"   "<<<<_lPt[ind[j]]<<std::endl;
+	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"inside loop leptons displaced"<<"  "<<_eventNb<<"  pt  "<<_lPt[ind[l]]<<"   "<<_lPt[ind[j]]<<std::endl;
 	  if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"dxy: "<<fabs(_dxy[ind[l]])<<"  "<<fabs(_dxy[ind[j]])<<"   reliso "<<_relIso[ind[l]]<<"  "<<_relIso[ind[j]]<<std::endl;
 
 	  
