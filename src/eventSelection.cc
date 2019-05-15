@@ -81,7 +81,9 @@ bool Analysis_mc::IsDisplacedPair(const unsigned leptonIndex1,const unsigned lep
   if (_lCharge[leptonIndex1] == _lCharge[leptonIndex2]) return false;
 
   for(unsigned v = 0; v < _nVFit; ++v){
-    if (vertex_found(leptonIndex1,leptonIndex2,  _vertices[v][0]) ) ++number_found_verteces;   
+    if (vertex_found(leptonIndex1,leptonIndex2,  _vertices[v][0]) ) ++number_found_verteces;
+    if (vertex_found(leptonIndex1,leptonIndex2,  _vertices[v][0]) ) std::cout<<"        vertex found: "<<_vertices[v][0]<<"  "<<_vertices[v][1]<< "   what was passed: "<<leptonIndex1<<"  "<<leptonIndex2<<std::endl;
+
   }//loop vertecies
   
   if (number_found_verteces <= 0) return false;
@@ -121,7 +123,7 @@ bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_
 
     for(unsigned v = 0; v < _nVFit; ++v){
       //std::cout<<v<<": "<< _vertices[v][0]<<"               what is supposed to be: "<< leptonIndex<<"  "<<ind[sd]<<std::endl;
-      if (vertex_found(leptonIndex,ind[sd],  _vertices[v][0]) ) ++number_found_verteces;   
+      if (vertex_found(leptonIndex,ind[sd],  _vertices[v][0]) ) ++number_found_verteces;
     }//loop vertecies
   }//loop second lepton
   //std::cout<<"number of common vertex: "<<number_found_verteces<<std::endl;

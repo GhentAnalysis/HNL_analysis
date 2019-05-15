@@ -744,10 +744,16 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int min_test= 9999;
       int min_mass=999;
       displacedC=0;
-      for(unsigned l = 0; l < lCount; ++l){	
-	for(unsigned j = l+1; j < lCount; ++j){
-	  // if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"==============="<<std::endl;
+      	  if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"=========================================================="<<std::endl;
 
+      for(unsigned l = 0; l < lCount; ++l){
+		  if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"      "<<std::endl;
+
+	for(unsigned j = l+1; j < lCount; ++j){
+	  
+	  // if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"==============="<<std::endl;
+	  if (!(_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971))continue;
+		  
 	  //if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
 	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         first: "<< l<<" ind[l] "<< ind[l]<<"   second "<<j<<" ind[j] "<< ind[j]<<std::endl;
 	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         firstI : "<<_lIndex[ind[l]]<<"  second I "<<_lIndex[ind[j]]<<std::endl;
@@ -766,8 +772,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  // if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
 	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"OS"<<"  "<<_eventNb<<std::endl;
 
-
+	  if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"before chioce pair with  "<<ind[l]<<"  "<< ind[j]<<"  "<<std::endl;
 	  if (!IsDisplacedPair(ind[l] ,ind[j], ind_new_leading, ind)) continue;
+	   if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"after chioce pair with  "<<ind[l]<<"  "<< ind[j]<<"  "<<std::endl;
+	   if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971){
+	     for(unsigned v = 0; v < _nVFit_os; ++v){
+	       if ((_vertices_os[v][0] == (_lIndex[ind[l]] * 100 +  _lIndex[ind[j]] )) ||(_vertices_os[v][0] == (_lIndex[ind[l]] +  _lIndex[ind[j]] *100) )) std::cout<<"was the vertex found:  "<<_vertices_os[v][0]<<"   x   "<< _vertices_os[v][1]<<"    where the lindex were:  "<<_lIndex[ind[l]]<<"  "<<_lIndex[ind[j]]<< std::endl;
+	     }
+
+	   }
 	  ++displacedC;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
