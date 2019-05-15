@@ -82,7 +82,7 @@ bool Analysis_mc::IsDisplacedPair(const unsigned leptonIndex1,const unsigned lep
 
   for(unsigned v = 0; v < _nVFit; ++v){
     if (vertex_found(leptonIndex1,leptonIndex2,  _vertices[v][0]) ) ++number_found_verteces;
-    if (vertex_found(leptonIndex1,leptonIndex2,  _vertices[v][0]) ) std::cout<<"        vertex found: "<<_vertices[v][0]<<"  "<<_vertices[v][1]<< "   what was passed: "<<leptonIndex1<<"  "<<leptonIndex2<<std::endl;
+    if (vertex_found(leptonIndex1,leptonIndex2,  _vertices[v][0]) ) std::cout<<"        vertex found: "<<_vertices[v][0]<<"  "<<_vertices[v][1]<< "   what was passed: "<<leptonIndex1<<"  "<<leptonIndex2<<"    "<<_lPt[leptonIndex1]<<"  "<<_lPt[leptonIndex2]<<  std::endl;
 
   }//loop vertecies
   

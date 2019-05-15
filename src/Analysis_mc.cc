@@ -872,7 +872,14 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       _vertex_Z=_vertices[index_l2l3][3];
       _vertex_chi2=_vertices[index_l2l3][11];
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
-      _vertex_ndf =_vertices[index_l2l3][10];   
+      _vertex_ndf =_vertices[index_l2l3][10];
+
+
+
+      if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971){
+
+	std::cout<<"                            "<<l1<<"  "<<l2<<"  "<<l3<<"  "<<v4l1.Pt()<<"  "<<v4l2.Pt()<<"  "<<v4l3.Pt()<<"  "<<index_l2l3<<"  "<<_vertex_X<<"  "<<_vertices[index_l2l3][0]<< std::endl;
+      }
       // ------------ ==================== -----------------------------------------------//
       // ------------   tight selection   -----------------------------------------------//
       unsigned* _isT= new unsigned[_nL];
