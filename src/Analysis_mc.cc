@@ -799,6 +799,17 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //f (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after trigger event 203"<<"  "<<_eventNb<<std::endl;
 
       
+      if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971){
+	std::cout<<"================"<<std::endl;
+	for(unsigned l = 0; l < lCount; ++l){
+	  std::cout<<"leading:   "<< ind_new_leading <<"  pt "<<_lPt[ ind_new_leading]<<std::endl;
+	  std::cout<<"is it displcade: "<<lepIsDisplaced(ind[l] , ind_new_leading, ind)<<std::endl;
+	  std::cout<<l<<": index "<<ind[l]<< "  pt: "<<_lPt[ind[l]]<<"  relIso: "<< _relIso[ind[l]]<<"  dxy "<< fabs(_dxy[ind[l]])<<"flav: "<< _lFlavor[ind[l]]<<"   ourmedium: "<<muOurMedium[ind[l]]<<"   mediumPOG: "<<_lPOGMedium[ind[l]]<<"  "<<std::endl;
+	}
+      }
+
+      
+      
       // ------------ changing all the lep info and vertex-----------------------------------------------//
       l1=ind_new_leading;
       l2=index_to_use_for_l2_l3[0];
