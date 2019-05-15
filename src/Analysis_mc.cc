@@ -807,7 +807,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	}
 
 	std::cout<<"----------->   picked: "<< _lPt[index_to_use_for_l2_l3[0]]<<"   "<<_lPt[index_to_use_for_l2_l3[1]]<<std::endl;
-	std::cout<< "was the vertex found:  "<< l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])<<_vertices_os[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][0]<< "  "<<"   x  "<<_vertices[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][1]<<std::endl;
+	std::cout<< "was the vertex found:  "<< l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])<<"   "<<_vertices_os[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][0]<< "  "<<"   x  "<<_vertices[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][1]<<std::endl;
 	for(unsigned l = 0; l < lCount; ++l){
 	  for(unsigned j = l+1; j < lCount; ++j){
 	    TLorentzVector temp_displaced1;
