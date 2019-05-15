@@ -574,7 +574,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
-    if (samples[sam].getProcessName() != "DY") continue;
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     /* if(samples[sam].isNewPhysicsSignal()) {
@@ -678,20 +677,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
        for(unsigned i = 0; i < _nL; ++i){
 	_lIndex[i] = i+1;
       }
-
-
-      
-       //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
-       //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
-       //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<""<<std::endl;
-
-      
-
-      //select leptons
-      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"event 203"<<"  "<<_eventNb<<std::endl;
+       //select leptons
       const unsigned lCount = selectLepConeCorr(ind);
       if (lCount < 3) continue;
-      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after 3 event 203"<<"  "<<_eventNb<<std::endl;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       /* for (unsigned j =0; j < _nJets ; j++){
@@ -728,70 +716,25 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       //assign the l1 index
       ind_new_leading = l1Index(ind);
       if (l1Index(ind) == -1) continue; //in case there are not l1 at all
-      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after leading event 203"<<"  "<<_eventNb<<"   pt leading: "<< _lPt[ind_new_leading]<<std::endl;
-
       //check how many displaced there are (displaced --> dxy, common vertex, FO, no l1)
       unsigned displacedC = 0;
       std::vector<TLorentzVector> lepV_displaced;
       std::vector<int> charge_displaced;
       std::vector<unsigned> temp_index;
-      
-      
-
-      
+          
       int index_to_use_for_l2_l3[2]={0,0};
       //find the right OS pair with min invariant mass
       int min_test= 9999;
-      int min_mass=999;
+      double min_mass=999;
       displacedC=0;
-      	  if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"=========================================================="<<std::endl;
-
       for(unsigned l = 0; l < lCount; ++l){
-		  if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"      "<<std::endl;
-
-	for(unsigned j = l+1; j < lCount; ++j){
-	  
-	  // if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"==============="<<std::endl;
-	  if (!(_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971))continue;
-		  
-	  //if (!(_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 )) continue;
-	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         first: "<< l<<" ind[l] "<< ind[l]<<"   second "<<j<<" ind[j] "<< ind[j]<<std::endl;
-	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"         firstI : "<<_lIndex[ind[l]]<<"  second I "<<_lIndex[ind[j]]<<std::endl;
-
-	  
-	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"inside loop leptons displaced"<<"  "<<_eventNb<<"  pt  "<<_lPt[ind[l]]<<"   "<<_lPt[ind[j]]<<std::endl;
-	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"dxy: "<<fabs(_dxy[ind[l]])<<"  "<<fabs(_dxy[ind[j]])<<"   reliso "<<_relIso[ind[l]]<<"  "<<_relIso[ind[j]]<<std::endl;
-
-	  //std::cout<<"calling the function lepIsDisplaced with those index: fixed one: "<<ind[l]<< "    looping over the rest"<<std::endl;
-	  //if(!lepIsDisplaced(ind[l] , ind_new_leading, ind)) continue;
-	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"l is dispalced"<<"  "<<_eventNb<<_lPt[ind[l]]<<std::endl;
-
-	  // if(!lepIsDisplaced(ind[j] , ind_new_leading, ind)) continue;
-	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"j is dispalced"<<"  "<<_eventNb<<_lPt[ind[j]]<<std::endl;
-
-	  // if (_lCharge[ind[l]] == _lCharge[ind[j]]) continue;
-	  //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"OS"<<"  "<<_eventNb<<std::endl;
-
-	  if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"before chioce pair with  "<<ind[l]<<"  "<< ind[j]<<"  "<<std::endl;
-	  if (!IsDisplacedPair(ind[l] ,ind[j], ind_new_leading, ind)) continue;
-	   if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971)std::cout<<"after chioce pair with  "<<ind[l]<<"  "<< ind[j]<<"  "<<std::endl;
-	   if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971){
-	     for(unsigned v = 0; v < _nVFit_os; ++v){
-	       if ((_vertices_os[v][0] == (_lIndex[ind[l]] * 100 +  _lIndex[ind[j]] )) ||(_vertices_os[v][0] == (_lIndex[ind[l]] +  _lIndex[ind[j]] *100) )) std::cout<<"was the vertex found:  "<<_vertices_os[v][0]<<"   x   "<< _vertices_os[v][1]<<"    where the lindex were:  "<<_lIndex[ind[l]]<<"  "<<_lIndex[ind[j]]<< std::endl;
-	     }
-
-	   }
-
-
-	   
+	for(unsigned j = l+1; j < lCount; ++j){	  	
+	  if (!IsDisplacedPair(ind[l] ,ind[j], ind_new_leading, ind)) continue; 
 	  ++displacedC;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
 	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
 	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
-
-	  std::cout<<"**********************   "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
-	  std::cout<<"min mass  "<< min_mass<<std::endl;
 	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
 	    min_mass= (temp_displaced1+temp_displaced2).M();
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
@@ -803,45 +746,14 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	      index_to_use_for_l2_l3[1] = ind[l];
 	    }	    
 	  }
-	  std::cout<<"       min mass  "<< min_mass<<std::endl;
-
 	  //std::cout<<"mass min: "<<min_mass<<std::endl;
 	}//end loop2
       }//end loop1
 
-      if (displacedC < 1) continue;
-      //if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after displaced event 203"<<"  "<<_eventNb<<std::endl;
-
-      
+      if (displacedC < 1) continue;     
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
-
-      //f (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"after trigger event 203"<<"  "<<_eventNb<<std::endl;
-
-      
-      if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971){
-	std::cout<<"================"<<std::endl;
-	for(unsigned l = 0; l < lCount; ++l){
-	  std::cout<<"leading:   "<< ind_new_leading <<"  pt "<<_lPt[ ind_new_leading]<<std::endl;
-	  std::cout<<"is it displcade: "<<lepIsDisplaced(ind[l] , ind_new_leading, ind)<<std::endl;
-	  std::cout<<l<<": index "<<ind[l]<< "  pt: "<<_lPt[ind[l]]<<"  relIso: "<< _relIso[ind[l]]<<"  dxy "<< fabs(_dxy[ind[l]])<<"flav: "<< _lFlavor[ind[l]]<<"   ourmedium: "<<muOurMedium(ind[l])<<"   mediumPOG: "<<_lPOGMedium[ind[l]]<<"  "<<_lCharge[ind[l]]<<std::endl;
-	}
-
-	std::cout<<"----------->   picked: "<< _lPt[index_to_use_for_l2_l3[0]]<<"   "<<_lPt[index_to_use_for_l2_l3[1]]<<std::endl;
-	std::cout<< "was the vertex found:  "<< l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])<<"   "<<_vertices[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][0]<< "  "<<"   x  "<<_vertices[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][1]<<std::endl;
-	for(unsigned l = 0; l < lCount; ++l){
-	  for(unsigned j = l+1; j < lCount; ++j){
-	    TLorentzVector temp_displaced1;
-	    TLorentzVector temp_displaced2;
-	    temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
-	    temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
-	    std::cout<<"mass made by: "<< ind[l]<<"  and  "<< ind[j]<<"  is "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
-	  }
-	}
-      }
-
-      
-      
+         
       // ------------ changing all the lep info and vertex-----------------------------------------------//
       l1=ind_new_leading;
       l2=index_to_use_for_l2_l3[0];
@@ -859,10 +771,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       charge_3l[2]=_lCharge[l3];
 
 
-
-
-      
-
       if (samples[sam].getProcessName() == "DY" )   {    
       zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
 		   _runNb, _lumiBlock, _eventNb,  
@@ -871,7 +779,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
 		 _met)<< std::endl;
       }
-
 
       //vertex l2l3 info
       int index_l2l3= l2l3_vertex_variable (l2,l3);      
@@ -883,11 +790,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       _vertex_ndf =_vertices[index_l2l3][10];
 
 
-
-      if (_eventNb==316331001 || _eventNb==300090452 ||_eventNb==279298855 ||_eventNb==258551392 ||_eventNb==111733559 ||_eventNb==108458464 ||_eventNb==66138971){
-
-	std::cout<<"                            "<<l1<<"  "<<l2<<"  "<<l3<<"  "<<v4l1.Pt()<<"  "<<v4l2.Pt()<<"  "<<v4l3.Pt()<<"  "<<index_l2l3<<"  "<<_vertex_X<<"  "<<_vertices[index_l2l3][0]<< std::endl;
-      }
       // ------------ ==================== -----------------------------------------------//
       // ------------   tight selection   -----------------------------------------------//
       unsigned* _isT= new unsigned[_nL];
