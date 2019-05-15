@@ -781,11 +781,16 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	     }
 
 	   }
+
+
+	   
 	  ++displacedC;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
 	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
 	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
+
+	  std::cout<<"**********************   "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
 	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
 	    min_mass= (temp_displaced1+temp_displaced2).M();
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
@@ -820,7 +825,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	}
 
 	std::cout<<"----------->   picked: "<< _lPt[index_to_use_for_l2_l3[0]]<<"   "<<_lPt[index_to_use_for_l2_l3[1]]<<std::endl;
-	std::cout<< "was the vertex found:  "<< l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])<<"   "<<_vertices_os[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][0]<< "  "<<"   x  "<<_vertices[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][1]<<std::endl;
+	std::cout<< "was the vertex found:  "<< l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])<<"   "<<_vertices[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][0]<< "  "<<"   x  "<<_vertices[l2l3_vertex_variable (index_to_use_for_l2_l3[0],index_to_use_for_l2_l3[1])][1]<<std::endl;
 	for(unsigned l = 0; l < lCount; ++l){
 	  for(unsigned j = l+1; j < lCount; ++j){
 	    TLorentzVector temp_displaced1;
