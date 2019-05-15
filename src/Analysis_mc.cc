@@ -804,7 +804,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	for(unsigned l = 0; l < lCount; ++l){
 	  std::cout<<"leading:   "<< ind_new_leading <<"  pt "<<_lPt[ ind_new_leading]<<std::endl;
 	  std::cout<<"is it displcade: "<<lepIsDisplaced(ind[l] , ind_new_leading, ind)<<std::endl;
-	  std::cout<<l<<": index "<<ind[l]<< "  pt: "<<_lPt[ind[l]]<<"  relIso: "<< _relIso[ind[l]]<<"  dxy "<< fabs(_dxy[ind[l]])<<"flav: "<< _lFlavor[ind[l]]<<"   ourmedium: "<<muOurMedium[ind[l]]<<"   mediumPOG: "<<_lPOGMedium[ind[l]]<<"  "<<std::endl;
+	  std::cout<<l<<": index "<<ind[l]<< "  pt: "<<_lPt[ind[l]]<<"  relIso: "<< _relIso[ind[l]]<<"  dxy "<< fabs(_dxy[ind[l]])<<"flav: "<< _lFlavor[ind[l]]<<"   ourmedium: "<<muOurMedium(ind[l])<<"   mediumPOG: "<<_lPOGMedium[ind[l]]<<"  "<<std::endl;
 	}
       }
 
