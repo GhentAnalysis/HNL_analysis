@@ -69,7 +69,25 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
   }//loop light
   return index_leading;
 }
+//______________________________________________check if they can be called displaced pair
+bool Analysis_mc::IsDisplacedPair(const unsigned leptonIndex1,const unsigned leptonIndex2, int index_taken_by_l1, std::vector<unsigned>& ind) const{
+  int number_found_verteces=0;
+  if (leptonIndex1 == index_taken_by_l1) return false;
+  if (leptonIndex2 == index_taken_by_l1) return false;
+  if (!lepIsFOBase(leptonIndex1)) return false;
+  if (!lepIsFOBase(leptonIndex2)) return false;
+  if (fabs(_dxy[leptonIndex1]) < dxy_cut) return false;
+  if (fabs(_dxy[leptonIndex2]) < dxy_cut) return false;
+  if (_lCharge[leptonIndex1] == _lCharge[leptonIndex2]) return false;
 
+  for(unsigned v = 0; v < _nVFit; ++v){
+    if (vertex_found(leptonIndex1,leptonIndex2,  _vertices[v][0]) ) ++number_found_verteces;   
+  }//loop vertecies
+  
+  if (number_found_verteces <= 0) return false;
+  return true;
+
+}
 //______________________________________________check if they can be called displaced
 bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const{
   int number_found_verteces=0;
