@@ -791,6 +791,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
 
 	  std::cout<<"**********************   "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
+	  std::cout<<"min mass  "<< min_mass<<std::endl;
 	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
 	    min_mass= (temp_displaced1+temp_displaced2).M();
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
@@ -802,6 +803,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	      index_to_use_for_l2_l3[1] = ind[l];
 	    }	    
 	  }
+	  std::cout<<"       min mass  "<< min_mass<<std::endl;
+
 	  //std::cout<<"mass min: "<<min_mass<<std::endl;
 	}//end loop2
       }//end loop1
