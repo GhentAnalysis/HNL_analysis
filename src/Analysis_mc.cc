@@ -744,10 +744,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       int min_test= 9999;
       int min_mass=999;
       displacedC=0;
-      for(unsigned l = 0; l < lCount; ++l){
-	//if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"===================================================="<<std::endl;
-
-	
+      for(unsigned l = 0; l < lCount; ++l){	
 	for(unsigned j = l+1; j < lCount; ++j){
 	  // if (_eventNb==96541 || _eventNb==113885 || _eventNb==134456 || _eventNb==136224 ) std::cout<<"==============="<<std::endl;
 
@@ -805,6 +802,17 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 	  std::cout<<"leading:   "<< ind_new_leading <<"  pt "<<_lPt[ ind_new_leading]<<std::endl;
 	  std::cout<<"is it displcade: "<<lepIsDisplaced(ind[l] , ind_new_leading, ind)<<std::endl;
 	  std::cout<<l<<": index "<<ind[l]<< "  pt: "<<_lPt[ind[l]]<<"  relIso: "<< _relIso[ind[l]]<<"  dxy "<< fabs(_dxy[ind[l]])<<"flav: "<< _lFlavor[ind[l]]<<"   ourmedium: "<<muOurMedium(ind[l])<<"   mediumPOG: "<<_lPOGMedium[ind[l]]<<"  "<<std::endl;
+	}
+
+	std::cout<<"----------->   picked: "<< _lPt[index_to_use_for_l2_l3[0]]<<"   "<<_lPt[index_to_use_for_l2_l3[1]]<<std::endl;
+	for(unsigned l = 0; l < lCount; ++l){
+	  for(unsigned j = l+1; j < lCount; ++j){
+	    TLorentzVector temp_displaced1;
+	    TLorentzVector temp_displaced2;
+	    temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
+	    temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
+	    std::cout<<"mass made by: "<< ind[l]<<"  and  "<< ind[j]<<"  is "<< (temp_displaced1+temp_displaced2).M()<<std::endl;
+	  }
 	}
       }
 
