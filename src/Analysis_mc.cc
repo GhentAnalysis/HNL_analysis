@@ -561,11 +561,10 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   }
   
   // ------------   run over samples -----------------------------------------------//
-
+  std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
 
     initSample(jaar,samples[sam]);
-    // if (samples[sam].isData()) continue;
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -574,6 +573,15 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
+
+    if (samples[sam].isData()){
+      auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
+      if(event != usedEvents.end()) continue;
+      usedEvents.insert(std::make_tuple(_eventNb, _lumiBlock, _runNb));
+    }
+
+
+    
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     /* if(samples[sam].isNewPhysicsSignal()) {
@@ -1287,7 +1295,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       
 	plotDataVSMC(cat,cha,dist,
 		     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-		     eff_names,nSamples_eff -  nSamples_signal -1 ,
+		     eff_names,nSamples_eff -  nSamples_signal ,
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
 		     2, true, signals,  sigNames_short, nSamples_signal, false);
