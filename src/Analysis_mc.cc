@@ -574,6 +574,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
+    if (samples[sam].getProcessName() != "DY" )   continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     /* if(samples[sam].isNewPhysicsSignal()) {
@@ -919,8 +920,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
       if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) external_conv = true;    
-      if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-      if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
+      //if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
+      //if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
 
 
       if (samples[sam].getProcessName() == "DY" )   {    
@@ -931,7 +932,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
 		 _met)<< std::endl;
       }
-      // if (photonOverlap (samples[sam])) continue;
+      if (photonOverlap (samples[sam])) continue;
       
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
