@@ -565,7 +565,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
 
     initSample(jaar,samples[sam]);
-    if (samples[sam].isData()) continue;
+    // if (samples[sam].isData()) continue;
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -574,7 +574,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
-    if (samples[sam].getProcessName() != "DY" )   continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     /* if(samples[sam].isNewPhysicsSignal()) {
@@ -610,7 +609,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       double scal = 0;
       scal = scale * _weight * ctWeight * pu_weight(*&pileUpWeight[0],_nTrueInt);
       bwght = 1.;
-
+      if (samples[sam].isData()) scal =1;
       // std::cout<<"after pu"<<std::endl;
 
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -860,8 +859,8 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       bool sideBandRegion= false;
       if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
-      if (sideBandRegion) continue;
-      if (tightC != 2) continue;
+      //if (sideBandRegion) continue;
+      //if (tightC != 2) continue;
       if (samples[sam].getProcessName() == "DY" )   {    
       two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
 		   _runNb, _lumiBlock, _eventNb,  
@@ -876,7 +875,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
       if (_lIsPrompt[l2] || _lProvenanceCompressed[l2]==0) promptC++;
       if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
-      //if (!samples[sam].isData() && promptC!=3) continue;
+      if (!samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
       if (sideBandRegion){
 	if ( samples[sam].isData()  )scal *= -1;
@@ -1062,16 +1061,16 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 			     momentum_jet, momentum_jet};
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
-      /* bool isDataDrivenBgk= false;
-	 if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
-	 if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
-	 bool isDataYield= false;
-	 if (samples[sam].isData() && !tightFail_sFR     && single_fake)     isDataYield= true;
-	 if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)      isDataYield= true;
-	 if (isDataDrivenBgk) fill = nSamples_eff;
-	 if (isDataYield)     fill = 0;
-	 if (isDataYield)     scal = 1;
-	 if (isDataYield)     continue;*/
+      bool isDataDrivenBgk= false;
+      if (samples[sam].isData() && tightFail_sFR     && single_fake)     isDataDrivenBgk= true;
+      if (samples[sam].isData() && loose_lepton_dFR  && Double_fake)     isDataDrivenBgk= true;
+      bool isDataYield= false;
+      if (samples[sam].isData() && !tightFail_sFR    && single_fake)     isDataYield= true;
+      if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)     isDataYield= true;
+      if (isDataDrivenBgk) fill = nSamples_eff;
+      if (isDataYield)     fill = 0;
+      if (isDataYield)     scal = 1;
+      if (isDataYield)     continue;
 
      
  
@@ -1291,7 +1290,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 		     eff_names,nSamples_eff -  nSamples_signal -1 ,
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
-		     2, true, signals,  sigNames, nSamples_signal, false);
+		     2, true, signals,  sigNames_short, nSamples_signal, false);
       }
     }//end cat
   }//end histo
