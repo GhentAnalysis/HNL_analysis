@@ -115,7 +115,7 @@ void Analysis_mc::readSamples(const std::string& list, const std::string& direct
   readSamples(list, directory, this->samples);
 }
 //_______________________________________________________ initialize sample _____
-void Analysis_mc::initSample(unsigned jaar,const Sample& samp){ 
+void Analysis_mc::initSample(const Sample& samp){ 
 
   //update current sample
   currentSample = samp;
@@ -134,10 +134,10 @@ void Analysis_mc::initSample(unsigned jaar,const Sample& samp){
 
     //event weights set with lumi depending on sample's era 
     double dataLumi;
-    if( jaar == 0 ){
+    if( year == 0 ){
       dataLumi = lumi2016;
     }
-    else if ( jaar == 1 ){
+    else if ( year == 1 ){
       dataLumi = lumi2017;
     }
     else dataLumi = lumi2018;
@@ -148,7 +148,7 @@ void Analysis_mc::initSample(unsigned jaar,const Sample& samp){
 }
 //_______________________________________________________ initialize sample ____
 void Analysis_mc::initSample(){ //initialize the next sample in the list 
-  initSample(jaar,samples[++currentSampleIndex]);
+  initSample(samples[++currentSampleIndex]);
 }
 //_______________________________________________________ initialize sample ____
 void Analysis_mc::GetEntry(const Sample& samp, long unsigned entry)
@@ -164,7 +164,7 @@ void Analysis_mc::GetEntry(long unsigned entry){    //currently initialized samp
   GetEntry(samples[currentSampleIndex], entry);
 }
 //_______________________________________________________ initialize tree ____
-void Analysis_mc::initTree(TTree *tree, const bool isData, unsigned jaar)
+void Analysis_mc::initTree(TTree *tree, const bool isData)
 {
   // Set branch addresses and branch pointers
   if (!tree) return;
@@ -185,12 +185,12 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, unsigned jaar)
   //fChain->SetBranchAddress("_updated_ecalBadCalibFilter", &_updated_ecalBadCalibFilter, &b__updated_ecalBadCalibFilter);  
   fChain->SetBranchAddress("_passTrigger_1l", &_passTrigger_1l, &b__passTrigger_1l);   
   fChain->SetBranchAddress("_HLT_IsoMu24", &_HLT_IsoMu24, &b__HLT_IsoMu24);
-  if (jaar==0) fChain->SetBranchAddress("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, &b__HLT_IsoTkMu24);
-  if (jaar==0) fChain->SetBranchAddress("_HLT_Ele27_WPTight_Gsf", &_HLT_Ele27_WPTight_Gsf, &b__HLT_Ele27_WPTight_Gsf);   
-  if (jaar!=0)fChain->SetBranchAddress("_HLT_IsoMu27", &_HLT_IsoMu27, &b__HLT_IsoMu27);  
-  if (jaar!=0)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf", &_HLT_Ele32_WPTight_Gsf, &b__HLT_Ele32_WPTight_Gsf);
-  if (jaar!=0)fChain->SetBranchAddress("_HLT_Ele35_WPTight_Gsf", &_HLT_Ele35_WPTight_Gsf, &b__HLT_Ele35_WPTight_Gsf);
-  if (jaar!=0)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf_L1DoubleEG", &_HLT_Ele32_WPTight_Gsf_L1DoubleEG, &b__HLT_Ele32_WPTight_Gsf_L1DoubleEG);   
+  if (year==0) fChain->SetBranchAddress("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, &b__HLT_IsoTkMu24);
+  if (year==0) fChain->SetBranchAddress("_HLT_Ele27_WPTight_Gsf", &_HLT_Ele27_WPTight_Gsf, &b__HLT_Ele27_WPTight_Gsf);   
+  if (year!=0)fChain->SetBranchAddress("_HLT_IsoMu27", &_HLT_IsoMu27, &b__HLT_IsoMu27);  
+  if (year!=0)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf", &_HLT_Ele32_WPTight_Gsf, &b__HLT_Ele32_WPTight_Gsf);
+  if (year!=0)fChain->SetBranchAddress("_HLT_Ele35_WPTight_Gsf", &_HLT_Ele35_WPTight_Gsf, &b__HLT_Ele35_WPTight_Gsf);
+  if (year!=0)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf_L1DoubleEG", &_HLT_Ele32_WPTight_Gsf_L1DoubleEG, &b__HLT_Ele32_WPTight_Gsf_L1DoubleEG);   
   fChain->SetBranchAddress("_nL", &_nL, &b__nL);
   fChain->SetBranchAddress("_nMu", &_nMu, &b__nMu);
   fChain->SetBranchAddress("_nEle", &_nEle, &b__nEle);
@@ -412,10 +412,8 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, unsigned jaar)
 //          ================= ================= ================= ================= ================= =================          //
 
 //_______________________________________________________ analysis function ____
-void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::string& directory,
-			   TString outfilename,
-			   int systcat, int systdir
-			   ) {
+void Analysis_mc::analisi( const std::string& list, const std::string& directory,
+			   std::string outfilename, int systcat, int systdir) {
 
   std::ofstream zero("zero.txt"); 
   std::ofstream one("one.txt");  
@@ -434,8 +432,6 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
     std::cout << " >>> Dummy message (to avoid warnings): systdir " << systdir << std::endl;
   }
 
-  TFile *fout = new TFile(outfilename.Data(), "recreate");
-  
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
 
@@ -476,15 +472,19 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
 
   
-  if (jaar == 0 ) {
+  if (year == 0 ) {
    
   }
-  else if (jaar == 1 ) {
+  else if (year == 1 ) {
 
   }
   else {
 
   }
+
+  // Displaced electron efficiency errors
+  double displEleVars[7] = {1.0, 0.93, 0.80, 0.76, 0.72, 0.67, 0.50};
+  
   // ------------ b tagging -----------------------------------------------//
   // b-tagging working points (DeepCsv_b + DeepCsv_bb)
   double btagCuts[3][3];
@@ -523,12 +523,12 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
   //std::vector <Sample> samples  = readSampleList(list, directory);
   /*
-    if (jaar == 0) {
+    if (year == 0) {
     const int nSamples = samples.size();
     const int nSamples_eff = 2;
     const int nSamples_signal = 2;
     }
-    else if (jaar == 1 ) {
+    else if (year == 1 ) {
     const int nSamples = samples.size();
     const int nSamples_eff = 2;
     const int nSamples_signal = 2;
@@ -564,7 +564,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
 
-    initSample(jaar,samples[sam]);
+    initSample(samples[sam]);
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -778,6 +778,21 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
 
+      // Systematics on displaced electrons
+      double displEleWeight = 1.;
+      if(systcat==6) {
+	if(flavors_3l[1]==0) {
+	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);
+	  displEleWeight *= displEleVars[indEle];
+	}
+	if(flavors_3l[2]==0) {
+	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
+	  displEleWeight *= displEleVars[indEle];
+	}
+	if(systdir==0) scal *= displEleWeight;
+	else           scal /= displEleWeight;
+      }
+      
 
       if (samples[sam].getProcessName() == "DY" )   {    
       zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
@@ -1030,7 +1045,20 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
 		 _met)<< std::endl;
       }
-      
+
+      // Systematics on displaced muons
+      double displMuoWeight = 1.;
+      if(systcat==7) {
+	if(flavors_3l[1]==1) {
+	  displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l2])));
+	}
+	if(flavors_3l[2]==1) {
+	  displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
+	}
+	if(systdir==0) scal /= displMuoWeight;
+	else           scal *= displMuoWeight;
+      }
+
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
@@ -1206,6 +1234,9 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
 
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
+  //                |                         |
+  //                V                         V
+  //            unblindED           "silent" is not a verb...
   TH1D* dataYields[nDist][nChannel][nCat];
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
@@ -1246,7 +1277,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
     const std::string systNames[8]= { "lumi", "pdfAcc", "JEC","pdf","pu",   "stasignal","statDY","statttbar",	"statWJets",	"statmultiboson", "statXgamma","statTTTX", "statNonPrompt"};
     const std::string systDist[8]= {"lnN","lnN", "lnN",	"lnN",	"lnN", 	"lnN", "lnN", "lnN","lnN"};
-    const std::string bgkNames[6]= {"DY",  	"ttbar",	"WJets",	"multiboson", 	"Xgamma",    	"TTTX"};
+    const std::string bkgNames[6]= {"DY",  	"ttbar",	"WJets",	"multiboson", 	"Xgamma",    	"TTTX"};
 
 
 
@@ -1369,7 +1400,7 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
   sigNamespp[signal_sample],
   bgkield,
   6,
-  bgkNames,
+  bkgNames,
   systUnc, 7, systNames,systDist,
   sigNamespp[signal_sample]+"_bin"+std::to_string(ii+1)+".txt",
   false, sigNamespp[signal_sample]+"_bin"+std::to_string(ii+1), ii+1);
@@ -1380,13 +1411,195 @@ void Analysis_mc::analisi( unsigned jaar, const std::string& list, const std::st
 
   }//loop bin
   */
- 
 
+  ////////////////                           ////////////////
+  //// List of stuff for data cards and shape ROOT files ////
+  ////////////////                           ////////////////
+  //
+  // List of couplings
+  //const std::string couplings[] = {"ele", "muo", "tau"};
+  const std::string couplings[] = {"ele", "muo"};
+  const size_t couplidx[] = {6, 7};
+  const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
- 
+  // List of backgrounds
+  const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonprompt"};
+  const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
+
+  // List of systematics
+  const std::string systNames[] = { "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npnorm"};
+  const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]);
+
+  // List of systematics applicable to each process (signal + backgrounds)
+  // (delete sample name from list if the systematic source does not aplpy to it)
+  std::map<std::string, std::string> procPerSyst;
+  //                       Type     Correl.   Processes
+  //                       -------  --------  -------------------------------------------------------------
+  procPerSyst["lumi"  ] = "lnN    ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["pu"    ] = "shapeN2; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["qcd"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["pdf"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["pEle"  ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["pMuo"  ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["npEle" ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["npMuo" ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["jec"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["jer"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["btag"  ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
+  procPerSyst["npnorm"] = "lnN    ;  is_corr;                                                     nonprompt";
   
+  std::map<std::string, std::vector<std::string> > normSystsPerYear;
+  normSystsPerYear["lumi"  ] = {"1.025", "1.027", "1.025"};
+  normSystsPerYear["npnorm"] = {"1.400", "1.400", "1.400"};
 
-}//END ANALIUSI
+  if(systcat==0) { // print data card only if systcat==0
+    // Size of tab
+    const size_t ntab = 16;
+
+    for(size_t isign=0; isign<nSamples_signal; ++isign) {
+      std::string sgn = sigNames[isign].Data();
+      for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+	if(icoup=0 && sgn.find("_e" )==std::string::npos) continue;
+	if(icoup=1 && sgn.find("_mu")==std::string::npos) continue;
+	std::string cpl = couplings[icoup];
+
+	// ROOT file with shapes
+	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+	TFile *rootfile = new TFile(rootfilename.c_str(), "RECREATE");
+	rootfile->cd();
+	dataYields[0][couplidx[icoup]][6]->Write("data_obs");
+	Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
+
+	// Stream for writing card
+	std::ofstream card;
+
+	// Add .txt to name if no file extension is given
+	std::string cardName = sgn+"_"+cpl+"_datacard.txt";
+	card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
+
+	// Define number of channels, background sources and systematics
+	card << "imax 1 number of channels\n";
+	card << "jmax " << nBkg << " number of backgrounds\n";
+	card << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
+	card << "----------------------------------------------------------------------------------------\n";
+
+	// Shape file
+	card << "shapes * * " << rootfilename.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
+	card << "----------------------------------------------------------------------------------------\n";
+
+	// Define the channels and the number of observed events
+	card << "bin bin1\n";
+	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
+	card << "observation " << std::fixed << std::setprecision(3) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
+
+	// Define all backgrounds and their yields
+	card << left << std::setw(ntab) << "bin";
+	for(unsigned proc=0; proc<nBkg+1; ++proc) {
+	  card << left << std::setw(ntab) << "bin1";
+	}
+	card << "\n";
+	card << left << std::setw(ntab) << "process";
+	card << left << std::setw(ntab) << "signal";
+	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	  card << left << std::setw(ntab) << bkgNames[bkg];
+	}
+	card << "\n";
+	card << left << std::setw(ntab) << "process";
+	for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
+	  card << left << std::setw(ntab) << bkg;
+	}
+	card << "\n";
+	card << left << std::setw(ntab) << "rate";
+	card << left << std::setw(ntab) << std::setprecision(3) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
+	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	  rootfile->cd();
+	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
+	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
+	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
+	  else          card << left << std::setw(ntab) << std::setprecision(3) << iyield;
+	}
+	card << "\n";
+	card << "----------------------------------------------------------------------------------------\n";
+
+	// Define sources of systematic uncertainty, what distibution they follow and how large their effect is
+	for(unsigned syst=0; syst<nSyst; ++syst) {
+	  std::string asyst = systNames[syst];
+	  if(procPerSyst.count(asyst)==0) {
+	    std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
+	    continue;
+	  }
+	  // Correlated or uncorrelated
+	  if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+	    asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
+	  }
+
+	  card << left << std::setw(ntab/2) << asyst;
+	  // If shape error, set it to 1.000
+	  std::string errStr = "1.000";
+	  // If normalization error, change it accordingly
+	  if(procPerSyst[asyst].find("lnN")!=std::string::npos) { // normalization error: lnN
+	    if(normSystsPerYear.count(asyst)==0) {
+	      std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
+	      errStr = "2.000";
+	    }
+	    else {
+	      errStr = normSystsPerYear[asyst][year];
+	    }
+	    card << left << std::setw(ntab/2) << "lnN";
+	  }
+	  else { // all the other systematics: shapeN2
+	    card << left << std::setw(ntab/2) << "shapeN2";
+	  }
+	  //
+	  // Fill in systs for all processes:
+	  //
+	  //  - signal
+	  if(procPerSyst[asyst].find("signal")==std::string::npos)
+	    card << left << std::setw(ntab) << "-";
+	  else
+	    card << left << std::setw(ntab) << errStr.c_str();
+	  //
+	  //  - backgrounds
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    if(procPerSyst[asyst].find(bkgNames[bkg])==std::string::npos)
+	      card << left << std::setw(ntab) << "-";
+	    else
+	      card << left << std::setw(ntab) << errStr;
+	  }
+	  card << "\n";
+	} // end systs
+	card << "* autoMCStats 0\n";
+	card.close();
+	rootfile->Close();
+      } // end couplings
+    } // end signal samples
+  } // end if(systcat==0)
+
+  else { // if(systcat!=0)
+    std::string appx = "_" + systNames[systcat] + "_" + (systcat==0 ? "Down" : "Up");
+    for(size_t isign=0; isign<nSamples_signal; ++isign) {
+      std::string sgn = sigNames[isign].Data();
+      for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+	if(icoup=0 && sgn.find("_e" )==std::string::npos) continue;
+	if(icoup=1 && sgn.find("_mu")==std::string::npos) continue;
+	std::string cpl = couplings[icoup];
+
+	// ROOT file with shapes
+	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+	TFile *rootfile = TFile::Open(rootfilename.c_str(), "UPDATE");
+	rootfile->cd();
+	dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
+	Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());
+	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	  rootfile->cd();
+	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+	}
+	rootfile->Close();
+      } // end couplings
+    } // end signal samples
+  } // end if(systcat!=0)
+
+}//END ANALIUSI  --> (l'analisi sicula?)
 
 
 
@@ -1399,3 +1612,89 @@ double Analysis_mc::pu_weight ( TH1D *histo, double numberInteractions){
 }
 
  
+double Analysis_mc::displMuoVars(double idispl, double ipt) {
+  double ieff = 1.0;
+  // 2016
+  if(year==0) {
+    if     (idispl<0.2) {
+      if     (ipt< 6.) ieff = 0.995;
+      else if(ipt<10.) ieff = 0.995;
+      else if(ipt<20.) ieff = 1.000;
+      else             ieff = 0.987;
+    }
+    else if(idispl<0.5) {
+      if     (ipt< 6.) ieff = 1.005;
+      else if(ipt<10.) ieff = 1.002;
+      else if(ipt<20.) ieff = 1.002;
+      else             ieff = 0.991;
+    }
+    else if(idispl<1.0) {
+      if     (ipt< 6.) ieff = 1.018;
+      else if(ipt<10.) ieff = 1.007;
+      else if(ipt<20.) ieff = 0.985;
+      else             ieff = 1.013;
+    }
+    else {
+      if     (ipt< 6.) ieff = 1.008;
+      else if(ipt<10.) ieff = 1.021;
+      else if(ipt<20.) ieff = 0.976;
+      else             ieff = 1.012;
+    }
+  }
+  // 2017
+  else if(year==1) {
+    if     (idispl<0.2) {
+      if     (ipt< 6.) ieff = 0.995;
+      else if(ipt<10.) ieff = 0.995;
+      else if(ipt<20.) ieff = 1.000;
+      else             ieff = 0.987;
+    }
+    else if(idispl<0.5) {
+      if     (ipt< 6.) ieff = 1.005;
+      else if(ipt<10.) ieff = 1.002;
+      else if(ipt<20.) ieff = 1.002;
+      else             ieff = 0.991;
+    }
+    else if(idispl<1.0) {
+      if     (ipt< 6.) ieff = 1.018;
+      else if(ipt<10.) ieff = 1.007;
+      else if(ipt<20.) ieff = 0.985;
+      else             ieff = 1.013;
+    }
+    else {
+      if     (ipt< 6.) ieff = 1.008;
+      else if(ipt<10.) ieff = 1.021;
+      else if(ipt<20.) ieff = 0.976;
+      else             ieff = 1.012;
+    }
+  }
+  // 2018
+  else {
+    if     (idispl<0.2) {
+      if     (ipt< 6.) ieff = 0.994;
+      else if(ipt<10.) ieff = 0.996;
+      else if(ipt<20.) ieff = 0.991;
+      else             ieff = 0.986;
+    }
+    else if(idispl<0.5) {
+      if     (ipt< 6.) ieff = 0.993;
+      else if(ipt<10.) ieff = 0.996;
+      else if(ipt<20.) ieff = 0.997;
+      else             ieff = 1.003;
+    }
+    else if(idispl<1.0) {
+      if     (ipt< 6.) ieff = 0.992;
+      else if(ipt<10.) ieff = 0.994;
+      else if(ipt<20.) ieff = 1.009;
+      else             ieff = 0.999;
+    }
+    else {
+      if     (ipt< 6.) ieff = 1.011;
+      else if(ipt<10.) ieff = 1.023;
+      else if(ipt<20.) ieff = 0.997;
+      else             ieff = 0.995;
+    }
+  }
+
+  return ieff;
+}

@@ -44,16 +44,17 @@ void majo(unsigned year, int selezione, string inputRootFile){
 
 //==========================================================================================
     Analysis_mc all(year, selezione, "/Users/Martina/Desktop/CMS/file_bck/zg.root");
-    all.analisi(selezione, 1, "prova.root");
-    //all.analisi(selezione, 1, "prova_qcd.root", 1);
-    //all.analisi(selezione, 1, "prova_pdf.root", 2);
-    all.analisi(selezione, 1, "prova_jec_down.root" ,  8, 0);
-    all.analisi(selezione, 1, "prova_jec_up.root"   ,  8, 1);
-    all.analisi(selezione, 1, "prova_jer_down.root" ,  9, 0);
-    all.analisi(selezione, 1, "prova_jer_up.root"   ,  9, 1);
-    all.analisi(selezione, 1, "prova_btag_down.root", 10, 0);
-    all.analisi(selezione, 1, "prova_btag_up.root"  , 10, 1);
-    all.analisi(selezione, 1, "prova_stat_down.root", 11, 0);
-    all.analisi(selezione, 1, "prova_stat_up.root"  , 11, 1);
+    std::string basename = "stica";
+    //                                 0     1      2      3       4       5        6        7      8
+    const std::string systNames[] = { "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer"};
+    const size_t nsysts = std::sizeof(systNames)/std::sizeof(systNames[0]);
 
+    all.analisi(selezione, 1, (basename+".root").c_str());
+    for(size_t i=0; i<nsysts; ++i) {
+      // Skip the following for now:
+      // qcd,    pdf,    pEle,   pMuo
+      if(i==1 || i==2 || i==3 || i==4) continue;
+      all.analisi(selezione, 1, (basename+"_"+systNames[i]+"_down.root" ).c_str(), i, 0);
+      all.analisi(selezione, 1, (basename+"_"+systNames[i]+"_up.root"   ).c_str(), i, 1);
+    }
 }

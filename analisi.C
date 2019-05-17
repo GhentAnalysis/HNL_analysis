@@ -44,25 +44,22 @@ int main(){
 
 //==========================================================================================
     Analysis_mc all(year, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/");
-    all.analisi(0, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/","pippo",0,0);
 
-    // Daniele's test
-    // all.analisi(0, "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/2016_signal.txt", "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/", "prova.root", 0, 0);
+    std::string alist = "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt";
+    std::string adir  = "/pnfs/iihe/cms/store/user/mvit/samples/2016/";
+    std::string basename = "shape_file";
+    //                                 0   1     2      3      4       5       6        7        8      9      10
+    const std::string systNames[] = { "", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag"};
+    const size_t nsysts = sizeof(systNames)/sizeof(systNames[0]);
 
-    /* 
-    //all.analisi(selezione, 1, "prova_qcd.root", 1);
-    //all.analisi(selezione, 1, "prova_pdf.root", 2);
+    all.analisi(alist, adir, (basename+".root").c_str(), 0, 0);
+    for(size_t i=1; i<nsysts; ++i) {  // skip i=0
+      // Skip the following for now:
+      // pu      qcd,    pdf,    pEle,   pMuo,   jec,    jer
+      if(i==1 || i==2 || i==3 || i==4 || i==5 || i==8 || i==9) continue;
+      all.analisi(alist, adir, basename.c_str(), i, 0);
+      all.analisi(alist, adir, basename.c_str(), i, 1);
+    }
 
-    all.analisi(selezione, 1, "prova_jec_down.root" ,  8, 0);
-    all.analisi(selezione, 1, "prova_jec_up.root"   ,  8, 1);
-    all.analisi(selezione, 1, "prova_jer_down.root" ,  9, 0);
-    all.analisi(selezione, 1, "prova_jer_up.root"   ,  9, 1);
-    all.analisi(selezione, 1, "prova_btag_down.root", 10, 0);
-    all.analisi(selezione, 1, "prova_btag_up.root"  , 10, 1);
-    all.analisi(selezione, 1, "prova_stat_down.root", 11, 0);
-    all.analisi(selezione, 1, "prova_stat_up.root"  , 11, 1);
-    */
-
-    
     return 0;
 }

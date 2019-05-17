@@ -665,14 +665,14 @@ class Analysis_mc : public TObject {
   void printProgress(double progress) ;
   //______________________      inizialization functions       ________________________________// 
   //set up tree for reading and writing
-  void initTree(TTree *tree, const bool isData = false,  unsigned jaar = 0);
+  void initTree(TTree *tree, const bool isData = false);
   //skim tree
-  void skimTree(const std::string&, std::string outputDirectory = "", const bool isData = false, unsigned jaar = 0);
+  void skimTree(const std::string&, std::string outputDirectory = "", const bool isData = false);
   //set up tree for analysis
   void readSamples(const std::string&, const std::string&, std::vector<Sample>&);
   void readSamples(const std::string& list, const std::string& directory); //read sample list from file
   void initSample();                              //event weights will be set according to is2016() ( or equally is2017() ) flag
-  void initSample(unsigned jaar, const Sample&);  
+  void initSample(const Sample&);  
   //functions to analyze tree
   void GetEntry(long unsigned entry);
   void GetEntry(const Sample&, long unsigned entry);
@@ -693,14 +693,14 @@ class Analysis_mc : public TObject {
   // 10. b tagging
   // 11. MC systematics
   //
-  void analisi(  unsigned jaar, const std::string& list, const std::string& directory,
-		 TString outfilename,
+  void analisi(  const std::string& list, const std::string& directory,
+		 std::string outfilename,
 		int systcat = 0, int systdir = 0
 		);
 
   double pu_weight ( TH1D *histo, double numberInteractions);
 
-
+  double displMuoVars(double idisp, double ipt);
 
 
   //______________________      object functions       ________________________________// 
@@ -773,7 +773,6 @@ class Analysis_mc : public TObject {
   
  private:
   unsigned year;
-  unsigned jaar;
 
   bool isCRRun=false;
   bool isSRRun=true;
@@ -796,9 +795,9 @@ class Analysis_mc : public TObject {
   //check whether sample is 2017 or not
   bool isData() const { return currentSample.isData(); }
   bool isMC() const { return currentSample.isMC(); }
-  bool is2017() const { return (jaar == 1); }
-  bool is2016() const { return (jaar == 0); }
-  bool is2018() const { return (jaar == 2); } 
+  bool is2016() const { return (year == 0); }
+  bool is2017() const { return (year == 1); }
+  bool is2018() const { return (year == 2); } 
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -869,127 +868,137 @@ class Analysis_mc : public TObject {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  
 //******************* HISTO **********************
-  const static int nSamples_eff=27;
-  const static int nSamples_signal=20;
-  const static int nSamples_signal_mu=10;
-  const static int nSamples_signal_e=10;
+  const static int nSamples_signal_e  = 10;
+  const static int nSamples_signal_mu = 10;
+  const static int nSamples_signal    = nSamples_signal_e + nSamples_signal_mu;
+  const static int nSamples_eff       = 7 + nSamples_signal;
 
-  const TString eff_names[nSamples_eff +1 ] = { "obs",      
-						"M-1_V-0.0949736805647_mu",
-						"M-1_V-0.212367605816_mu",
-						"M-2_V-0.0110905365064_mu",
-						"M-2_V-0.0248394846967_mu",
-						"M-3_V-0.00707813534767_mu",
-						"M-4_V-0.00290516780927_mu",
-						"M-5_V-0.00145602197786_mu",
-						"M-6_V-0.00202484567313_mu",
-						"M-8_V-0.00151327459504_mu",
-						"M-10_V-0.000756967634711_mu",
-						"M-1_V-0.0949736805647_e",
-						"M-1_V-0.212367605816_e",
-						"M-2_V-0.0110905365064_e",
-						"M-2_V-0.0248394846967_e",
-						"M-3_V-0.00707813534767_e",
-						"M-4_V-0.00290516780927_e",
-						"M-5_V-0.00145602197786_e",
-						"M-6_V-0.00202484567313_e",
-						"M-8_V-0.00151327459504_e",
-						"M-10_V-0.000756967634711_e",
-						"DY",  
-						"ttbar",
-						"WJets",
-						"multiboson", 
-						"Xgamma",    
-						"TTX",		
-						"non prompt"};
+  const TString eff_names[nSamples_eff+1] = {
+    "obs",      
+    "M-1_V-0.0949736805647_mu",
+    "M-1_V-0.212367605816_mu",
+    "M-2_V-0.0110905365064_mu",
+    "M-2_V-0.0248394846967_mu",
+    "M-3_V-0.00707813534767_mu",
+    "M-4_V-0.00290516780927_mu",
+    "M-5_V-0.00145602197786_mu",
+    "M-6_V-0.00202484567313_mu",
+    "M-8_V-0.00151327459504_mu",
+    "M-10_V-0.000756967634711_mu",
+    "M-1_V-0.0949736805647_e",
+    "M-1_V-0.212367605816_e",
+    "M-2_V-0.0110905365064_e",
+    "M-2_V-0.0248394846967_e",
+    "M-3_V-0.00707813534767_e",
+    "M-4_V-0.00290516780927_e",
+    "M-5_V-0.00145602197786_e",
+    "M-6_V-0.00202484567313_e",
+    "M-8_V-0.00151327459504_e",
+    "M-10_V-0.000756967634711_e",
+    "DY",  
+    "ttbar",
+    "WJets",
+    "multiboson", 
+    "Xgamma",    
+    "TTX",		
+    "non prompt"
+  };
 
-  const std::string string_sigNames_e[nSamples_signal_e] = { "M-1_V-0.0949736805647_e",
-						      "M-1_V-0.212367605816_e",
-						      "M-2_V-0.0110905365064_e",
-						      "M-2_V-0.0248394846967_e",
-						      "M-3_V-0.00707813534767_e",
-						      "M-4_V-0.00290516780927_e",
-						      "M-5_V-0.00145602197786_e",
-						      "M-6_V-0.00202484567313_e",
-						      "M-8_V-0.00151327459504_e",
-						      "M-10_V-0.000756967634711_e"};
-  const std::string string_sigNames_mu[nSamples_signal_mu] = {"M-1_V-0.0949736805647_mu",
-						       "M-1_V-0.212367605816_mu",
-						       "M-2_V-0.0110905365064_mu",
-						       "M-2_V-0.0248394846967_mu",
-						       "M-3_V-0.00707813534767_mu",
-						       "M-4_V-0.00290516780927_mu",
-						       "M-5_V-0.00145602197786_mu",
-						       "M-6_V-0.00202484567313_mu",
-						       "M-8_V-0.00151327459504_mu",
-						       "M-10_V-0.000756967634711_mu"};
-   const TString sigNames_e[nSamples_signal_e] = { "M-1_V-0.0949736805647_e",
-						      "M-1_V-0.212367605816_e",
-						      "M-2_V-0.0110905365064_e",
-						      "M-2_V-0.0248394846967_e",
-						      "M-3_V-0.00707813534767_e",
-						      "M-4_V-0.00290516780927_e",
-						      "M-5_V-0.00145602197786_e",
-						      "M-6_V-0.00202484567313_e",
-						      "M-8_V-0.00151327459504_e",
-						      "M-10_V-0.000756967634711_e"};
-  const TString sigNames_mu[nSamples_signal_mu] = {"M-1_V-0.0949736805647_mu",
-						       "M-1_V-0.212367605816_mu",
-						       "M-2_V-0.0110905365064_mu",
-						       "M-2_V-0.0248394846967_mu",
-						       "M-3_V-0.00707813534767_mu",
-						       "M-4_V-0.00290516780927_mu",
-						       "M-5_V-0.00145602197786_mu",
-						       "M-6_V-0.00202484567313_mu",
-						       "M-8_V-0.00151327459504_mu",
-						       "M-10_V-0.000756967634711_mu"};
+  const std::string string_sigNames_e[nSamples_signal_e] = {
+    "M-1_V-0.0949736805647_e",
+    "M-1_V-0.212367605816_e",
+    "M-2_V-0.0110905365064_e",
+    "M-2_V-0.0248394846967_e",
+    "M-3_V-0.00707813534767_e",
+    "M-4_V-0.00290516780927_e",
+    "M-5_V-0.00145602197786_e",
+    "M-6_V-0.00202484567313_e",
+    "M-8_V-0.00151327459504_e",
+    "M-10_V-0.000756967634711_e"
+  };
+  const std::string string_sigNames_mu[nSamples_signal_mu] = {
+    "M-1_V-0.0949736805647_mu",
+    "M-1_V-0.212367605816_mu",
+    "M-2_V-0.0110905365064_mu",
+    "M-2_V-0.0248394846967_mu",
+    "M-3_V-0.00707813534767_mu",
+    "M-4_V-0.00290516780927_mu",
+    "M-5_V-0.00145602197786_mu",
+    "M-6_V-0.00202484567313_mu",
+    "M-8_V-0.00151327459504_mu",
+    "M-10_V-0.000756967634711_mu"
+  };
+  const TString sigNames_e[nSamples_signal_e] = {
+    "M-1_V-0.0949736805647_e",
+    "M-1_V-0.212367605816_e",
+    "M-2_V-0.0110905365064_e",
+    "M-2_V-0.0248394846967_e",
+    "M-3_V-0.00707813534767_e",
+    "M-4_V-0.00290516780927_e",
+    "M-5_V-0.00145602197786_e",
+    "M-6_V-0.00202484567313_e",
+    "M-8_V-0.00151327459504_e",
+    "M-10_V-0.000756967634711_e"
+  };
+  const TString sigNames_mu[nSamples_signal_mu] = {
+    "M-1_V-0.0949736805647_mu",
+    "M-1_V-0.212367605816_mu",
+    "M-2_V-0.0110905365064_mu",
+    "M-2_V-0.0248394846967_mu",
+    "M-3_V-0.00707813534767_mu",
+    "M-4_V-0.00290516780927_mu",
+    "M-5_V-0.00145602197786_mu",
+    "M-6_V-0.00202484567313_mu",
+    "M-8_V-0.00151327459504_mu",
+    "M-10_V-0.000756967634711_mu"
+  };
 
-  const TString sigNames[nSamples_signal] = {"M-1_V-0.0949736805647_mu",
-					     "M-1_V-0.212367605816_mu",
-					     "M-2_V-0.0110905365064_mu",
-					     "M-2_V-0.0248394846967_mu",
-					     "M-3_V-0.00707813534767_mu",
-					     "M-4_V-0.00290516780927_mu",
-					     "M-5_V-0.00145602197786_mu",
-					     "M-6_V-0.00202484567313_mu",
-					     "M-8_V-0.00151327459504_mu",
-					     "M-10_V-0.000756967634711_mu",
-					     "M-1_V-0.0949736805647_e",
-					     "M-1_V-0.212367605816_e",
-					     "M-2_V-0.0110905365064_e",
-					     "M-2_V-0.0248394846967_e",
-					     "M-3_V-0.00707813534767_e",
-					     "M-4_V-0.00290516780927_e",
-					     "M-5_V-0.00145602197786_e",
-					     "M-6_V-0.00202484567313_e",
-					     "M-8_V-0.00151327459504_e",
-					     "M-10_V-0.000756967634711_e"};
+  const TString sigNames[nSamples_signal] = {
+    "M-1_V-0.0949736805647_mu",
+    "M-1_V-0.212367605816_mu",
+    "M-2_V-0.0110905365064_mu",
+    "M-2_V-0.0248394846967_mu",
+    "M-3_V-0.00707813534767_mu",
+    "M-4_V-0.00290516780927_mu",
+    "M-5_V-0.00145602197786_mu",
+    "M-6_V-0.00202484567313_mu",
+    "M-8_V-0.00151327459504_mu",
+    "M-10_V-0.000756967634711_mu",
+    "M-1_V-0.0949736805647_e",
+    "M-1_V-0.212367605816_e",
+    "M-2_V-0.0110905365064_e",
+    "M-2_V-0.0248394846967_e",
+    "M-3_V-0.00707813534767_e",
+    "M-4_V-0.00290516780927_e",
+    "M-5_V-0.00145602197786_e",
+    "M-6_V-0.00202484567313_e",
+    "M-8_V-0.00151327459504_e",
+    "M-10_V-0.000756967634711_e"
+  };
 
-  const TString sigNames_short[nSamples_signal] = {"M=1 V=0.0949 #mu",
-						   "M=1 V=0.2123 #mu",
-						   "M=2 V=0.0110 #mu",
-						   "M=2 V=0.0248 #mu",
-						   "M=3 V=0.0070 #mu",
-						   "M=4 V=0.0029 #mu",
-						   "M=5 V=0.0014 #mu",
-						   "M=6 V=0.0020 #mu",
-						   "M=8 V=0.0015 #mu",
-						   "M=10 V=0.0007 #mu",
-						   "M=1 V=0.0949 e",
-						   "M=1 V=0.2123 e",
-						   "M=2 V=0.0110 e",
-						   "M=2 V=0.0248 e",
-						   "M=3 V=0.0070 e",
-						   "M=4 V=0.0029 e",
-						   "M=5 V=0.0014 e",
-						   "M=6 V=0.0020 e",
-						   "M=8 V=0.0015 e",
-						   "M=10 V=0.0007 e"};
+  const TString sigNames_short[nSamples_signal] = {
+    "M=1 V=0.0949 #mu",
+    "M=1 V=0.2123 #mu",
+    "M=2 V=0.0110 #mu",
+    "M=2 V=0.0248 #mu",
+    "M=3 V=0.0070 #mu",
+    "M=4 V=0.0029 #mu",
+    "M=5 V=0.0014 #mu",
+    "M=6 V=0.0020 #mu",
+    "M=8 V=0.0015 #mu",
+    "M=10 V=0.0007 #mu",
+    "M=1 V=0.0949 e",
+    "M=1 V=0.2123 e",
+    "M=2 V=0.0110 e",
+    "M=2 V=0.0248 e",
+    "M=3 V=0.0070 e",
+    "M=4 V=0.0029 e",
+    "M=5 V=0.0014 e",
+    "M=6 V=0.0020 e",
+    "M=8 V=0.0015 e",
+    "M=10 V=0.0007 e"
+  };
 
-
-
-
-  
   const static int nCat=7;
   const static int nChannel=8;
   const static int nDist = 45;  //Number of distributions to plo
