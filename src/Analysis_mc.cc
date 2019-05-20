@@ -1537,7 +1537,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  // If shape error, set it to 1.000
 	  std::string errStr = "1.000";
 	  // If normalization error, change it accordingly
-	  if(procPerSyst[asyst].find("lnN")!=std::string::npos) { // normalization error: lnN
+	  if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
 	    if(normSystsPerYear.count(asyst)==0) {
 	      std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
 	      errStr = "2.000";
