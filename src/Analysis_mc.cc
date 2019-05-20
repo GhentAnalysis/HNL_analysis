@@ -1331,10 +1331,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
 		     2, true, signals,  sigNames_short, nSamples_signal, false);
+	      std::cout<<dist<<"-"<<cat<<"-"<<cha<<std::endl;
       }
     }//end cat
   }//end histo
- 
+ 	std::cout<<"fuori dal loop histogramma"<<std::endl;
 
   /*
   // da qui e' la roba per le data card
@@ -1599,7 +1600,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       } // end couplings
     } // end signal samples
   } // end if(systcat!=0)
-
+std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 }//END ANALIUSI  --> (l'analisi sicula?)
 
 
