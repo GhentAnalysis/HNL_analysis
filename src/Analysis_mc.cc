@@ -560,6 +560,8 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   //Calculate the center of the maximum bin of each histogram
   double maxBinC[nDist];
   for(int i = 0; i < nDist; ++i){
+	  	  if (i != 0) continue;
+
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
   }
   
