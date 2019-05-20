@@ -1601,6 +1601,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     } // end signal samples
   } // end if(systcat!=0)
 std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
+	return;
 }//END ANALIUSI  --> (l'analisi sicula?)
 
 
