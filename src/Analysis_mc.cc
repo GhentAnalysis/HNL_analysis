@@ -1323,6 +1323,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 
+	 if (dist != 0) continue;
       
 	plotDataVSMC(cat,cha,dist,
 		     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
