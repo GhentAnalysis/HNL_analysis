@@ -539,8 +539,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     const int nSamples_signal = 2;
     } 
   */
-  TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
-	
+ // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
+std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   for(int i = 0; i < nDist; ++i){
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
     std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
