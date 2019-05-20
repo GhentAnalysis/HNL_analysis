@@ -1538,12 +1538,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  std::string errStr = "1.000";
 	  // If normalization error, change it accordingly
 	  if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
-	    if(normSystsPerYear.count(asyst)==0) {
+	    if(normSystsPerYear.count(systNames[syst])==0) {
 	      std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
 	      errStr = "2.000";
 	    }
 	    else {
-	      errStr = normSystsPerYear[asyst][year];
+	      errStr = normSystsPerYear[systNames[syst]][year];
 	    }
 	    card << left << std::setw(ntab/2) << "lnN";
 	  }
@@ -1554,14 +1554,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  // Fill in systs for all processes:
 	  //
 	  //  - signal
-	  if(procPerSyst[asyst].find("signal")==std::string::npos)
+	  if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
 	    card << left << std::setw(ntab) << "-";
 	  else
 	    card << left << std::setw(ntab) << errStr.c_str();
 	  //
 	  //  - backgrounds
 	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    if(procPerSyst[asyst].find(bkgNames[bkg])==std::string::npos)
+	    if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
 	      card << left << std::setw(ntab) << "-";
 	    else
 	      card << left << std::setw(ntab) << errStr;
@@ -1576,7 +1576,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   } // end if(systcat==0)
 
   else { // if(systcat!=0)
-    std::string appx = "_" + systNames[systcat] + "_" + (systcat==0 ? "Down" : "Up");
+    std::string appx = "_" + systNames[systcat] + (systcat==0 ? "Down" : "Up");
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
