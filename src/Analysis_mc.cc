@@ -1459,8 +1459,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	if(icoup=0 && sgn.find("_e" )==std::string::npos) continue;
-	if(icoup=1 && sgn.find("_mu")==std::string::npos) continue;
+	if(icoup==0 && sgn.find("_e" )==std::string::npos) continue;
+	if(icoup==1 && sgn.find("_mu")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
 
 	// ROOT file with shapes
@@ -1580,8 +1580,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	if(icoup=0 && sgn.find("_e" )==std::string::npos) continue;
-	if(icoup=1 && sgn.find("_mu")==std::string::npos) continue;
+	if(icoup==0 && sgn.find("_e" )==std::string::npos) continue;
+	if(icoup==1 && sgn.find("_mu")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
 
 	// ROOT file with shapes
