@@ -53,11 +53,36 @@ int main(){
     const size_t nsysts = sizeof(systNames)/sizeof(systNames[0]);
 
     all.analisi(alist, adir, (basename+".root").c_str(), 0, 0);
+  std::cout<<"------------------------------------> ho girato il valore centrale"<<std::endl;
+  std:cout<<""<<std::endl;
+    std:cout<<""<<std::endl;
+  std:cout<<""<<std::endl;
+  std:cout<<""<<std::endl;
+  std:cout<<""<<std::endl;
+  std:cout<<""<<std::endl;
+  std:cout<<""<<std::endl;
+
     for(size_t i=1; i<nsysts; ++i) {  // skip i=0
       // Skip the following for now:
       // pu      qcd,    pdf,    pEle,   pMuo,   jec,    jer
       if(i==1 || i==2 || i==3 || i==4 || i==5 || i==8 || i==9) continue;
+      std::cout<<"------------------------------------> devo girato il valore dei sty "<<i<<" down  "<<systNames[i]<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
       all.analisi(alist, adir, basename.c_str(), i, 0);
+      std::cout<<"------------------------------------> devo girato il valore dei sty "<<i<<"  up "<<systNames[i]<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
+      std:cout<<""<<std::endl;
       all.analisi(alist, adir, basename.c_str(), i, 1);
     }
 
