@@ -1233,8 +1233,8 @@ if (numero_histo !=0) continue;
     }//end loop over the entries
   }//loop over samples
 
-  std::cout<<"multiboson: "<< Histos[2][6][0][24]->GetSumOfWeights()<<std::endl;
-  std::cout<<"dy: "<< Histos[2][6][0][21]->GetSumOfWeights()<<std::endl;
+ // std::cout<<"multiboson: "<< Histos[2][6][0][24]->GetSumOfWeights()<<std::endl;
+ // std::cout<<"dy: "<< Histos[2][6][0][21]->GetSumOfWeights()<<std::endl;
 
 
   // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
