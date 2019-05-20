@@ -1237,7 +1237,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //                |                         |
   //                V                         V
   //            unblindED           "silent" is not a verb...
-  TH1D* dataYields[nDist][nChannel][nCat];
+/*  TH1D* dataYields[nDist][nChannel][nCat];
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
@@ -1265,55 +1265,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
   }
 
-  
-
-
-  /*
-
-    const std::vector< std::string > uncNames = {"JEC_2016", "uncl", "scale", "pileup", "bTag_udsg_2016", "bTag_bc_2016", "isr", "fsr", "prefiring", "WZ_extrapolation",
-    "lepton_reco", "muon_id_stat_2016", "electron_id_stat_2016", "lepton_id_syst", "pdf", "scaleXsec", "pdfXsec"};
-
-
-
-    const std::string systNames[8]= { "lumi", "pdfAcc", "JEC","pdf","pu",   "stasignal","statDY","statttbar",	"statWJets",	"statmultiboson", "statXgamma","statTTTX", "statNonPrompt"};
-    const std::string systDist[8]= {"lnN","lnN", "lnN",	"lnN",	"lnN", 	"lnN", "lnN", "lnN","lnN"};
-    const std::string bkgNames[6]= {"DY",  	"ttbar",	"WJets",	"multiboson", 	"Xgamma",    	"TTTX"};
-
-
-
-    lumi	lnN	1.025	-	1.025	-	-	1.025	-
-    pdfAcc	lnN	1.00184	-	-	-	-	-	-
-    JEC	shape	1	1	1	1	1	1	-
-    metUncl	shape	1	1	1	1	1	1	-
-    scale_elebin4	shape	1	1	1	1	1	1	-
-    pdf	shape	1	1	1	1	1	1	-
-    pu	shape	1	1	1	1	1	1	-
-    btagSF	shape	1	1	1	1	1	1	-
-    id_eff	shape	1	1	1	1	1	1	-
-    trigeff	shape	1	1	1	1	1	1	-
-    fakeEWK	shape	-	-	-	-	-	-	1
-    ZZmt	shape	-	1	-	-	-	-	-
-    scaleAcc	shape	1	-	-	-	-	-	-
-    lifetime	lnN	1.18522	-	-	-	-	-	-
-    statSig4	lnN	1	-	-	-	-	-	-
-    statZZH4	lnN	-	8.79488	-	-	-	-	-
-    stattriboson4	lnN	-	-	1	-	-	-	-
-    statWZ4	lnN	-	-	-	1.35968	-	-	-
-    statXgamma4	lnN	-	-	-	-	1	-	-
-    statTTX4	lnN	-	-	-	-	-	1	-
-    statnonPrompt4	lnN	-	-	-	-	-	-	2.89821
-    extraZZH	lnN	-	1.1	-	-	-	-	-
-    extratriboson	lnN	-	-	1.5	-	-	-	-
-    extraWZ	lnN	-	-	-	1.094	-	-	-
-    extraXgamma	lnN	-	-	-	-	1.15	-	-
-    extraTTX	lnN	-	-	-	-	-	1.5	-
-    extranonPrompt	lnN	-	-	-	-	-	-	1.3
-
-
-  */
-
-  
-
+ 
   TH1D* signals[nSamples_signal];
 
   for(unsigned dist = 0; dist < nDist; ++dist){
@@ -1337,83 +1289,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }//end histo
  	std::cout<<"fuori dal loop histogramma"<<std::endl;
 
-  /*
-  // da qui e' la roba per le data card
-
-      
-  for (int ii = 0; ii < nSR; ii++){// loop over bin
-	
-  double bgkield[6]= {0.,0.,0.,0.,0.,0.};
-  bgkield[0] = Histos[dist][cat][63] -> GetBinContent(ii+1);
-  bgkield[1] = Histos[dist][cat][64] -> GetBinContent(ii+1);
-  bgkield[2] = Histos[dist][cat][65] -> GetBinContent(ii+1);
-  bgkield[3] = Histos[dist][cat][66] -> GetBinContent(ii+1);
-  bgkield[4] = Histos[dist][cat][67] -> GetBinContent(ii+1);
-  bgkield[5] = Histos[dist][cat][68] -> GetBinContent(ii+1);
-
-
-  std::vector<std::vector<double> > systUnc (7,vector<double>(7,0.));
-
-  for (int i =0; i < 7; i++){
-  for (int j =0; j < 7; j++){
-  if (i != j)  systUnc[i][j] = 0;
-  else{	    
-  if (i == 1 && Histos[dist][cat][63] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][63] -> GetBinError(ii+1)) / (Histos[dist][cat][63] -> GetBinContent(ii+1)));
-  if (i == 1 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
-  if (i == 1 && Histos[dist][cat][63] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
-
-  if (i == 2 && Histos[dist][cat][64] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][64] -> GetBinError(ii+1)) / (Histos[dist][cat][64] -> GetBinContent(ii+1)));
-  if (i == 2 && Histos[dist][cat][64] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
-
-  if (i == 2 && Histos[dist][cat][65] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][64] -> GetBinError(ii+1)) / (Histos[dist][cat][64] -> GetBinContent(ii+1)));
-  if (i == 2 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
-  if (i == 2 && Histos[dist][cat][65] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
-
-  if (i == 3 && Histos[dist][cat][65] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][65] -> GetBinError(ii+1)) / (Histos[dist][cat][65] -> GetBinContent(ii+1)));
-  if (i == 3 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
-  if (i == 3 && Histos[dist][cat][65] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
-
-  if (i == 4 && Histos[dist][cat][66] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][66] -> GetBinError(ii+1)) / (Histos[dist][cat][66] -> GetBinContent(ii+1)));
-  if (i == 4 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
-  if (i == 4 && Histos[dist][cat][66] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
-
-  if (i == 5 && Histos[dist][cat][67] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][67] -> GetBinError(ii+1)) / (Histos[dist][cat][67] -> GetBinContent(ii+1)));
-  if (i == 5 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
-  if (i == 5 && Histos[dist][cat][67] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
-
-  if (i == 6 && Histos[dist][cat][68] -> GetBinContent(ii+1) !=0) systUnc[i][j] = (1+ (Histos[dist][cat][68] -> GetBinError(ii+1)) / (Histos[dist][cat][68] -> GetBinContent(ii+1)));
-  if (i == 6 && systUnc[i][j] >= 2)                               systUnc[i][j] = 1.99;
-  if (i == 6 && Histos[dist][cat][68] -> GetBinContent(ii+1) ==0) systUnc[i][j] = 1;
-
-  }
-  }
-  }
-
-  // IMPORTANTE   da qui e' la roba per le data card
-  for (unsigned signal_sample = 0; signal_sample< 62; signal_sample++){	  
-  if(signals[signal_sample] -> GetBinContent(ii+1) !=0) systUnc[0][0]= (1+ (signals[signal_sample] -> GetBinError(ii+1)) / (signals[signal_sample] -> GetBinContent(ii+1)));
-  if(systUnc[0][0] >=2 )                                systUnc[0][0] = 1.99;	  
-  if(signals[signal_sample] -> GetBinContent(ii+1) ==0) systUnc[0][0] = 1;
-
-
-	  
-  printDataCard(   dataYields[dist][cat] ->GetBinContent(ii+1), 
-  signals[signal_sample]->GetBinContent(ii+1),
-  sigNamespp[signal_sample],
-  bgkield,
-  6,
-  bkgNames,
-  systUnc, 7, systNames,systDist,
-  sigNamespp[signal_sample]+"_bin"+std::to_string(ii+1)+".txt",
-  false, sigNamespp[signal_sample]+"_bin"+std::to_string(ii+1), ii+1);
-
-
-  }// end loop signal
-
-
-  }//loop bin
-  */
-
+  
   ////////////////                           ////////////////
   //// List of stuff for data cards and shape ROOT files ////
   ////////////////                           ////////////////
@@ -1601,7 +1477,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     } // end signal samples
   } // end if(systcat!=0)
 std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
-
+*/
 /*for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
