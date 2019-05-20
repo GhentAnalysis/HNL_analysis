@@ -540,14 +540,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     } 
   */
   TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
-		       
+	
   for(int i = 0; i < nDist; ++i){
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
     std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
-	for(int cha = 0; cha < nChannel; ++cha){               
-	  Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
+	for(int cha = 0; cha < nChannel; ++cha){  
+	  Histos[i][cha][cat][effsam] = std::shared_ptr<TH1D>( new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]));
+		
+	  //Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
 	  Histos[i][cha][cat][effsam]->Sumw2();
 	}
       }
@@ -1498,7 +1500,7 @@ std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
   }//end histo
  */
 	
-for(int i = 0; i < nDist; ++i){
+/*for(int i = 0; i < nDist; ++i){
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
 	for(int cha = 0; cha < nChannel; ++cha){               
@@ -1506,7 +1508,7 @@ for(int i = 0; i < nDist; ++i){
 	}
       }
     }
-  }
+  }*/
 
 
 
