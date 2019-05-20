@@ -542,6 +542,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
  // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
 std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   for(int i = 0; i < nDist; ++i){
+	  if (i != 0) continue;
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
     std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
@@ -1162,7 +1163,7 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
       // ------------------- Histo cut flow
       //Histos[1][SR_channel][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
       //Histos[1][SR_channel][cut_bin][fill]->Fill(static_cast<double>(cut_bin+1), scal);
-
+/*
       if (selection_0)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(1), scal);
       if (selection_1)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(2), scal);
       if (selection_2)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(3), scal);
@@ -1190,10 +1191,11 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
 	if (selection_5)      Histos[1][7][0][fill] -> Fill(static_cast<double>(6), scal);
 	if (selection_final)  Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal);
       }     
+      */
       // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
 	//Histos[numero_histo][SR_channel][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-
+if (numero_histo !=0) continue;
 	if (selection_0) Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_1) Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_2) Histos[numero_histo][SR_channel][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
@@ -1241,6 +1243,7 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   //            unblindED           "silent" is not a verb...
   TH1D* dataYields[nDist][nChannel][nCat];
   for(unsigned dist = 0; dist < nDist; ++dist){
+	  if (dist != 0) continue;
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
 	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][nSamples_signal+1]->Clone();
@@ -1251,6 +1254,8 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
 
   TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
+	  	  if (dist != 0) continue;
+
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){
 	
@@ -1271,6 +1276,8 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   TH1D* signals[nSamples_signal];
 
   for(unsigned dist = 0; dist < nDist; ++dist){
+	  	  if (dist != 0) continue;
+
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
@@ -1481,6 +1488,8 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
 std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
 for(unsigned dist = 0; dist < nDist; ++dist){
+		  if (dist != 0) continue;
+
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
 	
