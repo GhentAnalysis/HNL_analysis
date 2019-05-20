@@ -1485,12 +1485,8 @@ for(unsigned dist = 0; dist < nDist; ++dist){
       for(int cha = 0; cha < nChannel; ++cha){               
 	
 	delete dataYields[dist][cha][cat];
-	//delete bkgYields[dist][cha][cat];  
-	for (unsigned s_sample = 0; s_sample< nSamples_eff; s_sample++){
-	  //delete Histos[dist][cha][cat][s_sample];     
-	}  
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	  delete signals[signal_sample];     
+	  //delete signals[signal_sample];     
 	}
       
 	
