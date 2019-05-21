@@ -672,6 +672,9 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
       double            _vertex_X=-1;
       double            _vertex_Y=-1;
       double            _vertex_Z=-1;
+      double            _vertex_errX=-1;
+      double            _vertex_errY=-1;
+      double            _vertex_errZ=-1;
       double            _vertex_R2D=-1;
       double            _vertex_sR2D=-1;
       double            _vertex_R=-1;
@@ -679,6 +682,7 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
       double            _vertex_chi2=-1;
       double            _vertex_normchi2=-1;
       double _vertex_ndf =-1;
+
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //------------------------------------------------------------ lepton selection for FO
@@ -813,9 +817,13 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
       _vertex_X=_vertices[index_l2l3][1];
       _vertex_Y=_vertices[index_l2l3][2];
       _vertex_Z=_vertices[index_l2l3][3];
+      _vertex_errX=_vertices[index_l2l3][4];
+      _vertex_errY=_vertices[index_l2l3][5];
+      _vertex_errZ=_vertices[index_l2l3][6];
       _vertex_chi2=_vertices[index_l2l3][11];
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
       _vertex_ndf =_vertices[index_l2l3][10];
+
 
 
       // ------------ ==================== -----------------------------------------------//
@@ -979,6 +987,9 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
       TVector3 svMpv =secondary_vertex[0]- primary_vertex[0];
       double vtxR     = svMpv.Mag();
       double vtxRvtxPcosAlpha = svMpv.Dot(l2plusl3)/vtxR;
+	    
+      double D2_delta_pv_svSig= D2_delta_pv_sv*D2_delta_pv_sv/(TMath::Sqrt(_vertex_X*_vertex_X*_vertex_errX*_vertex_errX  +   _vertex_Y*_vertex_Y*_vertex_errY*_vertex_errY));
+      double D3_delta_pv_svSig= D3_delta_pv_sv*D3_delta_pv_sv/(TMath::Sqrt(_vertex_X*_vertex_X*_vertex_errX*_vertex_errX  +   _vertex_Y*_vertex_Y*_vertex_errY*_vertex_errY +   _vertex_Z*_vertex_Z*_vertex_errZ*_vertex_errZ));    
       // -----------------   masses
       double M_3L= (v4l2 + v4l3 + v4l1).M();
       double M_ZPair = (pair[0]+pair[1]).M();
@@ -991,6 +1002,13 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
       TLorentzVector to_use_mT;
       to_use_mT.SetPtEtaPhiE(other[0].Pt(),0, other[0].Phi(), other[0].Pt());
       double mT=(to_use_mT+METvec).M();
+      double sumjet=0.;
+      for (unsigned j =0; j < _nJets ; j++){
+	if (jetIsGood(j)){
+	  sumjet= sumjet+ _jetPt[j];
+	}	
+      }
+      double met_sumjet=_met+sumjet;
       // -----------------   function useful  2 --> SR also    --------------------------------//
       // 0 = mmm
       // 1 = mme OS
@@ -1080,7 +1098,7 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
 			     _met,		    
 			     static_cast<double>( goodjet),
 			     static_cast<double>(bjet),
-			     _met,
+			     met_sumjet,
 			     fabs(_dxy[l1]),fabs(_dz[l1]),fabs(_3dIPSig[l1]), fabs(_2dIPSig[l1]), 
 			     fabs(_dxy[l2]),fabs(_dz[l2]),fabs(_3dIPSig[l2]), fabs(_2dIPSig[l2]), 
 			     fabs(_dxy[l3]),fabs(_dz[l3]),fabs(_3dIPSig[l3]), fabs(_2dIPSig[l3]), 
@@ -1095,10 +1113,10 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
 			     _vertex_chi2,
 			     vtxRvtxPcosAlpha,
 			     D3_delta_pv_sv,
-			     D3_delta_pv_sv,
+			     D3_delta_pv_svSig,
 			     D2_delta_pv_sv,
 			     D2_delta_pv_sv,
-			     D2_delta_pv_sv,
+			     D2_delta_pv_svSig,
 			     momentum_jet, momentum_jet};
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
