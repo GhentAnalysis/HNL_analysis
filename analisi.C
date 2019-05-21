@@ -84,6 +84,15 @@ int main(){
       std::cout<<""<<std::endl;
       std::cout<<""<<std::endl;
       all.analisi(alist, adir, basename.c_str(), i, 1);
+      std::cout<<"------------------------------------> devo girato il valore dei sty "<<i<<"  up "<<systNames[i]<<std::endl;
+     std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      
     }
 
     return 0;
