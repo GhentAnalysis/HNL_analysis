@@ -605,7 +605,7 @@ std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
 
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
-    for (Long64_t it = 0; it < nEntries/1000; ++it){
+    for (Long64_t it = 0; it < nEntries; ++it){
       GetEntry(samples[sam], it);
       //   std::cout<<"after get tree"<<std::endl;
 
