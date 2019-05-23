@@ -517,6 +517,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      "comb");           // measurement type
 
 
+  
 
   // ------------   samples info -----------------------------------------------//
   std::vector <Sample> samples  = readSampleList(list, directory);
@@ -540,30 +541,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     } 
   */
  // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
-std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
-  for(int i = 0; i < nDist; ++i){
-	  if (i != 0) continue;
-    float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
-    std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
-    for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
-      for(int cat = 0; cat < nCat; ++cat){
-	for(int cha = 0; cha < nChannel; ++cha){  
-	  Histos[i][cha][cat][effsam] = std::shared_ptr<TH1D>( new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]));
-		
-	  //Histos[i][cha][cat][effsam] = new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
-	  Histos[i][cha][cat][effsam]->Sumw2();
-	}
-      }
-    }
-  }
 
-  //Calculate the center of the maximum bin of each histogram
-  double maxBinC[nDist];
-  for(int i = 0; i < nDist; ++i){
-	  	  if (i != 0) continue;
 
-    maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
-  }
   
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
@@ -1261,18 +1240,18 @@ if (numero_histo !=0) continue;
   //                |                         |
   //                V                         V
   //            unblindED           "silent" is not a verb...
-  TH1D* dataYields[nDist][nChannel][nCat];
+  // TH1D* dataYields[nDist][nChannel][nCat];
   for(unsigned dist = 0; dist < nDist; ++dist){
 	  if (dist != 0) continue;
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
-	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][nSamples_signal+1]->Clone();
-	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*) Histos[dist][cha][cat][0]->Clone();
+	if (isSRRun) dataYields[dist][cha][cat] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone());
+	if (isCRRun) dataYields[dist][cha][cat] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][0]->Clone());
       }
     }
   }
 
-  TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
+  // TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
 	  	  if (dist != 0) continue;
 
@@ -1282,7 +1261,7 @@ if (numero_histo !=0) continue;
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);
 	  
-	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();
+	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = std::shared_ptr<TH1D> ((TH1D*) Histos[dist][cha][cat][effsam1]->Clone());
 	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 < nSamples_eff){	  
 	    if (isSRRun) dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
@@ -1293,7 +1272,7 @@ if (numero_histo !=0) continue;
   }
 
  
-  TH1D* signals[nSamples_signal];
+  //TH1D* signals[nSamples_signal];
 
   for(unsigned dist = 0; dist < nDist; ++dist){
 	  	  if (dist != 0) continue;
@@ -1301,7 +1280,7 @@ if (numero_histo !=0) continue;
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	  signals[signal_sample] = (TH1D*) Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;     
 	}
 
 	 if (dist != 0) continue;
@@ -1505,10 +1484,10 @@ if (numero_histo !=0) continue;
       } // end couplings
     } // end signal samples
   } // end if(systcat!=0)
-std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
+  std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
-for(unsigned dist = 0; dist < nDist; ++dist){
-		  if (dist != 0) continue;
+  for(unsigned dist = 0; dist < nDist; ++dist){
+    if (dist != 0) continue;
 
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
