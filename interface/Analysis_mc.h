@@ -346,315 +346,315 @@ class Analysis_mc : public TObject {
 
 
 
-   //list of branches
-   TBranch        *b__runNb;   //!
-   TBranch        *b__lumiBlock;   //!
-   TBranch        *b__eventNb;   //!
-   TBranch        *b__nVertex;   //!
-   TBranch        *b__nTrueInt;   //!
-   TBranch        *b__weight;   //!
-   TBranch        *b__lheHTIncoming;   //!
-   TBranch        *b__ctauHN;   //!
-   TBranch        *b__nLheTau;   //!
-   TBranch        *b__nLheWeights;   //!
-   TBranch        *b__lheWeight;   //!
-   TBranch        *b__nPsWeights;   //!
-   TBranch        *b__psWeight;   //!
-   TBranch        *b__ttgEventType;   //!
-   TBranch        *b__zgEventType;   //!
-   TBranch        *b__gen_met;   //!
-   TBranch        *b__gen_metPhi;   //!
-   TBranch        *b__gen_nPh;   //!
-   TBranch        *b__gen_phStatus;   //!
-   TBranch        *b__gen_phPt;   //!
-   TBranch        *b__gen_phEta;   //!
-   TBranch        *b__gen_phPhi;   //!
-   TBranch        *b__gen_phE;   //!
-   TBranch        *b__gen_phMomPdg;   //!
-   TBranch        *b__gen_phIsPrompt;   //!
-   TBranch        *b__gen_phMinDeltaR;   //!
-   TBranch        *b__gen_phPassParentage;   //!
-   TBranch        *b__gen_nL;   //!
-   TBranch        *b__gen_pdgID;   //!
-   TBranch        *b__gen_lPt;   //!
-   TBranch        *b__gen_lEta;   //!
-   TBranch        *b__gen_lPhi;   //!
-   TBranch        *b__gen_lE;   //!
-   TBranch        *b__gen_lFlavor;   //!
-   TBranch        *b__gen_lCharge;   //!
-   TBranch        *b__gen_lMomPdg;   //!
-   TBranch        *b__gen_vertex_x;   //!
-   TBranch        *b__gen_vertex_y;   //!
-   TBranch        *b__gen_vertex_z;   //!
-   TBranch        *b__gen_lIsPrompt;   //!
-   TBranch        *b__gen_lMinDeltaR;   //!
-   TBranch        *b__gen_lPassParentage;   //!
-   TBranch        *b__passMETFilters;   //!
-   TBranch        *b__Flag_goodVertices;   //!
-   TBranch        *b__Flag_HBHENoiseFilter;   //!
-   TBranch        *b__Flag_HBHENoiseIsoFilter;   //!
-   TBranch        *b__Flag_EcalDeadCellTriggerPrimitiveFilter;   //!
-   TBranch        *b__Flag_BadPFMuonFilter;   //!
-   TBranch        *b__Flag_BadChargedCandidateFilter;   //!
-   TBranch        *b__updated_ecalBadCalibFilter;   //!
+  //list of branches
+  TBranch        *b__runNb;   //!
+  TBranch        *b__lumiBlock;   //!
+  TBranch        *b__eventNb;   //!
+  TBranch        *b__nVertex;   //!
+  TBranch        *b__nTrueInt;   //!
+  TBranch        *b__weight;   //!
+  TBranch        *b__lheHTIncoming;   //!
+  TBranch        *b__ctauHN;   //!
+  TBranch        *b__nLheTau;   //!
+  TBranch        *b__nLheWeights;   //!
+  TBranch        *b__lheWeight;   //!
+  TBranch        *b__nPsWeights;   //!
+  TBranch        *b__psWeight;   //!
+  TBranch        *b__ttgEventType;   //!
+  TBranch        *b__zgEventType;   //!
+  TBranch        *b__gen_met;   //!
+  TBranch        *b__gen_metPhi;   //!
+  TBranch        *b__gen_nPh;   //!
+  TBranch        *b__gen_phStatus;   //!
+  TBranch        *b__gen_phPt;   //!
+  TBranch        *b__gen_phEta;   //!
+  TBranch        *b__gen_phPhi;   //!
+  TBranch        *b__gen_phE;   //!
+  TBranch        *b__gen_phMomPdg;   //!
+  TBranch        *b__gen_phIsPrompt;   //!
+  TBranch        *b__gen_phMinDeltaR;   //!
+  TBranch        *b__gen_phPassParentage;   //!
+  TBranch        *b__gen_nL;   //!
+  TBranch        *b__gen_pdgID;   //!
+  TBranch        *b__gen_lPt;   //!
+  TBranch        *b__gen_lEta;   //!
+  TBranch        *b__gen_lPhi;   //!
+  TBranch        *b__gen_lE;   //!
+  TBranch        *b__gen_lFlavor;   //!
+  TBranch        *b__gen_lCharge;   //!
+  TBranch        *b__gen_lMomPdg;   //!
+  TBranch        *b__gen_vertex_x;   //!
+  TBranch        *b__gen_vertex_y;   //!
+  TBranch        *b__gen_vertex_z;   //!
+  TBranch        *b__gen_lIsPrompt;   //!
+  TBranch        *b__gen_lMinDeltaR;   //!
+  TBranch        *b__gen_lPassParentage;   //!
+  TBranch        *b__passMETFilters;   //!
+  TBranch        *b__Flag_goodVertices;   //!
+  TBranch        *b__Flag_HBHENoiseFilter;   //!
+  TBranch        *b__Flag_HBHENoiseIsoFilter;   //!
+  TBranch        *b__Flag_EcalDeadCellTriggerPrimitiveFilter;   //!
+  TBranch        *b__Flag_BadPFMuonFilter;   //!
+  TBranch        *b__Flag_BadChargedCandidateFilter;   //!
+  TBranch        *b__updated_ecalBadCalibFilter;   //!
     
-    TBranch     *b__FR_single_lepton;
-    TBranch     *b__HLT_Mu8;
-    TBranch     *b__HLT_Mu17;
-    TBranch     *b__HLT_Mu3_PFJet40;
-    TBranch     *b__HLT_Ele12_CaloIdL_TrackIdL_IsoVL_PFJet30;
-    TBranch     *b__HLT_Ele8_CaloIdM_TrackIdM_PFJet30;
+  TBranch     *b__FR_single_lepton;
+  TBranch     *b__HLT_Mu8;
+  TBranch     *b__HLT_Mu17;
+  TBranch     *b__HLT_Mu3_PFJet40;
+  TBranch     *b__HLT_Ele12_CaloIdL_TrackIdL_IsoVL_PFJet30;
+  TBranch     *b__HLT_Ele8_CaloIdM_TrackIdM_PFJet30;
     
     
-   TBranch        *b__passTrigger_1l;   //!
-   TBranch        *b__HLT_Ele27_WPTight_Gsf;   //!
-   TBranch        *b__HLT_IsoMu27;   //!
-   TBranch        *b__HLT_IsoMu24;   //!
-   TBranch        *b__HLT_IsoTkMu24;   //!
-   TBranch        *b__HLT_Ele32_WPTight_Gsf;   //!
-   TBranch        *b__HLT_Ele32_WPTight_Gsf_L1DoubleEG;   //!
-   TBranch        *b__HLT_Ele35_WPTight_Gsf;   //!
-   TBranch        *b__nL;   //!
-   TBranch        *b__nMu;   //!
-   TBranch        *b__nEle;   //!
-   TBranch        *b__nLight;   //!
-   TBranch        *b__nTau;   //!
-   TBranch        *b__pvX;   //!
-   TBranch        *b__pvY;   //!
-   TBranch        *b__pvZ;   //!
-   TBranch        *b__pvXErr;   //!
-   TBranch        *b__pvYErr;   //!
-   TBranch        *b__pvZErr;   //!
-   TBranch        *b__nVFit_os;   //!
-   TBranch        *b__nVFit;   //!
-   TBranch        *b__nGoodLeading;   //!
-   TBranch        *b__nGoodDisplaced;   //!
-   TBranch        *b__vertices_os;   //!
-   TBranch        *b__lDisplaced_os;   //!
-   TBranch        *b__vertices;   //!
-   TBranch        *b__lDisplaced;   //!
-   TBranch        *b__lHasTrigger;   //!
-   TBranch        *b__lPt;   //!
-   TBranch        *b__lEta;   //!
-   TBranch        *b__lEtaSC;   //!
-   TBranch        *b__lPhi;   //!
-   TBranch        *b__lE;   //!
-   TBranch        *b__lFlavor;   //!
-   TBranch        *b__lCharge;   //!
-   TBranch        *b__dxy;   //!
-   TBranch        *b__dz;   //!
-   TBranch        *b__3dIP;   //!
-   TBranch        *b__3dIPSig;   //!
-   TBranch        *b__2dIP;   //!
-   TBranch        *b__2dIPSig;   //!
-   TBranch        *b__lElectronPassEmu;   //!
-   TBranch        *b__lLooseCBwoIsolationwoMissingInnerhitswoConversionVeto;   //!
-   TBranch        *b__lElectronPassConvVeto;   //!
-   TBranch        *b__lElectronChargeConst;   //!
-   TBranch        *b__lElectronMissingHits;   //!
-   TBranch        *b__lPOGVeto;   //!
-   TBranch        *b__lPOGLoose;   //!
-   TBranch        *b__lPOGMedium;   //!
-   TBranch        *b__lPOGTight;   //!
-   TBranch        *b__lGlobalMuon;   //!
-   TBranch        *b__lTrackerMuon;   //!
-   TBranch        *b__lInnerTrackValidFraction;   //!
-   TBranch        *b__lGlobalTrackNormalizeChi2;   //!
-   TBranch        *b__lCQChi2Position;   //!
-   TBranch        *b__lCQTrackKink;   //!
-   TBranch        *b__lNumberOfMatchedStation;   //!
-   TBranch        *b__lNumberOfValidPixelHits;   //!
-   TBranch        *b__lTrackerLayersWithMeasurement;   //!
-   TBranch        *b__lSimType;   //!
-   TBranch        *b__lSimExtType;   //!
-   TBranch        *b__lSimFlavour;   //!
-   TBranch        *b__muDTStationsWithValidHits;   //!
-   TBranch        *b__muCSCStationsWithValidHits;   //!
-   TBranch        *b__muRPCStationsWithValidHits;   //!
-   TBranch        *b__muMuonStationsWithValidHits;   //!
-   TBranch        *b__lMuRPCTimenDof;   //!
-   TBranch        *b__lMuTimenDof;   //!
-   TBranch        *b__lMuRPCTime;   //!
-   TBranch        *b__lMuRPCTimeErr;   //!
-   TBranch        *b__lMuTime;   //!
-   TBranch        *b__lMuTimeErr;   //!
-   TBranch        *b__muNumberInnerHits;   //!
-   TBranch        *b__lEleIsEB;   //!
-   TBranch        *b__lEleIsEE;   //!
-   TBranch        *b__lEleSuperClusterOverP;   //!
-   TBranch        *b__lEleEcalEnergy;   //!
-   TBranch        *b__lElefull5x5SigmaIetaIeta;   //!
-   TBranch        *b__lEleDEtaInSeed;   //!
-   TBranch        *b__lEleDeltaPhiSuperClusterTrackAtVtx;   //!
-   TBranch        *b__lElehadronicOverEm;   //!
-   TBranch        *b__lEleInvMinusPInv;   //!
-   TBranch        *b__puCorr;   //!
-   TBranch        *b__absIso03;   //!
-   TBranch        *b__absIso04;   //!
-   TBranch        *b__sumNeutralHadronEt04;   //!
-   TBranch        *b__sumChargedHadronPt04;   //!
-   TBranch        *b__sumPhotonEt04;   //!
-   TBranch        *b__sumNeutralHadronEt03;   //!
-   TBranch        *b__sumChargedHadronPt03;   //!
-   TBranch        *b__sumPhotonEt03;   //!
-   TBranch        *b__trackIso;   //!
-   TBranch        *b__ecalIso;   //!
-   TBranch        *b__hcalIso;   //!
-   TBranch        *b__ecalPFClusterIso;   //!
-   TBranch        *b__hcalPFClusterIso;   //!
-   TBranch        *b__tauMuonVeto;   //!
-   TBranch        *b__tauEleVeto;   //!
-   TBranch        *b__decayModeFindingNew;   //!
-   TBranch        *b__tauVLooseMvaNew;   //!
-   TBranch        *b__tauLooseMvaNew;   //!
-   TBranch        *b__tauMediumMvaNew;   //!
-   TBranch        *b__tauTightMvaNew;   //!
-   TBranch        *b__tauVTightMvaNew;   //!
-   TBranch        *b__tauVTightMvaOld;   //!
-   TBranch        *b__tauAgainstElectronMVA6Raw;   //!
-   TBranch        *b__tauCombinedIsoDBRaw3Hits;   //!
-   TBranch        *b__tauIsoMVAPWdR03oldDMwLT;   //!
-   TBranch        *b__tauIsoMVADBdR03oldDMwLT;   //!
-   TBranch        *b__tauIsoMVADBdR03newDMwLT;   //!
-   TBranch        *b__tauIsoMVAPWnewDMwLT;   //!
-   TBranch        *b__tauIsoMVAPWoldDMwLT;   //!
-   TBranch        *b__relIso;   //!
-   TBranch        *b__relIso0p4;   //!
-   TBranch        *b__relIso0p4MuDeltaBeta;   //!
-   TBranch        *b__miniIso;   //!
-   TBranch        *b__miniIsoCharged;   //!
-   TBranch        *b__ptRel;   //!
-   TBranch        *b__ptRatio;   //!
-   TBranch        *b__closestJetCsvV2;   //!
-   TBranch        *b__closestJetDeepCsv_b;   //!
-   TBranch        *b__closestJEC;   //!
-   TBranch        *b__closest_lepAwareJetE;   //!
-   TBranch        *b__closest_lepAwareJetPx;   //!
-   TBranch        *b__closest_lepAwareJetPy;   //!
-   TBranch        *b__closest_lepAwareJetPz;   //!
-   TBranch        *b__closest_l1JetE;   //!
-   TBranch        *b__closest_l1JetPx;   //!
-   TBranch        *b__closest_l1JetPy;   //!
-   TBranch        *b__closest_l1JetPz;   //!
-   TBranch        *b__closest_lJetE;   //!
-   TBranch        *b__closest_lJetPx;   //!
-   TBranch        *b__closest_lJetPy;   //!
-   TBranch        *b__closest_lJetPz;   //!
-   TBranch        *b__closestJetDeepCsv_bb;   //!
+  TBranch        *b__passTrigger_1l;   //!
+  TBranch        *b__HLT_Ele27_WPTight_Gsf;   //!
+  TBranch        *b__HLT_IsoMu27;   //!
+  TBranch        *b__HLT_IsoMu24;   //!
+  TBranch        *b__HLT_IsoTkMu24;   //!
+  TBranch        *b__HLT_Ele32_WPTight_Gsf;   //!
+  TBranch        *b__HLT_Ele32_WPTight_Gsf_L1DoubleEG;   //!
+  TBranch        *b__HLT_Ele35_WPTight_Gsf;   //!
+  TBranch        *b__nL;   //!
+  TBranch        *b__nMu;   //!
+  TBranch        *b__nEle;   //!
+  TBranch        *b__nLight;   //!
+  TBranch        *b__nTau;   //!
+  TBranch        *b__pvX;   //!
+  TBranch        *b__pvY;   //!
+  TBranch        *b__pvZ;   //!
+  TBranch        *b__pvXErr;   //!
+  TBranch        *b__pvYErr;   //!
+  TBranch        *b__pvZErr;   //!
+  TBranch        *b__nVFit_os;   //!
+  TBranch        *b__nVFit;   //!
+  TBranch        *b__nGoodLeading;   //!
+  TBranch        *b__nGoodDisplaced;   //!
+  TBranch        *b__vertices_os;   //!
+  TBranch        *b__lDisplaced_os;   //!
+  TBranch        *b__vertices;   //!
+  TBranch        *b__lDisplaced;   //!
+  TBranch        *b__lHasTrigger;   //!
+  TBranch        *b__lPt;   //!
+  TBranch        *b__lEta;   //!
+  TBranch        *b__lEtaSC;   //!
+  TBranch        *b__lPhi;   //!
+  TBranch        *b__lE;   //!
+  TBranch        *b__lFlavor;   //!
+  TBranch        *b__lCharge;   //!
+  TBranch        *b__dxy;   //!
+  TBranch        *b__dz;   //!
+  TBranch        *b__3dIP;   //!
+  TBranch        *b__3dIPSig;   //!
+  TBranch        *b__2dIP;   //!
+  TBranch        *b__2dIPSig;   //!
+  TBranch        *b__lElectronPassEmu;   //!
+  TBranch        *b__lLooseCBwoIsolationwoMissingInnerhitswoConversionVeto;   //!
+  TBranch        *b__lElectronPassConvVeto;   //!
+  TBranch        *b__lElectronChargeConst;   //!
+  TBranch        *b__lElectronMissingHits;   //!
+  TBranch        *b__lPOGVeto;   //!
+  TBranch        *b__lPOGLoose;   //!
+  TBranch        *b__lPOGMedium;   //!
+  TBranch        *b__lPOGTight;   //!
+  TBranch        *b__lGlobalMuon;   //!
+  TBranch        *b__lTrackerMuon;   //!
+  TBranch        *b__lInnerTrackValidFraction;   //!
+  TBranch        *b__lGlobalTrackNormalizeChi2;   //!
+  TBranch        *b__lCQChi2Position;   //!
+  TBranch        *b__lCQTrackKink;   //!
+  TBranch        *b__lNumberOfMatchedStation;   //!
+  TBranch        *b__lNumberOfValidPixelHits;   //!
+  TBranch        *b__lTrackerLayersWithMeasurement;   //!
+  TBranch        *b__lSimType;   //!
+  TBranch        *b__lSimExtType;   //!
+  TBranch        *b__lSimFlavour;   //!
+  TBranch        *b__muDTStationsWithValidHits;   //!
+  TBranch        *b__muCSCStationsWithValidHits;   //!
+  TBranch        *b__muRPCStationsWithValidHits;   //!
+  TBranch        *b__muMuonStationsWithValidHits;   //!
+  TBranch        *b__lMuRPCTimenDof;   //!
+  TBranch        *b__lMuTimenDof;   //!
+  TBranch        *b__lMuRPCTime;   //!
+  TBranch        *b__lMuRPCTimeErr;   //!
+  TBranch        *b__lMuTime;   //!
+  TBranch        *b__lMuTimeErr;   //!
+  TBranch        *b__muNumberInnerHits;   //!
+  TBranch        *b__lEleIsEB;   //!
+  TBranch        *b__lEleIsEE;   //!
+  TBranch        *b__lEleSuperClusterOverP;   //!
+  TBranch        *b__lEleEcalEnergy;   //!
+  TBranch        *b__lElefull5x5SigmaIetaIeta;   //!
+  TBranch        *b__lEleDEtaInSeed;   //!
+  TBranch        *b__lEleDeltaPhiSuperClusterTrackAtVtx;   //!
+  TBranch        *b__lElehadronicOverEm;   //!
+  TBranch        *b__lEleInvMinusPInv;   //!
+  TBranch        *b__puCorr;   //!
+  TBranch        *b__absIso03;   //!
+  TBranch        *b__absIso04;   //!
+  TBranch        *b__sumNeutralHadronEt04;   //!
+  TBranch        *b__sumChargedHadronPt04;   //!
+  TBranch        *b__sumPhotonEt04;   //!
+  TBranch        *b__sumNeutralHadronEt03;   //!
+  TBranch        *b__sumChargedHadronPt03;   //!
+  TBranch        *b__sumPhotonEt03;   //!
+  TBranch        *b__trackIso;   //!
+  TBranch        *b__ecalIso;   //!
+  TBranch        *b__hcalIso;   //!
+  TBranch        *b__ecalPFClusterIso;   //!
+  TBranch        *b__hcalPFClusterIso;   //!
+  TBranch        *b__tauMuonVeto;   //!
+  TBranch        *b__tauEleVeto;   //!
+  TBranch        *b__decayModeFindingNew;   //!
+  TBranch        *b__tauVLooseMvaNew;   //!
+  TBranch        *b__tauLooseMvaNew;   //!
+  TBranch        *b__tauMediumMvaNew;   //!
+  TBranch        *b__tauTightMvaNew;   //!
+  TBranch        *b__tauVTightMvaNew;   //!
+  TBranch        *b__tauVTightMvaOld;   //!
+  TBranch        *b__tauAgainstElectronMVA6Raw;   //!
+  TBranch        *b__tauCombinedIsoDBRaw3Hits;   //!
+  TBranch        *b__tauIsoMVAPWdR03oldDMwLT;   //!
+  TBranch        *b__tauIsoMVADBdR03oldDMwLT;   //!
+  TBranch        *b__tauIsoMVADBdR03newDMwLT;   //!
+  TBranch        *b__tauIsoMVAPWnewDMwLT;   //!
+  TBranch        *b__tauIsoMVAPWoldDMwLT;   //!
+  TBranch        *b__relIso;   //!
+  TBranch        *b__relIso0p4;   //!
+  TBranch        *b__relIso0p4MuDeltaBeta;   //!
+  TBranch        *b__miniIso;   //!
+  TBranch        *b__miniIsoCharged;   //!
+  TBranch        *b__ptRel;   //!
+  TBranch        *b__ptRatio;   //!
+  TBranch        *b__closestJetCsvV2;   //!
+  TBranch        *b__closestJetDeepCsv_b;   //!
+  TBranch        *b__closestJEC;   //!
+  TBranch        *b__closest_lepAwareJetE;   //!
+  TBranch        *b__closest_lepAwareJetPx;   //!
+  TBranch        *b__closest_lepAwareJetPy;   //!
+  TBranch        *b__closest_lepAwareJetPz;   //!
+  TBranch        *b__closest_l1JetE;   //!
+  TBranch        *b__closest_l1JetPx;   //!
+  TBranch        *b__closest_l1JetPy;   //!
+  TBranch        *b__closest_l1JetPz;   //!
+  TBranch        *b__closest_lJetE;   //!
+  TBranch        *b__closest_lJetPx;   //!
+  TBranch        *b__closest_lJetPy;   //!
+  TBranch        *b__closest_lJetPz;   //!
+  TBranch        *b__closestJetDeepCsv_bb;   //!
     
-   TBranch        *b__lElectronSummer16MvaGP;                                                           // OLD
-   TBranch        *b__lElectronSummer16MvaHZZ;                                                          // OLD
-   TBranch        *b__lElectronMvaFall17v1NoIso;                                                        // OLD
-   TBranch        *b__lElectronMvaFall17Iso;
-   TBranch        *b__lElectronMvaFall17NoIso;
+  TBranch        *b__lElectronSummer16MvaGP;                                                           // OLD
+  TBranch        *b__lElectronSummer16MvaHZZ;                                                          // OLD
+  TBranch        *b__lElectronMvaFall17v1NoIso;                                                        // OLD
+  TBranch        *b__lElectronMvaFall17Iso;
+  TBranch        *b__lElectronMvaFall17NoIso;
                                              
-   TBranch        *b__selectedTrackMult;   //!
-   TBranch        *b__lMuonSegComp;   //!
-   TBranch        *b__lMuonTrackPt;   //!
-   TBranch        *b__lMuonTrackPtErr;   //!
-   TBranch        *b__lGenIndex;   //!
-   TBranch        *b__lMatchType;   //!
-   TBranch        *b__lIsPrompt;   //!
-   TBranch        *b__lIsPromptFinalState;   //!
-   TBranch        *b__lIsPromptDecayed;   //!
-   TBranch        *b__lMatchPdgId;   //!
-   TBranch        *b__lMomPdgId;   //!
-   TBranch        *b__lProvenance;   //!
-   TBranch        *b__lProvenanceCompressed;   //!
-   TBranch        *b__lProvenanceConversion;   //!
-   TBranch        *b__lMatchPt;   //!
-   TBranch        *b__lMatchEta;   //!
-   TBranch        *b__lMatchPhi;   //!
-   TBranch        *b__lMatchVertexX;   //!
-   TBranch        *b__lMatchVertexY;   //!
-   TBranch        *b__lMatchVertexZ;   //!
-   TBranch        *b__lPtCorr;   //!
-   TBranch        *b__lPtScaleUp;   //!
-   TBranch        *b__lPtScaleDown;   //!
-   TBranch        *b__lPtResUp;   //!
-   TBranch        *b__lPtResDown;   //!
-   TBranch        *b__lECorr;   //!
-   TBranch        *b__lEScaleUp;   //!
-   TBranch        *b__lEScaleDown;   //!
-   TBranch        *b__lEResUp;   //!
-   TBranch        *b__lEResDown;   //!
-   TBranch        *b__nPh;   //!
-   TBranch        *b__phPt;   //!
-   TBranch        *b__phEta;   //!
-   TBranch        *b__phEtaSC;   //!
-   TBranch        *b__phPhi;   //!
-   TBranch        *b__phE;   //!
-   TBranch        *b__phCutBasedLoose;   //!
-   TBranch        *b__phCutBasedMedium;   //!
-   TBranch        *b__phCutBasedTight;   //!
-   TBranch        *b__phMva;   //!
-   TBranch        *b__phRandomConeChargedIsolation;   //!
-   TBranch        *b__phChargedIsolation;   //!
-   TBranch        *b__phNeutralHadronIsolation;   //!
-   TBranch        *b__phPhotonIsolation;   //!
-   TBranch        *b__phSigmaIetaIeta;   //!
-   TBranch        *b__phHadronicOverEm;   //!
-   TBranch        *b__phPassElectronVeto;   //!
-   TBranch        *b__phHasPixelSeed;   //!
-   TBranch        *b__phIsPrompt;   //!
-   TBranch        *b__phTTGMatchCategory;   //!
-   TBranch        *b__phTTGMatchPt;   //!
-   TBranch        *b__phTTGMatchEta;   //!
-   TBranch        *b__phMatchPdgId;   //!
-   TBranch        *b__phPtCorr;   //!
-   TBranch        *b__phPtScaleUp;   //!
-   TBranch        *b__phPtScaleDown;   //!
-   TBranch        *b__phPtResUp;   //!
-   TBranch        *b__phPtResDown;   //!
-   TBranch        *b__phECorr;   //!
-   TBranch        *b__phEScaleUp;   //!
-   TBranch        *b__phEScaleDown;   //!
-   TBranch        *b__phEResUp;   //!
-   TBranch        *b__phEResDown;   //!
-   TBranch        *b__nJets;   //!
-   TBranch        *b__jetPt;   //!
-   TBranch        *b__jetPt_JECDown;   //!
-   TBranch        *b__jetPt_JECUp;   //!
-   TBranch        *b__jetSmearedPt;   //!
-   TBranch        *b__jetSmearedPt_JECDown;   //!
-   TBranch        *b__jetSmearedPt_JECUp;   //!
-   TBranch        *b__jetSmearedPt_JERDown;   //!
-   TBranch        *b__jetSmearedPt_JERUp;   //!
-   TBranch        *b__jetPt_Uncorrected;   //!
-   TBranch        *b__jetPt_L1;   //!
-   TBranch        *b__jetPt_L2;   //!
-   TBranch        *b__jetPt_L3;   //!
-   TBranch        *b__jetEta;   //!
-   TBranch        *b__jetPhi;   //!
-   TBranch        *b__jetE;   //!
-   TBranch        *b__jetCsvV2;   //!
-   TBranch        *b__jetDeepCsv_udsg;   //!
-   TBranch        *b__jetDeepCsv_b;   //!
-   TBranch        *b__jetDeepCsv_c;   //!
-   TBranch        *b__jetDeepCsv_bb;   //!
-   TBranch        *b__jetHadronFlavor;   //!
-   TBranch        *b__jetIsLoose;   //!
-   TBranch        *b__jetIsTight;   //!
-   TBranch        *b__jetIsTightLepVeto;   //!
-   TBranch        *b__jetNeutralHadronFraction;   //!
-   TBranch        *b__jetChargedHadronFraction;   //!
-   TBranch        *b__jetNeutralEmFraction;   //!
-   TBranch        *b__jetChargedEmFraction;   //!
-   TBranch        *b__jetHFHadronFraction;   //!
-   TBranch        *b__jetHFEmFraction;   //!
-   TBranch        *b__met;   //!
-   TBranch        *b__metRaw;   //!
-   TBranch        *b__metJECDown;   //!
-   TBranch        *b__metJECUp;   //!
-   TBranch        *b__metUnclDown;   //!
-   TBranch        *b__metUnclUp;   //!
-   TBranch        *b__metPhi;   //!
-   TBranch        *b__metRawPhi;   //!
-   TBranch        *b__metPhiJECDown;   //!
-   TBranch        *b__metPhiJECUp;   //!
-   TBranch        *b__metPhiUnclDown;   //!
-   TBranch        *b__metPhiUnclUp;   //!
-   TBranch        *b__metSignificance;   //
+  TBranch        *b__selectedTrackMult;   //!
+  TBranch        *b__lMuonSegComp;   //!
+  TBranch        *b__lMuonTrackPt;   //!
+  TBranch        *b__lMuonTrackPtErr;   //!
+  TBranch        *b__lGenIndex;   //!
+  TBranch        *b__lMatchType;   //!
+  TBranch        *b__lIsPrompt;   //!
+  TBranch        *b__lIsPromptFinalState;   //!
+  TBranch        *b__lIsPromptDecayed;   //!
+  TBranch        *b__lMatchPdgId;   //!
+  TBranch        *b__lMomPdgId;   //!
+  TBranch        *b__lProvenance;   //!
+  TBranch        *b__lProvenanceCompressed;   //!
+  TBranch        *b__lProvenanceConversion;   //!
+  TBranch        *b__lMatchPt;   //!
+  TBranch        *b__lMatchEta;   //!
+  TBranch        *b__lMatchPhi;   //!
+  TBranch        *b__lMatchVertexX;   //!
+  TBranch        *b__lMatchVertexY;   //!
+  TBranch        *b__lMatchVertexZ;   //!
+  TBranch        *b__lPtCorr;   //!
+  TBranch        *b__lPtScaleUp;   //!
+  TBranch        *b__lPtScaleDown;   //!
+  TBranch        *b__lPtResUp;   //!
+  TBranch        *b__lPtResDown;   //!
+  TBranch        *b__lECorr;   //!
+  TBranch        *b__lEScaleUp;   //!
+  TBranch        *b__lEScaleDown;   //!
+  TBranch        *b__lEResUp;   //!
+  TBranch        *b__lEResDown;   //!
+  TBranch        *b__nPh;   //!
+  TBranch        *b__phPt;   //!
+  TBranch        *b__phEta;   //!
+  TBranch        *b__phEtaSC;   //!
+  TBranch        *b__phPhi;   //!
+  TBranch        *b__phE;   //!
+  TBranch        *b__phCutBasedLoose;   //!
+  TBranch        *b__phCutBasedMedium;   //!
+  TBranch        *b__phCutBasedTight;   //!
+  TBranch        *b__phMva;   //!
+  TBranch        *b__phRandomConeChargedIsolation;   //!
+  TBranch        *b__phChargedIsolation;   //!
+  TBranch        *b__phNeutralHadronIsolation;   //!
+  TBranch        *b__phPhotonIsolation;   //!
+  TBranch        *b__phSigmaIetaIeta;   //!
+  TBranch        *b__phHadronicOverEm;   //!
+  TBranch        *b__phPassElectronVeto;   //!
+  TBranch        *b__phHasPixelSeed;   //!
+  TBranch        *b__phIsPrompt;   //!
+  TBranch        *b__phTTGMatchCategory;   //!
+  TBranch        *b__phTTGMatchPt;   //!
+  TBranch        *b__phTTGMatchEta;   //!
+  TBranch        *b__phMatchPdgId;   //!
+  TBranch        *b__phPtCorr;   //!
+  TBranch        *b__phPtScaleUp;   //!
+  TBranch        *b__phPtScaleDown;   //!
+  TBranch        *b__phPtResUp;   //!
+  TBranch        *b__phPtResDown;   //!
+  TBranch        *b__phECorr;   //!
+  TBranch        *b__phEScaleUp;   //!
+  TBranch        *b__phEScaleDown;   //!
+  TBranch        *b__phEResUp;   //!
+  TBranch        *b__phEResDown;   //!
+  TBranch        *b__nJets;   //!
+  TBranch        *b__jetPt;   //!
+  TBranch        *b__jetPt_JECDown;   //!
+  TBranch        *b__jetPt_JECUp;   //!
+  TBranch        *b__jetSmearedPt;   //!
+  TBranch        *b__jetSmearedPt_JECDown;   //!
+  TBranch        *b__jetSmearedPt_JECUp;   //!
+  TBranch        *b__jetSmearedPt_JERDown;   //!
+  TBranch        *b__jetSmearedPt_JERUp;   //!
+  TBranch        *b__jetPt_Uncorrected;   //!
+  TBranch        *b__jetPt_L1;   //!
+  TBranch        *b__jetPt_L2;   //!
+  TBranch        *b__jetPt_L3;   //!
+  TBranch        *b__jetEta;   //!
+  TBranch        *b__jetPhi;   //!
+  TBranch        *b__jetE;   //!
+  TBranch        *b__jetCsvV2;   //!
+  TBranch        *b__jetDeepCsv_udsg;   //!
+  TBranch        *b__jetDeepCsv_b;   //!
+  TBranch        *b__jetDeepCsv_c;   //!
+  TBranch        *b__jetDeepCsv_bb;   //!
+  TBranch        *b__jetHadronFlavor;   //!
+  TBranch        *b__jetIsLoose;   //!
+  TBranch        *b__jetIsTight;   //!
+  TBranch        *b__jetIsTightLepVeto;   //!
+  TBranch        *b__jetNeutralHadronFraction;   //!
+  TBranch        *b__jetChargedHadronFraction;   //!
+  TBranch        *b__jetNeutralEmFraction;   //!
+  TBranch        *b__jetChargedEmFraction;   //!
+  TBranch        *b__jetHFHadronFraction;   //!
+  TBranch        *b__jetHFEmFraction;   //!
+  TBranch        *b__met;   //!
+  TBranch        *b__metRaw;   //!
+  TBranch        *b__metJECDown;   //!
+  TBranch        *b__metJECUp;   //!
+  TBranch        *b__metUnclDown;   //!
+  TBranch        *b__metUnclUp;   //!
+  TBranch        *b__metPhi;   //!
+  TBranch        *b__metRawPhi;   //!
+  TBranch        *b__metPhiJECDown;   //!
+  TBranch        *b__metPhiJECUp;   //!
+  TBranch        *b__metPhiUnclDown;   //!
+  TBranch        *b__metPhiUnclUp;   //!
+  TBranch        *b__metSignificance;   //
 
 
 
@@ -695,8 +695,8 @@ class Analysis_mc : public TObject {
   //
   void analisi(  const std::string& list, const std::string& directory,
 		 std::string outfilename,
-		int systcat = 0, int systdir = 0
-		);
+		 int systcat = 0, int systdir = 0
+		 );
 
   double pu_weight ( TH1D *histo, double numberInteractions);
 
@@ -749,8 +749,8 @@ class Analysis_mc : public TObject {
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
   int l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2);
   bool lepFromMEExtConversion(const unsigned) const;
-   bool photonOverlap(const bool mcNonprompt = true) const;                                            //sample overlap due to photons
-   bool photonOverlap(const Sample&, const bool mcNonprompt = true) const;
+  bool photonOverlap(const bool mcNonprompt = true) const;                                            //sample overlap due to photons
+  bool photonOverlap(const Sample&, const bool mcNonprompt = true) const;
 
 
   //______________________      analysis tool functions       ________________________________// 
@@ -867,7 +867,7 @@ class Analysis_mc : public TObject {
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  
-//******************* HISTO **********************
+  //******************* HISTO **********************
   const static int nSamples_signal_e  = 10;
   const static int nSamples_signal_mu = 10;
   const static int nSamples_signal    = nSamples_signal_e + nSamples_signal_mu;
@@ -1078,7 +1078,7 @@ class Analysis_mc : public TObject {
 				"#Delta (PV-SV)_{2D}",
 				"#Delta (PV-SV)_{2D}",
 				"#sigma #Delta (PV-SV)_{2D}",
-				 "momentumjet","closest jetPt"};
+				"momentumjet","closest jetPt"};
 
 
   const TString Units[nDist] = {" "," ",
@@ -1222,6 +1222,7 @@ class Analysis_mc : public TObject {
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> histogramms creation >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  /*
   std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   for(int i = 0; i < nDist; ++i){
     if (i != 0) continue;
@@ -1281,10 +1282,10 @@ class Analysis_mc : public TObject {
   std::shared_ptr<TH1D> signals[nSamples_signal];
 
 
-
+  */
   
   
 
-    };
+};
 
 #endif
