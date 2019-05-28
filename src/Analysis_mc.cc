@@ -540,7 +540,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     const int nSamples_signal = 2;
     } 
   */
- // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
+  // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
 
 
   
@@ -670,10 +670,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	_EReal[i] =_lE[i];
       }
       int _lIndex[_nL];
-       for(unsigned i = 0; i < _nL; ++i){
+      for(unsigned i = 0; i < _nL; ++i){
 	_lIndex[i] = i+1;
       }
-       //select leptons
+      //select leptons
       const unsigned lCount = selectLepConeCorr(ind);
       if (lCount < 3) continue;
 
@@ -783,12 +783,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       
 
       if (samples[sam].getProcessName() == "DY" )   {    
-      zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		   _runNb, _lumiBlock, _eventNb,  
-		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		 _met)<< std::endl;
+	zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		     _runNb, _lumiBlock, _eventNb,  
+		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		     _met)<< std::endl;
       }
 
       //vertex l2l3 info
@@ -830,18 +830,18 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	single_fake = true;
 	Double_fake = false;
       }
-       // -----------------------------------------------------------//
+      // -----------------------------------------------------------//
       if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
       if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
       if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
       if (samples[sam].getProcessName() == "DY" )   {    
-      one << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		   _runNb, _lumiBlock, _eventNb,  
-		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		 _met)<< std::endl;
+	one << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		    _runNb, _lumiBlock, _eventNb,  
+		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		    _met)<< std::endl;
       }
 
       // ------------ closest jet info --------------------------------------//
@@ -877,12 +877,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //if (sideBandRegion) continue;
       //if (tightC != 2) continue;
       if (samples[sam].getProcessName() == "DY" )   {    
-      two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		   _runNb, _lumiBlock, _eventNb,  
-		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		 _met)<< std::endl;
+	two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		    _runNb, _lumiBlock, _eventNb,  
+		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		    _met)<< std::endl;
       }
 
       // ------------------ prompt check for MC ------------------------//
@@ -917,12 +917,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
       if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;
       if (samples[sam].getProcessName() == "DY" )   {    
-      three << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		   _runNb, _lumiBlock, _eventNb,  
-		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		 _met)<< std::endl;
+	three << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		      _runNb, _lumiBlock, _eventNb,  
+		      (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		      (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		      (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		      _met)<< std::endl;
       }
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -939,12 +939,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
 
       if (samples[sam].getProcessName() == "DY" )   {    
-      four << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		   _runNb, _lumiBlock, _eventNb,  
-		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		 _met)<< std::endl;
+	four << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		     _runNb, _lumiBlock, _eventNb,  
+		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		     _met)<< std::endl;
       }
       if (photonOverlap (samples[sam])) continue;
       
@@ -1040,12 +1040,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       
       if (selection_final && samples[sam].getProcessName() == "DY" )   {    
-      five << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		   _runNb, _lumiBlock, _eventNb,  
-		   (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		 (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		 (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		 _met)<< std::endl;
+	five << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+		     _runNb, _lumiBlock, _eventNb,  
+		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+		     _met)<< std::endl;
       }
 
       // Systematics on displaced muons
@@ -1162,16 +1162,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // ------------------- Histo cut flow
       //Histos[1][SR_channel][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
       //Histos[1][SR_channel][cut_bin][fill]->Fill(static_cast<double>(cut_bin+1), scal);
-/*
-      if (selection_0)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(1), scal);
-      if (selection_1)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(2), scal);
-      if (selection_2)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(3), scal);
-      if (selection_3)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(4), scal);
-      if (selection_4)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(5), scal);
-      if (selection_5)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(6), scal);
-      if (selection_final)  Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(7), scal);
+      /*
+	if (selection_0)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(1), scal);
+	if (selection_1)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(2), scal);
+	if (selection_2)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(3), scal);
+	if (selection_3)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(4), scal);
+	if (selection_4)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(5), scal);
+	if (selection_5)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(6), scal);
+	if (selection_final)  Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(7), scal);
       
-      if (SR_channel <= 2){
+	if (SR_channel <= 2){
 	//Histos[1][6][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
 	if (selection_0)      Histos[1][6][0][fill] -> Fill(static_cast<double>(1), scal);
 	if (selection_1)      Histos[1][6][0][fill] -> Fill(static_cast<double>(2), scal);
@@ -1180,8 +1180,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (selection_4)      Histos[1][6][0][fill] -> Fill(static_cast<double>(5), scal);
 	if (selection_5)      Histos[1][6][0][fill] -> Fill(static_cast<double>(6), scal);
 	if (selection_final)  Histos[1][6][0][fill] -> Fill(static_cast<double>(7), scal);
-      }
-      if (SR_channel > 2){
+	}
+	if (SR_channel > 2){
 	if (selection_0)      Histos[1][7][0][fill] -> Fill(static_cast<double>(1), scal);
 	if (selection_1)      Histos[1][7][0][fill] -> Fill(static_cast<double>(2), scal);
 	if (selection_2)      Histos[1][7][0][fill] -> Fill(static_cast<double>(3), scal);
@@ -1189,12 +1189,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (selection_4)      Histos[1][7][0][fill] -> Fill(static_cast<double>(5), scal);
 	if (selection_5)      Histos[1][7][0][fill] -> Fill(static_cast<double>(6), scal);
 	if (selection_final)  Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal);
-      }     
+	}     
       */
       // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
 	//Histos[numero_histo][SR_channel][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-if (numero_histo !=0) continue;
+	if (numero_histo !=0) continue;
 	if (selection_0) Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_1) Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_2) Histos[numero_histo][SR_channel][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
@@ -1230,8 +1230,8 @@ if (numero_histo !=0) continue;
     }//end loop over the entries
   }//loop over samples
 
- // std::cout<<"multiboson: "<< Histos[2][6][0][24]->GetSumOfWeights()<<std::endl;
- // std::cout<<"dy: "<< Histos[2][6][0][21]->GetSumOfWeights()<<std::endl;
+  // std::cout<<"multiboson: "<< Histos[2][6][0][24]->GetSumOfWeights()<<std::endl;
+  // std::cout<<"dy: "<< Histos[2][6][0][21]->GetSumOfWeights()<<std::endl;
 
 
   // TH1D* Histos[nDist][nChannel][nCat][nSamples_eff +1];
@@ -1242,7 +1242,7 @@ if (numero_histo !=0) continue;
   //            unblindED           "silent" is not a verb...
   // TH1D* dataYields[nDist][nChannel][nCat];
   for(unsigned dist = 0; dist < nDist; ++dist){
-	  if (dist != 0) continue;
+    if (dist != 0) continue;
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
 	if (isSRRun) dataYields[dist][cha][cat] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone());
@@ -1253,7 +1253,7 @@ if (numero_histo !=0) continue;
 
   // TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
-	  	  if (dist != 0) continue;
+    if (dist != 0) continue;
 
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){
@@ -1275,7 +1275,7 @@ if (numero_histo !=0) continue;
   //TH1D* signals[nSamples_signal];
 
   for(unsigned dist = 0; dist < nDist; ++dist){
-	  	  if (dist != 0) continue;
+    if (dist != 0) continue;
 
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
@@ -1283,7 +1283,7 @@ if (numero_histo !=0) continue;
 	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;     
 	}
 
-	 if (dist != 0) continue;
+	if (dist != 0) continue;
       
 	plotDataVSMC(cat,cha,dist,
 		     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
@@ -1291,11 +1291,11 @@ if (numero_histo !=0) continue;
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
 		     2, true, signals,  sigNames_short, nSamples_signal, false);
-	      std::cout<<dist<<"-"<<cat<<"-"<<cha<<std::endl;
+	std::cout<<dist<<"-"<<cat<<"-"<<cha<<std::endl;
       }
     }//end cat
   }//end histo
- 	std::cout<<"fuori dal loop histogramma"<<std::endl;
+  std::cout<<"fuori dal loop histogramma"<<std::endl;
 
   
   ////////////////                           ////////////////
@@ -1504,15 +1504,15 @@ if (numero_histo !=0) continue;
   }//end histo
  
 	
-/*for(int i = 0; i < nDist; ++i){
+  /*for(int i = 0; i < nDist; ++i){
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
-      for(int cat = 0; cat < nCat; ++cat){
-	for(int cha = 0; cha < nChannel; ++cha){               
-	  delete Histos[i][cha][cat][effsam];
-	}
-      }
+    for(int cat = 0; cat < nCat; ++cat){
+    for(int cha = 0; cha < nChannel; ++cha){               
+    delete Histos[i][cha][cat][effsam];
     }
-  }*/
+    }
+    }
+    }*/
 
 
 
