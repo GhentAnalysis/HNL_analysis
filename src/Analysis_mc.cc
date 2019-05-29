@@ -80,6 +80,63 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
 	      << " data set." << std::endl;
     year = jaar;
   }
+
+  for(int i = 0; i < nDist; ++i){
+    if (i != 0) continue;
+    float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
+    std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
+    for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+      for(int cat = 0; cat < nCat; ++cat){
+	for(int cha = 0; cha < nChannel; ++cha){  
+	  Histos[i][cha][cat][effsam] = std::shared_ptr<TH1D>( new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]));
+	  Histos[i][cha][cat][effsam]->Sumw2();
+	}
+      }
+    }
+  }
+  //Calculate the center of the maximum bin of each histogram
+  double maxBinC[nDist];
+  for(int i = 0; i < nDist; ++i){
+    if (i != 0) continue;
+    maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
+  }
+  
+  //------------------------- for the theory system
+  // Only to be initialized and filled for QCD and PDF uncertainties
+  //  - only one distribution (search regions); nDist = 1 anyway here...
+  //  - no need for nCat
+  //  - nSamples_eff needed
+  //  - QCD scales: need for 6 variations 
+  //  - PDFs: need for 100 variations
+  bool runtheosyst = (systcat==1 || systcat==2);
+  if(systcat==1) {
+    theoSystVars.push_back(2);
+    theoSystVars.push_back(3);
+    theoSystVars.push_back(4);
+    theoSystVars.push_back(5);
+    theoSystVars.push_back(7);
+    theoSystVars.push_back(9);
+  }
+  else if(systcat==2) {
+    for(unsigned l=10; l<110; ++l)
+      theoSystVars.push_back(l);
+  }
+  
+  
+  // Only for theory systs
+  if(runtheosyst) {
+    for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
+      systHistos[sidx][i][effsam] = = std::shared_ptr<TH1D>( new TH1D(eff_names[effsam] + "_syst_" + theoSystVars[sidx] + "_" + Histnames_ossf[i] , eff_names[effsam] + "_syst_" + theoSystVars[sidx] + "_" + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]));
+      systHistos[sidx][i][effsam]->Sumw2();
+    }
+  }
+
+  
+  
+
+
+
+  
 }
 //________________________________________________________________distruttore_____
 Analysis_mc::~Analysis_mc()	 {
