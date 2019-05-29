@@ -1350,11 +1350,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (dist != 0) continue;
       
 	plotDataVSMC(cat,cha,dist,
-		     dataYields[dist][cha][cat].get(), bkgYields[dist][cha][cat].get(),
+		     dataYields[dist][cha][cat].get(), bkgYields[dist][cha][cat],
 		     eff_names,nSamples_eff -  nSamples_signal ,
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
-		     2, true, signals.get(),  sigNames_short, nSamples_signal, false);
+		     2, true, signals,  sigNames_short, nSamples_signal, false);
 	std::cout<<dist<<"-"<<cat<<"-"<<cha<<std::endl;
       }
     }//end cat
