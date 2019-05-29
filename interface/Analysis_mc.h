@@ -1220,7 +1220,7 @@ class Analysis_mc : public TObject {
 
 
 
-  std::vector<unsigned> theoSystVars;
+  /* std::vector<unsigned> theoSystVars;
   bool runtheosyst = (systcat==1 || systcat==2);
   if(systcat==1) {
     theoSystVars.push_back(2);
@@ -1235,11 +1235,11 @@ class Analysis_mc : public TObject {
       theoSystVars.push_back(l);
   }
   const unsigned nTheoVars = theoSystVars.size();
-
+  */
   
   std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
-  std::vector<unsigned> theoSystVars;
-  const unsigned nTheoVars = theoSystVars.size();
+  //std::vector<unsigned> theoSystVars;
+  //const unsigned nTheoVars = theoSystVars.size();
   std::shared_ptr<TH1D> systHistos[nTheoVars][nDist][nChannel][nCat][nSamples_eff +1];
   std::shared_ptr<TH1D> dataYields[nDist][nChannel][nCat];
   std::shared_ptr<TH1D> bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
