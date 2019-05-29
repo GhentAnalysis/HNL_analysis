@@ -1328,7 +1328,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = std::shared_ptr<TH1D> ((TH1D*) Histos[dist][cha][cat][effsam1]->Clone());
 	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 < nSamples_eff){	  
-	    if (isSRRun) dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
+	    if (isSRRun)dataYields[dist][cha][cat].Get()->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1].Get());
 	  }	  
 	}
       }
