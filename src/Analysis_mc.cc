@@ -1328,7 +1328,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = std::shared_ptr<TH1D> ((TH1D*) Histos[dist][cha][cat][effsam1]->Clone());
 	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 < nSamples_eff){	  
-	    if (isSRRun) dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
+	    if (isSRRun) dataYields[dist][cha][cat]->Add((TH1D*)bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
 	  }	  
 	}
       }
@@ -1350,7 +1350,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (dist != 0) continue;
       
 	plotDataVSMC(cat,cha,dist,
-		     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+		     (TH1D*)dataYields[dist][cha][cat], (TH1D*)bkgYields[dist][cha][cat],
 		     eff_names,nSamples_eff -  nSamples_signal ,
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
