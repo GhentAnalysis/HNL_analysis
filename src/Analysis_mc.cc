@@ -128,7 +128,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   //  - nSamples_eff needed
   //  - QCD scales: need for 6 variations 
   //  - PDFs: need for 100 variations
-  bool runtheosyst = (systcat==1 || systcat==2);
+  /* bool runtheosyst = (systcat==1 || systcat==2);
   if(systcat==1) {
     theoSystVars.push_back(2);
     theoSystVars.push_back(3);
@@ -151,7 +151,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     }
   }
 
-  
+  */
   
 
 
