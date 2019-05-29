@@ -89,7 +89,6 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   
   
 
-  
   for(int i = 0; i < nDist; ++i){
     if (i != 0) continue;
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
@@ -104,7 +103,6 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     }
   }
   //Calculate the center of the maximum bin of each histogram
-  double maxBinC[nDist];
   for(int i = 0; i < nDist; ++i){
     if (i != 0) continue;
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
