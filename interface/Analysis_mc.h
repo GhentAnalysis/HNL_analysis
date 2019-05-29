@@ -1219,6 +1219,24 @@ class Analysis_mc : public TObject {
 				  25};
 
 
+
+  std::vector<unsigned> theoSystVars;
+  bool runtheosyst = (systcat==1 || systcat==2);
+  if(systcat==1) {
+    theoSystVars.push_back(2);
+    theoSystVars.push_back(3);
+    theoSystVars.push_back(4);
+    theoSystVars.push_back(5);
+    theoSystVars.push_back(7);
+    theoSystVars.push_back(9);
+  }
+  else if(systcat==2) {
+    for(unsigned l=10; l<110; ++l)
+      theoSystVars.push_back(l);
+  }
+  const unsigned nTheoVars = theoSystVars.size();
+
+  
   std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   std::vector<unsigned> theoSystVars;
   const unsigned nTheoVars = theoSystVars.size();
