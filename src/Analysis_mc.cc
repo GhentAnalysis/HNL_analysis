@@ -1350,7 +1350,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (dist != 0) continue;
       
 	plotDataVSMC(cat,cha,dist,
-		     dataYields[dist][cha][cat].get(), bkgYields[dist][cha][cat],
+		     dataYields[dist][cha][cat].get(), *bkgYields[dist][cha][cat],
 		     eff_names,nSamples_eff -  nSamples_signal ,
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
@@ -1550,22 +1550,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   } // end if(systcat!=0)
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
-  for(unsigned dist = 0; dist < nDist; ++dist){
-    if (dist != 0) continue;
-
-    for(unsigned cat = 0; cat < nCat; ++cat){
-      for(int cha = 0; cha < nChannel; ++cha){               
-	
-	delete dataYields[dist][cha][cat];
-	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	  //delete signals[signal_sample];     
-	}
-      
-	
-	
-      }//end channel
-    }//end cat
-  }//end histo
  
 	
   /*for(int i = 0; i < nDist; ++i){
