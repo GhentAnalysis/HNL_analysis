@@ -578,7 +578,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }
   const unsigned nTheoVars = theoSystVars.size();
 
-  
+  TH1D* systHistos[nTheoVars][0][nChannel][nCat][nSamples_eff +1];
+
   for(int i = 0; i < nDist; ++i){
     if (i != 0) continue;
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];

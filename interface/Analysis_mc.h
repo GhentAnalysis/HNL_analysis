@@ -1224,7 +1224,6 @@ class Analysis_mc : public TObject {
   TH1D*	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   //std::vector<unsigned> theoSystVars;
   //const unsigned nTheoVars = theoSystVars.size();
-  TH1D* systHistos[nTheoVars][0][nChannel][nCat][nSamples_eff +1];
   TH1D* dataYields[nDist][nChannel][nCat];
   TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   TH1D* signals[nSamples_signal];
