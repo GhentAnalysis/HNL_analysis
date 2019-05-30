@@ -562,6 +562,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::vector <Sample> samples  = readSampleList(list, directory);
 
   // pdf!
+  std::vector<unsigned> theoSystVars;
   bool runtheosyst = (systcat==1 || systcat==2);
   if(systcat==1) {
     theoSystVars.push_back(2);
@@ -574,7 +575,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   else if(systcat==2) {
     for(unsigned l=10; l<110; ++l)
       theoSystVars.push_back(l);
-  }   
+  }
+  const unsigned nTheoVars = theoSystVars.size();
+
+  
   for(int i = 0; i < nDist; ++i){
     if (i != 0) continue;
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
