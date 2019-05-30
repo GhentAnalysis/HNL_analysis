@@ -72,7 +72,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   if(jaar>2) {
     std::cout << " --- WARNING: invalid value for 'year' variable (" << jaar
 	      << "), setting it to 0 (i.e. 2016) ---" << std::endl;
-w    year = 0;
+    year = 0;
   }
   else {
     std::cout << " >>> Applying selection for "
