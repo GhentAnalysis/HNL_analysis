@@ -1237,13 +1237,13 @@ class Analysis_mc : public TObject {
   const unsigned nTheoVars = theoSystVars.size();
   */
   
-  std::shared_ptr<TH1D>	Histos[nDist][nChannel][nCat][nSamples_eff +1];
+  TH1D*	Histos[nDist][nChannel][nCat][nSamples_eff +1];
   //std::vector<unsigned> theoSystVars;
   //const unsigned nTheoVars = theoSystVars.size();
   //std::shared_ptr<TH1D> systHistos[nTheoVars][nDist][nChannel][nCat][nSamples_eff +1];
-  std::shared_ptr<TH1D> dataYields[nDist][nChannel][nCat];
-  std::shared_ptr<TH1D> bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
-  std::shared_ptr<TH1D> signals[nSamples_signal];
+  TH1D* dataYields[nDist][nChannel][nCat];
+  TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
+  TH1D* signals[nSamples_signal];
   double maxBinC[nDist];
 
 

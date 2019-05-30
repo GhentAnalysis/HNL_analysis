@@ -72,7 +72,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   if(jaar>2) {
     std::cout << " --- WARNING: invalid value for 'year' variable (" << jaar
 	      << "), setting it to 0 (i.e. 2016) ---" << std::endl;
-    year = 0;
+w    year = 0;
   }
   else {
     std::cout << " >>> Applying selection for "
@@ -96,7 +96,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
 	for(int cha = 0; cha < nChannel; ++cha){  
-	  Histos[i][cha][cat][effsam] = std::shared_ptr<TH1D>( new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]));
+	  Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
 	  Histos[i][cha][cat][effsam]->Sumw2();
 	}
       }
@@ -1309,8 +1309,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (dist != 0) continue;
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
-	if (isSRRun) dataYields[dist][cha][cat] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone());
-	if (isCRRun) dataYields[dist][cha][cat] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][0]->Clone());
+	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
+	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
       }
     }
   }
@@ -1325,10 +1325,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);
 	  
-	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = std::shared_ptr<TH1D> ((TH1D*) Histos[dist][cha][cat][effsam1]->Clone());
+	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();
 	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 < nSamples_eff){	  
-	    if (isSRRun)dataYields[dist][cha][cat].get()->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1].get());
+	    if (isSRRun)dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
 	  }	  
 	}
       }
@@ -1344,13 +1344,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;     
+	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
+	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;     
 
 	if (dist != 0) continue;
       
 	plotDataVSMC(cat,cha,dist,
-		     dataYields[dist][cha][cat].get(), bkgYields[dist][cha][cat].get(),
+		     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 		     eff_names,nSamples_eff -  nSamples_signal ,
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
