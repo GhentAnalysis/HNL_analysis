@@ -579,21 +579,23 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   const unsigned nTheoVars = theoSystVars.size();
 
   TH1D* systHistos[nTheoVars][0][nChannel][nCat][nSamples_eff +1];
-
-  for(int i = 0; i < nDist; ++i){
-    if (i != 0) continue;
-    float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
-    std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
-    for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
-      for(int cat = 0; cat < nCat; ++cat){
-	if (cat !=6) continue;
-	for(int cha = 0; cha < nChannel; ++cha){
-	  if (cha != 6 && cha!=7) continue;
-	  // Only for theory systs
-	  if(runtheosyst) {
+  if(runtheosyst) {
+    for(int i = 0; i < nDist; ++i){
+      if (i != 0) continue;
+      float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
+      std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
+      for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+	for(int cat = 0; cat < nCat; ++cat){
+	  if (cat !=6) continue;
+	  for(int cha = 0; cha < nChannel; ++cha){
+	    if (cha != 6 && cha!=7) continue;
+	    // Only for theory systs
+	  
 	    for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
-	      systHistos[sidx][i][cha][cat][effsam] = new TH1D(eff_names[effsam] + "_syst_" + theoSystVars[sidx] + "_" + channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + "_syst_" + theoSystVars[sidx] + "_" + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
+	      
+	      systHistos[sidx][i][cha][cat][effsam] = new TH1D(eff_names[effsam] + "_syst_" + std::to_string(theoSystVars[sidx]) + "_" + channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + "_syst_" + std::to_string(theoSystVars[sidx]) + "_" + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
 	      systHistos[sidx][i][cha][cat][effsam]->Sumw2();
+	   
 	    }
 	  }
 	}
