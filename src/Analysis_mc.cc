@@ -578,26 +578,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }
   const unsigned nTheoVars = theoSystVars.size();
 
-  TH1D* systHistos[nTheoVars][0][nChannel][nCat][nSamples_eff +1];
+  TH1D* systHistos[nTheoVars][nChannel][nSamples_eff+1];
   if(runtheosyst) {
-    for(int i = 0; i < nDist; ++i){
-      if (i != 0) continue;
-      float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
-      std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
-      for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
-	for(int cat = 0; cat < nCat; ++cat){
-	  if (cat !=6) continue;
-	  for(int cha = 0; cha < nChannel; ++cha){
-	    if (cha != 6 && cha!=7) continue;
-	    // Only for theory systs
-	  
-	    for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
-	      
-	      systHistos[sidx][i][cha][cat][effsam] = new TH1D(eff_names[effsam] + "_syst_" + std::to_string(theoSystVars[sidx]) + "_" + channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + "_syst_" + std::to_string(theoSystVars[sidx]) + "_" + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
-	      systHistos[sidx][i][cha][cat][effsam]->Sumw2();
-	   
-	    }
-	  }
+    float BinWidth = (HistMax[0] - HistMin[0])/nBins[0];
+    std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
+    for(int effsam=0; effsam<nSamples_eff+1; ++effsam) {
+      for(int cha=0; cha<nChannel; ++cha) {
+	if (cha!=6 && cha!=7) continue;
+	// Only for theory systs
+	for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
+	  systHistos[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_syst_" + std::to_string(theoSystVars[sidx]) + "_" + channelNames[cha] +"_"+ catNames[6] +"_"+ Histnames_ossf[0] , eff_names[effsam] + "_syst_" + std::to_string(theoSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events /" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
+	  systHistos[sidx][cha][effsam]->Sumw2();
 	}
       }
     }
@@ -1187,11 +1178,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//if (selection_4)      Histos[0][6][4][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	//if (selection_5)      Histos[0][6][5][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	if (selection_final)  Histos[0][6][6][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_final){
+	if (selection_final) {
 	  if(runtheosyst) {
 	    for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
 	      double wghtCorr = _lheWeight[theoSystVars[sidx]];
-	      systHistos[sidx][0][6][6][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*wghtCorr);
+	      systHistos[sidx][6][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*wghtCorr);
 	    }
 	  }
 	}
@@ -1217,7 +1208,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if(runtheosyst) {
 	    for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
 	      double wghtCorr = _lheWeight[theoSystVars[sidx]];
-	      systHistos[sidx][0][7][6][fill]->Fill(static_cast<double>(bin_SR_eleCoupling), scal*wghtCorr);
+	      systHistos[sidx][7][fill]->Fill(static_cast<double>(bin_SR_eleCoupling), scal*wghtCorr);
 	    }
 	  }
 	}
@@ -1338,9 +1329,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }//end cat
   }//end histo
-  std::cout<<"fuori dal loop histogramma"<<std::endl;
+  //std::cout<<"fuori dal loop histogramma"<<std::endl;
 
-  
+
   ////////////////                           ////////////////
   //// List of stuff for data cards and shape ROOT files ////
   ////////////////                           ////////////////
@@ -1350,6 +1341,39 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   const std::string couplings[] = {"ele", "muo"};
   const size_t couplidx[] = {6, 7};
   const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
+
+  // Theory uncertainties
+  double errorByBin[nCoupl][nBins[0]];
+  double meanByBin[nCoupl][nBins[0]];
+  if(runtheosyst) {
+    for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
+      // PDF uncertainties
+      if(systcat==2) {
+	for(size_t ib=0; ib<nBins[0]; ++ib) {
+	  for(size_t ic=0; ic<nCoupl; ++ic) {
+	    meanByBin[ic][ib] = 0.;
+	    errorByBin[ic][ib] = 0.;
+	    double iniCont = Histos[0][couplidx[ic]][6][ss]->GetBinContent(ib+1);
+	    for(size_t is=6; is<106; ++is) {
+	      double iadd = iniCont>0. ? systHistos[is][couplidx[ic]][ss]->GetBinContent(ib+1)/iniCont : 0.;
+	      meanByBin[ic][ib] += iadd;
+	      errorByBin[ic][ib] += iadd*iadd;
+	    } // end for(size_t is=6; is<106; ++is)
+	    //
+	    // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
+	    errorByBin[ic][ib] = (errorByBin[ic][ib] - (meanByBin[ic][ib]*meanByBin[ic][ib]/100.))/99.;
+	    errorByBin[ic][ib] = std::sqrt(errorByBin[ic][ib]);
+	    if(systdir==0) { // down variation
+	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin[ic][ib]));
+	    }
+	    else if(systdir==1) { // up variation
+	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin[ic][ib]));
+	    }
+	  } // end for(size_t ic=0; ic<nCoupl; ++ic)
+	} // end for(size_t ib=0; ib<nBins[0]; ++ib)
+      } // end if(systcat==2)
+    } // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
+  } // end if(runtheosyst)
 
   // List of backgrounds
   const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonprompt"};
