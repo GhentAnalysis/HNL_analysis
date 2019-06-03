@@ -1343,31 +1343,50 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
   // Theory uncertainties
-  double errorByBin[nCoupl][nBins[0]];
-  double meanByBin[nCoupl][nBins[0]];
+  //double errorByBin[nCoupl][nBins[0]];
+  //double meanByBin[nCoupl][nBins[0]];
   if(runtheosyst) {
     for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
       // PDF uncertainties
-      if(systcat==2) {
+      if(systcat==1) {
 	for(size_t ib=0; ib<nBins[0]; ++ib) {
 	  for(size_t ic=0; ic<nCoupl; ++ic) {
-	    meanByBin[ic][ib] = 0.;
-	    errorByBin[ic][ib] = 0.;
+	    double errorByBin = 0.;
+	    double iniCont = Histos[0][couplidx[ic]][6][ss]->GetBinContent(ib+1);
+	    for(size_t is=0; is<6; ++is) {
+	      double deltabin = iniCont>0. ? std::abs(systHistos[is][couplidx[ic]][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
+	      if(deltabin>errorByBin) errorByBin = deltabin;
+	    }
+	    if(systdir==0) { // down variation
+	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
+	    }
+	    else if(systdir==1) { // up variation
+	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
+	    }
+	  }
+	}
+      }
+      // PDF uncertainties
+      else if(systcat==2) {
+	for(size_t ib=0; ib<nBins[0]; ++ib) {
+	  for(size_t ic=0; ic<nCoupl; ++ic) {
+	    double meanByBin = 0.;
+	    double errorByBin = 0.;
 	    double iniCont = Histos[0][couplidx[ic]][6][ss]->GetBinContent(ib+1);
 	    for(size_t is=6; is<106; ++is) {
 	      double iadd = iniCont>0. ? systHistos[is][couplidx[ic]][ss]->GetBinContent(ib+1)/iniCont : 0.;
-	      meanByBin[ic][ib] += iadd;
-	      errorByBin[ic][ib] += iadd*iadd;
+	      meanByBin += iadd;
+	      errorByBin += iadd*iadd;
 	    } // end for(size_t is=6; is<106; ++is)
 	    //
 	    // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
-	    errorByBin[ic][ib] = (errorByBin[ic][ib] - (meanByBin[ic][ib]*meanByBin[ic][ib]/100.))/99.;
-	    errorByBin[ic][ib] = std::sqrt(errorByBin[ic][ib]);
+	    errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
+	    errorByBin = std::sqrt(errorByBin);
 	    if(systdir==0) { // down variation
-	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin[ic][ib]));
+	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
 	    }
 	    else if(systdir==1) { // up variation
-	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin[ic][ib]));
+	      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
 	    }
 	  } // end for(size_t ic=0; ic<nCoupl; ++ic)
 	} // end for(size_t ib=0; ib<nBins[0]; ++ib)
