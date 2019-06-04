@@ -613,11 +613,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
 
-    if (samples[sam].isData()){
-      auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
-      if(event != usedEvents.end()) continue;
-      usedEvents.insert(std::make_tuple(_eventNb, _lumiBlock, _runNb));
-    }
+   
 
     if (samples[sam].isData() && systcat != 0 ) continue;	  
 		std::cout<<"after calling the samples i am in the analysis number:  "<< systcat<<std::endl;
@@ -647,6 +643,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
    	  
     for (Long64_t it = 0; it < nEntries/1000; ++it){
       GetEntry(samples[sam], it);  
+	    
+      if (samples[sam].isData()){
+      auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
+      if(event != usedEvents.end()) continue;
+      usedEvents.insert(std::make_tuple(_eventNb, _lumiBlock, _runNb));
+     }	    
+	    
+	    
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
       //ctWeight = 1;
       double scal = 0;
