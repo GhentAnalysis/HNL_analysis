@@ -562,7 +562,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::vector <Sample> samples  = readSampleList(list, directory);
 
   // pdf!
-/*  std::vector<unsigned> theoSystVars;
+ std::vector<unsigned> theoSystVars;
   bool runtheosyst = (systcat==1 || systcat==2);
   if(systcat==1) {
     theoSystVars.push_back(2);
@@ -593,7 +593,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }
   }
-*/
+
   
   
   
