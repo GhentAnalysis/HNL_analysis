@@ -562,7 +562,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::vector <Sample> samples  = readSampleList(list, directory);
 
   // pdf!
-  std::vector<unsigned> theoSystVars;
+/*  std::vector<unsigned> theoSystVars;
   bool runtheosyst = (systcat==1 || systcat==2);
   if(systcat==1) {
     theoSystVars.push_back(2);
@@ -593,7 +593,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }
   }
-
+*/
   
   
   
@@ -639,8 +639,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
-   /*	  
-    for (Long64_t it = 0; it < nEntries; ++it){
+   	  
+    for (Long64_t it = 0; it < nEntries/1000; ++it){
       GetEntry(samples[sam], it);  
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
       //ctWeight = 1;
@@ -1162,7 +1162,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
 
-             
+       /*      
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1277,9 +1277,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if (selection_final) Histos[numero_histo][7][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	}
       }//end histo
-      
+      */
     }//end loop over the entries
-    */
+    
   }//loop over samples
 
  
