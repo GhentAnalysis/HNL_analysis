@@ -595,19 +595,28 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
   // reset all the histograms-->
    for(int i = 0; i < nDist; ++i){
-    float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
-    std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
 	if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
 	  Histos[i][cha][cat][effsam]->Reset("ICESM");
+	  bkgYields[dist][cha][cat][effsam]->Reset("ICESM");
+	}
+      }
+    }
+  }
+  for(int i = 0; i < nDist; ++i){
+      for(int cat = 0; cat < nCat; ++cat){
+	if (cat !=0 && cat !=6) continue;
+	for(int cha = 0; cha < nChannel; ++cha){ 
+	  dataYields[dist][cha][cat]->Reset("ICESM");
 	}
       }
     }
   }
   
-  
+	
+	
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
