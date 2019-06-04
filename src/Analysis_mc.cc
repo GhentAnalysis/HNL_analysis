@@ -1577,7 +1577,7 @@ if (systcat == 0 ){
   } // end if(systcat==0)
 
   else { // if(systcat!=0)
-    std::string appx = "_" + systNames[systcat] + (systcat==0 ? "Down" : "Up");
+    std::string appx = "_" + systNames[systcat] + (systdir==0 ? "Down" : "Up");
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
