@@ -1402,7 +1402,7 @@ if (systcat == 0 ){
 	    double meanByBin = 0.;
 	    double errorByBin = 0.;
 	    double iniCont = Histos[0][couplidx[ic]][6][ss]->GetBinContent(ib+1);
-	    for(size_t is=6; is<106; ++is) {
+	    for(size_t is=0; is<100; ++is) {
 	      double iadd = iniCont>0. ? systHistos[is][couplidx[ic]][ss]->GetBinContent(ib+1)/iniCont : 0.;
 	      meanByBin += iadd;
 	      errorByBin += iadd*iadd;
