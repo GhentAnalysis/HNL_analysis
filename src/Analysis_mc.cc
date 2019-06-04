@@ -1162,7 +1162,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
 
-       /*      
+          
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1188,6 +1188,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  }
 	}
       }
+	    
+	    /*
       if (SR_channel > 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	//if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
