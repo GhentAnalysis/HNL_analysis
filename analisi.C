@@ -52,7 +52,7 @@ int main(){
     const std::string systNames[] = { "", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag"};
     const size_t nsysts = sizeof(systNames)/sizeof(systNames[0]);
 
-    all.analisi(alist, adir, (basename+".root").c_str(), 0, 0);
+    all.analisi(alist, adir, basename.c_str(), 0, 0);
    
     for(size_t i=1; i<nsysts; ++i) {  // skip i=0
       // Skip the following for now:
