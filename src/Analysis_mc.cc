@@ -563,8 +563,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   // pdf!
  std::vector<unsigned> theoSystVars;
-  bool runtheosyst = (systcat==1 || systcat==2);
-  if(systcat==1) {
+  bool runtheosyst = (systcat==2 || systcat==3);
+  if(systcat==2) {
     theoSystVars.push_back(2);
     theoSystVars.push_back(3);
     theoSystVars.push_back(4);
@@ -572,7 +572,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     theoSystVars.push_back(7);
     theoSystVars.push_back(9);
   }
-  else if(systcat==2) {
+  else if(systcat==3) {
     for(unsigned l=10; l<110; ++l)
       theoSystVars.push_back(l);
   }
@@ -1356,7 +1356,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   if(runtheosyst) {
     for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
       // PDF uncertainties
-      if(systcat==1) {
+      if(systcat==2) {
 	for(size_t ib=0; ib<nBins[0]; ++ib) {
 	  for(size_t ic=0; ic<nCoupl; ++ic) {
 	    double errorByBin = 0.;
@@ -1375,7 +1375,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
       }
       // PDF uncertainties
-      else if(systcat==2) {
+      else if(systcat==3) {
 	for(size_t ib=0; ib<nBins[0]; ++ib) {
 	  for(size_t ic=0; ic<nCoupl; ++ic) {
 	    double meanByBin = 0.;
