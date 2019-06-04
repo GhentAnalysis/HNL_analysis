@@ -600,19 +600,19 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
 	  Histos[i][cha][cat][effsam]->Reset("ICESM");
-	  bkgYields[i][cha][cat][effsam]->Reset("ICESM");
+	 // bkgYields[i][cha][cat][effsam]->Reset("ICESM");
 	}
       }
     }
   }
-  for(int i = 0; i < nDist; ++i){
+ /* for(int i = 0; i < nDist; ++i){
       for(int cat = 0; cat < nCat; ++cat){
 	if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){ 
 	  dataYields[i][cha][cat]->Reset("ICESM");
 	}
       }
-    }
+    }*/
   
   
 	
