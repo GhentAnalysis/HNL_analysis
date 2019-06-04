@@ -639,6 +639,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
+   /*	  
     for (Long64_t it = 0; it < nEntries; ++it){
       GetEntry(samples[sam], it);  
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
@@ -722,16 +723,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (lCount < 3) continue;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
-      /* for (unsigned j =0; j < _nJets ; j++){
-	 _jetPt[j]=_jetSmearedPt[j];
-	 if(systcat==8) {
-	 if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
-	 else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
-	 }
-	 else if(systcat==9) {
-	 if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
-	 else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
-	 }*/
+      // for (unsigned j =0; j < _nJets ; j++){
+	// _jetPt[j]=_jetSmearedPt[j];
+	// if(systcat==8) {
+	// if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
+	// else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
+	// }
+	// else if(systcat==9) {
+	// if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
+	// else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
+	// }
       for (unsigned j =0; j < _nJets ; j++){
 	if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
 	  double bjetSf = 1.;
@@ -1278,6 +1279,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }//end histo
       
     }//end loop over the entries
+    */
   }//loop over samples
 
  
@@ -1286,6 +1288,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //                V                         V
   //            unblindED           "silent" is not a verb...
   // TH1D* dataYields[nDist][nChannel][nCat];
+/*	
+	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
@@ -1570,6 +1574,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       } // end couplings
     } // end signal samples
   } // end if(systcat!=0)
+  */
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
  
