@@ -601,7 +601,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       for(int cat = 0; cat < nCat; ++cat){
 	if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
-	  Histos[i][cha][cat][effsam]->reset("ICESM");
+	  Histos[i][cha][cat][effsam]->Reset("ICESM");
 	}
       }
     }
