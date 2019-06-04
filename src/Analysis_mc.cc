@@ -471,6 +471,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     std::cout << " >>> Dummy message (to avoid warnings): systdir " << systdir << std::endl;
   }
 
+	
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
 
@@ -555,9 +556,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      BTagEntry::FLAV_B, // b-tag flavor
 	      "comb");           // measurement type
 
-
-  
-
   // ------------   samples info -----------------------------------------------//
   std::vector <Sample> samples  = readSampleList(list, directory);
 	std::cout<<"i am in the analysis number:  "<< systcat<<std::endl;
@@ -595,7 +593,19 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }
 
   
-  
+  // reset all the histograms-->
+   for(int i = 0; i < nDist; ++i){
+    float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
+    std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
+    for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+      for(int cat = 0; cat < nCat; ++cat){
+	if (cat !=0 && cat !=6) continue;
+	for(int cha = 0; cha < nChannel; ++cha){  
+	  Histos[i][cha][cat][effsam]->reset("ICESM");
+	}
+      }
+    }
+  }
   
   
   // ------------   run over samples -----------------------------------------------//
@@ -1328,7 +1338,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
  
   //TH1D* signals[nSamples_signal];
-
+if (systcat == 0 ){
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
 	    	if (cat !=0 && cat !=6) continue;
@@ -1337,16 +1347,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	if (systcat == 0 ){plotDataVSMC(cat,cha,dist,
+	plotDataVSMC(cat,cha,dist,
 		     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 		     eff_names,nSamples_eff -  nSamples_signal ,
 		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		     true,
 		     2, true, signals,  sigNames_short, nSamples_signal, false);
-			  }
+			  
       }
     }//end cat
   }//end histo
+}
   //std::cout<<"fuori dal loop histogramma"<<std::endl;
 
 
