@@ -1337,7 +1337,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
-	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
+	  if(effsam1 > nSamples_signal+1 && effsam1 < nSamples_eff){	  
 	    if (isSRRun)dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
 	  }	  
 	}
