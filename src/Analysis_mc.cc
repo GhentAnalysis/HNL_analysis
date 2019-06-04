@@ -560,7 +560,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   // ------------   samples info -----------------------------------------------//
   std::vector <Sample> samples  = readSampleList(list, directory);
-
+	std::cout<<"i am in the analysis number:  "<< systcat<<std::endl;
   // pdf!
  std::vector<unsigned> theoSystVars;
   bool runtheosyst = (systcat==2 || systcat==3);
@@ -601,6 +601,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
+	std::cout<<"before calling the samples i am in the analysis number:  "<< systcat<<std::endl;
 
     initSample(samples[sam]);
     //check consistency
@@ -619,7 +620,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
 
     if (samples[sam].isData() && systcat != 0 ) continue;	  
-	  
+		std::cout<<"after calling the samples i am in the analysis number:  "<< systcat<<std::endl;
+  
 	  
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
