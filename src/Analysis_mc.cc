@@ -618,7 +618,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       usedEvents.insert(std::make_tuple(_eventNb, _lumiBlock, _runNb));
     }
 
-    if (samples[sam].isData() && systcat != 0 ) continue	  
+    if (samples[sam].isData() && systcat != 0 ) continue;	  
 	  
 	  
     bool isSignal= false;
