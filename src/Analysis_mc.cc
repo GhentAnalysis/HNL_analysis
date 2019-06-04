@@ -1289,11 +1289,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //                |                         |
   //                V                         V
   //            unblindED           "silent" is not a verb...
-  // TH1D* dataYields[nDist][nChannel][nCat];
-/*	
+  // TH1D* dataYields[nDist][nChannel][nCat];	
 	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
+    	if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){               
 	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
 	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
@@ -1304,6 +1304,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
+	    	if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
@@ -1321,6 +1322,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
+	    	if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){               
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
@@ -1576,7 +1578,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       } // end couplings
     } // end signal samples
   } // end if(systcat!=0)
-  */
+  
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
  
