@@ -1193,8 +1193,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
 
-      if (bin_SR_muonCoupling < 1 || bin_SR_eleCoupling < 1) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
-      
+      if (bin_SR_muonCoupling < 1 && SR_channel <= 2) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
+      if (SR_channel > 2 && bin_SR_eleCoupling < 1) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
+
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1492,6 +1493,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+	std::cout<<"the coupling should be: "<< icoup<<"  with signal "<<sgn<<std::endl;
 	if(icoup==0 && sgn.find("_e" )==std::string::npos) continue;
 	if(icoup==1 && sgn.find("_mu")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
