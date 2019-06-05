@@ -621,8 +621,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
     std::cout<<"before calling the samples i am in the analysis number:  "<< systcat<<std::endl;
-    if (sam > 39) continue;
-    if (sam > 5 && sam < 32) continue;
+    //if (sam > 39) continue;
+    //if (sam > 5 && sam < 32) continue;
     
     initSample(samples[sam]);
     //check consistency
@@ -645,7 +645,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
 
     if (isSignal && samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" ) continue;
-    if (!isSignal && effsam != 24 ) continue;
+    if (!isSignal && samples[sam].getProcessName() != "multiboson" ) continue;
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -1539,7 +1539,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	card << "bin bin1\n";
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
 	card << "observation " << std::fixed << std::setprecision(3) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
-	std::cout<< "this is what i write in the data fucking card: obs  "<< dataYields[0][couplidx[icoup]][6]->Integral(0, -1)<<std::endl;
+	std::cout<< "this is what i write in the data fucking card: obs  "<< dataYields[0][6][6]->Integral(0, -1)<<std::endl;
 	// Define all backgrounds and their yields
 	card << left << std::setw(ntab) << "bin";
 	for(unsigned proc=0; proc<nBkg+1; ++proc) {
@@ -1563,7 +1563,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
-	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
+	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][6]][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
 
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
 	  else          card << left << std::setw(ntab) << std::setprecision(3) << iyield;
