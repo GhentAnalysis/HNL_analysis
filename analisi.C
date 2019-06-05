@@ -53,13 +53,13 @@ int main(){
     const size_t nsysts = sizeof(systNames)/sizeof(systNames[0]);
 
     all.analisi(alist, adir, basename.c_str(), 0, 0);
-   
+    /*
     for(size_t i=1; i<nsysts; ++i) {  // skip i=0
       // Skip the following for now:
       // pu      qcd,    pdf,    pEle,   pMuo,   jec,    jer
       if(i==1 || i==4 || i==5 || i==8 || i==9) continue;    
       all.analisi(alist, adir, basename.c_str(), i, 0);  
       all.analisi(alist, adir, basename.c_str(), i, 1);    
-    }
+      }*/
     return 0;
 }

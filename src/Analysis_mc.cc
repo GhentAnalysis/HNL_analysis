@@ -558,9 +558,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   // ------------   samples info -----------------------------------------------//
   std::vector <Sample> samples  = readSampleList(list, directory);
-	std::cout<<"i am in the analysis number:  "<< systcat<<std::endl;
+  std::cout<<"i am in the analysis number:  "<< systcat<<std::endl;
   // pdf!
- std::vector<unsigned> theoSystVars;
+  std::vector<unsigned> theoSystVars;
   bool runtheosyst = (systcat==2 || systcat==3);
   if(systcat==2) {
     theoSystVars.push_back(2);
@@ -594,25 +594,25 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   
   // reset all the histograms-->
-   for(int i = 0; i < nDist; ++i){
+  for(int i = 0; i < nDist; ++i){
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
 	if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
 	  Histos[i][cha][cat][effsam]->Reset("ICESM");
-	 // bkgYields[i][cha][cat][effsam]->Reset("ICESM");
+	  // bkgYields[i][cha][cat][effsam]->Reset("ICESM");
 	}
       }
     }
   }
- /* for(int i = 0; i < nDist; ++i){
-      for(int cat = 0; cat < nCat; ++cat){
-	if (cat !=0 && cat !=6) continue;
-	for(int cha = 0; cha < nChannel; ++cha){ 
-	  dataYields[i][cha][cat]->Reset("ICESM");
-	}
-      }
-    }*/
+  /* for(int i = 0; i < nDist; ++i){
+     for(int cat = 0; cat < nCat; ++cat){
+     if (cat !=0 && cat !=6) continue;
+     for(int cha = 0; cha < nChannel; ++cha){ 
+     dataYields[i][cha][cat]->Reset("ICESM");
+     }
+     }
+     }*/
   
   
 	
@@ -620,7 +620,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
-	std::cout<<"before calling the samples i am in the analysis number:  "<< systcat<<std::endl;
+    std::cout<<"before calling the samples i am in the analysis number:  "<< systcat<<std::endl;
 
     initSample(samples[sam]);
     //check consistency
@@ -635,11 +635,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
    
 
     if (samples[sam].isData() && systcat != 0 ) continue;	  
-		std::cout<<"after calling the samples i am in the analysis number:  "<< systcat<<std::endl;
+    std::cout<<"after calling the samples i am in the analysis number:  "<< systcat<<std::endl;
   
 	  
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
+
+
+    if (!isSignal && effsam!=14) continue;
     
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -660,14 +663,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for (Long64_t it = 0; it < nEntries/100; ++it){
+    for (Long64_t it = 0; it < nEntries; ++it){
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
-      auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
-      if(event != usedEvents.end()) continue;
-      usedEvents.insert(std::make_tuple(_eventNb, _lumiBlock, _runNb));
-     }	    
+	auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
+	if(event != usedEvents.end()) continue;
+	usedEvents.insert(std::make_tuple(_eventNb, _lumiBlock, _runNb));
+      }	    
 	    
 	    
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
@@ -752,15 +755,15 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
       // for (unsigned j =0; j < _nJets ; j++){
-	// _jetPt[j]=_jetSmearedPt[j];
-	// if(systcat==8) {
-	// if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
-	// else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
-	// }
-	// else if(systcat==9) {
-	// if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
-	// else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
-	// }
+      // _jetPt[j]=_jetSmearedPt[j];
+      // if(systcat==8) {
+      // if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
+      // else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
+      // }
+      // else if(systcat==9) {
+      // if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
+      // else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
+      // }
       for (unsigned j =0; j < _nJets ; j++){
 	if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
 	  double bjetSf = 1.;
@@ -1190,7 +1193,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
 
-          
+      if (bin_SR_muonCoupling < 1 || bin_SR_eleCoupling < 1) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
+      
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1321,7 +1325,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
-    	if (cat !=0 && cat !=6) continue;
+      if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){               
 	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
 	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
@@ -1332,7 +1336,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
-	    	if (cat !=0 && cat !=6) continue;
+      if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
@@ -1345,28 +1349,47 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
   }
 
+  
+  
  
   //TH1D* signals[nSamples_signal];
-if (systcat == 0 ){
-  for(unsigned dist = 0; dist < nDist; ++dist){
-    for(unsigned cat = 0; cat < nCat; ++cat){
-	    	if (cat !=0 && cat !=6) continue;
-      for(int cha = 0; cha < nChannel; ++cha){               
-	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
-	}
-	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	plotDataVSMC(cat,cha,dist,
-		     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-		     eff_names,nSamples_eff -  nSamples_signal ,
-		     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-		     true,
-		     2, true, signals,  sigNames_short, nSamples_signal, false);
+  if (systcat == 0 ){
+    for(unsigned dist = 0; dist < nDist; ++dist){
+      for(unsigned cat = 0; cat < nCat; ++cat){
+	if (cat !=0 && cat !=6) continue;
+	for(int cha = 0; cha < nChannel; ++cha){               
+	  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	  }
+	  //	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
+	  plotDataVSMC(cat,cha,dist,
+		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+		       eff_names,nSamples_eff -  nSamples_signal ,
+		       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+		       true,
+		       2, true, signals,  sigNames_short, nSamples_signal, false);
 			  
-      }
-    }//end cat
-  }//end histo
-}
+	}
+      }//end cat
+    }//end histo  
+  }
+
+  std::cout<<""<<std::endl;
+  std::cout<<""<<std::endl;
+  std::cout<<""<<std::endl;
+  std::cout<<""<<std::endl;
+  std::cout<<"check histograms"<<std::endl;
+  for(unsigned i=0; i<20; ++i) {
+    std::cout << i << " - signal: " << Histos[0][6][6][3]->GetBinContent(i) << std::endl;
+    std::cout << i << " - bgk: " << Histos[0][6][6][14]->GetBinContent(i) << std::endl;
+    std::cout << i << " - datayield: " << dataYields[0][6][6]->GetBinContent(i) << std::endl;
+  }
+  std::cout<<""<<std::endl;
+  std::cout<<""<<std::endl;
+  std::cout  << "intergral - signal: " << Histos[0][6][6][3]->Integral(0, -1) << std::endl;
+  std::cout << "intergral - bgk: " << Histos[0][6][6][14]->Integral(0, -1) << std::endl;
+  std::cout  << "intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
+  
   //std::cout<<"fuori dal loop histogramma"<<std::endl;
 
 
@@ -1501,7 +1524,7 @@ if (systcat == 0 ){
 	card << "bin bin1\n";
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
 	card << "observation " << std::fixed << std::setprecision(3) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
-
+	std::cout<< "this is what i write in the data fucking card: obs  "<< dataYields[0][couplidx[icoup]][6]->Integral(0, -1)<<std::endl;
 	// Define all backgrounds and their yields
 	card << left << std::setw(ntab) << "bin";
 	for(unsigned proc=0; proc<nBkg+1; ++proc) {
@@ -1525,6 +1548,8 @@ if (systcat == 0 ){
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
+	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
+
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
 	  else          card << left << std::setw(ntab) << std::setprecision(3) << iyield;
 	}
