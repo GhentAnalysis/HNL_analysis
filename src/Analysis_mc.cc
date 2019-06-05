@@ -646,7 +646,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
     if (isSignal && samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" ) continue;
     if (!isSignal && samples[sam].getProcessName() != "multiboson" ) continue;
+    if (samples[sam].getFileName() == "WZTo3LNu_mllmin01_13TeV-powheg-pythia8_ext1_Summer16.root" ) continue;
 
+    
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     if(isSignal) {
@@ -1206,9 +1208,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       // ------------------- Histo SR
       if (SR_channel <= 2) {
-	if (bin_SR_muonCoupling < 1 || bin_SR_muonCoupling > 19 )std::cout<< "**************** they should go out *********"<<std::endl;
-	std::cout<<"binSR   "<<bin_SR_muonCoupling<<std::endl;
-
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	//if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	//if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1235,7 +1234,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
 	    
       if (SR_channel > 2) {
-	if (bin_SR_eleCoupling < 1 || bin_SR_muonCoupling > 19 )std::cout<< "**************** they should go out *********"<<std::endl;
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	//if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	//if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
@@ -1529,7 +1527,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Add .txt to name if no file extension is given
 	std::string cardName = sgn+"_"+cpl+"_datacard.txt";
 	card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
-
+									 std::cout<<"-------------- > "<<cardName<<std::endl;
 	// Define number of channels, background sources and systematics
 	card << "imax 1 number of channels\n";
 	card << "jmax " << nBkg << " number of backgrounds\n";
@@ -1545,6 +1543,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
 	card << "observation " << std::fixed << std::setprecision(3) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
 	std::cout<< "this is what i write in the data fucking card: obs  "<< dataYields[0][6][6]->Integral(0, -1)<<std::endl;
+	 std::cout<< "this is what i write in the data fucking card: obs 2 "<< dataYields[0][couplidx[icoup]][6]->Integral(0, -1)<<std::endl;
+
+	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
+  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
+  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
+
 	// Define all backgrounds and their yields
 	card << left << std::setw(ntab) << "bin";
 	for(unsigned proc=0; proc<nBkg+1; ++proc) {
@@ -1564,11 +1568,24 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	card << "\n";
 	card << left << std::setw(ntab) << "rate";
 	card << left << std::setw(ntab) << std::setprecision(3) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
+	std::cout<<"num sign: "<<1+isign<<std::endl;
+
+	std::cout<< "this is what i write in the data fucking card: signal  "<< dataYields[0][6][1+isign]->Integral(0, -1)<<std::endl;
+	std::cout<< "this is what i write in the data fucking card: signal 2 "<< dataYields[0][couplidx[icoup]][1+isign]->Integral(0, -1)<<std::endl;
+																	   	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
+  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
+  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
+
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
+	  std::cout<<"num bgk: "<<1+nSamples_signal+bkg<<std::endl;
 	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][6][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
+	  std::cout<< "this is what i write in the data fucking card: bgk 2 "<<bkgNames[bkg]<<"   :"<< Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
+																					      	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
+  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
+  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
 
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
 	  else          card << left << std::setw(ntab) << std::setprecision(3) << iyield;
