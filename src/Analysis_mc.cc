@@ -621,7 +621,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
     std::cout<<"before calling the samples i am in the analysis number:  "<< systcat<<std::endl;
-
+    if (sam > 39) continue;
+    if (sam > 5 && sam < 32) continue;
+    
     initSample(samples[sam]);
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
@@ -642,7 +644,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
 
-    if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" && samples[sam].getFileName() != "WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root"  && samples[sam].getFileName() != "WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root" && samples[sam].getFileName() != " ZZTo4L_13TeV-amcatnloFXFX-pythia8_Summer16.root" ) continue;
+    if (isSignal && samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" ) continue;
+    if (!isSignal && effsam != 24 ) continue;
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
