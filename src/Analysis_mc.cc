@@ -642,7 +642,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
 
-    if (!isSignal && effsam!=14) continue;
+    if ((!isSignal && effsam <=10) && effsam!=24) continue;
     
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -1356,6 +1356,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //TH1D* signals[nSamples_signal];
   if (systcat == 0 ){
     for(unsigned dist = 0; dist < nDist; ++dist){
+      if (dist!=0) continue;
       for(unsigned cat = 0; cat < nCat; ++cat){
 	if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){               
@@ -1382,13 +1383,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::cout<<"check histograms"<<std::endl;
   for(unsigned i=0; i<20; ++i) {
     std::cout << i << " - signal: " << Histos[0][6][6][3]->GetBinContent(i) << std::endl;
-    std::cout << i << " - bgk: " << Histos[0][6][6][14]->GetBinContent(i) << std::endl;
+    std::cout << i << " - bgk: " << Histos[0][6][6][24]->GetBinContent(i) << std::endl;
     std::cout << i << " - datayield: " << dataYields[0][6][6]->GetBinContent(i) << std::endl;
   }
   std::cout<<""<<std::endl;
   std::cout<<""<<std::endl;
   std::cout  << "intergral - signal: " << Histos[0][6][6][3]->Integral(0, -1) << std::endl;
-  std::cout << "intergral - bgk: " << Histos[0][6][6][14]->Integral(0, -1) << std::endl;
+  std::cout << "intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
   std::cout  << "intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
   
   //std::cout<<"fuori dal loop histogramma"<<std::endl;
