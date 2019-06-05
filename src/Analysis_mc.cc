@@ -642,7 +642,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
 
-    if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" && samples[sam].getFileName() != "WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root") continue;
+    if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" && samples[sam].getFileName() != "WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root"  && samples[sam].getFileName() != "WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root" ) continue;
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
