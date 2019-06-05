@@ -642,7 +642,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
 
-    if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" && samples[sam].getFileName() != "WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root"  && samples[sam].getFileName() != "WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root" ) continue;
+    if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" && samples[sam].getFileName() != "WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root"  && samples[sam].getFileName() != "WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root" && samples[sam].getFileName() != " ZZTo4L_13TeV-amcatnloFXFX-pythia8_Summer16.root" ) continue;
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -1391,13 +1391,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::cout<<""<<std::endl;
   std::cout<<"check histograms"<<std::endl;
   for(unsigned i=0; i<20; ++i) {
-    std::cout << i << " - signal: " << Histos[0][6][6][3]->GetBinContent(i) << std::endl;
+    std::cout << i << " - signal: " << Histos[0][6][6][4]->GetBinContent(i) << std::endl;
     std::cout << i << " - bgk: " << Histos[0][6][6][24]->GetBinContent(i) << std::endl;
     std::cout << i << " - datayield: " << dataYields[0][6][6]->GetBinContent(i) << std::endl;
   }
   std::cout<<""<<std::endl;
   std::cout<<""<<std::endl;
-  std::cout  << "intergral - signal: " << Histos[0][6][6][3]->Integral(0, -1) << std::endl;
+  std::cout  << "intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
   std::cout << "intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
   std::cout  << "intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
   
