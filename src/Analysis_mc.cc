@@ -1204,6 +1204,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (bin_SR_muonCoupling < 1 || bin_SR_muonCoupling > 19 )std::cout<< "**************** they should go out *********"<<std::endl;
+	std::cout<<"binSR"<<bin_SR_muonCoupling<<std::endl;
+
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	//if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	//if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1231,7 +1233,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
       if (SR_channel > 2) {
 	if (bin_SR_eleCoupling < 1 || bin_SR_muonCoupling > 19 )std::cout<< "**************** they should go out *********"<<std::endl;
-	std::cout<<bin_SR_muonCoupling<<std::endl;
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	//if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	//if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
