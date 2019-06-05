@@ -1566,7 +1566,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
-	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][6]][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
+	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][6][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
 
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
 	  else          card << left << std::setw(ntab) << std::setprecision(3) << iyield;
