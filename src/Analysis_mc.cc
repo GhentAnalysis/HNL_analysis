@@ -1416,7 +1416,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //
   // List of couplings
   //const std::string couplings[] = {"ele", "muo", "tau"};
-  const std::string couplings[] = {"ele", "muo"};
+  const std::string couplings[] = {"muo", "ele"};
   const size_t couplidx[] = {6, 7};
   const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
@@ -1510,9 +1510,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
 	std::cout<<"the coupling should be: "<< icoup<<"  with signal "<<sgn<<std::endl;
-	if(icoup==0 && sgn.find("_e" )==std::string::npos) continue;
-	if(icoup==1 && sgn.find("_mu")==std::string::npos) continue;
+	if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+	if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
+									      std::cout<<"========================> "<< couplings[icoup]<<"   "<< icoup<<std::endl;								      
 
 	// ROOT file with shapes
 	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
@@ -1570,9 +1571,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	card << left << std::setw(ntab) << std::setprecision(3) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
 	std::cout<<"num sign: "<<1+isign<<std::endl;
 
-	std::cout<< "this is what i write in the data fucking card: signal  "<< dataYields[0][6][1+isign]->Integral(0, -1)<<std::endl;
-	std::cout<< "this is what i write in the data fucking card: signal 2 "<< dataYields[0][couplidx[icoup]][1+isign]->Integral(0, -1)<<std::endl;
-																	   	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
+	std::cout<< "this is what i write in the data fucking card: signal  "<< Histos[0][6][6][1+isign]->Integral(0, -1)<<std::endl;
+	std::cout<< "this is what i write in the data fucking card: signal 2 "<< Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1)<<std::endl;
+	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
   std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
   std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
 
@@ -1652,8 +1653,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	if(icoup==0 && sgn.find("_e" )==std::string::npos) continue;
-	if(icoup==1 && sgn.find("_mu")==std::string::npos) continue;
+	if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+	if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
 
 	// ROOT file with shapes
