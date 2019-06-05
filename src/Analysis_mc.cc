@@ -642,8 +642,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
 
-    if ((!isSignal && effsam <=10) && effsam!=24) continue;
-    
+    if (isSignal && effsam >10) continue;
+    if (!isSignal && effsam !=24) continue;
+
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     if(isSignal) {
