@@ -1403,6 +1403,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::cout  << "intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
   std::cout << "intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
   std::cout  << "intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
+  std::cout  << ">GetSumOfWeights() - signal: " << Histos[0][6][6][4]->GetSumOfWeights() << std::endl;
+  std::cout << ">GetSumOfWeights() - bgk: " << Histos[0][6][6][24]->GetSumOfWeights() << std::endl;
+  std::cout  << ">GetSumOfWeights() - datayield: " << dataYields[0][6][6]->GetSumOfWeights() << std::endl;
   
   //std::cout<<"fuori dal loop histogramma"<<std::endl;
 
