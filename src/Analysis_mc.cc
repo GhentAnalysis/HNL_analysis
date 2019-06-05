@@ -642,8 +642,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
 
-    if (isSignal && effsam >10) continue;
-    if (!isSignal && effsam !=24) continue;
+    if (isSignal && effsam !=4) continue;
+    if (!isSignal && sam !=33 && sam !=34) continue;
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -1193,6 +1193,23 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       int channel_bin = -1;
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
+
+
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout<<"before histograms"<<std::endl;
+      for(unsigned i=0; i<20; ++i) {
+	std::cout << i << " - signal: " << Histos[0][6][6][3]->GetBinContent(i) << std::endl;
+	std::cout << i << " - bgk: " << Histos[0][6][6][24]->GetBinContent(i) << std::endl;
+      }
+      std::cout<<""<<std::endl;
+      std::cout<<""<<std::endl;
+      std::cout  << "intergral - signal: " << Histos[0][6][6][3]->Integral(0, -1) << std::endl;
+      std::cout << "intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
+
+      
 
       if (bin_SR_muonCoupling < 1 && SR_channel <= 2) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
       if (SR_channel > 2 && bin_SR_eleCoupling < 1) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
