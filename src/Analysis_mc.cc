@@ -1542,7 +1542,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Define the channels and the number of observed events
 	card << "bin bin1\n";
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
-	card << "observation " << std::fixed << std::setprecision(3) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
+	card << "observation " << std::fixed << std::setprecision(5) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
 	std::cout<< "this is what i write in the data fucking card: obs  "<< dataYields[0][6][6]->Integral(0, -1)<<std::endl;
 	 std::cout<< "this is what i write in the data fucking card: obs 2 "<< dataYields[0][couplidx[icoup]][6]->Integral(0, -1)<<std::endl;
 
@@ -1568,7 +1568,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	card << "\n";
 	card << left << std::setw(ntab) << "rate";
-	card << left << std::setw(ntab) << std::setprecision(3) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
+	card << left << std::setw(ntab) << std::setprecision(5) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
 	std::cout<<"num sign: "<<1+isign<<std::endl;
 
 	std::cout<< "this is what i write in the data fucking card: signal  "<< Histos[0][6][6][1+isign]->Integral(0, -1)<<std::endl;
@@ -1589,7 +1589,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
 
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
-	  else          card << left << std::setw(ntab) << std::setprecision(3) << iyield;
+	  else          card << left << std::setw(ntab) << std::setprecision(5) << iyield;
 	}
 	card << "\n";
 	card << "----------------------------------------------------------------------------------------\n";
