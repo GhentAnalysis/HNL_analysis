@@ -1230,6 +1230,13 @@ class Analysis_mc : public TObject {
   double maxBinC[nDist];
 
 
+  const static int channel  = 3;
+  const std::string systName[] = { "", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag"};
+  const size_t nSystematic = sizeof(systName)/sizeof(systName[0]);
+  const static int nVariation  = 3;	
+  TH1D*	plots_SR[channel][nSystematic][nVariation][nSamples_eff +1];
+  double weight_SR[channel][nSystematic][nVariation][nSamples_eff +1];
+  TH1D*	sum_expected_SR[channel][nSystematic][nVariation];
 
 
 
