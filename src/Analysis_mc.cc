@@ -107,6 +107,19 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
   }
   
+ for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+      for(int var = 0; var < nVariation; ++var){
+	      	 for (int syst = 0; syst < nSystematic; ++syst)	{
+	for(int cha = 0; cha < channel; ++cha){
+        plots_SR[cha][syst][var][effsam] = new TH1D(eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], 18, 0.5, 18.5);
+	plots_SR[cha][syst][var][effsam]-> Sumw2();
+	weight_SR[cha][syst][var][effsam]=0.;
+	 }
+	}
+      }
+ }
+	
+	
   //------------------------- for the theory system
   // Only to be initialized and filled for QCD and PDF uncertainties
   //  - only one distribution (search regions); nDist = 1 anyway here...
