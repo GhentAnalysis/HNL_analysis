@@ -1388,25 +1388,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }//end histo  
   }
 
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout<<"check histograms"<<std::endl;
-  for(unsigned i=0; i<20; ++i) {
-    std::cout << i << " - signal: " << Histos[0][6][6][4]->GetBinContent(i) << std::endl;
-    std::cout << i << " - bgk: " << Histos[0][6][6][24]->GetBinContent(i) << std::endl;
-    std::cout << i << " - datayield: " << dataYields[0][6][6]->GetBinContent(i) << std::endl;
-  }
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout  << "intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
-  std::cout  << ">GetSumOfWeights() - signal: " << Histos[0][6][6][4]->GetSumOfWeights() << std::endl;
-  std::cout << ">GetSumOfWeights() - bgk: " << Histos[0][6][6][24]->GetSumOfWeights() << std::endl;
-  std::cout  << ">GetSumOfWeights() - datayield: " << dataYields[0][6][6]->GetSumOfWeights() << std::endl;
-  
+ 
   //std::cout<<"fuori dal loop histogramma"<<std::endl;
 
 
@@ -1542,14 +1524,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Define the channels and the number of observed events
 	card << "bin bin1\n";
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
-	card << "observation " << std::fixed << std::setprecision(7) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
-	std::cout<< "this is what i write in the data fucking card: obs  "<< dataYields[0][6][6]->Integral(0, -1)<<std::endl;
-	 std::cout<< "this is what i write in the data fucking card: obs 2 "<< dataYields[0][couplidx[icoup]][6]->Integral(0, -1)<<std::endl;
-
-	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
-
+	
 	// Define all backgrounds and their yields
 	card << left << std::setw(ntab) << "bin";
 	for(unsigned proc=0; proc<nBkg+1; ++proc) {
@@ -1569,24 +1544,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	card << "\n";
 	card << left << std::setw(ntab) << "rate";
 	card << left << std::setw(ntab) << std::setprecision(7) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
-	std::cout<<"num sign: "<<1+isign<<std::endl;
-
-	std::cout<< "this is what i write in the data fucking card: signal  "<< Histos[0][6][6][1+isign]->Integral(0, -1)<<std::endl;
-	std::cout<< "this is what i write in the data fucking card: signal 2 "<< Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1)<<std::endl;
-	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
-
+	
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
-	  std::cout<<"num bgk: "<<1+nSamples_signal+bkg<<std::endl;
-	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][6][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
-	  std::cout<< "this is what i write in the data fucking card: bgk 2 "<<bkgNames[bkg]<<"   :"<< Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
-																					      	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
+	  
 
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
 	  else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
