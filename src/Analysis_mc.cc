@@ -620,10 +620,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
-    std::cout<<"before calling the samples i am in the analysis number:  "<< systcat<<std::endl;
-    //if (sam > 39) continue;
-    //if (sam > 5 && sam < 32) continue;
-    
+  
     initSample(samples[sam]);
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
@@ -637,16 +634,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
    
 
     if (samples[sam].isData() && systcat != 0 ) continue;	  
-    std::cout<<"after calling the samples i am in the analysis number:  "<< systcat<<std::endl;
   
 	  
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
-
-    if (isSignal && samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO.root" ) continue;
-    if (!isSignal && samples[sam].getProcessName() != "multiboson" ) continue;
-    if (samples[sam].getFileName() == "WZTo3LNu_mllmin01_13TeV-powheg-pythia8_ext1_Summer16.root" ) continue;
 
     
     // For lifetime re-weighting (hip hip hip hurray)
@@ -759,16 +751,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (lCount < 3) continue;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
-      // for (unsigned j =0; j < _nJets ; j++){
-      // _jetPt[j]=_jetSmearedPt[j];
-      // if(systcat==8) {
-      // if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
-      // else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
-      // }
-      // else if(systcat==9) {
-      // if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
-      // else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
-      // }
+      for (unsigned j =0; j < _nJets ; j++){
+	_jetPt[j]=_jetSmearedPt[j];
+	if(systcat==8) {
+	  if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
+	  else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
+	}
+	else if(systcat==9) {
+	  if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
+	  else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
+	}
+      }
       for (unsigned j =0; j < _nJets ; j++){
 	if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
 	  double bjetSf = 1.;
@@ -1388,28 +1381,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }//end histo  
   }
 
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout<<"check histograms"<<std::endl;
-  for(unsigned i=0; i<20; ++i) {
-    std::cout << i << " - signal: " << Histos[0][6][6][4]->GetBinContent(i) << std::endl;
-    std::cout << i << " - bgk: " << Histos[0][6][6][24]->GetBinContent(i) << std::endl;
-    std::cout << i << " - datayield: " << dataYields[0][6][6]->GetBinContent(i) << std::endl;
-  }
-  std::cout<<""<<std::endl;
-  std::cout<<""<<std::endl;
-  std::cout  << "intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
-  std::cout  << ">GetSumOfWeights() - signal: " << Histos[0][6][6][4]->GetSumOfWeights() << std::endl;
-  std::cout << ">GetSumOfWeights() - bgk: " << Histos[0][6][6][24]->GetSumOfWeights() << std::endl;
-  std::cout  << ">GetSumOfWeights() - datayield: " << dataYields[0][6][6]->GetSumOfWeights() << std::endl;
-  
-  //std::cout<<"fuori dal loop histogramma"<<std::endl;
-
-
+ 
   ////////////////                           ////////////////
   //// List of stuff for data cards and shape ROOT files ////
   ////////////////                           ////////////////
@@ -1509,11 +1481,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	std::cout<<"the coupling should be: "<< icoup<<"  with signal "<<sgn<<std::endl;
 	if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
 	if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
-									      std::cout<<"========================> "<< couplings[icoup]<<"   "<< icoup<<std::endl;								      
 
 	// ROOT file with shapes
 	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
@@ -1528,7 +1498,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Add .txt to name if no file extension is given
 	std::string cardName = sgn+"_"+cpl+"_datacard.txt";
 	card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
-									 std::cout<<"-------------- > "<<cardName<<std::endl;
 	// Define number of channels, background sources and systematics
 	card << "imax 1 number of channels\n";
 	card << "jmax " << nBkg << " number of backgrounds\n";
@@ -1543,13 +1512,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	card << "bin bin1\n";
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
 	card << "observation " << std::fixed << std::setprecision(7) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
-	std::cout<< "this is what i write in the data fucking card: obs  "<< dataYields[0][6][6]->Integral(0, -1)<<std::endl;
-	 std::cout<< "this is what i write in the data fucking card: obs 2 "<< dataYields[0][couplidx[icoup]][6]->Integral(0, -1)<<std::endl;
-
-	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
-
 	// Define all backgrounds and their yields
 	card << left << std::setw(ntab) << "bin";
 	for(unsigned proc=0; proc<nBkg+1; ++proc) {
@@ -1569,26 +1531,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	card << "\n";
 	card << left << std::setw(ntab) << "rate";
 	card << left << std::setw(ntab) << std::setprecision(7) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
-	std::cout<<"num sign: "<<1+isign<<std::endl;
-
-	std::cout<< "this is what i write in the data fucking card: signal  "<< Histos[0][6][6][1+isign]->Integral(0, -1)<<std::endl;
-	std::cout<< "this is what i write in the data fucking card: signal 2 "<< Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1)<<std::endl;
-	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
 
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
-	  std::cout<<"num bgk: "<<1+nSamples_signal+bkg<<std::endl;
-	  std::cout<< "this is what i write in the data fucking card: bgk  "<<bkgNames[bkg]<<"   :"<< Histos[0][6][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
-	  std::cout<< "this is what i write in the data fucking card: bgk 2 "<<bkgNames[bkg]<<"   :"<< Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1)<<std::endl;
-																					      	std::cout  << "======= intergral - signal: " << Histos[0][6][6][4]->Integral(0, -1) << std::endl;
-  std::cout << "======= intergral - bgk: " << Histos[0][6][6][24]->Integral(0, -1) << std::endl;
-  std::cout  << "======= intergral - datayield: " << dataYields[0][6][6]->Integral(0, -1) << std::endl;
-
-	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
+	 	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
 	  else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
 	}
 	card << "\n";
