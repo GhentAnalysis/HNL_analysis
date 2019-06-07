@@ -776,8 +776,8 @@ class Analysis_mc : public TObject {
   unsigned year;
 
   bool isCRRun=false;
-  bool isSRRun=false;
-  bool isOnlyMC=true;	
+  bool isSRRun=true;
+  bool isOnlyMC=false;	
 
   TTree* fChain;                                                          //current Tree
   std::shared_ptr<TFile> sampleFile;                                      //current sample
