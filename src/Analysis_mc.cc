@@ -622,7 +622,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
   for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
-  
+    if (isOnlyMC && sam = 0) continue;
     initSample(samples[sam]);
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
