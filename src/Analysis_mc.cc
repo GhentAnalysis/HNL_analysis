@@ -778,6 +778,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
+	
+	if (fabs(_jetEta[j]) > 2.4)continue;
+	if (!_jetIsTight[j] )continue;
+	if (_jetPt[j] < 25) continue;
+	std::cout<<"jet good"<<std::endl;
 	if (jetIsGood(j)) ++goodjet;
 	if (jetIsBJet(j)) ++bjet;
       }
