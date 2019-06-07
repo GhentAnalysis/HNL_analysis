@@ -300,6 +300,7 @@ class Analysis_mc : public TObject {
   Double_t        _phEResUp[gen_nL_max];  //[_nPh]
   Double_t        _phEResDown[gen_nL_max];  //[_nPh]
   UInt_t          _nJets;
+  UChar_t         _nJets_data;
   Double_t        _jetPt[nJets_max];  //[_nJets]
   Double_t        _jetPt_JECDown[nJets_max];  //[_nJets]
   Double_t        _jetPt_JECUp[nJets_max];  //[_nJets]
@@ -1212,11 +1213,11 @@ class Analysis_mc : public TObject {
 				  30,
 				  50,20,20,
 				  100,
-				  100,
+				  50,
 				  25,
-				  100,
+				  50,
 				  32,
-				  100,
+				  25,
 				  25,
 				  25};
 
