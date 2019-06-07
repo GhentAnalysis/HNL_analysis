@@ -1201,7 +1201,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isOnlyMC && channel_bin == -1 ) continue;
 
 
-  
+  std::cout<<"before plottinh: "<<std::endl;
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
@@ -1320,12 +1320,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if (selection_final) Histos[numero_histo][7][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	}
       }//end histo
-      
+         std::cout<<"after plottinh: "<<std::endl;
+
     }//end loop over the entries
     
   }//loop over samples
 
- 
+
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
   //                |                         |
   //                V                         V
