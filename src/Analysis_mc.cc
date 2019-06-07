@@ -1198,8 +1198,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       int channel_bin = -1;
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
-	    
-      if (isSRRun && channel_bin == -1 ) continue;
       if (isOnlyMC && channel_bin == -1 ) continue;
 
 
@@ -1362,7 +1360,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
-  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
+  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 1;
   
  
   //TH1D* signals[nSamples_signal];
