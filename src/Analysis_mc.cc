@@ -783,8 +783,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (jetIsGood(j)) ++goodjet;
 	if (jetIsBJet(j)) ++bjet;
       }
-      std::cout<<"data:  jet_nJets: "<< _nJets<<std::endl;
-      std::cout<<"data:  jet: "<< goodjet<<"   bjet: "<< bjet<<std::endl;
+      // std::cout<<"data:  jet_nJets: "<< _nJets<<std::endl;
+      // std::cout<<"data:  jet: "<< goodjet<<"   bjet: "<< bjet<<std::endl;
       // ------------ ==================== -----------------------------------------------//
       // ------------   event selection   -----------------------------------------------//
       //assign the l1 index
