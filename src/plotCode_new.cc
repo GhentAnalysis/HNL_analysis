@@ -395,7 +395,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     bkgStack = new THStack("bkgStack", "bkgStack");
     for(int effsam = nHist -1; effsam > -1 ; --effsam){
         StackCol(bkg[effsam], colors[effsam]);
-	if (names[histI[effsam] + 1 + nSig] == "non prompt DF" ) bkg[effsam]->SetFillStyle(3013); 
+	if (names[histI[effsam] + 1 + nSig] == "non prompt DF" ) bkg[effsam]->SetFillStyle(3018); 
         bkgStack->Add(bkg[effsam], "f");
     }
     
@@ -571,23 +571,23 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
     //Determine the maximum range of the histogram, depending on the maximum range of the bkg or data
     if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){
-    if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[3]->GetBinContent(signal[3]->GetMaximumBin()) ){
-        if(!ylog) signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
-        else signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
+    if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[0]->GetBinContent(signal[0]->GetMaximumBin()) ){
+        if(!ylog) signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
+        else signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
     }
     else{
-        if(!ylog) signal[3]->SetMaximum(signal[3]->GetBinContent(signal[3]->GetMaximumBin())*1.5);
-        else signal[3]->SetMaximum(signal[3]->GetBinContent(signal[3]->GetMaximumBin())*10);
+        if(!ylog) signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*1.5);
+        else signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*10);
     }
     }
      if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){
-    if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[13]->GetBinContent(signal[13]->GetMaximumBin()) ){
-        if(!ylog) signal[13]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
-        else signal[13]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
+    if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[10]->GetBinContent(signal[10]->GetMaximumBin()) ){
+        if(!ylog) signal[10]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
+        else signal[10]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
     }
     else{
-        if(!ylog) signal[13]->SetMaximum(signal[13]->GetBinContent(signal[13]->GetMaximumBin())*1.5);
-        else signal[13]->SetMaximum(signal[13]->GetBinContent(signal[13]->GetMaximumBin())*10);
+        if(!ylog) signal[10]->SetMaximum(signal[10]->GetBinContent(signal[10]->GetMaximumBin())*1.5);
+        else signal[10]->SetMaximum(signal[10]->GetBinContent(signal[10]->GetMaximumBin())*30);
     }
     }
     
@@ -595,13 +595,13 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if(plotsig){
       for(unsigned sig = 0; sig < nSig; ++sig){
 
-            if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ) && sig == 3){
+            if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ) && sig == 0){
                 if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
                 signal[sig]->SetMinimum(0);
                 signal[sig]->SetMinimum(0.1);
                 signal[sig]->Draw("histe ");
             }
-	    if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig == 13){
+	    if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig == 10){
                 if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
                 signal[sig]->SetMinimum(0);
                 signal[sig]->SetMinimum(0.1);

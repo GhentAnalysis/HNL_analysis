@@ -94,7 +94,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
-	if (cat !=0 && cat !=6) continue;
+	//if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
 	  Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
 	  Histos[i][cha][cat][effsam]->Sumw2();
@@ -597,7 +597,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   for(int i = 0; i < nDist; ++i){
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
-	if (cat !=0 && cat !=6) continue;
+	//if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
 	  Histos[i][cha][cat][effsam]->Reset("ICESM");
 	  // bkgYields[i][cha][cat][effsam]->Reset("ICESM");
@@ -1198,18 +1198,18 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_3)      Histos[0][SR_channel][3][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_4)      Histos[0][SR_channel][4][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_5)      Histos[0][SR_channel][5][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_3)      Histos[0][SR_channel][3][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_4)      Histos[0][SR_channel][4][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_5)      Histos[0][SR_channel][5][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	if (selection_final)  Histos[0][SR_channel][6][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	if (selection_0)      Histos[0][6][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_1)      Histos[0][6][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_2)      Histos[0][6][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_3)      Histos[0][6][3][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_4)      Histos[0][6][4][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	//if (selection_5)      Histos[0][6][5][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_1)      Histos[0][6][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_2)      Histos[0][6][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_3)      Histos[0][6][3][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_4)      Histos[0][6][4][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
+	if (selection_5)      Histos[0][6][5][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	if (selection_final)  Histos[0][6][6][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
 	if (selection_final) {
 	  if(runtheosyst) {
@@ -1224,18 +1224,18 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
       if (SR_channel > 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_3)      Histos[0][SR_channel][3][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_4)      Histos[0][SR_channel][4][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_5)      Histos[0][SR_channel][5][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_3)      Histos[0][SR_channel][3][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_4)      Histos[0][SR_channel][4][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_5)      Histos[0][SR_channel][5][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	if (selection_final)  Histos[0][SR_channel][6][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	if (selection_0)      Histos[0][7][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_1)      Histos[0][7][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_2)      Histos[0][7][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_3)      Histos[0][7][3][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_4)      Histos[0][7][4][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	//if (selection_5)      Histos[0][7][5][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_1)      Histos[0][7][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_2)      Histos[0][7][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_3)      Histos[0][7][3][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_4)      Histos[0][7][4][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
+	if (selection_5)      Histos[0][7][5][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 	if (selection_final)  Histos[0][7][6][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
 
 
@@ -1251,30 +1251,30 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
       // ------------------- Histo cut flow  
       if (selection_0)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(1), scal);
-      //if (selection_1)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(2), scal);
-      //if (selection_2)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(3), scal);
-      //if (selection_3)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(4), scal);
-      //if (selection_4)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(5), scal);
-      //if (selection_5)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(6), scal);
+      if (selection_1)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(2), scal);
+      if (selection_2)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(3), scal);
+      if (selection_3)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(4), scal);
+      if (selection_4)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(5), scal);
+      if (selection_5)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(6), scal);
       if (selection_final)  Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(7), scal);
       
       if (SR_channel <= 2){
 	//Histos[1][6][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
 	if (selection_0)      Histos[1][6][0][fill] -> Fill(static_cast<double>(1), scal);
-	//if (selection_1)      Histos[1][6][0][fill] -> Fill(static_cast<double>(2), scal);
-	//if (selection_2)      Histos[1][6][0][fill] -> Fill(static_cast<double>(3), scal);
-	//if (selection_3)      Histos[1][6][0][fill] -> Fill(static_cast<double>(4), scal);
-	//if (selection_4)      Histos[1][6][0][fill] -> Fill(static_cast<double>(5), scal);
-	//if (selection_5)      Histos[1][6][0][fill] -> Fill(static_cast<double>(6), scal);
+	if (selection_1)      Histos[1][6][0][fill] -> Fill(static_cast<double>(2), scal);
+	if (selection_2)      Histos[1][6][0][fill] -> Fill(static_cast<double>(3), scal);
+	if (selection_3)      Histos[1][6][0][fill] -> Fill(static_cast<double>(4), scal);
+	if (selection_4)      Histos[1][6][0][fill] -> Fill(static_cast<double>(5), scal);
+	if (selection_5)      Histos[1][6][0][fill] -> Fill(static_cast<double>(6), scal);
 	if (selection_final)  Histos[1][6][0][fill] -> Fill(static_cast<double>(7), scal);
       }
       if (SR_channel > 2){
 	if (selection_0)      Histos[1][7][0][fill] -> Fill(static_cast<double>(1), scal);
-	//if (selection_1)      Histos[1][7][0][fill] -> Fill(static_cast<double>(2), scal);
-	//if (selection_2)      Histos[1][7][0][fill] -> Fill(static_cast<double>(3), scal);
-	//if (selection_3)      Histos[1][7][0][fill] -> Fill(static_cast<double>(4), scal);
-	//if (selection_4)      Histos[1][7][0][fill] -> Fill(static_cast<double>(5), scal);
-	//if (selection_5)      Histos[1][7][0][fill] -> Fill(static_cast<double>(6), scal);
+	if (selection_1)      Histos[1][7][0][fill] -> Fill(static_cast<double>(2), scal);
+	if (selection_2)      Histos[1][7][0][fill] -> Fill(static_cast<double>(3), scal);
+	if (selection_3)      Histos[1][7][0][fill] -> Fill(static_cast<double>(4), scal);
+	if (selection_4)      Histos[1][7][0][fill] -> Fill(static_cast<double>(5), scal);
+	if (selection_5)      Histos[1][7][0][fill] -> Fill(static_cast<double>(6), scal);
 	if (selection_final)  Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal);
       }     
       
@@ -1327,7 +1327,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
-      if (cat !=0 && cat !=6) continue;
+      //if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){               
 	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
 	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
@@ -1338,7 +1338,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
-      if (cat !=0 && cat !=6) continue;
+      //if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
@@ -1358,7 +1358,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   if (systcat == 0 ){
     for(unsigned dist = 0; dist < nDist; ++dist){
       for(unsigned cat = 0; cat < nCat; ++cat){
-	if (cat !=0 && cat !=6) continue;
+	//if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){               
 	  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
