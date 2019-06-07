@@ -1357,7 +1357,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //TH1D* signals[nSamples_signal];
   if (systcat == 0 ){
     for(unsigned dist = 0; dist < nDist; ++dist){
-      if (dist!=0) continue;
       for(unsigned cat = 0; cat < nCat; ++cat){
 	if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){               
