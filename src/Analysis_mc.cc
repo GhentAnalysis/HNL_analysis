@@ -633,9 +633,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
 
-   
+    if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
+    if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
+    if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
+    if (samples[sam].isData() && systcat != 0 ) continue;
 
-    if (samples[sam].isData() && systcat != 0 ) continue;	  
   
 	  
     bool isSignal= false;
@@ -952,8 +954,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       bool sideBandRegion= false;
       if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
-      //if (sideBandRegion) continue;
-      //if (tightC != 2) continue;
+      if (isOnlyMC && sideBandRegion) continue;
+      if (isOnlyMC && tightC != 2) continue;
       if (samples[sam].getProcessName() == "DY" )   {    
 	two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
 		    _runNb, _lumiBlock, _eventNb,  
@@ -968,7 +970,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
       if (_lIsPrompt[l2] || _lProvenanceCompressed[l2]==0) promptC++;
       if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
-      if (!samples[sam].isData() && promptC!=3) continue;
+      if (isSRRun && !samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
       if (sideBandRegion){
 	if ( samples[sam].isData()  )scal *= -1;
@@ -1190,12 +1192,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isDataYield)     scal = 1;
       if (isDataYield)     continue;
 
-     
+      if (isOnlyMC) fill = effsam;	    
+
  
 
       int channel_bin = -1;
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
+	    
+      if (isSRRun && channel_bin == -1 ) continue;
+      if (isOnlyMC && channel_bin == -1 ) continue;
 
 
   
@@ -1355,7 +1361,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
   }
 
-  
+  int numer_plot_class =0;
+  if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
+  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
   
  
   //TH1D* signals[nSamples_signal];
@@ -1370,7 +1378,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  //	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
 	  plotDataVSMC(cat,cha,dist,
 		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-		       eff_names,nSamples_eff -  nSamples_signal ,
+		       eff_names,numer_plot_class ,
 		       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		       true,
 		       2, true, signals,  sigNames_short, nSamples_signal, false);
