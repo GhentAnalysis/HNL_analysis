@@ -1179,7 +1179,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       bool isDataYield= false;
       if (samples[sam].isData() && !tightFail_sFR    && single_fake)     isDataYield= true;
       if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)     isDataYield= true;
-      if (isDataDrivenBgk) fill = nSamples_eff;
+      if (isDataDrivenBgk &&  single_fake) fill = nSamples_eff - 1;
+      if (isDataDrivenBgk &&  Double_fake) fill = nSamples_eff;
+      
       if (isDataYield)     fill = 0;
       if (isDataYield)     scal = 1;
       if (isDataYield)     continue;
@@ -1192,13 +1194,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isSRRun && channel_bin == -1 ) continue;
 
 
-   
-
-      
-
-      if (bin_SR_muonCoupling < 1 && SR_channel <= 2) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
-      if (SR_channel > 2 && bin_SR_eleCoupling < 1) std::cout<< "**************** they should go in the underflow *********"<<std::endl;
-
+  
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);

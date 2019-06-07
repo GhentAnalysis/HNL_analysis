@@ -870,7 +870,7 @@ class Analysis_mc : public TObject {
   const static int nSamples_signal_e  = 10;
   const static int nSamples_signal_mu = 10;
   const static int nSamples_signal    = nSamples_signal_e + nSamples_signal_mu;
-  const static int nSamples_eff       = 7 + nSamples_signal;
+  const static int nSamples_eff       = 8 + nSamples_signal;
 
   const TString eff_names[nSamples_eff+1] = {
     "obs",      
@@ -900,7 +900,9 @@ class Analysis_mc : public TObject {
     "multiboson", 
     "Xgamma",    
     "TTX",		
-    "non prompt"
+    "non prompt SF",
+    "non prompt DF"
+
   };
 
   const std::string string_sigNames_e[nSamples_signal_e] = {
