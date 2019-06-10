@@ -452,80 +452,80 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     }
 
     if (istogramma == 1 ){
-      signal[3]->SetStats(0);
-      signal[3]-> GetXaxis()->LabelsOption("vu");
-      signal[3]-> GetXaxis()->SetBinLabel(1, "3 leptons");
-      signal[3]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
-      signal[3]-> GetXaxis()->SetBinLabel(3, "bveto");
-      signal[3]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
-      signal[3]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
-      signal[3]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
-      signal[3]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
+      signal[0]->SetStats(0);
+      signal[0]-> GetXaxis()->LabelsOption("vu");
+      signal[0]-> GetXaxis()->SetBinLabel(1, "3 leptons");
+      signal[0]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
+      signal[0]-> GetXaxis()->SetBinLabel(3, "bveto");
+      signal[0]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
+      signal[0]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
+      signal[0]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
+      signal[0]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
 
-      signal[13]->SetStats(0);
-      signal[13]-> GetXaxis()->LabelsOption("vu");
-      signal[13]-> GetXaxis()->SetBinLabel(1, "3 leptons");
-      signal[13]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
-      signal[13]-> GetXaxis()->SetBinLabel(3, "bveto");
-      signal[13]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
-      signal[13]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
-      signal[13]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
-      signal[13]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
+      signal[10]->SetStats(0);
+      signal[10]-> GetXaxis()->LabelsOption("vu");
+      signal[10]-> GetXaxis()->SetBinLabel(1, "3 leptons");
+      signal[10]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
+      signal[10]-> GetXaxis()->SetBinLabel(3, "bveto");
+      signal[10]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
+      signal[10]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
+      signal[10]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
+      signal[10]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
 
-      signal[3]-> GetXaxis()->SetLabelSize(0.045);
-      signal[3]-> GetXaxis()->SetLabelOffset(0.01);
-      signal[13]-> GetXaxis()->SetLabelSize(0.045);
-      signal[13]-> GetXaxis()->SetLabelOffset(0.01);
+      signal[0]-> GetXaxis()->SetLabelSize(0.045);
+      signal[0]-> GetXaxis()->SetLabelOffset(0.01);
+      signal[10]-> GetXaxis()->SetLabelSize(0.045);
+      signal[10]-> GetXaxis()->SetLabelOffset(0.01);
     }
 
 
     if (istogramma == 0 ){
-      signal[3]->SetStats(0);
-      signal[3]-> GetXaxis()->LabelsOption("hu");
-      signal[3]-> GetXaxis()->SetBinLabel(1, "");
-      signal[3]-> GetXaxis()->SetBinLabel(2, "");
-      signal[3]-> GetXaxis()->SetBinLabel(3, "#mu#mu#mu");
-      signal[3]-> GetXaxis()->SetBinLabel(4, "");
-      signal[3]-> GetXaxis()->SetBinLabel(5, "");
-      signal[3]-> GetXaxis()->SetBinLabel(6, "");
-      signal[3]-> GetXaxis()->SetBinLabel(7, "");
-      signal[3]-> GetXaxis()->SetBinLabel(8, "");
-      signal[3]-> GetXaxis()->SetBinLabel(9, "#mu^{#pm}#mu^{#mp}e");
-      signal[3]-> GetXaxis()->SetBinLabel(10, "");
-      signal[3]-> GetXaxis()->SetBinLabel(11, "");
-      signal[3]-> GetXaxis()->SetBinLabel(12, "");
-      signal[3]-> GetXaxis()->SetBinLabel(13, "");
-      signal[3]-> GetXaxis()->SetBinLabel(14, "");
-      signal[3]-> GetXaxis()->SetBinLabel(15, "#mu^{#pm}#mu^{#pm}e");
-      signal[3]-> GetXaxis()->SetBinLabel(16, "");
-      signal[3]-> GetXaxis()->SetBinLabel(17, "");
-      signal[3]-> GetXaxis()->SetBinLabel(18, "");
+      signal[0]->SetStats(0);
+      signal[0]-> GetXaxis()->LabelsOption("hu");
+      signal[0]-> GetXaxis()->SetBinLabel(1, "");
+      signal[0]-> GetXaxis()->SetBinLabel(2, "");
+      signal[0]-> GetXaxis()->SetBinLabel(3, "#mu#mu#mu");
+      signal[0]-> GetXaxis()->SetBinLabel(4, "");
+      signal[0]-> GetXaxis()->SetBinLabel(5, "");
+      signal[0]-> GetXaxis()->SetBinLabel(6, "");
+      signal[0]-> GetXaxis()->SetBinLabel(7, "");
+      signal[0]-> GetXaxis()->SetBinLabel(8, "");
+      signal[0]-> GetXaxis()->SetBinLabel(9, "#mu^{#pm}#mu^{#mp}e");
+      signal[0]-> GetXaxis()->SetBinLabel(10, "");
+      signal[0]-> GetXaxis()->SetBinLabel(11, "");
+      signal[0]-> GetXaxis()->SetBinLabel(12, "");
+      signal[0]-> GetXaxis()->SetBinLabel(13, "");
+      signal[0]-> GetXaxis()->SetBinLabel(14, "");
+      signal[0]-> GetXaxis()->SetBinLabel(15, "#mu^{#pm}#mu^{#pm}e");
+      signal[0]-> GetXaxis()->SetBinLabel(16, "");
+      signal[0]-> GetXaxis()->SetBinLabel(17, "");
+      signal[0]-> GetXaxis()->SetBinLabel(18, "");
  
-      signal[13]->SetStats(0);
-      signal[13]-> GetXaxis()->LabelsOption("hu");
-      signal[13]-> GetXaxis()->SetBinLabel(1, "");
-      signal[13]-> GetXaxis()->SetBinLabel(2, "");
-      signal[13]-> GetXaxis()->SetBinLabel(3, "eee");
-      signal[13]-> GetXaxis()->SetBinLabel(4, "");
-      signal[13]-> GetXaxis()->SetBinLabel(5, "");
-      signal[13]-> GetXaxis()->SetBinLabel(6, "");
-      signal[13]-> GetXaxis()->SetBinLabel(7, "");
-      signal[13]-> GetXaxis()->SetBinLabel(8, "");
-      signal[13]-> GetXaxis()->SetBinLabel(9, "e^{#pm}e^{#mp}#mu");
-      signal[13]-> GetXaxis()->SetBinLabel(10, "");
-      signal[13]-> GetXaxis()->SetBinLabel(11, "");
-      signal[13]-> GetXaxis()->SetBinLabel(12, "");
-      signal[13]-> GetXaxis()->SetBinLabel(13, "");
-      signal[13]-> GetXaxis()->SetBinLabel(14, "");
-      signal[13]-> GetXaxis()->SetBinLabel(15, "e^{#pm}e^{#pm}#mu");
-      signal[13]-> GetXaxis()->SetBinLabel(16, "");
-      signal[13]-> GetXaxis()->SetBinLabel(17, "");
-      signal[13]-> GetXaxis()->SetBinLabel(18, "");
+      signal[10]->SetStats(0);
+      signal[10]-> GetXaxis()->LabelsOption("hu");
+      signal[10]-> GetXaxis()->SetBinLabel(1, "");
+      signal[10]-> GetXaxis()->SetBinLabel(2, "");
+      signal[10]-> GetXaxis()->SetBinLabel(3, "eee");
+      signal[10]-> GetXaxis()->SetBinLabel(4, "");
+      signal[10]-> GetXaxis()->SetBinLabel(5, "");
+      signal[10]-> GetXaxis()->SetBinLabel(6, "");
+      signal[10]-> GetXaxis()->SetBinLabel(7, "");
+      signal[10]-> GetXaxis()->SetBinLabel(8, "");
+      signal[10]-> GetXaxis()->SetBinLabel(9, "e^{#pm}e^{#mp}#mu");
+      signal[10]-> GetXaxis()->SetBinLabel(10, "");
+      signal[10]-> GetXaxis()->SetBinLabel(11, "");
+      signal[10]-> GetXaxis()->SetBinLabel(12, "");
+      signal[10]-> GetXaxis()->SetBinLabel(13, "");
+      signal[10]-> GetXaxis()->SetBinLabel(14, "");
+      signal[10]-> GetXaxis()->SetBinLabel(15, "e^{#pm}e^{#pm}#mu");
+      signal[10]-> GetXaxis()->SetBinLabel(16, "");
+      signal[10]-> GetXaxis()->SetBinLabel(17, "");
+      signal[10]-> GetXaxis()->SetBinLabel(18, "");
 
-      signal[3]-> GetXaxis()->SetLabelSize(0.07);
-      signal[3]-> GetXaxis()->SetLabelOffset(0.01);
-      signal[13]-> GetXaxis()->SetLabelSize(0.07);
-      signal[13]-> GetXaxis()->SetLabelOffset(0.01);
+      signal[0]-> GetXaxis()->SetLabelSize(0.07);
+      signal[0]-> GetXaxis()->SetLabelOffset(0.01);
+      signal[10]-> GetXaxis()->SetLabelSize(0.07);
+      signal[10]-> GetXaxis()->SetLabelOffset(0.01);
     }
     
 
