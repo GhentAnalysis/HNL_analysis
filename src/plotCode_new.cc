@@ -573,11 +573,11 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){
     if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[0]->GetBinContent(signal[0]->GetMaximumBin()) ){
         if(!ylog) signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
-        else signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
+        else signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
     }
     else{
         if(!ylog) signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*1.5);
-        else signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*10);
+        else signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*30);
     }
     }
      if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){
