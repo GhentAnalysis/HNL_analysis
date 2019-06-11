@@ -1511,7 +1511,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Stream for writing card and tables
 	std::ofstream card, tabletexS, tabletexL;
 
-	tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
+	/*tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
 	tabletexL.open("tables_"+sgn+"_"+cpl+"_long.txt");
 
 	//
@@ -1628,7 +1628,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 	tabletexL << " \\\n \hline\n";
 	tabletexS << " \\\n \hline\n";
-
+*/
 	//
 	// ========================================================
 	//
