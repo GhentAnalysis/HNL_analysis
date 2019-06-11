@@ -3,6 +3,7 @@
 #include <set>
 //include Root classes
 #include "TCanvas.h"
+#include "TColor.h"
 #include "TLatex.h"
 #include "TLine.h"
 #include "TF1.h"
@@ -649,6 +650,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     }
 	
 	if (istogramma == 0){
+ Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
 		TLine *line = new TLine(6.5,0.02,6.5,50000);
    line->SetLineWidth(10);
    line->Draw();
