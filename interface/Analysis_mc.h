@@ -1048,7 +1048,7 @@ class Analysis_mc : public TObject {
   };
 
 
-  const TString Xaxes[nDist] = {"SR"," ",
+  const TString Xaxes[nDist] = {""," ",
 				"P_{T} #left(l_{1} #right) (GeV)",
 				"P_{T} #left(l_{2} #right) (GeV)",
 				"P_{T} #left(l_{3} #right) (GeV)", 
