@@ -1453,6 +1453,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonprompt"};
   const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
+  // List of signal and background labels (for tables)
+  std::map<std::string, std::string> labelPerProc;
+  labelPerProc["signal"    ] = "signal"; // to be changed...
+  labelPerProc["DY"        ] = "Z\rarrll";
+  labelPerProc["ttbar"     ] = "Top";
+  labelPerProc["WJets"     ] = "W #plus jets";
+  labelPerProc["multiboson"] = "Multiboson";
+  labelPerProc["Xgamma"    ] = "X #plus #gamma";
+  labelPerProc["TTTX"      ] = "TTTX";
+  labelPerProc["nonprompt" ] = "Nonprompt";
+  
   // List of systematics
   const std::string systNames[] = { "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npnorm"};
   const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]);
@@ -1497,8 +1508,130 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	dataYields[0][couplidx[icoup]][6]->Write("data_obs");
 	Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
-	// Stream for writing card
-	std::ofstream card;
+	// Stream for writing card and tables
+	std::ofstream card, tabletexS, tabletexL;
+
+	tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
+	tabletexL.open("tables_"+sgn+"_"+cpl+"_long.txt");
+
+	//
+	// ========================================================
+	//   Write tables
+	// ========================================================
+	//
+	size_t nsrbins = Histos[0][couplidx[icoup]][6][1+isign]->GetNbinsX();
+	std::vector<double> totconts(nsrbins+3, 0.0);
+	std::vector<double> totstats(nsrbins+3, 0.0);
+	std::vector<double> binconts(3, 0.0);
+	std::vector<double> binstats(3, 0.0);
+	//
+	// Write table: signal
+	// Row header
+	tabletexL << left << std::setw(ntab) << labelPerProc["signal"];
+	tabletexS << left << std::setw(ntab) << labelPerProc["signal"];
+	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	  tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
+		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1);
+	  // Group by final state
+	  /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	  size_t ibintmp = ibin%6;
+	  binconts[ibintmp] += Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1);
+	  binstats[ibintmp] += Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1);
+	}
+	//
+	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	  tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << binconts[ibintmp]
+		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
+	  binconts[ibintmp] = 0.;
+	  binstats[ibintmp] = 0.;
+	}
+	//
+	tabletexL << " \\\n \hline\n";
+	tabletexS << " \\\n \hline\n";
+ 
+	//
+	// Write table: backgrounds
+	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	  // Row header
+	  tabletexL << left << std::setw(ntab) << labelPerProc[bkgNames[bkg]];
+	  tabletexS << left << std::setw(ntab) << labelPerProc[bkgNames[bkg]];
+	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	    tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
+		      << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	    // Add to total background
+	    totconts[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	    totstats[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	    // Group by final state
+	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	    size_t ibintmp = ibin%6;
+	    binconts[ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	    binstats[ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	    // Add to total background!
+	    totconts[nsrbins+ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	    totstats[nsrbins+ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	  }
+	  //
+	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	    tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << binconts[ibintmp]
+		      << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
+	    binconts[ibintmp] = 0.;
+	    binstats[ibintmp] = 0.;
+	  }
+	  //
+	  tabletexL << " \\\n \hline\n";
+	  tabletexS << " \\\n \hline\n";
+	}
+
+	//
+	// Write table: total background
+	// Row header
+	tabletexL << left << std::setw(ntab) << "Total background";
+	tabletexS << left << std::setw(ntab) << "Total background";
+	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	  tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << totconts[ibin]
+		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin]);
+	  totconts[ibin] = 0.;
+	  totstats[ibin] = 0.;
+	}
+	//
+	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	  tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << totconts[nsrbins+ibintmp]
+		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp]);
+	  totconts[nsrbins+ibintmp] = 0.;
+	  totstats[nsrbins+ibintmp] = 0.;
+	}
+	//
+	tabletexL << " \\\n \hline\n";
+	tabletexS << " \\\n \hline\n";
+
+	//
+	// Write table: data
+	// Row header
+	tabletexL << left << std::setw(ntab) << "Observed";
+	tabletexS << left << std::setw(ntab) << "Observed";
+	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	  tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
+		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
+	  // Group by final state
+	  /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	  size_t ibintmp = ibin%6;
+	  binconts[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
+	  binstats[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * GetBinError(ibin+1);
+	}
+	//
+	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	  tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << binconts[ibintmp]
+		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
+	  binconts[ibintmp] = 0.;
+	  binstats[ibintmp] = 0.;
+	}
+	//
+	tabletexL << " \\\n \hline\n";
+	tabletexS << " \\\n \hline\n";
+
+	//
+	// ========================================================
+	//
 
 	// Add .txt to name if no file extension is given
 	std::string cardName = sgn+"_"+cpl+"_datacard.txt";
@@ -1541,10 +1674,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
-	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
+	  if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
 	  
 
-	  if(iyield<=0) card << left << std::setw(ntab) << "0.000";
+	  if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
 	  else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
 	}
 	card << "\n";
@@ -1599,6 +1732,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	} // end systs
 	card << "* autoMCStats 0\n";
 	card.close();
+	tabletexS.close();
+	tabletexL.close();
 	rootfile->Close();
       } // end couplings
     } // end signal samples
