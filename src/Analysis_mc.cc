@@ -1454,7 +1454,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
   // List of signal and background labels (for tables)
-  std::map<std::string, std::string> labelPerProc;
+/*  std::map<std::string, std::string> labelPerProc;
   labelPerProc["signal"    ] = "signal"; // to be changed...
   labelPerProc["DY"        ] = "Z\rarrll";
   labelPerProc["ttbar"     ] = "Top";
@@ -1462,7 +1462,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   labelPerProc["multiboson"] = "Multiboson";
   labelPerProc["Xgamma"    ] = "X #plus #gamma";
   labelPerProc["TTTX"      ] = "TTTX";
-  labelPerProc["nonprompt" ] = "Nonprompt";
+  labelPerProc["nonprompt" ] = "Nonprompt";*/
   
   // List of systematics
   const std::string systNames[] = { "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npnorm"};
@@ -1527,8 +1527,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 	// Write table: signal
 	// Row header
-	tabletexL << left << std::setw(ntab) << labelPerProc["signal"];
-	tabletexS << left << std::setw(ntab) << labelPerProc["signal"];
+	tabletexL << left << std::setw(ntab) << "signal";
+	tabletexS << left << std::setw(ntab) << "signal";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
 	  tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
 		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1);
@@ -1553,8 +1553,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Write table: backgrounds
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  // Row header
-	  tabletexL << left << std::setw(ntab) << labelPerProc[bkgNames[bkg]];
-	  tabletexS << left << std::setw(ntab) << labelPerProc[bkgNames[bkg]];
+	  tabletexL << left << std::setw(ntab) << bkgNames[bkg];
+	  tabletexS << left << std::setw(ntab) << bkgNames[bkg];
 	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
 	    tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
 		      << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
