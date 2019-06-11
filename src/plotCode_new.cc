@@ -800,7 +800,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->Draw();	
 		
 		
-	if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
+	if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
       tex = new TLatex(2.857013,43749.836,"#mu#mu#mu");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
@@ -817,7 +817,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->SetLineWidth(2);
    tex->Draw();
 	}	
-	if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
+	if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
       tex = new TLatex(2.857013,43749.836,"eee");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
