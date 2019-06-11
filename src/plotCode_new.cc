@@ -553,7 +553,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         std::cerr << "Incorrect width option given can't make plot" << std::endl;
         return;
     }
-   if (istogramma == 0) width = 2000;
+   if (istogramma == 0) width = 1000;
    if (istogramma == 0) height = 500;
 
      TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
@@ -660,37 +660,37 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    line = new TLine(12.5,0.02,12.5,50000);
    line->SetLineWidth(10);
    line->Draw();
-   line = new TLine(2.5,20000,2.5,0.1);
+   line = new TLine(2.5,10000,2.5,0.1);
 
    ci = TColor::GetColor("#ff6600");
    line->SetLineColor(ci);
    line->SetLineWidth(6);
    line->Draw();
-   line = new TLine(4.5,20000,4.5,0.1);
+   line = new TLine(4.5,10000,4.5,0.1);
 
    ci = TColor::GetColor("#ff6600");
    line->SetLineColor(ci);
    line->SetLineWidth(6);
    line->Draw();
-   line = new TLine(8.5,20000,8.5,0.1);
+   line = new TLine(8.5,10000,8.5,0.1);
 
    ci = TColor::GetColor("#ff6600");
    line->SetLineColor(ci);
    line->SetLineWidth(6);
    line->Draw();
-   line = new TLine(10.5,20000,10.5,0.1);
+   line = new TLine(10.5,10000,10.5,0.1);
 
    ci = TColor::GetColor("#ff6600");
    line->SetLineColor(ci);
    line->SetLineWidth(6);
    line->Draw();
-   line = new TLine(14.5,20000,14.5,0.1);
+   line = new TLine(14.5,10000,14.5,0.1);
 
    ci = TColor::GetColor("#ff6600");
    line->SetLineColor(ci);
    line->SetLineWidth(6);
    line->Draw();
-   line = new TLine(16.5,20000,16.5,0.1);
+   line = new TLine(16.5,10000,16.5,0.1);
 
    ci = TColor::GetColor("#ff6600");
    line->SetLineColor(ci);
@@ -728,28 +728,28 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->SetLineWidth(2);
    tex->Draw();
 		
-      tex = new TLatex(0.9578318,10000.46,"#DeltaR < 2cm");
+      tex = new TLatex(0.9578318,9000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(2.857013,10000.46,"#DeltaR [2,10]cm");
+      tex = new TLatex(2.857013,9000.46,"#DeltaR [2,10]cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(4.912923,10000.88,"#DeltaR > 10cm");
+      tex = new TLatex(4.912923,9000.88,"#DeltaR > 10cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.9578318,10000.46,"#DeltaR < 2cm");
+      tex = new TLatex(0.9578318,9000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
@@ -757,21 +757,21 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->SetLineWidth(2);
    tex->Draw();
 		
-	tex = new TLatex(6.9578318,10000.46,"#DeltaR < 2cm");
+	tex = new TLatex(6.9578318,9000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(8.857013,10000.46,"#DeltaR [2,10]cm");
+      tex = new TLatex(8.857013,9000.46,"#DeltaR [2,10]cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(10.912923,10000.88,"#DeltaR > 10cm");
+      tex = new TLatex(10.912923,9000.88,"#DeltaR > 10cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
@@ -779,21 +779,21 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->SetLineWidth(2);
    tex->Draw();	
 		
-	tex = new TLatex(12.9578318,10000.46,"#DeltaR < 2cm");
+	tex = new TLatex(12.9578318,9000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(14.857013,10000.46,"#DeltaR [2,10]cm");
+      tex = new TLatex(14.857013,9000.46,"#DeltaR [2,10]cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(16.912923,10000.88,"#DeltaR > 10cm");
+      tex = new TLatex(16.912923,9000.88,"#DeltaR > 10cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
@@ -803,17 +803,17 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 		
 		
 	if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
-      tex = new TLatex(2.857013,40000.836,"#mu#mu#mu");
+      tex = new TLatex(2.857013,30000.836,"#mu#mu#mu");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
- tex = new TLatex(8.857013,40000.836,"#mu^{#pm}#mu^{#mp}e");
+ tex = new TLatex(8.857013,30000.836,"#mu^{#pm}#mu^{#mp}e");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
-		tex = new TLatex(14.857013,40000.836,"#mu^{#pm}#mu^{#pm}e");
+		tex = new TLatex(14.857013,30000.836,"#mu^{#pm}#mu^{#pm}e");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
