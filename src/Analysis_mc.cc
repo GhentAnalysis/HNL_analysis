@@ -358,9 +358,9 @@ void Analysis_mc::initTree(TTree *tree, const bool isData)
   fChain->SetBranchAddress("_lEScaleDown", _lEScaleDown, &b__lEScaleDown);
   fChain->SetBranchAddress("_lEResUp", _lEResUp, &b__lEResUp);
   fChain->SetBranchAddress("_lEResDown", _lEResDown, &b__lEResDown);
-  if(!isData) fChain->SetBranchAddress("_nJets", &_nJets, &b__nJets);
-  if(isData) fChain->SetBranchAddress("_nJets", &_nJets_data, &b__nJets);
-
+  //if(!isData) fChain->SetBranchAddress("_nJets", &_nJets, &b__nJets);
+  //if(isData) fChain->SetBranchAddress("_nJets", &_nJets_data, &b__nJets);
+	fChain->SetBranchAddress("_nJets", &_nJets, &b__nJets);
   fChain->SetBranchAddress("_jetPt", _jetPt, &b__jetPt);
   fChain->SetBranchAddress("_jetPt_JECDown", _jetPt_JECDown, &b__jetPt_JECDown);
   fChain->SetBranchAddress("_jetPt_JECUp", _jetPt_JECUp, &b__jetPt_JECUp);
@@ -781,6 +781,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
+	    std::cout<<_nJets<<std::endl;  
 	if (jetIsGood(j)) ++goodjet;
 	if (jetIsBJet(j)) ++bjet;
       }
