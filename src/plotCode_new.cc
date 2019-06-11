@@ -554,7 +554,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         return;
     }
    if (istogramma == 0) width = 2000;
-   if (istogramma == 0) width = 500;
+   if (istogramma == 0) height = 500;
 
      TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
     c->cd();
@@ -820,17 +820,17 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->Draw();
 	}	
 	if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
-      tex = new TLatex(2.857013,40000.836,"eee");
+      tex = new TLatex(2.857013,30000.836,"eee");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
- tex = new TLatex(8.857013,40000.836,"e^{#pm}e^{#mp}#mu");
+ tex = new TLatex(8,30000.836,"e^{#pm}e^{#mp}#mu");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
-		tex = new TLatex(14.857013,40000.836,"e^{#pm}e^{#pm}#mu");
+		tex = new TLatex(13.857013,30000.836,"e^{#pm}e^{#pm}#mu");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
