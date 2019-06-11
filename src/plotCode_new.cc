@@ -553,7 +553,9 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         std::cerr << "Incorrect width option given can't make plot" << std::endl;
         return;
     }
-   
+   if (istogramma == 0) width = 2000;
+   if (istogramma == 0) width = 500;
+
      TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
     c->cd();
 
@@ -583,7 +585,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         if(!ylog) signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
         else {
 		if (istogramma !=0)signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
-		if (istogramma ==0)signal[0]->SetMaximum(3500000);
+		if (istogramma ==0)signal[0]->SetMaximum(4000000);
 
 	}
     }
@@ -591,7 +593,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         if(!ylog) signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*1.5);
         else {
 		if (istogramma !=0)signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*30);
-		if (istogramma ==0)signal[0]->SetMaximum(3500000);
+		if (istogramma ==0)signal[0]->SetMaximum(4000000);
 
 	} 
     }
@@ -601,7 +603,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         if(!ylog) signal[10]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
         else {
 		if (istogramma !=0)signal[10]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
-		if (istogramma ==0)signal[10]->SetMaximum(3500000);
+		if (istogramma ==0)signal[10]->SetMaximum(4000000);
 
 	}
     }
@@ -609,7 +611,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
         if(!ylog) signal[10]->SetMaximum(signal[10]->GetBinContent(signal[10]->GetMaximumBin())*1.5);
         else {
 		if (istogramma !=0)signal[10]->SetMaximum(signal[10]->GetBinContent(signal[10]->GetMaximumBin())*30);
-		if (istogramma ==0)signal[10]->SetMaximum(3500000);
+		if (istogramma ==0)signal[10]->SetMaximum(4000000);
 
 	}
     }
@@ -726,28 +728,28 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->SetLineWidth(2);
    tex->Draw();
 		
-      tex = new TLatex(0.9578318,13991.46,"#DeltaR < 2cm");
+      tex = new TLatex(0.9578318,10000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(2.857013,13991.46,"#DeltaR [2,10]cm");
+      tex = new TLatex(2.857013,10000.46,"#DeltaR [2,10]cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(4.912923,13749.88,"#DeltaR > 10cm");
+      tex = new TLatex(4.912923,10000.88,"#DeltaR > 10cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.9578318,13991.46,"#DeltaR < 2cm");
+      tex = new TLatex(0.9578318,10000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
@@ -755,21 +757,21 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->SetLineWidth(2);
    tex->Draw();
 		
-	tex = new TLatex(6.9578318,13991.46,"#DeltaR < 2cm");
+	tex = new TLatex(6.9578318,10000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(8.857013,13991.46,"#DeltaR [2,10]cm");
+      tex = new TLatex(8.857013,10000.46,"#DeltaR [2,10]cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(10.912923,13749.88,"#DeltaR > 10cm");
+      tex = new TLatex(10.912923,10000.88,"#DeltaR > 10cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
@@ -777,21 +779,21 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    tex->SetLineWidth(2);
    tex->Draw();	
 		
-	tex = new TLatex(12.9578318,13991.46,"#DeltaR < 2cm");
+	tex = new TLatex(12.9578318,10000.46,"#DeltaR < 2cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(14.857013,13991.46,"#DeltaR [2,10]cm");
+      tex = new TLatex(14.857013,10000.46,"#DeltaR [2,10]cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
    tex->SetTextSize(0.02);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(16.912923,13749.88,"#DeltaR > 10cm");
+      tex = new TLatex(16.912923,10000.88,"#DeltaR > 10cm");
 
    ci = TColor::GetColor("#ff6600");
    tex->SetTextColor(ci);
@@ -801,34 +803,34 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 		
 		
 	if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
-      tex = new TLatex(2.857013,43749.836,"#mu#mu#mu");
+      tex = new TLatex(2.857013,40000.836,"#mu#mu#mu");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
- tex = new TLatex(8.857013,43749.836,"#mu^{#pm}#mu^{#mp}e");
+ tex = new TLatex(8.857013,40000.836,"#mu^{#pm}#mu^{#mp}e");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
-		tex = new TLatex(14.857013,43749.836,"#mu^{#pm}#mu^{#pm}e");
+		tex = new TLatex(14.857013,40000.836,"#mu^{#pm}#mu^{#pm}e");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
 	}	
 	if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
-      tex = new TLatex(2.857013,43749.836,"eee");
+      tex = new TLatex(2.857013,40000.836,"eee");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
- tex = new TLatex(8.857013,43749.836,"e^{#pm}e^{#mp}#mu");
+ tex = new TLatex(8.857013,40000.836,"e^{#pm}e^{#mp}#mu");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
    tex->Draw();
-		tex = new TLatex(14.857013,43749.836,"e^{#pm}e^{#pm}#mu");
+		tex = new TLatex(14.857013,40000.836,"e^{#pm}e^{#pm}#mu");
    tex->SetTextColor(1);
    tex->SetTextSize(0.07);
    tex->SetLineWidth(2);
