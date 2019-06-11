@@ -694,7 +694,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    line->SetLineColor(ci);
    line->SetLineWidth(6);
    line->Draw();
-      tex = new TLatex(0.8748578,17546.74,"");
+    TLatex *    tex = new TLatex(0.8748578,17546.74,"");
    tex->SetLineWidth(2);
    tex->Draw();
       tex = new TLatex(1.031586,21625.48,"");
