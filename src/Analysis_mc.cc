@@ -1616,7 +1616,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  /// >>> WARNING: if bin numbering changes, this needs to be updated!
 	  size_t ibintmp = ibin%6;
 	  binconts[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
-	  binstats[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * GetBinError(ibin+1);
+	  binstats[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
