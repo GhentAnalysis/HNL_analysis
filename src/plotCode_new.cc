@@ -478,54 +478,60 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[10]-> GetXaxis()->SetLabelOffset(0.01);
     }
 
-
+// isotgramma delle SR --> linee e roba varia
     if (istogramma == 0 ){
       signal[0]->SetStats(0);
       signal[0]-> GetXaxis()->LabelsOption("hu");
-      signal[0]-> GetXaxis()->SetBinLabel(1, "");
-      signal[0]-> GetXaxis()->SetBinLabel(2, "");
-      signal[0]-> GetXaxis()->SetBinLabel(3, "#mu#mu#mu");
-      signal[0]-> GetXaxis()->SetBinLabel(4, "");
-      signal[0]-> GetXaxis()->SetBinLabel(5, "");
-      signal[0]-> GetXaxis()->SetBinLabel(6, "");
-      signal[0]-> GetXaxis()->SetBinLabel(7, "");
-      signal[0]-> GetXaxis()->SetBinLabel(8, "");
-      signal[0]-> GetXaxis()->SetBinLabel(9, "#mu^{#pm}#mu^{#mp}e");
-      signal[0]-> GetXaxis()->SetBinLabel(10, "");
-      signal[0]-> GetXaxis()->SetBinLabel(11, "");
-      signal[0]-> GetXaxis()->SetBinLabel(12, "");
-      signal[0]-> GetXaxis()->SetBinLabel(13, "");
-      signal[0]-> GetXaxis()->SetBinLabel(14, "");
-      signal[0]-> GetXaxis()->SetBinLabel(15, "#mu^{#pm}#mu^{#pm}e");
-      signal[0]-> GetXaxis()->SetBinLabel(16, "");
-      signal[0]-> GetXaxis()->SetBinLabel(17, "");
-      signal[0]-> GetXaxis()->SetBinLabel(18, "");
+      signal[0]-> GetXaxis()->SetBinLabel(1, "< 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(2, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(3, "< 4 GeV   #mu#mu#mu");
+      signal[0]-> GetXaxis()->SetBinLabel(4, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(5, "< 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(6, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(7, "< 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(8, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(9, "< 4 GeV   #mu^{#pm}#mu^{#mp}e");
+      signal[0]-> GetXaxis()->SetBinLabel(10, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(11, "< 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(12, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(13, "< 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(14, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(15, "< 4 GeV    #mu^{#pm}#mu^{#pm}e");
+      signal[0]-> GetXaxis()->SetBinLabel(16, "> 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(17, "< 4 GeV");
+      signal[0]-> GetXaxis()->SetBinLabel(18, "> 4 GeV");
  
       signal[10]->SetStats(0);
       signal[10]-> GetXaxis()->LabelsOption("hu");
-      signal[10]-> GetXaxis()->SetBinLabel(1, "");
-      signal[10]-> GetXaxis()->SetBinLabel(2, "");
-      signal[10]-> GetXaxis()->SetBinLabel(3, "eee");
-      signal[10]-> GetXaxis()->SetBinLabel(4, "");
-      signal[10]-> GetXaxis()->SetBinLabel(5, "");
-      signal[10]-> GetXaxis()->SetBinLabel(6, "");
-      signal[10]-> GetXaxis()->SetBinLabel(7, "");
-      signal[10]-> GetXaxis()->SetBinLabel(8, "");
-      signal[10]-> GetXaxis()->SetBinLabel(9, "e^{#pm}e^{#mp}#mu");
-      signal[10]-> GetXaxis()->SetBinLabel(10, "");
-      signal[10]-> GetXaxis()->SetBinLabel(11, "");
-      signal[10]-> GetXaxis()->SetBinLabel(12, "");
-      signal[10]-> GetXaxis()->SetBinLabel(13, "");
-      signal[10]-> GetXaxis()->SetBinLabel(14, "");
-      signal[10]-> GetXaxis()->SetBinLabel(15, "e^{#pm}e^{#pm}#mu");
-      signal[10]-> GetXaxis()->SetBinLabel(16, "");
-      signal[10]-> GetXaxis()->SetBinLabel(17, "");
-      signal[10]-> GetXaxis()->SetBinLabel(18, "");
+      signal[10]-> GetXaxis()->SetBinLabel(1, "< 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(2, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(3, "< 4 GeV   eee");
+      signal[10]-> GetXaxis()->SetBinLabel(4, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(5, "< 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(6, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(7, "< 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(8, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(9, "< 4 GeV    e^{#pm}e^{#mp}#mu");
+      signal[10]-> GetXaxis()->SetBinLabel(10, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(11, "< 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(12, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(13, "< 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(14, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(15, "< 4 GeV   e^{#pm}e^{#pm}#mu");
+      signal[10]-> GetXaxis()->SetBinLabel(16, "> 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(17, "< 4 GeV");
+      signal[10]-> GetXaxis()->SetBinLabel(18, "> 4 GeV");
 
-      signal[0]-> GetXaxis()->SetLabelSize(0.07);
-      signal[0]-> GetXaxis()->SetLabelOffset(0.01);
-      signal[10]-> GetXaxis()->SetLabelSize(0.07);
-      signal[10]-> GetXaxis()->SetLabelOffset(0.01);
+      signal[0]-> GetXaxis()->SetLabelSize(0.02);
+      signal[0]-> GetXaxis()->SetLabelOffset(0.02);
+      signal[10]-> GetXaxis()->SetLabelSize(0.02);
+      signal[10]-> GetXaxis()->SetLabelOffset(0.02);
+	    
+	    
+	    
+	    
+	    
+	    
     }
     
 
@@ -569,25 +575,42 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     if(ylog) p1->SetLogy();
     HistLabelSizes(data,0.1,0.1,0.07,0.07);
     
+ double scaling = 30;
     //Determine the maximum range of the histogram, depending on the maximum range of the bkg or data
     if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){
     if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[0]->GetBinContent(signal[0]->GetMaximumBin()) ){
         if(!ylog) signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
-        else signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
+        else {
+		if (istogramma !=0)signal[0]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
+		if (istogramma ==0)signal[0]->SetMaximum(3500000);
+
+	}
     }
     else{
         if(!ylog) signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*1.5);
-        else signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*30);
+        else {
+		if (istogramma !=0)signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*30);
+		if (istogramma ==0)signal[0]->SetMaximum(3500000);
+
+	} 
     }
     }
      if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){
     if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[10]->GetBinContent(signal[10]->GetMaximumBin()) ){
         if(!ylog) signal[10]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
-        else signal[10]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
+        else {
+		if (istogramma !=0)signal[10]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*30);
+		if (istogramma ==0)signal[10]->SetMaximum(3500000);
+
+	}
     }
     else{
         if(!ylog) signal[10]->SetMaximum(signal[10]->GetBinContent(signal[10]->GetMaximumBin())*1.5);
-        else signal[10]->SetMaximum(signal[10]->GetBinContent(signal[10]->GetMaximumBin())*30);
+        else {
+		if (istogramma !=0)signal[10]->SetMaximum(signal[10]->GetBinContent(signal[10]->GetMaximumBin())*30);
+		if (istogramma ==0)signal[10]->SetMaximum(3500000);
+
+	}
     }
     }
     
@@ -624,6 +647,199 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
             signal[sig]->Draw("histe same");
         }
     }
+	
+	if (istogramma == 0){
+		TLine *line = new TLine(6.5,0.02,6.5,50000);
+   line->SetLineWidth(10);
+   line->Draw();
+   line = new TLine(12.5,0.02,12.5,50000);
+   line->SetLineWidth(10);
+   line->Draw();
+   line = new TLine(2.5,20000,2.5,0.1);
+
+   ci = TColor::GetColor("#ff6600");
+   line->SetLineColor(ci);
+   line->SetLineWidth(6);
+   line->Draw();
+   line = new TLine(4.5,20000,4.5,0.1);
+
+   ci = TColor::GetColor("#ff6600");
+   line->SetLineColor(ci);
+   line->SetLineWidth(6);
+   line->Draw();
+   line = new TLine(8.5,20000,8.5,0.1);
+
+   ci = TColor::GetColor("#ff6600");
+   line->SetLineColor(ci);
+   line->SetLineWidth(6);
+   line->Draw();
+   line = new TLine(10.5,20000,10.5,0.1);
+
+   ci = TColor::GetColor("#ff6600");
+   line->SetLineColor(ci);
+   line->SetLineWidth(6);
+   line->Draw();
+   line = new TLine(14.5,20000,14.5,0.1);
+
+   ci = TColor::GetColor("#ff6600");
+   line->SetLineColor(ci);
+   line->SetLineWidth(6);
+   line->Draw();
+   line = new TLine(16.5,20000,16.5,0.1);
+
+   ci = TColor::GetColor("#ff6600");
+   line->SetLineColor(ci);
+   line->SetLineWidth(6);
+   line->Draw();
+      tex = new TLatex(0.8748578,17546.74,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.031586,21625.48,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.25285,33424.77,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.492553,48185.32,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.66772,54433.15,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.833668,62571.47,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.907423,91788.17,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(2.598872,137012.8,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.584746,8013.302,"");
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(1.12378,4134.047,"");
+   tex->SetTextSize(0.003034901);
+   tex->SetLineWidth(2);
+   tex->Draw();
+		
+      tex = new TLatex(0.9578318,13991.46,"#DeltaR < 2cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(2.857013,13991.46,"#DeltaR [2,10]cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(4.912923,13749.88,"#DeltaR > 10cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(0.9578318,13991.46,"#DeltaR < 2cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+		
+	tex = new TLatex(6.9578318,13991.46,"#DeltaR < 2cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(8.857013,13991.46,"#DeltaR [2,10]cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(10.912923,13749.88,"#DeltaR > 10cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();	
+		
+	tex = new TLatex(12.9578318,13991.46,"#DeltaR < 2cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(14.857013,13991.46,"#DeltaR [2,10]cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();
+      tex = new TLatex(16.912923,13749.88,"#DeltaR > 10cm");
+
+   ci = TColor::GetColor("#ff6600");
+   tex->SetTextColor(ci);
+   tex->SetTextSize(0.02);
+   tex->SetLineWidth(2);
+   tex->Draw();	
+		
+		
+	if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
+      tex = new TLatex(2.857013,43749.836,"#mu#mu#mu");
+   tex->SetTextColor(1);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
+ tex = new TLatex(8.857013,43749.836,"#mu^{#pm}#mu^{#mp}e");
+   tex->SetTextColor(1);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
+		tex = new TLatex(14.857013,43749.836,"#mu^{#pm}#mu^{#pm}e");
+   tex->SetTextColor(1);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
+	}	
+	if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
+      tex = new TLatex(2.857013,43749.836,"eee");
+   tex->SetTextColor(1);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
+ tex = new TLatex(8.857013,43749.836,"e^{#pm}e^{#mp}#mu");
+   tex->SetTextColor(1);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
+		tex = new TLatex(14.857013,43749.836,"e^{#pm}e^{#pm}#mu");
+   tex->SetTextColor(1);
+   tex->SetTextSize(0.07);
+   tex->SetLineWidth(2);
+   tex->Draw();
+	}	
+			
+	
+	}
+	
+	
+	
+	
+	
+	
     //redraw axis over histograms
     gPad->RedrawAxis();
     //CMS_lumi(c,"Preliminary", true);
