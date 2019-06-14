@@ -902,8 +902,8 @@ class Analysis_mc : public TObject {
     "multiboson", 
     "Xgamma",    
     "TTX",		
-    "non prompt SF",
-    "non prompt DF"
+    "nonprompt SF",
+    "nonprompt DF"
 
   };
 
