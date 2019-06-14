@@ -663,7 +663,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for (Long64_t it = 0; it < nEntries; ++it){
+    for (Long64_t it = 0; it < nEntries/1000; ++it){
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -1374,12 +1374,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	  }
 	  //	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	  plotDataVSMC(cat,cha,dist,
+	/*  plotDataVSMC(cat,cha,dist,
 		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 		       eff_names,numer_plot_class ,
 		       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		       true,
-		       2, true, signals,  sigNames_short, nSamples_signal, false);
+		       2, true, signals,  sigNames_short, nSamples_signal, false);*/
 			  
 	}
       }//end cat
@@ -1511,7 +1511,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Stream for writing card and tables
 	std::ofstream card, tabletexS, tabletexL;
 
-	/*tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
+	tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
 	tabletexL.open("tables_"+sgn+"_"+cpl+"_long.txt");
 
 	//
@@ -1628,7 +1628,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 	tabletexL << " \\\n \hline\n";
 	tabletexS << " \\\n \hline\n";
-*/
+
 	//
 	// ========================================================
 	//
