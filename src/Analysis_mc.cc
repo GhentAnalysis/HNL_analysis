@@ -1379,21 +1379,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	  }
 	  //	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-<<<<<<< HEAD
 	  // plotDataVSMC(cat,cha,dist,
 	  // 	       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 	  // 	       eff_names,numer_plot_class ,
 	  // 	       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 	  // 	       true,
 	  // 	       2, true, signals,  sigNames_short, nSamples_signal, false);
-=======
-	/*  plotDataVSMC(cat,cha,dist,
-		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-		       eff_names,numer_plot_class ,
-		       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-		       true,
-		       2, true, signals,  sigNames_short, nSamples_signal, false);*/
->>>>>>> e17130393bb7783848f985fa750fa735110f79e7
 			  
 	}
       }//end cat
@@ -1640,14 +1631,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  binstats[ibintmp] = 0.;
 	}
 	//
-<<<<<<< HEAD
 	tabletexL << " \\\\ \n \hline\n";
 	tabletexS << " \\\\ \n \hline\n";
-=======
-	tabletexL << " \\\n \hline\n";
-	tabletexS << " \\\n \hline\n";
-
->>>>>>> e17130393bb7783848f985fa750fa735110f79e7
 	//
 	// ========================================================
 	//
