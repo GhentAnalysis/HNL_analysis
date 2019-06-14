@@ -9,6 +9,7 @@
 #include <tuple>
 #include <set>
 
+#include "TSystem.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TTree.h"
@@ -456,15 +457,12 @@ void Analysis_mc::initTree(TTree *tree, const bool isData)
 void Analysis_mc::analisi( const std::string& list, const std::string& directory,
 			   std::string outfilename, int systcat, int systdir) {
 
-  std::ofstream zero("zero.txt"); 
-  std::ofstream one("one.txt");  
-  std::ofstream two("two.txt"); 
-  std::ofstream three("three.txt"); 
-  std::ofstream four("four.txt"); 
-  std::ofstream five("five.txt"); 
- 
-
-
+  // std::ofstream zero("zero.txt"); 
+  // std::ofstream one("one.txt");  
+  // std::ofstream two("two.txt"); 
+  // std::ofstream three("three.txt"); 
+  // std::ofstream four("four.txt"); 
+  // std::ofstream five("five.txt"); 
   
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
@@ -473,13 +471,19 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     std::cout << " >>> Dummy message (to avoid warnings): systdir " << systdir << std::endl;
   }
 
-	
+  // Are we running in local or on T2B?
+  TString cwd(gSystem->pwd());
+  bool ist2b = cwd.BeginsWith("/storage_mnt");
+  //bool isdtl = (ist2b==false && cwd.Contains("trocino"));
+  //if(isdtl==false) ist2b = true;
+
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
 
-  //TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
-  TFile hfile_pu("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
-  pileUpWeight[0] = (TH1D*)hfile_pu.Get("puw_Run2016Inclusive_central");
+  TFile *hfile_pu = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
 
   TGraphAsymmErrors *fakeRate_mu[3];
@@ -489,44 +493,42 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   TGraphAsymmErrors *fakeRate_mue[3];
 
 
-  //TFile hfile1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mu.root");
-  TFile hfile1("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
-  fakeRate_mu[0] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta1");
-  fakeRate_mu[1] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta2");
-  fakeRate_mu[2] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta3");
-  //TFile hfile2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_e.root");
-  TFile hfile2("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_e.root");
-  fakeRate_e[0] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta1");
-  fakeRate_e[1] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta2");
-  fakeRate_e[2] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta3");
-  //TFile hfile_dfr1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mumu.root");
-  TFile hfile_dfr1("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root");
-  fakeRate_mumu[0]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta1");
-  fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta2");
-  fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta3");
-  //TFile hfile_dfr2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_ee.root");
-  TFile hfile_dfr2("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_ee.root");
-  fakeRate_ee[0]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta1");
-  fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta2");
-  fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta3");
-  //TFile hfile_dfr3("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_emu.root");
-  TFile hfile_dfr3("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_emu.root");
-  fakeRate_mue[0]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta1");
-  fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta2");
-  fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta3");
-
-
-
-
+  TFile *hfile1 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mu.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
+  fakeRate_mu[0] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta1");
+  fakeRate_mu[1] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta2");
+  fakeRate_mu[2] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta3");
+  TFile *hfile2 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_e.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_e.root");
+  fakeRate_e[0] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta1");
+  fakeRate_e[1] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta2");
+  fakeRate_e[2] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta3");
+  TFile *hfile_dfr1 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mumu.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root");
+  fakeRate_mumu[0]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
+  fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta2");
+  fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta3");
+  TFile *hfile_dfr2 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_ee.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_ee.root");
+  fakeRate_ee[0]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
+  fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta2");
+  fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta3");
+  TFile *hfile_dfr3 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_emu.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_emu.root");
+  fakeRate_mue[0]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
+  fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta2");
+  fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta3");
   
-  if (year == 0 ) {
-   
+  if(year==0) {
   }
-  else if (year == 1 ) {
-
+  else if(year==1) {
   }
   else {
-
   }
 
   // Displaced electron efficiency errors
@@ -866,14 +868,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
       
 
-      if (samples[sam].getProcessName() == "DY" )   {    
-	zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		     _runNb, _lumiBlock, _eventNb,  
-		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		     _met)<< std::endl;
-      }
+      // if (samples[sam].getProcessName() == "DY" )   {    
+      // 	zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+      // 		     _runNb, _lumiBlock, _eventNb,  
+      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+      // 		     _met)<< std::endl;
+      // }
 
       //vertex l2l3 info
       int index_l2l3= l2l3_vertex_variable (l2,l3);      
@@ -919,14 +921,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
       if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
       if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
-      if (samples[sam].getProcessName() == "DY" )   {    
-	one << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		    _runNb, _lumiBlock, _eventNb,  
-		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		    _met)<< std::endl;
-      }
+      // if (samples[sam].getProcessName() == "DY" )   {    
+      // 	one << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+      // 		    _runNb, _lumiBlock, _eventNb,  
+      // 		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+      // 		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+      // 		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+      // 		    _met)<< std::endl;
+      // }
 
       // ------------ closest jet info --------------------------------------//
       TLorentzVector  l1Jet[1] ;
@@ -960,14 +962,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
       if (isOnlyMC && sideBandRegion) continue;
       if (isOnlyMC && tightC != 2) continue;
-      if (samples[sam].getProcessName() == "DY" )   {    
-	two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		    _runNb, _lumiBlock, _eventNb,  
-		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		    _met)<< std::endl;
-      }
+      // if (samples[sam].getProcessName() == "DY" )   {    
+      // 	two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+      // 		    _runNb, _lumiBlock, _eventNb,  
+      // 		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+      // 		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+      // 		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+      // 		    _met)<< std::endl;
+      // }
 
       // ------------------ prompt check for MC ------------------------//
       promptC=0;
@@ -1000,14 +1002,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       
       if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
       if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;
-      if (samples[sam].getProcessName() == "DY" )   {    
-	three << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		      _runNb, _lumiBlock, _eventNb,  
-		      (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		      (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		      (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		      _met)<< std::endl;
-      }
+      // if (samples[sam].getProcessName() == "DY" )   {    
+      // 	three << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+      // 		      _runNb, _lumiBlock, _eventNb,  
+      // 		      (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+      // 		      (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+      // 		      (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+      // 		      _met)<< std::endl;
+      // }
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       bool internal_conv= true;
@@ -1022,14 +1024,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
 
 
-      if (samples[sam].getProcessName() == "DY" )   {    
-	four << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		     _runNb, _lumiBlock, _eventNb,  
-		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		     _met)<< std::endl;
-      }
+      // if (samples[sam].getProcessName() == "DY" )   {    
+      // 	four << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+      // 		     _runNb, _lumiBlock, _eventNb,  
+      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+      // 		     _met)<< std::endl;
+      // }
       if (photonOverlap (samples[sam])) continue;
       
       // -----------------   function useful    --------------------------------//
@@ -1123,14 +1125,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (!selection_0) continue;
 
       
-      if (selection_final && samples[sam].getProcessName() == "DY" )   {    
-	five << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-		     _runNb, _lumiBlock, _eventNb,  
-		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-		     _met)<< std::endl;
-      }
+      // if (selection_final && samples[sam].getProcessName() == "DY" )   {    
+      // 	five << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
+      // 		     _runNb, _lumiBlock, _eventNb,  
+      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
+      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
+      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
+      // 		     _met)<< std::endl;
+      // }
 
       // Systematics on displaced muons
       double displMuoWeight = 1.;
