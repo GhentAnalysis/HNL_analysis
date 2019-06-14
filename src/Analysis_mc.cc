@@ -1518,8 +1518,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Stream for writing card and tables
 	std::ofstream card, tabletexS, tabletexL;
 
-	tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
-	tabletexL.open("tables_"+sgn+"_"+cpl+"_long.txt");
+	tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
+	tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
 
 	//
 	// ========================================================
@@ -1640,7 +1640,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 
 	// Add .txt to name if no file extension is given
-	std::string cardName = sgn+"_"+cpl+"_datacard.txt";
+	std::string cardName = "dataCards_shapeRoot/"+sgn+"_"+cpl+"_datacard.txt";
 	card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
 	// Define number of channels, background sources and systematics
 	card << "imax 1 number of channels\n";
@@ -1755,7 +1755,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	std::string cpl = couplings[icoup];
 
 	// ROOT file with shapes
-	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+	std::string rootfilename = "dataCards_shapeRoot/"+outfilename+"_"+sgn+"_"+cpl+".root";
 	TFile *rootfile = TFile::Open(rootfilename.c_str(), "UPDATE");
 	rootfile->cd();
 	dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
