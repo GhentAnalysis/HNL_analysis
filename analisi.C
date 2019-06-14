@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include "TSystem.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TTree.h"
@@ -36,32 +37,39 @@ int main ();
 
 // ********************************************************************
 int main(){
-    // Double_t pigreco= TMath::ACos(-1);
+  // Are we running in local or on T2B?
+  TString cwd(gSystem->pwd());
+  bool ist2b = cwd.BeginsWith("/storage_mnt");
+  //bool isdtl = (ist2b==false && cwd.Contains("trocino"));
+  //if(isdtl==false) ist2b = true;
 
-    // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
-    std::cout << "---------------------------" << std::endl;
-    unsigned year = 0;
+  // Double_t pigreco= TMath::ACos(-1);
 
-//==========================================================================================
-    //Analysis_mc all(year, "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt", "/pnfs/iihe/cms/store/user/mvit/samples/2016/");
-    //Analysis_mc all(year, "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/test_daniel.txt", "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/");
-    Analysis_mc all(year);
+  // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
+  std::cout << "---------------------------" << std::endl;
+  unsigned year = 0;
 
-    //std::string alist = "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt";
-    std::string alist = "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/test_daniel.txt";
-    std::string adir  = "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/";
-    std::string basename = "shape_file";
-    //                                 0   1     2      3      4       5       6        7        8      9      10
-    const std::string systNames[] = { "", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag"};
-    //const size_t nsysts = sizeof(systNames)/sizeof(systNames[0]);
+  //==========================================================================================
+  Analysis_mc all(year);
 
-    all.analisi(alist, adir, basename.c_str(), 0, 0);
-    // for(size_t i=1; i<nsysts; ++i) {  // skip i=0
-    //   // Skip the following for now:
-    //   // pu      qcd,    pdf,    pEle,   pMuo,   jec,    jer
-    //   //if(i==1 || i==4 || i==5 || i==8 || i==9) continue;    
-    //   all.analisi(alist, adir, basename.c_str(), i, 0);  
-    //   all.analisi(alist, adir, basename.c_str(), i, 1);    
-    // }
-    return 0;
+  std::string alist = ist2b ?
+    "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt" :
+    "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/test_daniel.txt";
+  std::string adir = ist2b ?
+    "/pnfs/iihe/cms/store/user/mvit/samples/2016/" :
+    "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/";
+  std::string basename = "shape_file";
+  //                                 0   1     2      3      4       5       6        7        8      9      10
+  const std::string systNames[] = { "", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag"};
+  //const size_t nsysts = sizeof(systNames)/sizeof(systNames[0]);
+
+  all.analisi(alist, adir, basename.c_str(), 0, 0);
+  // for(size_t i=1; i<nsysts; ++i) {  // skip i=0
+  //   // Skip the following for now:
+  //   // pu      qcd,    pdf,    pEle,   pMuo,   jec,    jer
+  //   //if(i==1 || i==4 || i==5 || i==8 || i==9) continue;    
+  //   all.analisi(alist, adir, basename.c_str(), i, 0);  
+  //   all.analisi(alist, adir, basename.c_str(), i, 1);    
+  // }
+  return 0;
 }
