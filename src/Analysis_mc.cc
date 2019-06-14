@@ -1500,6 +1500,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   if(systcat==0) { // print data card only if systcat==0
     // Size of tab
     const size_t ntab = 16;
+    std::string datacarddir = "dataCards_shapeRoot";
 
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
@@ -1510,7 +1511,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
 	// ROOT file with shapes
 	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
-	TFile *rootfile = new TFile(rootfilename.c_str(), "RECREATE");
+	TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
 	rootfile->cd();
 	dataYields[0][couplidx[icoup]][6]->Write("data_obs");
 	Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
@@ -1640,7 +1641,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 
 	// Add .txt to name if no file extension is given
-	std::string cardName = "dataCards_shapeRoot/"+sgn+"_"+cpl+"_datacard.txt";
+	std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard.txt";
 	card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
 	// Define number of channels, background sources and systematics
 	card << "imax 1 number of channels\n";
@@ -1755,8 +1756,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	std::string cpl = couplings[icoup];
 
 	// ROOT file with shapes
-	std::string rootfilename = "dataCards_shapeRoot/"+outfilename+"_"+sgn+"_"+cpl+".root";
-	TFile *rootfile = TFile::Open(rootfilename.c_str(), "UPDATE");
+	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+	TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
 	rootfile->cd();
 	dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
 	Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());
