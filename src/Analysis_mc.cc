@@ -477,8 +477,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
 
-  TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
-  //TFile hfile_pu("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190318_MartinasCode/samples.noSync/2016/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  //TFile hfile_pu("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  TFile hfile_pu("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu.Get("puw_Run2016Inclusive_central");
 
 
@@ -489,23 +489,28 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   TGraphAsymmErrors *fakeRate_mue[3];
 
 
-  TFile hfile1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mu.root");
+  //TFile hfile1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mu.root");
+  TFile hfile1("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
   fakeRate_mu[0] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta1");
   fakeRate_mu[1] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta2");
   fakeRate_mu[2] = (TGraphAsymmErrors*)hfile1.Get("fakeRate_mu_eta3");
-  TFile hfile2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_e.root");
+  //TFile hfile2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_e.root");
+  TFile hfile2("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_e.root");
   fakeRate_e[0] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta1");
   fakeRate_e[1] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta2");
   fakeRate_e[2] = (TGraphAsymmErrors*)hfile2.Get("fakeRate_e_eta3");
-  TFile hfile_dfr1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mumu.root");
+  //TFile hfile_dfr1("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mumu.root");
+  TFile hfile_dfr1("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root");
   fakeRate_mumu[0]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta1");
   fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta2");
   fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1.Get("fakeRate_mu_eta3");
-  TFile hfile_dfr2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_ee.root");
+  //TFile hfile_dfr2("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_ee.root");
+  TFile hfile_dfr2("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_ee.root");
   fakeRate_ee[0]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta1");
   fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta2");
   fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2.Get("fakeRate_e_eta3");
-  TFile hfile_dfr3("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_emu.root");
+  //TFile hfile_dfr3("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_emu.root");
+  TFile hfile_dfr3("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_emu.root");
   fakeRate_mue[0]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta1");
   fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta2");
   fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3.Get("fakeRate_emu_eta3");
@@ -663,7 +668,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for (Long64_t it = 0; it < nEntries; ++it){
+    for (Long64_t it = 0; it < nEntries/1000; ++it){
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -1374,12 +1379,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	  }
 	  //	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	  plotDataVSMC(cat,cha,dist,
-		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-		       eff_names,numer_plot_class ,
-		       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-		       true,
-		       2, true, signals,  sigNames_short, nSamples_signal, false);
+	  // plotDataVSMC(cat,cha,dist,
+	  // 	       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+	  // 	       eff_names,numer_plot_class ,
+	  // 	       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+	  // 	       true,
+	  // 	       2, true, signals,  sigNames_short, nSamples_signal, false);
 			  
 	}
       }//end cat
@@ -1454,16 +1459,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
   // List of signal and background labels (for tables)
-/*  std::map<std::string, std::string> labelPerProc;
-  labelPerProc["signal"    ] = "signal"; // to be changed...
-  labelPerProc["DY"        ] = "Z\rarrll";
-  labelPerProc["ttbar"     ] = "Top";
-  labelPerProc["WJets"     ] = "W #plus jets";
-  labelPerProc["multiboson"] = "Multiboson";
-  labelPerProc["Xgamma"    ] = "X #plus #gamma";
-  labelPerProc["TTTX"      ] = "TTTX";
-  labelPerProc["nonprompt" ] = "Nonprompt";*/
-  
+  // std::map<std::string, std::string> labelPerProc;
+  // labelPerProc["signal"    ] = "signal"; // to be changed...
+  // labelPerProc["DY"        ] = "Z\rarrll";
+  // labelPerProc["ttbar"     ] = "Top";
+  // labelPerProc["WJets"     ] = "W #plus jets";
+  // labelPerProc["multiboson"] = "Multiboson";
+  // labelPerProc["Xgamma"    ] = "X #plus #gamma";
+  // labelPerProc["TTTX"      ] = "TTTX";
+  // labelPerProc["nonprompt" ] = "Nonprompt";
+
   // List of systematics
   const std::string systNames[] = { "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npnorm"};
   const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]);
@@ -1511,7 +1516,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Stream for writing card and tables
 	std::ofstream card, tabletexS, tabletexL;
 
-	/*tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
+	tabletexS.open("tables_"+sgn+"_"+cpl+"_short.txt");
 	tabletexL.open("tables_"+sgn+"_"+cpl+"_long.txt");
 
 	//
@@ -1527,43 +1532,43 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 	// Write table: signal
 	// Row header
-	tabletexL << left << std::setw(ntab) << "signal";
-	tabletexS << left << std::setw(ntab) << "signal";
+	tabletexL << left << std::setw(ntab/4*3) << "signal";
+	tabletexS << left << std::setw(ntab/4*3) << "signal";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
+	  tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
 		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1);
 	  // Group by final state
 	  /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	  size_t ibintmp = ibin%6;
+	  size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
 	  binconts[ibintmp] += Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1);
 	  binstats[ibintmp] += Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1);
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << binconts[ibintmp]
+	  tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << binconts[ibintmp]
 		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
 	  binconts[ibintmp] = 0.;
 	  binstats[ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\n \hline\n";
-	tabletexS << " \\\n \hline\n";
+	tabletexL << " \\\\ \n \hline\n";
+	tabletexS << " \\\\ \n \hline\n";
  
 	//
 	// Write table: backgrounds
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  // Row header
-	  tabletexL << left << std::setw(ntab) << bkgNames[bkg];
-	  tabletexS << left << std::setw(ntab) << bkgNames[bkg];
+	  tabletexL << left << std::setw(ntab/4*3) << bkgNames[bkg];
+	  tabletexS << left << std::setw(ntab/4*3) << bkgNames[bkg];
 	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
+	    tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
 		      << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
 	    // Add to total background
 	    totconts[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
 	    totstats[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
 	    // Group by final state
 	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	    size_t ibintmp = ibin%6;
+	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
 	    binconts[ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
 	    binstats[ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
 	    // Add to total background!
@@ -1572,63 +1577,62 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  }
 	  //
 	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << binconts[ibintmp]
+	    tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << binconts[ibintmp]
 		      << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
 	    binconts[ibintmp] = 0.;
 	    binstats[ibintmp] = 0.;
 	  }
 	  //
-	  tabletexL << " \\\n \hline\n";
-	  tabletexS << " \\\n \hline\n";
+	  tabletexL << " \\\\ \n \hline\n";
+	  tabletexS << " \\\\ \n \hline\n";
 	}
 
 	//
 	// Write table: total background
 	// Row header
-	tabletexL << left << std::setw(ntab) << "Total background";
-	tabletexS << left << std::setw(ntab) << "Total background";
+	tabletexL << left << std::setw(ntab/4*3) << "Total background";
+	tabletexS << left << std::setw(ntab/4*3) << "Total background";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << totconts[ibin]
+	  tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << totconts[ibin]
 		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin]);
 	  totconts[ibin] = 0.;
 	  totstats[ibin] = 0.;
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << totconts[nsrbins+ibintmp]
+	  tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << totconts[nsrbins+ibintmp]
 		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp]);
 	  totconts[nsrbins+ibintmp] = 0.;
 	  totstats[nsrbins+ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\n \hline\n";
-	tabletexS << " \\\n \hline\n";
+	tabletexL << " \\\\ \n \hline\n";
+	tabletexS << " \\\\ \n \hline\n";
 
 	//
 	// Write table: data
 	// Row header
-	tabletexL << left << std::setw(ntab) << "Observed";
-	tabletexS << left << std::setw(ntab) << "Observed";
+	tabletexL << left << std::setw(ntab/4*3) << "Observed";
+	tabletexS << left << std::setw(ntab/4*3) << "Observed";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & "   << left << std::setw(ntab)   << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
+	  tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
 		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
 	  // Group by final state
 	  /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	  size_t ibintmp = ibin%6;
+	  size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
 	  binconts[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
 	  binstats[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & "   << left << std::setw(ntab)   << std::setprecision(2) << binconts[ibintmp]
+	  tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << binconts[ibintmp]
 		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
 	  binconts[ibintmp] = 0.;
 	  binstats[ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\n \hline\n";
-	tabletexS << " \\\n \hline\n";
-*/
+	tabletexL << " \\\\ \n \hline\n";
+	tabletexS << " \\\\ \n \hline\n";
 	//
 	// ========================================================
 	//
