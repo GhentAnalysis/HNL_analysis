@@ -47,9 +47,10 @@ int main(){
     //Analysis_mc all(year, "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/test_daniel.txt", "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/");
     Analysis_mc all(year);
 
-    //std::string alist = "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt";
-    std::string alist = "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/test_daniel.txt";
-    std::string adir  = "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/";
+    std::string alist = "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016.txt";
+    //std::string alist = "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/test_daniel.txt";
+     std::string adir  = "/pnfs/iihe/cms/store/user/mvit/samples/2016/";
+    //std::string adir  = "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/";
     std::string basename = "shape_file";
     //                                 0   1     2      3      4       5       6        7        8      9      10
     const std::string systNames[] = { "", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag"};
