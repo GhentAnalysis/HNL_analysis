@@ -1554,8 +1554,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  binstats[ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\\ \n \hline\n";
-	tabletexS << " \\\\ \n \hline\n";
+	tabletexL << " \\\\ \n \\hline\n";
+	tabletexS << " \\\\ \n \\hline\n";
  
 	//
 	// Write table: backgrounds
@@ -1586,8 +1586,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    binstats[ibintmp] = 0.;
 	  }
 	  //
-	  tabletexL << " \\\\ \n \hline\n";
-	  tabletexS << " \\\\ \n \hline\n";
+	  tabletexL << " \\\\ \n \\hline\n";
+	  tabletexS << " \\\\ \n \\hline\n";
 	}
 
 	//
@@ -1609,8 +1609,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  totstats[nsrbins+ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\\ \n \hline\n";
-	tabletexS << " \\\\ \n \hline\n";
+	tabletexL << " \\\\ \n \\hline\n";
+	tabletexS << " \\\\ \n \\hline\n";
 
 	//
 	// Write table: data
@@ -1634,8 +1634,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  binstats[ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\\ \n \hline\n";
-	tabletexS << " \\\\ \n \hline\n";
+	tabletexL << " \\\\ \n \\hline\n";
+	tabletexS << " \\\\ \n \\hline\n";
 	//
 	// ========================================================
 	//
