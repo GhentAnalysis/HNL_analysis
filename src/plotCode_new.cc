@@ -64,7 +64,7 @@ void yieldOrder(TH1D**& hists, unsigned* histInd, const unsigned nHist){
   unsigned ordered[nHist];
   for(unsigned h = 0; h < nHist; ++h) ordered[h] = 999;
   for(unsigned h = 0; h < nHist; ++h){
-    unsigned maxH = 999;
+    //unsigned maxH = 999;
     double maxYield = -9999.;
     for(unsigned k = 0; k <nHist; ++k){
       bool found = false;
@@ -78,7 +78,7 @@ void yieldOrder(TH1D**& hists, unsigned* histInd, const unsigned nHist){
 	double yield = hists[k]->GetSumOfWeights();
 	if(yield > maxYield){
 	  maxYield = yield;
-	  maxH = k;
+	  //maxH = k;
 	}
       }
     }

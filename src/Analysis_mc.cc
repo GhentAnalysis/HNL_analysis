@@ -528,24 +528,24 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
   // ------------ b tagging -----------------------------------------------//
   // b-tagging working points (DeepCsv_b + DeepCsv_bb)
-  double btagCuts[3][3];
+  //double btagCuts[3][3];
   // selected WP (0: loose; 1: medium; 2: tight)
   BTagEntry::OperatingPoint bwp = BTagEntry::OP_LOOSE;    // = 0
   //BTagEntry::OperatingPoint bwp = BTagEntry::OP_MEDIUM; // = 1
   //BTagEntry::OperatingPoint bwp = BTagEntry::OP_TIGHT;  // = 2
 
-  //  - 2016
-  btagCuts[0][0] = bjet_loose_2016; // loose
-  btagCuts[0][1] = 0.6321; // medium
-  btagCuts[0][2] = 0.8953; // tight
-  //  - 2017
-  btagCuts[1][0] = bjet_loose_2017; // loose
-  btagCuts[1][1] = 0.4941; // medium
-  btagCuts[1][2] = 0.8001; // tight
-  //  - 2018
-  btagCuts[2][0] = bjet_loose_2018; // loose
-  btagCuts[2][1] = 0.4184; // medium
-  btagCuts[2][2] = 0.7527; // tight
+  // //  - 2016
+  // btagCuts[0][0] = bjet_loose_2016; // loose
+  // btagCuts[0][1] = 0.6321; // medium
+  // btagCuts[0][2] = 0.8953; // tight
+  // //  - 2017
+  // btagCuts[1][0] = bjet_loose_2017; // loose
+  // btagCuts[1][1] = 0.4941; // medium
+  // btagCuts[1][2] = 0.8001; // tight
+  // //  - 2018
+  // btagCuts[2][0] = bjet_loose_2018; // loose
+  // btagCuts[2][1] = 0.4184; // medium
+  // btagCuts[2][2] = 0.7527; // tight
 
   // B-tagging calibration + reader
   BTagCalibration calib("DeepCSV", (year==0 ? "DeepCSV_2016LegacySF_WP_V1.csv" : (year==1 ? "DeepCSV_94XSF_WP_V4_B_F.csv" : "DeepCSV_102XSF_WP_V1.csv")));
@@ -558,8 +558,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      "comb");           // measurement type
 
   // ------------   samples info -----------------------------------------------//
-  std::vector <Sample> samples  = readSampleList(list, directory);
-  std::cout<<"i am in the analysis number:  "<< systcat<<std::endl;
+  std::vector<Sample> samples = readSampleList(list, directory);
+  // std::cout << "I am in the analysis number:  " << systcat << std::endl;
   // pdf!
   std::vector<unsigned> theoSystVars;
   bool runtheosyst = (systcat==2 || systcat==3);
@@ -744,10 +744,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	_ptReal[i]=_lPt[i];
 	_EReal[i] =_lE[i];
       }
-      int _lIndex[_nL];
-      for(unsigned i = 0; i < _nL; ++i){
-	_lIndex[i] = i+1;
-      }
+      // int _lIndex[_nL];
+      // for(unsigned i = 0; i < _nL; ++i){
+      // 	_lIndex[i] = i+1;
+      // }
       //select leptons
       const unsigned lCount = selectLepConeCorr(ind);
       if (lCount < 3) continue;
@@ -765,7 +765,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
       }
       for (unsigned j =0; j < _nJets ; j++){
-	if(jetIsBJet(j)  && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
+	if(jetIsBJet(j) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
 	  double bjetSf = 1.;
 	  // b-jet systematics
 	  if(systcat==10) {
@@ -1004,16 +1004,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // }
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      bool internal_conv= true;
-      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
-      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
-      if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) internal_conv = false;
-      bool external_conv= false;
-      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
-      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
-      if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) external_conv = true;    
-      //if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-      //if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
+      // bool internal_conv= true;
+      // if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
+      // if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
+      // if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) internal_conv = false;
+      // bool external_conv= false;
+      // if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
+      // if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
+      // if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) external_conv = true;    
+      // if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
+      // if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
 
 
       // if (samples[sam].getProcessName() == "DY" )   {    
@@ -1109,6 +1109,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (charge_3l[2] != charge_3l[1])                                        selection_0 = true;
       if ( selection_0 && v4l2.DeltaR(v4l3) < 1)                               selection_1 = true;
       if ( selection_1 && bjet == 0 )                                          selection_2 = true;
+      else {
+	// If there are b-jets, do not skip the event, just give it a small weight, (1-SF)
+	//  N.B.:  the "rejected" events Nr are scaled to Nr' = Nr * SF ==> DNr = Nr' - Nr = (SF-1)*Nr
+	//         the "accepted" events Na are corrected to Na' = Na - DNr = Na - (SF-1)*Nr = Na + (1-SF)*Nr
+	scal *= (1. - bwght);
+	selection_2 = true;
+      }
       if ( selection_2 && M_3L_combined > 45 && M_3L_combined < 85)            selection_3 = true;
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
@@ -1358,9 +1365,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
   }
 
-  int numer_plot_class =0;
-  if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
-  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 1;
+  // int numer_plot_class =0;
+  // if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
+  // if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 1;
   
  
   //TH1D* signals[nSamples_signal];

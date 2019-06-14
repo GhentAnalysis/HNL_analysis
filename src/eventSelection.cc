@@ -116,8 +116,8 @@ bool Analysis_mc::vertex_found(const unsigned leptonIndex1, const unsigned lepto
   int Index1 = leptonIndex1+1;
   int Index2 = leptonIndex2+1;
  
-  bool fuck = false;
-  fuck = (vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) );
+  // bool fuck = false;
+  // fuck = (vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) );
   //std::cout<<"fuck "<<fuck<<std::endl;
   return ((vertex_index == (Index1*100 + Index2) ) || (vertex_index == (Index1 + Index2*100) ) );
 }
