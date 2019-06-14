@@ -67,9 +67,7 @@ Analysis_mc::Analysis_mc():TObject()
 }
 
 //_______________________________________________________ constructor_____
-Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::string& directory) : TObject()
-
-{
+Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
   if(jaar>2) {
     std::cout << " --- WARNING: invalid value for 'year' variable (" << jaar
 	      << "), setting it to 0 (i.e. 2016) ---" << std::endl;
@@ -82,13 +80,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     year = jaar;
   }
 
-
-
-  
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> histogramms creation >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  
-  
 
   for(int i = 0; i < nDist; ++i){
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
@@ -162,7 +154,7 @@ void Analysis_mc::initSample(const Sample& samp){
   sampleFile = samp.getFile();
   sampleFile->cd("blackJackAndHookers");
   fChain = (TTree*) sampleFile->Get("blackJackAndHookers/blackJackAndHookersTree");
-  initTree(fChain, samp.isData());
+  initTree(fChain, samp.isData(), samp.isNewPhysicsSignal());
   nEntries = fChain->GetEntries();
   if(!samp.isData()){
 
@@ -204,7 +196,7 @@ void Analysis_mc::GetEntry(long unsigned entry){    //currently initialized samp
   GetEntry(samples[currentSampleIndex], entry);
 }
 //_______________________________________________________ initialize tree ____
-void Analysis_mc::initTree(TTree *tree, const bool isData)
+void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
 {
   // Set branch addresses and branch pointers
   if (!tree) return;
@@ -216,13 +208,13 @@ void Analysis_mc::initTree(TTree *tree, const bool isData)
   fChain->SetBranchAddress("_eventNb", &_eventNb, &b__eventNb);
   fChain->SetBranchAddress("_nVertex", &_nVertex, &b__nVertex);   
   fChain->SetBranchAddress("_passMETFilters", &_passMETFilters, &b__passMETFilters);
-  fChain->SetBranchAddress("_Flag_goodVertices", &_Flag_goodVertices, &b__Flag_goodVertices);
-  fChain->SetBranchAddress("_Flag_HBHENoiseFilter", &_Flag_HBHENoiseFilter, &b__Flag_HBHENoiseFilter);
-  fChain->SetBranchAddress("_Flag_HBHENoiseIsoFilter", &_Flag_HBHENoiseIsoFilter, &b__Flag_HBHENoiseIsoFilter);
-  fChain->SetBranchAddress("_Flag_EcalDeadCellTriggerPrimitiveFilter", &_Flag_EcalDeadCellTriggerPrimitiveFilter, &b__Flag_EcalDeadCellTriggerPrimitiveFilter);
-  fChain->SetBranchAddress("_Flag_BadPFMuonFilter", &_Flag_BadPFMuonFilter, &b__Flag_BadPFMuonFilter);
-  fChain->SetBranchAddress("_Flag_BadChargedCandidateFilter", &_Flag_BadChargedCandidateFilter, &b__Flag_BadChargedCandidateFilter);
-  //fChain->SetBranchAddress("_updated_ecalBadCalibFilter", &_updated_ecalBadCalibFilter, &b__updated_ecalBadCalibFilter);  
+  // fChain->SetBranchAddress("_Flag_goodVertices", &_Flag_goodVertices, &b__Flag_goodVertices);
+  // fChain->SetBranchAddress("_Flag_HBHENoiseFilter", &_Flag_HBHENoiseFilter, &b__Flag_HBHENoiseFilter);
+  // fChain->SetBranchAddress("_Flag_HBHENoiseIsoFilter", &_Flag_HBHENoiseIsoFilter, &b__Flag_HBHENoiseIsoFilter);
+  // fChain->SetBranchAddress("_Flag_EcalDeadCellTriggerPrimitiveFilter", &_Flag_EcalDeadCellTriggerPrimitiveFilter, &b__Flag_EcalDeadCellTriggerPrimitiveFilter);
+  // fChain->SetBranchAddress("_Flag_BadPFMuonFilter", &_Flag_BadPFMuonFilter, &b__Flag_BadPFMuonFilter);
+  // fChain->SetBranchAddress("_Flag_BadChargedCandidateFilter", &_Flag_BadChargedCandidateFilter, &b__Flag_BadChargedCandidateFilter);
+  // fChain->SetBranchAddress("_updated_ecalBadCalibFilter", &_updated_ecalBadCalibFilter, &b__updated_ecalBadCalibFilter);  
   fChain->SetBranchAddress("_passTrigger_1l", &_passTrigger_1l, &b__passTrigger_1l);   
   fChain->SetBranchAddress("_HLT_IsoMu24", &_HLT_IsoMu24, &b__HLT_IsoMu24);
   if (year==0) fChain->SetBranchAddress("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, &b__HLT_IsoTkMu24);
@@ -349,19 +341,19 @@ void Analysis_mc::initTree(TTree *tree, const bool isData)
   fChain->SetBranchAddress("_lMuonSegComp", _lMuonSegComp, &b__lMuonSegComp);
   fChain->SetBranchAddress("_lMuonTrackPt", _lMuonTrackPt, &b__lMuonTrackPt);
   fChain->SetBranchAddress("_lMuonTrackPtErr", _lMuonTrackPtErr, &b__lMuonTrackPtErr);   
-  fChain->SetBranchAddress("_lPtCorr", _lPtCorr, &b__lPtCorr);
-  fChain->SetBranchAddress("_lPtScaleUp", _lPtScaleUp, &b__lPtScaleUp);
-  fChain->SetBranchAddress("_lPtScaleDown", _lPtScaleDown, &b__lPtScaleDown);
-  fChain->SetBranchAddress("_lPtResUp", _lPtResUp, &b__lPtResUp);
-  fChain->SetBranchAddress("_lPtResDown", _lPtResDown, &b__lPtResDown);
-  fChain->SetBranchAddress("_lECorr", _lECorr, &b__lECorr);
-  fChain->SetBranchAddress("_lEScaleUp", _lEScaleUp, &b__lEScaleUp);
-  fChain->SetBranchAddress("_lEScaleDown", _lEScaleDown, &b__lEScaleDown);
-  fChain->SetBranchAddress("_lEResUp", _lEResUp, &b__lEResUp);
-  fChain->SetBranchAddress("_lEResDown", _lEResDown, &b__lEResDown);
+  // fChain->SetBranchAddress("_lPtCorr", _lPtCorr, &b__lPtCorr);
+  // fChain->SetBranchAddress("_lPtScaleUp", _lPtScaleUp, &b__lPtScaleUp);
+  // fChain->SetBranchAddress("_lPtScaleDown", _lPtScaleDown, &b__lPtScaleDown);
+  // fChain->SetBranchAddress("_lPtResUp", _lPtResUp, &b__lPtResUp);
+  // fChain->SetBranchAddress("_lPtResDown", _lPtResDown, &b__lPtResDown);
+  // fChain->SetBranchAddress("_lECorr", _lECorr, &b__lECorr);
+  // fChain->SetBranchAddress("_lEScaleUp", _lEScaleUp, &b__lEScaleUp);
+  // fChain->SetBranchAddress("_lEScaleDown", _lEScaleDown, &b__lEScaleDown);
+  // fChain->SetBranchAddress("_lEResUp", _lEResUp, &b__lEResUp);
+  // fChain->SetBranchAddress("_lEResDown", _lEResDown, &b__lEResDown);
   //if(!isData) fChain->SetBranchAddress("_nJets", &_nJets, &b__nJets);
   //if(isData) fChain->SetBranchAddress("_nJets", &_nJets_data, &b__nJets);
-	fChain->SetBranchAddress("_nJets", &_nJets, &b__nJets);
+  fChain->SetBranchAddress("_nJets", &_nJets, &b__nJets);
   fChain->SetBranchAddress("_jetPt", _jetPt, &b__jetPt);
   fChain->SetBranchAddress("_jetPt_JECDown", _jetPt_JECDown, &b__jetPt_JECDown);
   fChain->SetBranchAddress("_jetPt_JECUp", _jetPt_JECUp, &b__jetPt_JECUp);
@@ -393,13 +385,13 @@ void Analysis_mc::initTree(TTree *tree, const bool isData)
   fChain->SetBranchAddress("_jetHFHadronFraction", _jetHFHadronFraction, &b__jetHFHadronFraction);
   fChain->SetBranchAddress("_jetHFEmFraction", _jetHFEmFraction, &b__jetHFEmFraction);
   fChain->SetBranchAddress("_met", &_met, &b__met);
-  fChain->SetBranchAddress("_metRaw", &_metRaw, &b__metRaw);
+  // fChain->SetBranchAddress("_metRaw", &_metRaw, &b__metRaw);
   fChain->SetBranchAddress("_metJECDown", &_metJECDown, &b__metJECDown);
   fChain->SetBranchAddress("_metJECUp", &_metJECUp, &b__metJECUp);
   fChain->SetBranchAddress("_metUnclDown", &_metUnclDown, &b__metUnclDown);
   fChain->SetBranchAddress("_metUnclUp", &_metUnclUp, &b__metUnclUp);
   fChain->SetBranchAddress("_metPhi", &_metPhi, &b__metPhi);
-  fChain->SetBranchAddress("_metRawPhi", &_metRawPhi, &b__metRawPhi);
+  // fChain->SetBranchAddress("_metRawPhi", &_metRawPhi, &b__metRawPhi);
   fChain->SetBranchAddress("_metPhiJECDown", &_metPhiJECDown, &b__metPhiJECDown);
   fChain->SetBranchAddress("_metPhiJECUp", &_metPhiJECUp, &b__metPhiJECUp);
   fChain->SetBranchAddress("_metPhiUnclDown", &_metPhiUnclDown, &b__metPhiUnclDown);
@@ -409,15 +401,15 @@ void Analysis_mc::initTree(TTree *tree, const bool isData)
   if(!isData){
     fChain->SetBranchAddress("_nTrueInt", &_nTrueInt, &b__nTrueInt);
     fChain->SetBranchAddress("_weight", &_weight, &b__weight);
-    fChain->SetBranchAddress("_lheHTIncoming", &_lheHTIncoming, &b__lheHTIncoming);
-    fChain->SetBranchAddress("_ctauHN", &_ctauHN, &b__ctauHN);
-    fChain->SetBranchAddress("_nLheTau", &_nLheTau, &b__nLheTau);
+    // fChain->SetBranchAddress("_lheHTIncoming", &_lheHTIncoming, &b__lheHTIncoming);
+    if(isNewPhys) fChain->SetBranchAddress("_ctauHN", &_ctauHN, &b__ctauHN);
+    // fChain->SetBranchAddress("_nLheTau", &_nLheTau, &b__nLheTau);
     fChain->SetBranchAddress("_nLheWeights", &_nLheWeights, &b__nLheWeights);
     fChain->SetBranchAddress("_lheWeight", _lheWeight, &b__lheWeight);
-    fChain->SetBranchAddress("_nPsWeights", &_nPsWeights, &b__nPsWeights);
-    fChain->SetBranchAddress("_psWeight", _psWeight, &b__psWeight);
+    // fChain->SetBranchAddress("_nPsWeights", &_nPsWeights, &b__nPsWeights);
+    // fChain->SetBranchAddress("_psWeight", _psWeight, &b__psWeight);
     fChain->SetBranchAddress("_gen_nL", &_gen_nL, &b__gen_nL);
-    fChain->SetBranchAddress("_gen_pdgID", _gen_pdgID, &b__gen_pdgID);
+    // fChain->SetBranchAddress("_gen_pdgID", _gen_pdgID, &b__gen_pdgID);
     fChain->SetBranchAddress("_gen_lPt", _gen_lPt, &b__gen_lPt);
     fChain->SetBranchAddress("_gen_lEta", _gen_lEta, &b__gen_lEta);
     fChain->SetBranchAddress("_gen_lPhi", _gen_lPhi, &b__gen_lPhi);
@@ -425,12 +417,12 @@ void Analysis_mc::initTree(TTree *tree, const bool isData)
     fChain->SetBranchAddress("_gen_lFlavor", _gen_lFlavor, &b__gen_lFlavor);
     fChain->SetBranchAddress("_gen_lCharge", _gen_lCharge, &b__gen_lCharge);
     fChain->SetBranchAddress("_gen_lMomPdg", _gen_lMomPdg, &b__gen_lMomPdg);
-    fChain->SetBranchAddress("_gen_vertex_x", _gen_vertex_x, &b__gen_vertex_x);
-    fChain->SetBranchAddress("_gen_vertex_y", _gen_vertex_y, &b__gen_vertex_y);
-    fChain->SetBranchAddress("_gen_vertex_z", _gen_vertex_z, &b__gen_vertex_z);
-    fChain->SetBranchAddress("_gen_lIsPrompt", _gen_lIsPrompt, &b__gen_lIsPrompt);
-    fChain->SetBranchAddress("_gen_lMinDeltaR", _gen_lMinDeltaR, &b__gen_lMinDeltaR);
-    fChain->SetBranchAddress("_gen_lPassParentage", _gen_lPassParentage, &b__gen_lPassParentage);    
+    // fChain->SetBranchAddress("_gen_vertex_x", _gen_vertex_x, &b__gen_vertex_x);
+    // fChain->SetBranchAddress("_gen_vertex_y", _gen_vertex_y, &b__gen_vertex_y);
+    // fChain->SetBranchAddress("_gen_vertex_z", _gen_vertex_z, &b__gen_vertex_z);
+    // fChain->SetBranchAddress("_gen_lIsPrompt", _gen_lIsPrompt, &b__gen_lIsPrompt);
+    // fChain->SetBranchAddress("_gen_lMinDeltaR", _gen_lMinDeltaR, &b__gen_lMinDeltaR);
+    // fChain->SetBranchAddress("_gen_lPassParentage", _gen_lPassParentage, &b__gen_lPassParentage);    
     fChain->SetBranchAddress("_lGenIndex", _lGenIndex, &b__lGenIndex);
     fChain->SetBranchAddress("_lMatchType", _lMatchType, &b__lMatchType);
     fChain->SetBranchAddress("_lIsPrompt", _lIsPrompt, &b__lIsPrompt);
@@ -628,7 +620,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
-  for(int sam = 0,effsam = 0; sam < samples.size(); ++sam, ++effsam){
+  for(size_t sam=0, effsam=0; sam<samples.size(); ++sam, ++effsam) {
     initSample(samples[sam]);
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
@@ -667,10 +659,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }
 
-    double progress = 0; 	//For printing progress bar 
+    //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for (Long64_t it = 0; it < nEntries/1000; ++it){
+    for(ULong64_t it=0; it<nEntries/1000; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -689,17 +681,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       std::vector<unsigned> ind;
-      double*           conePt = new double[_nL];
+      //double*           conePt = new double[_nL];
       double           _ptReal[_nL];
       double           _EReal[_nL];
-      Bool_t            _passedMVA90[_nL];     
+      //Bool_t            _passedMVA90[_nL];     
       
       unsigned         ind_new_leading=0;
-      unsigned         ind_new_p=0;
-      unsigned         ind_new_pp=0;
-      unsigned*         _isLooseCutBasedElectronWithoutIsolatio= new unsigned[_nL];
-      unsigned*         _isOurMedium= new unsigned[_nL];
-      unsigned*         _passTimingVeto= new unsigned[_nL];
+      //unsigned         ind_new_p=0;
+      //unsigned         ind_new_pp=0;
+      //unsigned*         _isLooseCutBasedElectronWithoutIsolatio= new unsigned[_nL];
+      //unsigned*         _isOurMedium= new unsigned[_nL];
+      //unsigned*         _passTimingVeto= new unsigned[_nL];
       goodjet=0;
       bjet=0;
       promptC = 0;
@@ -737,10 +729,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       double            _vertex_errX=-1;
       double            _vertex_errY=-1;
       double            _vertex_errZ=-1;
-      double            _vertex_R2D=-1;
-      double            _vertex_sR2D=-1;
-      double            _vertex_R=-1;
-      double            _vertex_sR=-1;
+      //double            _vertex_R2D=-1;
+      //double            _vertex_sR2D=-1;
+      //double            _vertex_R=-1;
+      //double            _vertex_sR=-1;
       double            _vertex_chi2=-1;
       double            _vertex_normchi2=-1;
       double _vertex_ndf =-1;
@@ -806,12 +798,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
           
       int index_to_use_for_l2_l3[2]={0,0};
       //find the right OS pair with min invariant mass
-      int min_test= 9999;
+      //int min_test= 9999;
       double min_mass=999;
       displacedC=0;
       for(unsigned l = 0; l < lCount; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){	  	
-	  if (!IsDisplacedPair(ind[l] ,ind[j], ind_new_leading, ind)) continue; 
+	  if (!IsDisplacedPair(ind[l], ind[j], ind_new_leading, ind)) continue; 
 	  ++displacedC;
 	  TLorentzVector temp_displaced1;
 	  TLorentzVector temp_displaced2;
@@ -1457,22 +1449,26 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   } // end if(runtheosyst)
 
   // List of backgrounds
-  const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonprompt"};
+  const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
   const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
+  // Output directory for datacards and shape ROOT files
+  std::string datacarddir = "dataCards_shapeRoot";
+
   // List of signal and background labels (for tables)
-  // std::map<std::string, std::string> labelPerProc;
-  // labelPerProc["signal"    ] = "signal"; // to be changed...
-  // labelPerProc["DY"        ] = "Z\rarrll";
-  // labelPerProc["ttbar"     ] = "Top";
-  // labelPerProc["WJets"     ] = "W #plus jets";
-  // labelPerProc["multiboson"] = "Multiboson";
-  // labelPerProc["Xgamma"    ] = "X #plus #gamma";
-  // labelPerProc["TTTX"      ] = "TTTX";
-  // labelPerProc["nonprompt" ] = "Nonprompt";
+  std::map<std::string, std::string> labelPerProc;
+  labelPerProc["signal"     ] = "signal"; // to be changed...
+  labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
+  labelPerProc["ttbar"      ] = "Top";
+  labelPerProc["WJets"      ] = "$\\PW +$ jets";
+  labelPerProc["multiboson" ] = "Multiboson";
+  labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
+  labelPerProc["TTTX"       ] = "Top $+$ X";
+  labelPerProc["nonpromptSF"] = "Nonprompt SF";
+  labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
   // List of systematics
-  const std::string systNames[] = { "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npnorm"};
+  const std::string systNames[] = { "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npsfnorm", "npdfnorm"};
   const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]);
 
   // List of systematics applicable to each process (signal + backgrounds)
@@ -1480,27 +1476,28 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::map<std::string, std::string> procPerSyst;
   //                       Type     Correl.   Processes
   //                       -------  --------  -------------------------------------------------------------
-  procPerSyst["lumi"  ] = "lnN    ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["pu"    ] = "shapeN2; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["qcd"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["pdf"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["pEle"  ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["pMuo"  ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["npEle" ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["npMuo" ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["jec"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["jer"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["btag"  ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX           ";
-  procPerSyst["npnorm"] = "lnN    ;  is_corr;                                                     nonprompt";
-  
+  procPerSyst["lumi"    ] = "lnN    ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pu"      ] = "shapeN2; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["qcd"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pdf"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pEle"    ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pMuo"    ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["npEle"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["npMuo"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["jec"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["jer"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["btag"    ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["npsfnorm"] = "lnN    ;  is_corr;                                                     nonpromptSF             ";
+  procPerSyst["npdfnorm"] = "lnN    ;  is_corr;                                                                  nonpromptDF";
+
   std::map<std::string, std::vector<std::string> > normSystsPerYear;
-  normSystsPerYear["lumi"  ] = {"1.025", "1.027", "1.025"};
-  normSystsPerYear["npnorm"] = {"1.400", "1.400", "1.400"};
+  normSystsPerYear["lumi"    ] = {"1.025", "1.027", "1.025"};
+  normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
+  normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
 
   if(systcat==0) { // print data card only if systcat==0
     // Size of tab
-    const size_t ntab = 16;
-    std::string datacarddir = "dataCards_shapeRoot";
+    const size_t ntab = 14;
 
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
@@ -1535,11 +1532,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 	// Write table: signal
 	// Row header
-	tabletexL << left << std::setw(ntab/4*3) << "signal";
-	tabletexS << left << std::setw(ntab/4*3) << "signal";
+	tabletexL << left << std::setw(2*ntab) << "  signal";
+	tabletexS << left << std::setw(2*ntab) << "  signal";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
-		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1);
+	  tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
+		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1)
+		    << "$";
 	  // Group by final state
 	  /// >>> WARNING: if bin numbering changes, this needs to be updated!
 	  size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
@@ -1548,24 +1546,26 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << binconts[ibintmp]
-		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
+	  tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << binconts[ibintmp]
+		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+		    << "$";
 	  binconts[ibintmp] = 0.;
 	  binstats[ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\\ \n \\hline\n";
-	tabletexS << " \\\\ \n \\hline\n";
+	tabletexL << " \\\\\n  \\hline\n";
+	tabletexS << " \\\\\n  \\hline\n";
  
 	//
 	// Write table: backgrounds
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  // Row header
-	  tabletexL << left << std::setw(ntab/4*3) << bkgNames[bkg];
-	  tabletexS << left << std::setw(ntab/4*3) << bkgNames[bkg];
+	  tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
+	  tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
 	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
-		      << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	    tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1)
+		      << "$";
 	    // Add to total background
 	    totconts[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
 	    totstats[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
@@ -1580,46 +1580,50 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  }
 	  //
 	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << binconts[ibintmp]
-		      << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
+	    tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << binconts[ibintmp]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+		      << "$";
 	    binconts[ibintmp] = 0.;
 	    binstats[ibintmp] = 0.;
 	  }
 	  //
-	  tabletexL << " \\\\ \n \\hline\n";
-	  tabletexS << " \\\\ \n \\hline\n";
+	  tabletexL << " \\\\\n  \\hline\n";
+	  tabletexS << " \\\\\n  \\hline\n";
 	}
 
 	//
 	// Write table: total background
 	// Row header
-	tabletexL << left << std::setw(ntab/4*3) << "Total background";
-	tabletexS << left << std::setw(ntab/4*3) << "Total background";
+	tabletexL << left << std::setw(2*ntab) << "  Total background";
+	tabletexS << left << std::setw(2*ntab) << "  Total background";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << totconts[ibin]
-		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin]);
+	  tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << totconts[ibin]
+		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
+		    << "$";
 	  totconts[ibin] = 0.;
 	  totstats[ibin] = 0.;
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << totconts[nsrbins+ibintmp]
-		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp]);
+	  tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << totconts[nsrbins+ibintmp]
+		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
+		    << "$";
 	  totconts[nsrbins+ibintmp] = 0.;
 	  totstats[nsrbins+ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\\ \n \\hline\n";
-	tabletexS << " \\\\ \n \\hline\n";
+	tabletexL << " \\\\\n  \\hline\n";
+	tabletexS << " \\\\\n  \\hline\n";
 
 	//
 	// Write table: data
 	// Row header
-	tabletexL << left << std::setw(ntab/4*3) << "Observed";
-	tabletexS << left << std::setw(ntab/4*3) << "Observed";
+	tabletexL << left << std::setw(2*ntab) << "  Observed";
+	tabletexS << left << std::setw(2*ntab) << "  Observed";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
-		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
+	  tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
+		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
+		    << "$";
 	  // Group by final state
 	  /// >>> WARNING: if bin numbering changes, this needs to be updated!
 	  size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
@@ -1628,14 +1632,15 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & "   << left << std::setw(ntab/4*3)   << std::setprecision(2) << binconts[ibintmp]
-		    << " \pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp]);
+	  tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << binconts[ibintmp]
+		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+		    << "$";
 	  binconts[ibintmp] = 0.;
 	  binstats[ibintmp] = 0.;
 	}
 	//
-	tabletexL << " \\\\ \n \\hline\n";
-	tabletexS << " \\\\ \n \\hline\n";
+	tabletexL << " \\\\\n  \\hline\n";
+	tabletexS << " \\\\\n  \\hline\n";
 	//
 	// ========================================================
 	//
@@ -1658,32 +1663,29 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
 	card << "observation " << std::fixed << std::setprecision(7) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
 	// Define all backgrounds and their yields
-	card << left << std::setw(ntab) << "bin";
+	card << left << std::setw(2*ntab) << "bin";
 	for(unsigned proc=0; proc<nBkg+1; ++proc) {
 	  card << left << std::setw(ntab) << "bin1";
 	}
 	card << "\n";
-	card << left << std::setw(ntab) << "process";
-	card << left << std::setw(ntab) << "signal";
+	card << left << std::setw(2*ntab) << "process";
+	card << left << std::setw(ntab)   << "signal";
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  card << left << std::setw(ntab) << bkgNames[bkg];
 	}
 	card << "\n";
-	card << left << std::setw(ntab) << "process";
+	card << left << std::setw(2*ntab) << "process";
 	for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
 	  card << left << std::setw(ntab) << bkg;
 	}
 	card << "\n";
-	card << left << std::setw(ntab) << "rate";
-	card << left << std::setw(ntab) << std::setprecision(7) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
+	card << left << std::setw(2*ntab) << "rate";
+	card << left << std::setw(ntab)   << std::setprecision(7) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
 
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
-	  if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
-	  
-
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
 	  else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
 	}
@@ -1702,7 +1704,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
 	  }
 
-	  card << left << std::setw(ntab/2) << asyst;
+	  card << left << std::setw(ntab) << asyst;
 	  // If shape error, set it to 1.000
 	  std::string errStr = "1.000";
 	  // If normalization error, change it accordingly
@@ -1714,10 +1716,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    else {
 	      errStr = normSystsPerYear[systNames[syst]][year];
 	    }
-	    card << left << std::setw(ntab/2) << "lnN";
+	    card << left << std::setw(ntab) << "lnN";
 	  }
 	  else { // all the other systematics: shapeN2
-	    card << left << std::setw(ntab/2) << "shapeN2";
+	    card << left << std::setw(ntab) << "shapeN2";
 	  }
 	  //
 	  // Fill in systs for all processes:

@@ -660,13 +660,13 @@ class Analysis_mc : public TObject {
 
 
   Analysis_mc();
-  Analysis_mc(unsigned jaar,const std::string& list, const std::string& directory);
+  Analysis_mc(unsigned jaar);
   virtual ~Analysis_mc();
 
   void printProgress(double progress) ;
   //______________________      inizialization functions       ________________________________// 
   //set up tree for reading and writing
-  void initTree(TTree *tree, const bool isData = false);
+  void initTree(TTree *tree, const bool isData = false, const bool isNewPhys = false);
   //skim tree
   void skimTree(const std::string&, std::string outputDirectory = "", const bool isData = false);
   //set up tree for analysis
@@ -744,8 +744,8 @@ class Analysis_mc : public TObject {
   unsigned selectLep(std::vector<unsigned>& ) const;
   unsigned selectLepConeCorr(std::vector<unsigned>& );
   int l1Index(const std::vector<unsigned>& );
-  bool lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const;
-  bool IsDisplacedPair(const unsigned leptonIndex1,const unsigned leptonIndex2, int index_taken_by_l1, std::vector<unsigned>& ind) const;
+  bool lepIsDisplaced(const unsigned leptonIndex, unsigned index_taken_by_l1, std::vector<unsigned>& ind) const;
+  bool IsDisplacedPair(const unsigned leptonIndex1, const unsigned leptonIndex2, unsigned index_taken_by_l1, std::vector<unsigned>& ind) const;
 
   bool vertex_found(const unsigned leptonIndex1, const unsigned leptonIndex2, int vertex_index) const;
   int l2l3_vertex_variable(const unsigned leptonIndex1, const unsigned leptonIndex2);
@@ -1188,7 +1188,7 @@ class Analysis_mc : public TObject {
 				  100,
 				  100
   };
-  const int nBins[nDist] =      { 18 , 7,
+  const unsigned nBins[nDist] = { 18 , 7,
 				  45,
 				  30,
 				  30,

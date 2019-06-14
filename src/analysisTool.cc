@@ -306,7 +306,7 @@ double Analysis_mc::dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],
 				    ){
     
   const int nBinMu=5;
-  const int nBinMu3=4;
+  //const int nBinMu3=4;
   Double_t newBins_e1[nBinMu+1] = {10,15,25,40,70, 100};    
   TH1D *fakeRate_e_histo[3];  
   fakeRate_e_histo[0]= new TH1D("fake_rate_e_histo_eta1","",nBinMu,newBins_e1);

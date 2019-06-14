@@ -70,7 +70,10 @@ int Analysis_mc::l1Index(const std::vector<unsigned>& ind){
   return index_leading;
 }
 //______________________________________________check if they can be called displaced pair
-bool Analysis_mc::IsDisplacedPair(const unsigned leptonIndex1,const unsigned leptonIndex2, int index_taken_by_l1, std::vector<unsigned>& ind) const{
+bool Analysis_mc::IsDisplacedPair(const unsigned leptonIndex1,const unsigned leptonIndex2, unsigned index_taken_by_l1, std::vector<unsigned>& ind) const{
+  // Dummy, to be removed
+  if(ind.size()==122334) std::cout << ind.size() << std::endl;
+
   int number_found_verteces=0;
   if (leptonIndex1 == index_taken_by_l1) return false;
   if (leptonIndex2 == index_taken_by_l1) return false;
@@ -89,7 +92,7 @@ bool Analysis_mc::IsDisplacedPair(const unsigned leptonIndex1,const unsigned lep
 
 }
 //______________________________________________check if they can be called displaced
-bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, int index_taken_by_l1, std::vector<unsigned>& ind) const{
+bool Analysis_mc::lepIsDisplaced(const unsigned leptonIndex, unsigned index_taken_by_l1, std::vector<unsigned>& ind) const{
   int number_found_verteces=0;
   if (leptonIndex == index_taken_by_l1) return false;
   if (!lepIsFOBase(leptonIndex)) return false;

@@ -223,6 +223,9 @@ bool Analysis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
 
   if( is2018() && isMu(leptonIndex) && ((_lHasTrigger[leptonIndex] & 1)==0 || (_lHasTrigger[leptonIndex] & 2)==0)) return true;
   if( is2018() && isElectron(leptonIndex) && (_lHasTrigger[leptonIndex] & 1)==0) return true;
+
+  // If none of the above (to avoid compilation warnings)
+  return false;
 }
 
 

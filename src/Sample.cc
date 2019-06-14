@@ -63,7 +63,7 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
 
     //read options
     //This might modify uniqueName. uniqueName has to be set before calling this function!
-    setOptions(optionString);
+    //setOptions(optionString);
 
     // Tmp
     std::cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
