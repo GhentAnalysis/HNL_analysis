@@ -1542,7 +1542,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	tabletexL << left << std::setw(2*ntab) << "  signal";
 	tabletexS << left << std::setw(2*ntab) << "  signal";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
+	  tabletexL << " & $"   << left << std::setw(ntab/2) <<  Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
 		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1)
 		    << "$";
 	  // Group by final state
@@ -1553,7 +1553,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << binconts[ibintmp]
+	  tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
 		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
 		    << "$";
 	  binconts[ibintmp] = 0.;
@@ -1570,7 +1570,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
 	  tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
 	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
+	    tabletexL << " & $"   << left << std::setw(ntab/2)  << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
 		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1)
 		      << "$";
 	    // Add to total background
@@ -1587,7 +1587,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  }
 	  //
 	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << binconts[ibintmp]
+	    tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
 		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
 		      << "$";
 	    binconts[ibintmp] = 0.;
@@ -1604,7 +1604,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	tabletexL << left << std::setw(2*ntab) << "  Total background";
 	tabletexS << left << std::setw(2*ntab) << "  Total background";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << totconts[ibin]
+	  tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
 		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
 		    << "$";
 	  totconts[ibin] = 0.;
@@ -1612,7 +1612,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << totconts[nsrbins+ibintmp]
+	  tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
 		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
 		    << "$";
 	  totconts[nsrbins+ibintmp] = 0.;
@@ -1628,7 +1628,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	tabletexL << left << std::setw(2*ntab) << "  Observed";
 	tabletexS << left << std::setw(2*ntab) << "  Observed";
 	for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	  tabletexL << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
+	  tabletexL << " & $"   << left << std::setw(ntab/2)  << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
 		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
 		    << "$";
 	  // Group by final state
@@ -1639,7 +1639,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	//
 	for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	  tabletexS << " & $"   << left << std::setw(ntab/2) << std::setprecision(2) << binconts[ibintmp]
+	  tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
 		    << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
 		    << "$";
 	  binconts[ibintmp] = 0.;
