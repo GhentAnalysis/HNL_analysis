@@ -401,7 +401,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   bkgStack = new THStack("bkgStack", "bkgStack");
   for(int effsam = nHist -1; effsam > -1 ; --effsam){
     StackCol(bkg[effsam], colors[effsam]);
-    if (names[histI[effsam] + 1 + nSig] == "non prompt DF" ) bkg[effsam]->SetFillStyle(3018); 
+    if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetFillStyle(3020); 
     bkgStack->Add(bkg[effsam], "f");
   }
     
