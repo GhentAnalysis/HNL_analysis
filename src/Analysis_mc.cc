@@ -1365,9 +1365,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
   }
 
-  // int numer_plot_class =0;
-  // if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
-  // if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 1;
+  int numer_plot_class =0;
+  if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
+  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 1;
   
  
   //TH1D* signals[nSamples_signal];
