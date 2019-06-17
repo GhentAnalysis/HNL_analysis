@@ -1337,8 +1337,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //                |                         |
   //                V                         V
   //            unblindED           "silent" is not a verb...
-  // TH1D* dataYields[nDist][nChannel][nCat];	
-	
+  // TH1D* dataYields[nDist][nChannel][nCat];
+  	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       //if (cat !=0 && cat !=6) continue;
@@ -1355,7 +1355,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
+	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);
+
+	  if (cat == 6)  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
+
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    if (isSRRun)dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
@@ -1798,6 +1801,26 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
 
 }//END ANALIUSI  --> (l'analisi sicula?)
+
+
+
+//_______________________________________________________ constructor_____
+void Analysis_mc::put_at_zero(TH1D *histo){
+  for (int i =0; i < histo-> GetNbinsX(); i++){
+
+    double error_original =0;
+    double error_to_add =0;
+    double error_final =0;
+
+    if (histo->GetBinContent( i+1)  < 0) {
+      error_original = histo-> GetBinError(i+1, 0.0);
+      error_to_add = histo-> GetBinContent(i+1, 0.0);
+      error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
+      histo-> SetBinError(i+1, error_final);
+      histo-> SetBinContent(i+1, 0.0);
+    }
+  }
+}
 
 
 
