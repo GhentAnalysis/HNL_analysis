@@ -1122,7 +1122,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
         if (_lFlavor[l3] == 1 && _lFlavor[l2] == 1 ) CR_ttbar_mumu = true;
 	if ((_lFlavor[l3] == 1 && _lFlavor[l2] == 0) || (_lFlavor[l3] == 0 && _lFlavor[l2] == 1)) CR_ttbar_emu = true;
       }
-      if (ossf_event && bjet >= 1  && fabs(M_3L - 91.1876) > 15 && fabs((M_ZPair - 91.1876) > 15 ){
+      if (ossf_event && bjet >= 1  && fabs(M_3L - 91.1876) > 15 && fabs(M_ZPair - 91.1876) > 15 ){
 	  CR_ttbar = true;
 	  if (_lFlavor[l3] == 0 && _lFlavor[l2] == 0 ) CR_ttbar_ee = true;
 	  if (_lFlavor[l3] == 1 && _lFlavor[l2] == 1 ) CR_ttbar_mumu = true;
