@@ -564,7 +564,6 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
   c->cd();
 	
-ylog= false;
   TPad *p1, *p2;
   //Plot data and MC yields in first pad
   p1 = new TPad(name_histo,"",0,xPad,1,1);
@@ -625,7 +624,6 @@ ylog= false;
       }
     }
   }
-   plotsig=false; 
   //Draw signal plots
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
