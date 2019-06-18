@@ -1056,9 +1056,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
 
-	    bin_SR_muonCoupling=1;
-	    bin_SR_eleCoupling=1;
-	    SR_channel=1;
+	bin_SR_muonCoupling=1;
+	bin_SR_eleCoupling=1;
+	SR_channel=1;
 
       M_3L_combined = (v4l2 + v4l3 + v4l1).M();
       M_l2l3_combined =  (v4l2 + v4l3).M();
@@ -1108,6 +1108,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       bool CR_wjet_mumu = false;
       bool CR_wjet_emu = false;
       bool CR_wjet = false;
+	    
+      bool ossf_event =false;
+      if (_lFlavor[l1] == _lFlavor[l2] && _lCharge[l1]!=_lCharge[l2])	ossf_event = true;    
+      if (_lFlavor[l1] == _lFlavor[l3] && _lCharge[l1]!=_lCharge[l3])	ossf_event = true;    
+      if (_lFlavor[l3] == _lFlavor[l2] && _lCharge[l3]!=_lCharge[l2])	ossf_event = true;    
+	    
 	    
       //ttbar
       if (!ossf_event  &&  bjet >= 1){
