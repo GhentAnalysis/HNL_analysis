@@ -635,12 +635,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
     if (samples[sam].isData() && systcat != 0 ) continue;
-
+    
   
 	  
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
-
+    if (isSignal)	continue;  
+	   
 
     
     // For lifetime re-weighting (hip hip hip hurray)
@@ -913,15 +914,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
       if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
       if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	one << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		    _runNb, _lumiBlock, _eventNb,  
-      // 		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		    _met)<< std::endl;
-      // }
-
+     
       // ------------ closest jet info --------------------------------------//
       TLorentzVector  l1Jet[1] ;
       float JEC       ;
@@ -954,21 +947,15 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
       if (isOnlyMC && sideBandRegion) continue;
       if (isOnlyMC && tightC != 2) continue;
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		    _runNb, _lumiBlock, _eventNb,  
-      // 		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		    _met)<< std::endl;
-      // }
-
+    
       // ------------------ prompt check for MC ------------------------//
       promptC=0;
       if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
       if (_lIsPrompt[l2] || _lProvenanceCompressed[l2]==0) promptC++;
       if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
       if (isSRRun && !samples[sam].isData() && promptC!=3) continue;
+      if (isCRRun && !samples[sam].isData() && promptC!=3) continue;
+	    
       // -----------------    applying the FRs    --------------------------------//
       if (sideBandRegion){
 	if ( samples[sam].isData()  )scal *= -1;
@@ -994,36 +981,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       
       if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
       if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	three << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		      _runNb, _lumiBlock, _eventNb,  
-      // 		      (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		      (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		      (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		      _met)<< std::endl;
-      // }
+      
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      // bool internal_conv= true;
-      // if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
-      // if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
-      // if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) internal_conv = false;
-      // bool external_conv= false;
-      // if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
-      // if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
-      // if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) external_conv = true;    
-      // if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-      // if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
-
-
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	four << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		     _runNb, _lumiBlock, _eventNb,  
-      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		     _met)<< std::endl;
-      // }
+      
       if (photonOverlap (samples[sam])) continue;
       
       // -----------------   function useful    --------------------------------//
@@ -1095,6 +1056,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
 
+	    bin_SR_muonCoupling=1;
+	    bin_SR_eleCoupling=1;
+	    SR_channel=1;
 
       M_3L_combined = (v4l2 + v4l3 + v4l1).M();
       M_l2l3_combined =  (v4l2 + v4l3).M();
@@ -1124,15 +1088,76 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (!selection_0) continue;
 
       
-      // if (selection_final && samples[sam].getProcessName() == "DY" )   {    
-      // 	five << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		     _runNb, _lumiBlock, _eventNb,  
-      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		     _met)<< std::endl;
-      // }
+	    
+      bool CR_dy=false;
+      bool CR_dy_ee = false;
+      bool CR_dy_emu = false;
+      bool CR_dy_mumu = false;
+      
+      bool CR_ttbar = false;
+      bool CR_ttbar_ee = false;
+      bool CR_ttbar_mumu = false;
+      bool CR_ttbar_emu = false;
 
+      bool CR_conversion_ee = false;
+      bool CR_conversion_mumu = false;
+      bool CR_conversion_emu = false;
+      bool CR_conversion = false;
+
+      bool CR_wjet_ee = false;
+      bool CR_wjet_mumu = false;
+      bool CR_wjet_emu = false;
+      bool CR_wjet = false;
+	    
+      //ttbar
+      if (!ossf_event  &&  bjet >= 1){
+	CR_ttbar = true;
+	if (_lFlavor[l3] == 0 && _lFlavor[l2] == 0 ) CR_ttbar_ee = true;
+        if (_lFlavor[l3] == 1 && _lFlavor[l2] == 1 ) CR_ttbar_mumu = true;
+	if ((_lFlavor[l3] == 1 && _lFlavor[l2] == 0) || (_lFlavor[l3] == 0 && _lFlavor[l2] == 1)) CR_ttbar_emu = true;
+      }
+      if (ossf_event && bjet >= 1  && fabs(M_3L - 91.1876) > 15 && fabs((M_ZPair - 91.1876) > 15 ){
+	  CR_ttbar = true;
+	  if (_lFlavor[l3] == 0 && _lFlavor[l2] == 0 ) CR_ttbar_ee = true;
+	  if (_lFlavor[l3] == 1 && _lFlavor[l2] == 1 ) CR_ttbar_mumu = true;
+	  if ((_lFlavor[l3] == 1 && _lFlavor[l2] == 0) || (_lFlavor[l3] == 0 && _lFlavor[l2] == 1)) CR_ttbar_emu = true;
+	}
+
+
+	//wjet
+	if ((lepton_transv[0]+METvec).M() > 50 && mT < 90 && _met > 30 ){
+	  CR_wjet = true;
+	  if (_lFlavor[l3] == 0 && _lFlavor[l2] == 0  ) CR_wjet_ee = true;
+	  if ((_lFlavor[l3] == 1 && _lFlavor[l2] == 0) || (_lFlavor[l3] == 0 && _lFlavor[l2] == 1)) CR_wjet_emu = true;
+	  if(_lFlavor[l3] == 1 && _lFlavor[l2] == 1 ) CR_wjet_mumu = true;
+	}
+
+
+	//fasulla per ortogolane
+	if (selection_0 &&  (M_3L < 45 || M_3L > 85) &&  bjet == 0){
+	  CR_conversion = true;
+	  if (_lFlavor[l3] == 0 && _lFlavor[l2] == 0  ) CR_conversion_ee = true;
+	  if ((_lFlavor[l3] == 1 && _lFlavor[l2] == 0) || (_lFlavor[l3] == 0 && _lFlavor[l2] == 1)) CR_conversion_emu = true;
+	  if(_lFlavor[l3] == 1 && _lFlavor[l2] == 1 ) CR_conversion_mumu = true;
+	}
+
+	//fasulla per ortogolane
+	if (selection_1 &&  (M_3L < 45 || M_3L > 85) ){
+	  CR_dy = true;
+	  if (_lFlavor[l3] == 0 && _lFlavor[l2] == 0  ) CR_dy_ee = true;
+	  if ((_lFlavor[l3] == 1 && _lFlavor[l2] == 0) || (_lFlavor[l3] == 0 && _lFlavor[l2] == 1)) CR_dy_emu = true;
+	  if(_lFlavor[l3] == 1 && _lFlavor[l2] == 1 ) CR_dy_mumu = true;
+	}
+
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+     
       // Systematics on displaced muons
       double displMuoWeight = 1.;
       if(systcat==7) {
@@ -1206,62 +1231,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isSRRun && channel_bin == -1 ) continue;
       if (isOnlyMC && channel_bin == -1 ) continue;
 
-
+      SR_channel=0;
   //std::cout<<"before plottinh: "<<std::endl;
       // ------------------- Histo SR
-      if (SR_channel <= 2) {
-	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_3)      Histos[0][SR_channel][3][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_4)      Histos[0][SR_channel][4][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_5)      Histos[0][SR_channel][5][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_final)  Histos[0][SR_channel][6][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_0)      Histos[0][6][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_1)      Histos[0][6][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_2)      Histos[0][6][2][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_3)      Histos[0][6][3][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_4)      Histos[0][6][4][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_5)      Histos[0][6][5][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_final)  Histos[0][6][6][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
-	if (selection_final) {
-	  if(runtheosyst) {
-	    for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
-	      double wghtCorr = _lheWeight[theoSystVars[sidx]];
-	      systHistos[sidx][6][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*wghtCorr);
-	    }
-	  }
-	}
-      }
+      
 	    
 	    
-      if (SR_channel > 2) {
-	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_1)      Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_2)      Histos[0][SR_channel][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_3)      Histos[0][SR_channel][3][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_4)      Histos[0][SR_channel][4][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_5)      Histos[0][SR_channel][5][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_final)  Histos[0][SR_channel][6][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_0)      Histos[0][7][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_1)      Histos[0][7][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_2)      Histos[0][7][2][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_3)      Histos[0][7][3][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_4)      Histos[0][7][4][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_5)      Histos[0][7][5][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-	if (selection_final)  Histos[0][7][6][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal);
-
-
-	if (selection_final){
-	  if(runtheosyst) {
-	    for(unsigned sidx=0; sidx<nTheoVars; ++sidx) {
-	      double wghtCorr = _lheWeight[theoSystVars[sidx]];
-	      systHistos[sidx][7][fill]->Fill(static_cast<double>(bin_SR_eleCoupling), scal*wghtCorr);
-	    }
-	  }
-	}
-	
-      }
+     
       // ------------------- Histo cut flow  
       if (selection_0)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(1), scal);
       if (selection_1)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(2), scal);
@@ -1271,25 +1247,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (selection_5)      Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(6), scal);
       if (selection_final)  Histos[1][SR_channel][0][fill] -> Fill(static_cast<double>(7), scal);
       
-      if (SR_channel <= 2){
-	//Histos[1][6][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
-	if (selection_0)      Histos[1][6][0][fill] -> Fill(static_cast<double>(1), scal);
-	if (selection_1)      Histos[1][6][0][fill] -> Fill(static_cast<double>(2), scal);
-	if (selection_2)      Histos[1][6][0][fill] -> Fill(static_cast<double>(3), scal);
-	if (selection_3)      Histos[1][6][0][fill] -> Fill(static_cast<double>(4), scal);
-	if (selection_4)      Histos[1][6][0][fill] -> Fill(static_cast<double>(5), scal);
-	if (selection_5)      Histos[1][6][0][fill] -> Fill(static_cast<double>(6), scal);
-	if (selection_final)  Histos[1][6][0][fill] -> Fill(static_cast<double>(7), scal);
-      }
-      if (SR_channel > 2){
-	if (selection_0)      Histos[1][7][0][fill] -> Fill(static_cast<double>(1), scal);
-	if (selection_1)      Histos[1][7][0][fill] -> Fill(static_cast<double>(2), scal);
-	if (selection_2)      Histos[1][7][0][fill] -> Fill(static_cast<double>(3), scal);
-	if (selection_3)      Histos[1][7][0][fill] -> Fill(static_cast<double>(4), scal);
-	if (selection_4)      Histos[1][7][0][fill] -> Fill(static_cast<double>(5), scal);
-	if (selection_5)      Histos[1][7][0][fill] -> Fill(static_cast<double>(6), scal);
-	if (selection_final)  Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal);
-      }     
       
       // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
@@ -1297,34 +1254,28 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if ( numero_histo == 0) continue;
 	if ( numero_histo == 1) continue;
 
-	if (selection_0) Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	if (selection_1) Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	if (selection_2) Histos[numero_histo][SR_channel][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	if (selection_3) Histos[numero_histo][SR_channel][3][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	if (selection_4) Histos[numero_histo][SR_channel][4][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	if (selection_5) Histos[numero_histo][SR_channel][5][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	if (selection_final) Histos[numero_histo][SR_channel][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy)	              Histos[numero_histo][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy_ee)	              Histos[numero_histo][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy_mumu)             Histos[numero_histo][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy_emu)              Histos[numero_histo][3][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+
+	  if (CR_ttbar)	              Histos[numero_histo][4][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_ttbar_ee)	      Histos[numero_histo][5][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_ttbar_mumu)          Histos[numero_histo][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_ttbar_emu)           Histos[numero_histo][7][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+
+	  if (CR_conversion)	      Histos[numero_histo][8][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_conversion_ee)	      Histos[numero_histo][9][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_conversion_mumu)     Histos[numero_histo][10][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_conversion_emu)      Histos[numero_histo][11][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+
+	  if (CR_wjet)	              Histos[numero_histo][12][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_wjet_ee)	      Histos[numero_histo][13][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_wjet_mumu)           Histos[numero_histo][14][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_wjet_emu)            Histos[numero_histo][15][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 
 
 	
-	if (SR_channel <= 2){
-	  if (selection_0) Histos[numero_histo][6][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_1) Histos[numero_histo][6][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_2) Histos[numero_histo][6][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_3) Histos[numero_histo][6][3][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_4) Histos[numero_histo][6][4][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_5) Histos[numero_histo][6][5][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_final) Histos[numero_histo][6][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	}
-	if (SR_channel > 2)  {
-	  if (selection_0) Histos[numero_histo][7][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_1) Histos[numero_histo][7][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_2) Histos[numero_histo][7][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_3) Histos[numero_histo][7][3][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_4) Histos[numero_histo][7][4][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_5) Histos[numero_histo][7][5][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (selection_final) Histos[numero_histo][7][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	}
       }//end histo
         // std::cout<<"after plottinh: "<<std::endl;
 
@@ -1355,7 +1306,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);
+	  put_at_zero(*&Histos[dist][cha][cat][effsam1]);
 
 	  if (cat == 6)  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
 
@@ -1370,6 +1321,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
+  if (isCRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 1;
   
  
