@@ -857,7 +857,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	
 	  c->cd();
 	//Make ratio plot in second pad
-     p2 = new TPad(file + "2","",0,0.0,1,xPad);
+     p2 = new TPad(name_histo + "2","",0,0.0,1,xPad);
     p2->Draw();
     p2->cd();
     p2->SetTopMargin(0);
