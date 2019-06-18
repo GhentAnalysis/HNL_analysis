@@ -776,8 +776,8 @@ class Analysis_mc : public TObject {
  private:
   unsigned year;
 
-  bool isCRRun=false;
-  bool isSRRun=true;
+  bool isCRRun=true;
+  bool isSRRun=false;
   bool isOnlyMC=false;	
 
   TTree* fChain;                                                          //current Tree
@@ -1003,13 +1003,13 @@ class Analysis_mc : public TObject {
     "M=10 V=0.0007 e"
   };
 
-  const static int nCat=7;
-  const static int nChannel=8;
+  const static int nCat=16;
+  const static int nChannel=1;
   const static int nDist = 45;  //Number of distributions to plo
 
 
-  const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final"};
-  const TString channelNames[nChannel]= {"mmm", "mmeOS", "mmeSS","eee", "eemOS", "eemSS","mu","e"};
+  const TString catNames[nCat]= {"dy","dy_ee","dy_mumu","dy_emu","ttbar","ttbar_ee", "ttbar_mumu", "ttbar_emu",  "conversion","conversion_ee", "conversion_mumu","conversion_emu","wjet","wjet_ee", "wjet_mumu","wjet_emu" };
+  const TString channelNames[nChannel]= {"" };
 
   
   const TString Histnames_ossf[nDist] = {"SR","cutflow",
