@@ -1254,25 +1254,25 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if ( numero_histo == 0) continue;
 	if ( numero_histo == 1) continue;
 
-	  if (CR_dy)	              Histos[numero_histo][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_dy_ee)	              Histos[numero_histo][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_dy_mumu)             Histos[numero_histo][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_dy_emu)              Histos[numero_histo][3][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy)	              Histos[numero_histo][0][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy_ee)	              Histos[numero_histo][0][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy_mumu)             Histos[numero_histo][0][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_dy_emu)              Histos[numero_histo][0][3][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 
-	  if (CR_ttbar)	              Histos[numero_histo][4][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_ttbar_ee)	      Histos[numero_histo][5][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_ttbar_mumu)          Histos[numero_histo][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_ttbar_emu)           Histos[numero_histo][7][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_ttbar)	              Histos[numero_histo][0][4][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_ttbar_ee)	      Histos[numero_histo][0][5][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_ttbar_mumu)          Histos[numero_histo][0][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_ttbar_emu)           Histos[numero_histo][0][7][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 
-	  if (CR_conversion)	      Histos[numero_histo][8][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_conversion_ee)	      Histos[numero_histo][9][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_conversion_mumu)     Histos[numero_histo][10][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_conversion_emu)      Histos[numero_histo][11][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_conversion)	      Histos[numero_histo][0][8][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_conversion_ee)	      Histos[numero_histo][0][9][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_conversion_mumu)     Histos[numero_histo][0][10][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_conversion_emu)      Histos[numero_histo][0][11][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 
-	  if (CR_wjet)	              Histos[numero_histo][12][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_wjet_ee)	      Histos[numero_histo][13][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_wjet_mumu)           Histos[numero_histo][14][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
-	  if (CR_wjet_emu)            Histos[numero_histo][15][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_wjet)	              Histos[numero_histo][0][12][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_wjet_ee)	      Histos[numero_histo][0][13][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_wjet_mumu)           Histos[numero_histo][0][14][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
+	  if (CR_wjet_emu)            Histos[numero_histo][0][15][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 
 
 	
