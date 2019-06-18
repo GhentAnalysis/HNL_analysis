@@ -852,37 +852,44 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   gPad->RedrawAxis();
   //CMS_lumi(c,"Preliminary", true);
   drawLumi(p1);
-  if (channel == 3){
-    c->SaveAs("plots_pdf/eee/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/eee/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 4){
-    c->SaveAs("plots_pdf/eemOS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/eemOS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 5){
-    c->SaveAs("plots_pdf/eemSS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/eemSS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 7){
-    c->SaveAs("plots_pdf/e/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/e/"+ name_cut + "/"+ name_histo + ".root");
-  }
+	
+	
+	
+	  c->cd();
+	//Make ratio plot in second pad
+     p2 = new TPad(file + "2","",0,0.0,1,xPad);
+    p2->Draw();
+    p2->cd();
+    p2->SetTopMargin(0);
+    p2->SetBottomMargin(0.4);
+	
+	TH1D* dataC = (TH1D*) data->Clone();
+	TH1D* bkgTotC = (TH1D*) bkgTot->Clone();
+
+    dataC->Divide(bkgTotC);
+    dataC->SetMarkerColor(1);
+    dataC->SetLineColor(1);
+    dataC->GetYaxis()->SetRangeUser(0.,1.999);
+    dataC->GetYaxis()->SetTitle("obs/pred");
+    dataC->GetYaxis()->SetTitleOffset(0.9/((1.-xPad)/xPad));
+    dataC->GetYaxis()->SetTitleSize((1.-xPad)/xPad*0.06); //originally 0.06
+    dataC->GetXaxis()->SetTitleSize((1.-xPad)/xPad*0.06); //originally 0.09
+    dataC->GetYaxis()->SetLabelSize((1.-xPad)/xPad*0.05); //originally 0.05
+    dataC->GetXaxis()->SetLabelSize((1.-xPad)/xPad*0.05); //originally 0.075
+
+    dataC->Draw("pe");
+	//Draw line at 1 on ratio plot
+    double xmax = dataC->GetBinCenter(dataC->GetNbinsX()) + dataC->GetBinWidth(dataC->GetNbinsX())/2;
+    double xmin = dataC->GetBinCenter(0) + dataC->GetBinWidth(0)/2;
+    TLine *line = new TLine(xmin, 1, xmax, 1);
+    line->SetLineStyle(2);
+    line->Draw("same");	
+	
+  
 
   if (channel == 0){
-    c->SaveAs("plots_pdf/mmm/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mmm/"+ name_cut + "/"+ name_histo + ".root");
+    c->SaveAs("plots_pdf/"+ name_cut + "/"+ name_histo + ".pdf");
+    c->SaveAs("plots_root/"+ name_cut + "/"+ name_histo + ".root");
   }
-  if (channel == 1){
-    c->SaveAs("plots_pdf/mmeOS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mmeOS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 2){
-    c->SaveAs("plots_pdf/mmeSS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mmeSS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 6){
-    c->SaveAs("plots_pdf/mu/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mu/"+ name_cut + "/"+ name_histo + ".root");
-  }
+ 
 }
