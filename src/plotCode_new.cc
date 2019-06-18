@@ -563,14 +563,15 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
   TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
   c->cd();
-
+	
+ylog= false;
   TPad *p1, *p2;
   //Plot data and MC yields in first pad
   p1 = new TPad(name_histo,"",0,xPad,1,1);
   p1->Draw();
   p1->cd();
   p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-  p1->SetBottomMargin(0.15);
+    p1->SetBottomMargin(0);
   bkgTot->SetFillStyle(3005);
   bkgTot->SetFillColor(kGray+2);
   bkgTot->SetMarkerStyle(1);
@@ -582,6 +583,9 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
   if(ylog) p1->SetLogy();
   HistLabelSizes(data,0.1,0.1,0.07,0.07);
+	
+	
+
     
   //double scaling = 30;
   //Determine the maximum range of the histogram, depending on the maximum range of the bkg or data
@@ -621,7 +625,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       }
     }
   }
-    
+   plotsig=false; 
   //Draw signal plots
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
@@ -640,7 +644,12 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       }
     }
   }
-    
+	
+	    data->SetMaximum(data->GetBinContent(data->GetMaximumBin())*1.5);
+
+    data->Draw("pe");	//The range used is now that of the data histogra
+   
+	
   bkgStack->Draw("hist same ");
   legend->Draw("same");
   bkgTot->Draw("e2same");
