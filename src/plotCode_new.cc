@@ -570,7 +570,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   p1->Draw();
   p1->cd();
   p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-    p1->SetBottomMargin(0);
+  p1->SetBottomMargin(0);
   bkgTot->SetFillStyle(3005);
   bkgTot->SetFillColor(kGray+2);
   bkgTot->SetMarkerStyle(1);
