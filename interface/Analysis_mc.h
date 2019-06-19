@@ -873,8 +873,8 @@ class Analysis_mc : public TObject {
   const static int nSamples_signal_e  = 10;
   const static int nSamples_signal_mu = 10;
   const static int nSamples_signal    = nSamples_signal_e + nSamples_signal_mu;
-  const static int nSamples_eff       = 8 + nSamples_signal;
-
+  const static int nSamples_eff       = 8 + nSamples_signal;   // when there was still ttx
+	
   const TString eff_names[nSamples_eff+1] = {
     "obs",      
     "M-1_V-0.0949736805647_mu",
