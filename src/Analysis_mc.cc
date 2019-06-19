@@ -1226,7 +1226,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       
       if (isDataYield)     fill = 0;
       if (isDataYield)     scal = 1;
-      if (isDataYield)     continue;
+      if (isSRRun && isDataYield)     continue;
 
       if (isOnlyMC) fill = effsam;	    
 
