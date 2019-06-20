@@ -1250,11 +1250,18 @@ class Analysis_mc : public TObject {
   //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
 
 
- 
-
-  
-  
-  
+  const int pu_index =  0;
+  const int qcd_index =  1;
+  const int pdf_index =  2;
+  const int pEle_index =  3;	
+  const int pMuo_index =  4;
+  const int npEle_index =  5;
+  const int npMuo_index =  6;
+  const int jec_index =  7;
+  const int jer_index =  8;
+  const int btag_index =  9;
+  const int sFR_index =  10;
+  const int dFR_index =  11;
 
 };
 
