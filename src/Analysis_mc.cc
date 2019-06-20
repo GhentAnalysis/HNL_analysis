@@ -776,6 +776,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
  
 	  weight_SR[0][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
 	  weight_SR[1][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
+         }
       }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
