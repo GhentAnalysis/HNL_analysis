@@ -1238,7 +1238,7 @@ class Analysis_mc : public TObject {
 
   const static int nCoupling  = 3;
   const std::string systName[] = {  "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR"};
-  const static size_t nSystematic = sizeof(systName)/sizeof(systName[0]);
+  const static int nSystematic = 12;
   const static int nVariation  = 3;	
 	
   const TString systNames[nSystematic] 	= { "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR"};
