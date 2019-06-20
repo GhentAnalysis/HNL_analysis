@@ -1236,7 +1236,20 @@ class Analysis_mc : public TObject {
 
 
 
+  const static int nCoupling  = 3;
+  const std::string systName[] = {  "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR"};
+  const size_t nSystematic = sizeof(systName)/sizeof(systName[0]);
+  const static int nVariation  = 3;	
+	
+  const TString systNames[nSystematic] 	= { "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR"};
+  const TString varNames[nVariation] 	= { "central", "down", "up"};
+  const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 
+	
+  TH1D*	plots_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
+  double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
+  TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
+  //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
 
 
  
