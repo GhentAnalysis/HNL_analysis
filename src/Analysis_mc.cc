@@ -764,7 +764,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (lCount < 3) continue;
 
       //------------------------------------------------------------ jet pt variation and nJet and bjet
-      for (unsigned j =0; j < _nJets ; j++){
+      /*for (unsigned j =0; j < _nJets ; j++){
 	_jetPt[j]=_jetSmearedPt[j];
 	if(systcat==8) {
 	  if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
@@ -774,9 +774,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
 	  else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
 	}
-      }
+      }*/
       for (unsigned j =0; j < _nJets ; j++){
-	if(jetIsBJet(j) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
+	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
 	  double bjetSf = 1.;
 	  // b-jet systematics
 	  if(systcat==10) {
@@ -791,8 +791,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
-	if (jetIsGood(j)) ++goodjet;
-	if (jetIsBJet(j)) ++bjet;
+	if (jetIsGood(j, _jetPt[j])) ++goodjet;
+	if (jetIsBJet(j, _jetPt[j])) ++bjet;
       }
       // std::cout<<"data:  jet_nJets: "<< _nJets<<std::endl;
       // std::cout<<"data:  jet: "<< goodjet<<"   bjet: "<< bjet<<std::endl;
