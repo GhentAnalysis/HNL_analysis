@@ -111,7 +111,7 @@ Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
   for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
     for(int var = 0; var < nVariation; ++var){
       for (int syst = 0; syst < nSystematic; ++syst)	{
-	for(int cha = 0; cha < channel; ++cha){
+	for(int cha = 0; cha < nCoupling; ++cha){
 	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], 18, 0.5, 18.5);
 	  plots_SR[cha][syst][var][effsam]-> Sumw2();
 	  weight_SR[cha][syst][var][effsam]=0.;
