@@ -844,6 +844,10 @@ class Analysis_mc : public TObject {
   
   int               goodjet=0;
   int               bjet=0;
+  int               bjet_down_jec=0;
+  int               bjet_up_jec=0;
+  int               bjet_down_jer=0;
+  int               bjet_up_jer=0;	
   unsigned          promptC = 0;
   double            iV_ls=0;
   double            iV_lt=0;
