@@ -732,8 +732,8 @@ class Analysis_mc : public TObject {
   bool elePassMVA(const unsigned ) const;
   bool jetIsCleanBase(const unsigned , bool (Analysis_mc::*leptonIsFO)(const unsigned) const) const;
   bool jetIsClean(const unsigned ) const;
-  bool jetIsGood(const unsigned ) const;
-  bool jetIsBJet(const unsigned ) const;
+  bool jetIsGood(const unsigned , int pt_variation) const;
+  bool jetIsBJet(const unsigned , int pt_variation) const;
   double deepCSV(const unsigned ) const;
 
   //______________________      event selection functions       ________________________________// 
