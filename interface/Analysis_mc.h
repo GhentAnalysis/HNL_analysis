@@ -1235,10 +1235,8 @@ class Analysis_mc : public TObject {
   double maxBinC[nDist];
 
 
-
-  const static int nCoupling  = 3;
-  const std::string systName[] = {  "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR"};
   const static int nSystematic = 12;
+  const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
 	
   const TString systNames[nSystematic] 	= { "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR"};
