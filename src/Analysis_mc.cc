@@ -114,7 +114,7 @@ Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
 	for(int cha = 0; cha < nCoupling; ++cha){
 	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], 18, 0.5, 18.5);
 	  plots_SR[cha][syst][var][effsam]-> Sumw2();
-	  weight_SR[cha][syst][var][effsam]=0.;
+	  weight_SR[cha][syst][var][effsam]=1.;
 	}
       }
     }
@@ -604,19 +604,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
   }
 
-  
-  // reset all the histograms-->
-  for(int i = 0; i < nDist; ++i){
-    for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
-      for(int cat = 0; cat < nCat; ++cat){
-	//if (cat !=0 && cat !=6) continue;
-	for(int cha = 0; cha < nChannel; ++cha){  
-	  Histos[i][cha][cat][effsam]->Reset("ICESM");
-	  // bkgYields[i][cha][cat][effsam]->Reset("ICESM");
-	}
-      }
-    }
-  }
+
   /* for(int i = 0; i < nDist; ++i){
      for(int cat = 0; cat < nCat; ++cat){
      if (cat !=0 && cat !=6) continue;
@@ -775,24 +763,30 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
 	}
       }*/
+	    
       for (unsigned j =0; j < _nJets ; j++){
 	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
 	  double bjetSf = 1.;
-	  // b-jet systematics
-	  if(systcat==10) {
-	    if(systdir==0)  bjetSf = reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	  
-	    else  bjetSf = reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	    
-	  }
-	  // b-jet central SF
-	  else bjetSf = reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  // Scale the b-veto event weight
-	  bwght *= bjetSf;
-	}	
+	  //central
+	  weight_SR[0][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  weight_SR[1][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	
+	  // b-jet systematics	
+	  weight_SR[0][btag_index][1][effsam] *= reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  weight_SR[1][btag_index][1][effsam] *= reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+ 
+	  weight_SR[0][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  weight_SR[1][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
       }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsGood(j, _jetPt[j])) ++goodjet;
 	if (jetIsBJet(j, _jetPt[j])) ++bjet;
+	//number bjet with jec and jet variation      
+	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
+	if (jetIsBJet(j, _jetSmearedPt_JECUp[j])) ++bjet_up_jec;     
+	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
+	if (jetIsBJet(j, _jetSmearedPt_JERUp[j])) ++bjet_up_jer;     
+
       }
       // std::cout<<"data:  jet_nJets: "<< _nJets<<std::endl;
       // std::cout<<"data:  jet: "<< goodjet<<"   bjet: "<< bjet<<std::endl;
