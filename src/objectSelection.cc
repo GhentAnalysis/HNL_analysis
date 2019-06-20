@@ -260,16 +260,16 @@ bool Analysis_mc::jetIsClean(const unsigned jetIndex) const{
   return jetIsCleanBase(jetIndex, &Analysis_mc::lepIsFOBase);
 }
 //______________________________________________jet ID
-bool Analysis_mc::jetIsGood(const unsigned jetIndex) const{
+bool Analysis_mc::jetIsGood(const unsigned jetIndex, int pt_variation) const{
   if (fabs(_jetEta[jetIndex]) > 2.4) return false;
   if (!jetIsClean(jetIndex)) return false;
   if (!_jetIsTight[jetIndex] ) return false;
-  if (_jetPt[jetIndex] < jet_pt_cut) return false;
+  if (pt_variation < jet_pt_cut) return false;
   return true;
 }
 //______________________________________________jet ID
-bool Analysis_mc::jetIsBJet(const unsigned jetIndex) const{
-  if (!jetIsGood(jetIndex)) return false;
+bool Analysis_mc::jetIsBJet(const unsigned jetIndex, int pt_variation) const{
+  if (!jetIsGood(jetIndex, pt_variation)) return false;
   if (is2016() && deepCSV(jetIndex) < bjet_loose_2016) return false;
   if (is2017() && deepCSV(jetIndex) < bjet_loose_2017) return false;
   if (is2018() && deepCSV(jetIndex) < bjet_loose_2018) return false;
