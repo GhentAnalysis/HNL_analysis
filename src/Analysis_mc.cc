@@ -1072,7 +1072,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       double mT=(to_use_mT+METvec).M();
       double sumjet=0.;
       for (unsigned j =0; j < _nJets ; j++){
-	if (jetIsGood(j)){
+	if (jetIsGood(j, _jetPt[j])){
 	  sumjet= sumjet+ _jetPt[j];
 	}	
       }
