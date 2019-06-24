@@ -1218,7 +1218,7 @@ class Analysis_mc : public TObject {
 				  40,
 				  30,
 				  50,20,20,
-				  100,
+				  20,
 				  50,
 				  25,
 				  50,
