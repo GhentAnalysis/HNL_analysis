@@ -1406,7 +1406,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	   	       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 	   	       eff_names,numer_plot_class ,
 	  	       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-	  	       false,
+	  	       true,
 	  	       2, true, signals,  sigNames_short, nSamples_signal, true);}
 			  
 	}
