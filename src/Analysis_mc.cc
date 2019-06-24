@@ -1082,9 +1082,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       int SR_channel=0;
       SR_channel=channel(flavors_3l, charge_3l);
       if (isSRRun && SR_channel == -1 ) continue;
+      if (isOnlyMC && SR_channel == -1 ) continue;
+	    
       //avoid +++ or ---
       if (isSRRun && SR_channel == 0 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
       if (isSRRun && SR_channel == 3 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
+      if (isOnlyMC && SR_channel == 0 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
+      if (isOnlyMC && SR_channel == 3 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
       bool less2     =false;
       bool more2_10  =false;
       bool more10    =false;  
@@ -1351,6 +1355,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       for(int cha = 0; cha < nChannel; ++cha){               
 	if (isSRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
 	if (isCRRun) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
+	if (isOnlyMC) dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
       }
     }
   }
@@ -1368,15 +1373,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    if (isSRRun)dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
+	    if (isOnlyMC)dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
 	  }	  
 	}
       }
     }
   }
 
-  int numer_plot_class =0;
+   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
-  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 1;
+  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
   
  
   //TH1D* signals[nSamples_signal];
