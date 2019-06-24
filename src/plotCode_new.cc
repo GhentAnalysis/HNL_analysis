@@ -670,14 +670,14 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	  //    line = new TLine(12.5,0.02,12.5,50000);
 
 	  
-    TLine *line = new TLine(6.5,0.02,6.5,50000;
+    TLine *line = new TLine(6.5,0.02,6.5,50000);
     line->SetLineWidth(8);
     line->Draw();
     line = new TLine(12.5,0.02,12.5,50000);
     line->SetLineWidth(8);
     line->Draw();
 	  //100000
-    line = new TLine(2.5,s50000,2.5,0.1);
+    line = new TLine(2.5,50000,2.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
