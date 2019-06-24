@@ -670,44 +670,44 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	  //    line = new TLine(12.5,0.02,12.5,50000);
 
 	  
-    TLine *line = new TLine(6.5,0.02,6.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8);
+    TLine *line = new TLine(6.5,0.02,6.5,50000;
     line->SetLineWidth(8);
     line->Draw();
-    line = new TLine(12.5,0.02,12.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8);
+    line = new TLine(12.5,0.02,12.5,50000);
     line->SetLineWidth(8);
     line->Draw();
 	  //100000
-    line = new TLine(2.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 5,2.5,0.1);
+    line = new TLine(2.5,s50000,2.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(6);
     line->Draw();
-    line = new TLine(4.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 5,4.5,0.1);
+    line = new TLine(4.5,100000,4.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(6);
     line->Draw();
-    line = new TLine(8.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 5,8.5,0.1);
+    line = new TLine(8.5,100000,8.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(6);
     line->Draw();
-    line = new TLine(10.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 5,10.5,0.1);
+    line = new TLine(10.5,100000,10.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(6);
     line->Draw();
-    line = new TLine(14.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 5,14.5,0.1);
+    line = new TLine(14.5,100000,14.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(6);
     line->Draw();
-    line = new TLine(16.5,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 5,16.5,0.1);
+    line = new TLine(16.5,100000,16.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
@@ -745,28 +745,28 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     tex->SetLineWidth(2);
     tex->Draw();
 	//7000.46	
-    tex = new TLatex(0.9578318,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR < 2cm");
+    tex = new TLatex(0.9578318,7000.46,"#DeltaR < 2cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR [2,10]cm");
+    tex = new TLatex(2.857013,7000.46,"#DeltaR [2,10]cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(4.912923,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR > 10cm");
+    tex = new TLatex(4.912923,7000.46,"#DeltaR > 10cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(0.9578318,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR < 2cm");
+    tex = new TLatex(0.9578318,7000.46,"#DeltaR < 2cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
@@ -774,21 +774,21 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     tex->SetLineWidth(2);
     tex->Draw();
 		
-    tex = new TLatex(6.9578318,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR < 2cm");
+    tex = new TLatex(6.9578318,7000.46,"#DeltaR < 2cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(8.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR [2,10]cm");
+    tex = new TLatex(8.857013,7000.46,"#DeltaR [2,10]cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(10.912923,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR > 10cm");
+    tex = new TLatex(10.912923,7000.46,"#DeltaR > 10cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
@@ -796,21 +796,21 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     tex->SetLineWidth(2);
     tex->Draw();	
 		
-    tex = new TLatex(12.9578318,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR < 2cm");
+    tex = new TLatex(12.9578318,7000.46,"#DeltaR < 2cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(14.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR [2,10]cm");
+    tex = new TLatex(14.857013,7000.46,"#DeltaR [2,10]cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(16.912923,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 4.5,"#DeltaR > 10cm");
+    tex = new TLatex(16.912923,7000.46,"#DeltaR > 10cm");
 
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
@@ -820,34 +820,36 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 		
 	//25000.83	
     if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
-      tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
+	 //         tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
+
+      tex = new TLatex(2.857013,25000.83,"#mu#mu#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.07);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(8.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu^{#pm}#mu^{#mp}e");
+      tex = new TLatex(8.857013,25000.83,"#mu^{#pm}#mu^{#mp}e");
       tex->SetTextColor(1);
       tex->SetTextSize(0.07);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(14.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu^{#pm}#mu^{#pm}e");
+      tex = new TLatex(14.857013,25000.83,"#mu^{#pm}#mu^{#pm}e");
       tex->SetTextColor(1);
       tex->SetTextSize(0.07);
       tex->SetLineWidth(2);
       tex->Draw();
     }	
     if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
-      tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"eee");
+      tex = new TLatex(2.857013,25000.83,"eee");
       tex->SetTextColor(1);
       tex->SetTextSize(0.07);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(8,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"e^{#pm}e^{#mp}#mu");
+      tex = new TLatex(8,25000.83,"e^{#pm}e^{#mp}#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.07);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(13.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"e^{#pm}e^{#pm}#mu");
+      tex = new TLatex(13.857013,25000.83,"e^{#pm}e^{#pm}#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.07);
       tex->SetLineWidth(2);
