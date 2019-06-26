@@ -1131,11 +1131,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
     std::cout<<""<<std::endl; 
-std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+    std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 	    
 	    
       if (!selection_0) continue;
-std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+    std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
       
       // if (selection_final && samples[sam].getProcessName() == "DY" )   {    
@@ -1220,6 +1220,7 @@ std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;
       if (isSRRun && channel_bin == -1 ) continue;
       if (isOnlyMC && channel_bin == -1 ) continue;
 
+      std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
   //std::cout<<"before plottinh: "<<std::endl;
       // ------------------- Histo SR
@@ -1341,6 +1342,8 @@ std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;
 	}
       }//end histo
         // std::cout<<"after plottinh: "<<std::endl;
+    if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+    if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
     }//end loop over the entries
     
