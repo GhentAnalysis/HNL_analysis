@@ -1131,6 +1131,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
      
+std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+	    
+	    
       if (!selection_0) continue;
 
       
