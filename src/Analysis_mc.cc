@@ -1123,19 +1123,19 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// If there are b-jets, do not skip the event, just give it a small weight, (1-SF)
 	//  N.B.:  the "rejected" events Nr are scaled to Nr' = Nr * SF ==> DNr = Nr' - Nr = (SF-1)*Nr
 	//         the "accepted" events Na are corrected to Na' = Na - DNr = Na - (SF-1)*Nr = Na + (1-SF)*Nr
-	scal *= (1. - bwght);
-	selection_2 = true;
+	//scal *= (1. - bwght);
+	//selection_2 = true;
       }
       if ( selection_2 && M_3L_combined > 45 && M_3L_combined < 85)            selection_3 = true;
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
-    std::cout<<""<<std::endl; 
-    std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+   // std::cout<<""<<std::endl; 
+  //  std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 	    
 	    
       if (!selection_0) continue;
-    std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+    //std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
       
       // if (selection_final && samples[sam].getProcessName() == "DY" )   {    
@@ -1220,7 +1220,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isSRRun && channel_bin == -1 ) continue;
       if (isOnlyMC && channel_bin == -1 ) continue;
 
-      std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+      //std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
   //std::cout<<"before plottinh: "<<std::endl;
       // ------------------- Histo SR
@@ -1342,8 +1342,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
       }//end histo
         // std::cout<<"after plottinh: "<<std::endl;
-    if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-    if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+    //if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+    //if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
     }//end loop over the entries
     
