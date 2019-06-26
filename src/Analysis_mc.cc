@@ -1130,11 +1130,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
-     
+    std::cout<<""<<std::endl; 
 std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 	    
 	    
       if (!selection_0) continue;
+std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
       
       // if (selection_final && samples[sam].getProcessName() == "DY" )   {    
