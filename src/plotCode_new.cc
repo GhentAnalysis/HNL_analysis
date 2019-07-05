@@ -454,10 +454,10 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
   for(int effsam = nHist - 1; effsam > -1; --effsam){
 	  if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "X+#gamma");
-	  if else (names[histI[effsam] + 1 + nSig] == "XTTX") legend->AddEntry(bkg[effsam], "TT/T+X");
-	  if else (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "TT/T+X");
-	  if else (names[histI[effsam] + 1 + nSig] == "ttbar") legend->AddEntry(bkg[effsam], "t#bar{t}");
-	  if else (names[histI[effsam] + 1 + nSig] == "WJets") legend->AddEntry(bkg[effsam], "W+jets");
+	  else if  (names[histI[effsam] + 1 + nSig] == "XTTX") legend->AddEntry(bkg[effsam], "TT/T+X");
+	  else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "TT/T+X");
+	  else if (names[histI[effsam] + 1 + nSig] == "ttbar") legend->AddEntry(bkg[effsam], "t#bar{t}");
+	  else if (names[histI[effsam] + 1 + nSig] == "WJets") legend->AddEntry(bkg[effsam], "W+jets");
     	  else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
           legend->     SetNColumns(5);
   }
