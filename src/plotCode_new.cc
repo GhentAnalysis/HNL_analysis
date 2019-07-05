@@ -671,47 +671,47 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
 	  
     TLine *line = new TLine(6.5,0.02,6.5,50000);
-    line->SetLineWidth(8);
+    line->SetLineWidth(5);
     line->Draw();
     line = new TLine(12.5,0.02,12.5,50000);
-    line->SetLineWidth(8);
+    line->SetLineWidth(5);
     line->Draw();
 	  //100000
-    line = new TLine(2.5,50000,2.5,0.1);
+    line = new TLine(2.5,20000,2.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
-    line->SetLineWidth(6);
+    line->SetLineWidth(3);
     line->Draw();
-    line = new TLine(4.5,100000,4.5,0.1);
+    line = new TLine(4.5,20000,4.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
-    line->SetLineWidth(6);
+    line->SetLineWidth(3);
     line->Draw();
-    line = new TLine(8.5,100000,8.5,0.1);
+    line = new TLine(8.5,20000,8.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
-    line->SetLineWidth(6);
+    line->SetLineWidth(3);
     line->Draw();
-    line = new TLine(10.5,100000,10.5,0.1);
+    line = new TLine(10.5,20000,10.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
-    line->SetLineWidth(6);
+    line->SetLineWidth(3);
     line->Draw();
-    line = new TLine(14.5,100000,14.5,0.1);
+    line = new TLine(14.5,20000,14.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
-    line->SetLineWidth(6);
+    line->SetLineWidth(3);
     line->Draw();
-    line = new TLine(16.5,100000,16.5,0.1);
+    line = new TLine(16.5,20000,16.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
-    line->SetLineWidth(6);
+    line->SetLineWidth(3);
     line->Draw();
     TLatex *    tex = new TLatex(0.8748578,17546.74,"");
     tex->SetLineWidth(2);
