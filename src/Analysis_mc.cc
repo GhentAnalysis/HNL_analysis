@@ -761,17 +761,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
       for (unsigned j =0; j < _nJets ; j++){
 	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
-	  double bjetSf = 1.;
-	  //central
-	  weight_SR[0][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  weight_SR[1][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);	
-	  // b-jet systematics	
-	  weight_SR[0][btag_index][1][effsam] *= reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  weight_SR[1][btag_index][1][effsam] *= reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
- 
-	  weight_SR[0][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  weight_SR[1][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
-         }
+          for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  weight_SR[w_loop][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  weight_SR[w_loop][btag_index][1][effsam] *= reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  weight_SR[w_loop][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
+          }
+	}	
       }
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
@@ -779,10 +774,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (jetIsBJet(j, _jetPt[j])) ++bjet;
 	//number bjet with jec and jet variation      
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
-	if (jetIsBJet(j, _jetSmearedPt_JECUp[j])) ++bjet_up_jec;     
+	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
 	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
-	if (jetIsBJet(j, _jetSmearedPt_JERUp[j])) ++bjet_up_jer;     
-
+	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;     
       }
       // std::cout<<"data:  jet_nJets: "<< _nJets<<std::endl;
       // std::cout<<"data:  jet: "<< goodjet<<"   bjet: "<< bjet<<std::endl;
