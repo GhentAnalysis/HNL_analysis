@@ -100,14 +100,9 @@ Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
   }
   
-  //------------------------- for the theory system
-  // Only to be initialized and filled for QCD and PDF uncertainties
-  //  - only one distribution (search regions); nDist = 1 anyway here...
-  //  - no need for nCat
-  //  - nSamples_eff needed
-  //  - QCD scales: need for 6 variations 
-  //  - PDFs: need for 100 variations
  
+ // plot for limits 
+ // weights for limits	
   for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
     for(int var = 0; var < nVariation; ++var){
       for (int syst = 0; syst < nSystematic; ++syst)	{
