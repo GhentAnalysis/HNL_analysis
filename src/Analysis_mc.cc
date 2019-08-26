@@ -757,26 +757,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
 	  else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
 	}
-      }*/
-	    
-      for (unsigned j =0; j < _nJets ; j++){
-	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
-          for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  weight_SR[w_loop][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  weight_SR[w_loop][btag_index][1][effsam] *= reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  weight_SR[w_loop][btag_index][2][effsam] *= reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
-          }
-	}	
-      }
+      }*/      
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsGood(j, _jetPt[j])) ++goodjet;
-	if (jetIsBJet(j, _jetPt[j])) ++bjet;
-	//number bjet with jec and jet variation      
-	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
-	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
-	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
-	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;     
+	if (jetIsBJet(j, _jetPt[j])) ++bjet;   
       }
       // std::cout<<"data:  jet_nJets: "<< _nJets<<std::endl;
       // std::cout<<"data:  jet: "<< goodjet<<"   bjet: "<< bjet<<std::endl;
@@ -838,22 +823,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       charge_3l[0]=_lCharge[l1];
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
-
-      // Systematics on displaced electrons
-      double displEleWeight = 1.;
-      if(systcat==6) {
-	if(flavors_3l[1]==0) {
-	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);
-	  displEleWeight *= displEleVars[indEle];
-	}
-	if(flavors_3l[2]==0) {
-	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
-	  displEleWeight *= displEleVars[indEle];
-	}
-	if(systdir==0) scal *= displEleWeight;
-	else           scal /= displEleWeight;
-      }
-      
 
       // if (samples[sam].getProcessName() == "DY" )   {    
       // 	zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
@@ -1136,18 +1105,67 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // 		     _met)<< std::endl;
       // }
 
+     
+	    
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      // bjet SF + JEC/JER number of jets
+      for (unsigned j =0; j < _nJets ; j++){
+	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
+	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
+	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
+	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;      
+	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
+          for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  weight_SR[w_loop][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  weight_SR[w_loop][btag_index][1][effsam] *= reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  weight_SR[w_loop][btag_index][2][effsam] *= reader.eval_auto_bounds("up",      BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
+          }
+	}	
+      }     
+	    	    
+     // Systematics on displaced electrons
+      double displEleWeight = 1.;
+      if(flavors_3l[1]==0) {
+	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);
+	displEleWeight *= displEleVars[indEle];
+      }	
+      if(flavors_3l[2]==0) {
+	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
+	displEleWeight *= displEleVars[indEle];
+      }		      
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  weight_SR[w_loop][npEle_index][0][effsam] =1.;
+	  weight_SR[w_loop][npEle_index][1][effsam] =1-displEleWeight;
+	  weight_SR[w_loop][npEle_index][2][effsam] =1+displEleWeight;		
+      }    	
       // Systematics on displaced muons
       double displMuoWeight = 1.;
-      if(systcat==7) {
-	if(flavors_3l[1]==1) {
-	  displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l2])));
+      if(flavors_3l[1]==1) {
+	displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l2])));
+      }	
+      if(flavors_3l[2]==1) {
+	displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
+      }		      
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  weight_SR[w_loop][npMuo_index][0][effsam] =1.;
+	  weight_SR[w_loop][npMuo_index][1][effsam] =1-displMuoWeight;
+	  weight_SR[w_loop][npMuo_index][2][effsam] =1+displMuoWeight;		
+      }    
+	              
+      /* before ---> . if(systcat==6) {
+	if(flavors_3l[1]==0) {
+	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);
+	  
 	}
-	if(flavors_3l[2]==1) {
-	  displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
+	if(flavors_3l[2]==0) {
+	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
+	  displEleWeight *= displEleVars[indEle];
 	}
-	if(systdir==0) scal /= displMuoWeight;
-	else           scal *= displMuoWeight;
-      }
+	if(systdir==0) scal *= displEleWeight;
+	else           scal /= displEleWeight;
+      }*/
+	   
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
