@@ -1127,8 +1127,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
      // Systematics on displaced electrons
       double displEleWeight = 1.;
       if(flavors_3l[1]==0) {
-	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);
+	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);   
+	//double value_test =  displEleVars[indEle] <= 1 ? displEleVars[indEle] : std::min((unsigned)1, 1/displEleVars[indEle]);      
 	displEleWeight *= displEleVars[indEle];
+	      
       }	
       if(flavors_3l[2]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
@@ -1136,21 +1138,21 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }		      
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	  weight_SR[w_loop][npEle_index][0][effsam] =1.;
-	  weight_SR[w_loop][npEle_index][1][effsam] =1-displEleWeight;
-	  weight_SR[w_loop][npEle_index][2][effsam] =1+displEleWeight;		
+	  weight_SR[w_loop][npEle_index][1][effsam] = displEleWeight;
+	  weight_SR[w_loop][npEle_index][2][effsam] = 1/displEleWeight;		
       }    	
       // Systematics on displaced muons
       double displMuoWeight = 1.;
-      if(flavors_3l[1]==1) {
-	displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l2])));
+      if(flavors_3l[1]==1) {      
+	displMuoWeight *= (1.0 - std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l2])));
       }	
       if(flavors_3l[2]==1) {
-	displMuoWeight *= (1.0 + std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
+	displMuoWeight *= (1.0 - std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
       }		      
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	  weight_SR[w_loop][npMuo_index][0][effsam] =1.;
-	  weight_SR[w_loop][npMuo_index][1][effsam] =1-displMuoWeight;
-	  weight_SR[w_loop][npMuo_index][2][effsam] =1+displMuoWeight;		
+	  weight_SR[w_loop][npMuo_index][1][effsam] = displMuoWeight;
+	  weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
       }    
 	              
       /* before ---> . if(systcat==6) {
