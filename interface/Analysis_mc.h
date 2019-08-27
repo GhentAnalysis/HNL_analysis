@@ -729,7 +729,12 @@ class Analysis_mc : public TObject {
   bool lepIsTightDisplaced(const unsigned ) const;
   bool lepIsTightPrompt(const unsigned ) const;
   bool lepPromptTriggerMatching(const unsigned ) const;
+  double findEleMVACategory (const unsigned ) const;
+  double convertMVAInRawMva (const unsigned ) const;	
   bool elePassMVA(const unsigned ) const;
+  bool elePassMVA2016(const unsigned ) const;
+  bool elePassMVA2017(const unsigned ) const;	
+  bool elePassMVA2018(const unsigned ) const;	
   bool jetIsCleanBase(const unsigned , bool (Analysis_mc::*leptonIsFO)(const unsigned) const) const;
   bool jetIsClean(const unsigned ) const;
   bool jetIsGood(const unsigned , int pt_variation) const;
