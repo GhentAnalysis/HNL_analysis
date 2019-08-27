@@ -1263,7 +1263,10 @@ class Analysis_mc : public TObject {
   TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
   //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
 
-
+  const int muon_case =0;
+  const int ele_case = 1;
+  const int tau_case = 2;
+	
   const int pu_index =  0;
   const int qcd_index =  1;
   const int pdf_index =  2;
