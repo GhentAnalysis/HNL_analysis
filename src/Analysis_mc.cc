@@ -667,7 +667,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
-    if (samples[sam].isData() && systcat != 0 ) continue;
+    //if (samples[sam].isData() && systcat != 0 ) continue;
 
   
 	  
@@ -1028,7 +1028,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // 		     _met)<< std::endl;
       // }
       if (photonOverlap (samples[sam])) continue;
-      
+         
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
       // -----------------   variables useful    --------------------------------//
@@ -1146,7 +1146,24 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
      
 	    
+  
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //-------------------- central values SF calculations -------------------------
+      // l1   
+      // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!!  
+      if (!samples[sam].isData() && year == 0){
+         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, v4l1, _lEtaSC[l1]);	    
+	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, v4l1, _lEtaSC[l1]);	    
+      }
+      if (!samples[sam].isData() && year == 1){
+         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2017, v4l1, _lEtaSC[l1]);	    
+	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, v4l1, _lEtaSC[l1]);	    
+      }    
+      if (!samples[sam].isData() && year == 2){
+         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, v4l1, _lEtaSC[l1]);	    
+	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, v4l1, _lEtaSC[l1]);	    
+      }
+	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
       for (unsigned j =0; j < _nJets ; j++){
