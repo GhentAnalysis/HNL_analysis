@@ -1122,15 +1122,21 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  weight_SR[w_loop][btag_index][2][effsam] *= reader.eval_auto_bounds("up",      BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
           }
 	}	
-      }     
-	    	    
+      } 
+      //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	 if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
+   	 if (bjet_up_jec != 0)   weight_SR[w_loop][jec_index][2][effsam] = 0.;
+	 if (bjet_down_jer != 0) weight_SR[w_loop][jer_index][1][effsam] = 0.;
+   	 if (bjet_up_jer != 0)   weight_SR[w_loop][jer_index][2][effsam] = 0.;
+      }    
+     // ------------------------- leptons SF uncertainties ------------------------- //    
      // Systematics on displaced electrons
       double displEleWeight = 1.;
       if(flavors_3l[1]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);   
 	//double value_test =  displEleVars[indEle] <= 1 ? displEleVars[indEle] : std::min((unsigned)1, 1/displEleVars[indEle]);      
-	displEleWeight *= displEleVars[indEle];
-	      
+	displEleWeight *= displEleVars[indEle];	      
       }	
       if(flavors_3l[2]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
@@ -1154,21 +1160,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  weight_SR[w_loop][npMuo_index][1][effsam] = displMuoWeight;
 	  weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
       }    
-	              
-      /* before ---> . if(systcat==6) {
-	if(flavors_3l[1]==0) {
-	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);
-	  
-	}
-	if(flavors_3l[2]==0) {
-	  size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
-	  displEleWeight *= displEleVars[indEle];
-	}
-	if(systdir==0) scal *= displEleWeight;
-	else           scal /= displEleWeight;
-      }*/
-	   
-
+	
+	    
+	    
+      
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
