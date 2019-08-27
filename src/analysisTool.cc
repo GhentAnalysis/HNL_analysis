@@ -107,6 +107,39 @@ int Analysis_mc::channel(int  flavors_3l[3], int  charge_3l[3]){
   return canale;
   
 }
+//_____________________________________________ SF prompt ele
+double Analysis_mc::SF_prompt_ele(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  	
+   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
+   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
+   sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
+   return sfValue;	
+}
+//_____________________________________________ SF prompt ele
+double Analysis_mc::SF_prompt_muon(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  	
+   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
+   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
+   sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
+   return sfValue;	
+}
+SF_prompt_ele_error
+//_____________________________________________ SF prompt ele
+double Analysis_mc::SF_prompt_ele_error(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  	
+   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
+   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
+   sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+   return sfValue;	
+}
+//_____________________________________________ SF prompt ele
+double Analysis_mc::SF_prompt_muon_error(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  	
+   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
+   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
+   sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+   return sfValue;	
+}
 //_____________________________________________
 void Analysis_mc::zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]){
   int ch_lepton1=charge_3l[0];
