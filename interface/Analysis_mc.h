@@ -771,7 +771,12 @@ class Analysis_mc : public TObject {
   int channel(int  flavors_3l[3], int  charge_3l[3]);
   int SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 );
   int SR_bin_muon(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 );
-
+  double SF_prompt_ele(TLorentzVector leep1, double eta_SC);
+  double SF_prompt_ele_error(TLorentzVector leep1, double eta_SC);
+  double SF_prompt_muon(TLorentzVector leep1);
+  double SF_prompt_muon_error(TLorentzVector leep1);
+	
+	
   void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
 
   void put_at_zero(TH1D *histo);
