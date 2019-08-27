@@ -262,20 +262,44 @@ bool Analysis_mc::elePassMVA2016(const unsigned leptonIndex) const{
      if (category == 5)_passedMVA90 = mvaRaw >4.16921343208 - exp(-pt / 13.2017224621) * 9.00720913211;	
      return _passedMVA90;
 }
+//______________________________________________ele MVA ID 2016
+bool Analysis_mc::elePassMVA2017(const unsigned leptonIndex) const{
+    if( !isElectron(leptonIndex)) return false;
+    bool _passedMVA90 =false;
+    double mvaRaw = convertMVAInRawMva(leptonIndex);
+    double category = findEleMVACategory(leptonIndex);
+     if (category == 0)_passedMVA90 = mvaRaw > 2.77072387339 - exp(-pt / 3.81500912145) * 8.16304860178;
+     if (category == 1)_passedMVA90 = mvaRaw >1.85602317813 - exp(-pt / 2.18697654938) * 11.8568936824;
+     if (category == 2)_passedMVA90 = mvaRaw >1.73489307814 - exp(-pt / 2.0163211971) * 17.013880078;
+     if (category == 3)_passedMVA90 = mvaRaw >5.9175992258 - exp(-pt / 13.4807294538) * 9.31966232685;
+     if (category == 4)_passedMVA90 = mvaRaw >5.01598837255 - exp(-pt / 13.1280451502) * 8.79418193765;
+     if (category == 5)_passedMVA90 = mvaRaw >4.16921343208 - exp(-pt / 13.2017224621) * 9.00720913211;	
+     return _passedMVA90;
+}
+//______________________________________________ele MVA ID 2016
+bool Analysis_mc::elePassMVA2018(const unsigned leptonIndex) const{
+    if( !isElectron(leptonIndex)) return false;
+    bool _passedMVA90 =false;
+    double mvaRaw = convertMVAInRawMva(leptonIndex);
+    double category = findEleMVACategory(leptonIndex);
+     if (category == 0)_passedMVA90 = mvaRaw > 2.77072387339 - exp(-pt / 3.81500912145) * 8.16304860178;
+     if (category == 1)_passedMVA90 = mvaRaw >1.85602317813 - exp(-pt / 2.18697654938) * 11.8568936824;
+     if (category == 2)_passedMVA90 = mvaRaw >1.73489307814 - exp(-pt / 2.0163211971) * 17.013880078;
+     if (category == 3)_passedMVA90 = mvaRaw >5.9175992258 - exp(-pt / 13.4807294538) * 9.31966232685;
+     if (category == 4)_passedMVA90 = mvaRaw >5.01598837255 - exp(-pt / 13.1280451502) * 8.79418193765;
+     if (category == 5)_passedMVA90 = mvaRaw >4.16921343208 - exp(-pt / 13.2017224621) * 9.00720913211;	
+     return _passedMVA90;
+}
 //______________________________________________ele MVA ID
 bool Analysis_mc::elePassMVA(const unsigned leptonIndex) const{
   if( !isElectron(leptonIndex)) return false;
   bool _passedMVA90 =false;
-  int eta = -1;
-  if(TMath::Abs(_lEta[leptonIndex]) < 0.8 ) eta = 0;
-  else if(TMath::Abs(_lEta[leptonIndex]) < 1.479 ) eta = 1;
-  else eta = 2;
-  _passedMVA90 = _lElectronMvaFall17Iso[leptonIndex] >  std::min( MVA_cuts_pt15[eta], std::max(MVA_cuts_pt25[eta] , MVA_cuts_pt15[eta] + (MVA_cuts_pt25[eta] - MVA_cuts_pt15[eta])*0.1 *( _lPt[leptonIndex]-15) ) );
+  if( is2016()) _passedMVA90 = elePassMVA2016(leptonIndex);
+  if( is2017()) _passedMVA90 = elePassMVA2017(leptonIndex);
+  if( is2018()) _passedMVA90 = elePassMVA2018(leptonIndex);
   return _passedMVA90;
   //return _lPOGMedium[leptonIndex];
 }
-
-
 //______________________________________________jet cleaning
 bool Analysis_mc::jetIsCleanBase(const unsigned jetIndex, bool (Analysis_mc::*leptonIsFO)(const unsigned) const) const{
   for(unsigned l = 0; l < _nLight; ++l){
