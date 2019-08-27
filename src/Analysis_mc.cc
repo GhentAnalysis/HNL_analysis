@@ -521,46 +521,27 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
 	
   //   SF leptons histograms	
-  TGraphAsymmErrors *sf_prompt_mu_2016[5]; // to be filled
-  TGraphAsymmErrors *sf_prompt_ele_2016[5];
+  TH2F *sf_prompt_mu_2016[1]; // to be filled
+  TH2F *sf_prompt_ele_2016[1];
   TFile *hfile1_sf_2016 = ist2b ?
     TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
-  sf_prompt_ele_2016[0] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_0");
-  sf_prompt_ele_2016[1] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_1");
-  sf_prompt_ele_2016[2] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_2");
-  sf_prompt_ele_2016[3] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_3");
-  sf_prompt_ele_2016[4] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_4");
-  sf_prompt_ele_2016[5] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_5");
+  sf_prompt_ele_2016[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
 	
-  TGraphAsymmErrors *sf_prompt_mu_2017[5]; // to be filled
-  TGraphAsymmErrors *sf_prompt_ele_2017[5];
+  TH2F *sf_prompt_mu_2017[1]; // to be filled
+  TH2F *sf_prompt_ele_2017[1];
   TFile *hfile1_sf_2017 = ist2b ?
     TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2017_ElectronMVA90noiso.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
-  sf_prompt_ele_2016[0] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_0");
-  sf_prompt_ele_2017[1] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_1");
-  sf_prompt_ele_2017[2] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_2");
-  sf_prompt_ele_2017[3] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_3");
-  sf_prompt_ele_2017[4] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_4");
-  sf_prompt_ele_2017[5] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_5");
-	
-  TGraphAsymmErrors *sf_prompt_mu_2018[5]; // to be filled
-  TGraphAsymmErrors *sf_prompt_ele_2018[5];
+  sf_prompt_ele_2016[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
+  
+  TH2F *sf_prompt_mu_2018[1]; // to be filled
+  TH2F *sf_prompt_ele_2018[1];
   TFile *hfile1_sf_2017 = ist2b ?
     TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2018_ElectronMVA90noiso.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
-  sf_prompt_ele_2018[0] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_0");
-  sf_prompt_ele_2018[1] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_1");
-  sf_prompt_ele_2018[2] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_2");
-  sf_prompt_ele_2018[3] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_3");
-  sf_prompt_ele_2018[4] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_4");
-  sf_prompt_ele_2018[5] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_5");
-
-	
-	
-	
-	
+  sf_prompt_ele_2018[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
+ 	
   if(year==0) {
   }
   else if(year==1) {
