@@ -477,51 +477,90 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
-
   TFile *hfile_pu = ist2b ?
     TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
-
+  // FR histograms
   TGraphAsymmErrors *fakeRate_mu[3];
   TGraphAsymmErrors *fakeRate_e[3];
   TGraphAsymmErrors *fakeRate_mumu[3];
   TGraphAsymmErrors *fakeRate_ee[3];
   TGraphAsymmErrors *fakeRate_mue[3];
-
-
   TFile *hfile1 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mu.root") :
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_mu.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
   fakeRate_mu[0] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta1");
   fakeRate_mu[1] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta2");
   fakeRate_mu[2] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta3");
   TFile *hfile2 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_e.root") :
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_e.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_e.root");
   fakeRate_e[0] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta1");
   fakeRate_e[1] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta2");
   fakeRate_e[2] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta3");
   TFile *hfile_dfr1 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_mumu.root") :
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_mumu.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root");
   fakeRate_mumu[0]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
   fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta2");
   fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta3");
   TFile *hfile_dfr2 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_ee.root") :
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_ee.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_ee.root");
   fakeRate_ee[0]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
   fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta2");
   fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta3");
   TFile *hfile_dfr3 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/closure_2016/FR/fake_rate_emu.root") :
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_emu.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_emu.root");
   fakeRate_mue[0]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
   fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta2");
   fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta3");
   
+	
+  //   SF leptons histograms	
+  TGraphAsymmErrors *sf_prompt_mu_2016[5]; // to be filled
+  TGraphAsymmErrors *sf_prompt_ele_2016[5];
+  TFile *hfile1_sf_2016 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
+  sf_prompt_ele_2016[0] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_0");
+  sf_prompt_ele_2016[1] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_1");
+  sf_prompt_ele_2016[2] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_2");
+  sf_prompt_ele_2016[3] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_3");
+  sf_prompt_ele_2016[4] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_4");
+  sf_prompt_ele_2016[5] = (TGraphAsymmErrors*)hfile1_sf_2016->Get("grSF1D_5");
+	
+  TGraphAsymmErrors *sf_prompt_mu_2017[5]; // to be filled
+  TGraphAsymmErrors *sf_prompt_ele_2017[5];
+  TFile *hfile1_sf_2017 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2017_ElectronMVA90noiso.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
+  sf_prompt_ele_2016[0] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_0");
+  sf_prompt_ele_2017[1] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_1");
+  sf_prompt_ele_2017[2] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_2");
+  sf_prompt_ele_2017[3] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_3");
+  sf_prompt_ele_2017[4] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_4");
+  sf_prompt_ele_2017[5] = (TGraphAsymmErrors*)hfile1_sf_2017->Get("grSF1D_5");
+	
+  TGraphAsymmErrors *sf_prompt_mu_2018[5]; // to be filled
+  TGraphAsymmErrors *sf_prompt_ele_2018[5];
+  TFile *hfile1_sf_2017 = ist2b ?
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2018_ElectronMVA90noiso.root") :
+    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
+  sf_prompt_ele_2018[0] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_0");
+  sf_prompt_ele_2018[1] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_1");
+  sf_prompt_ele_2018[2] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_2");
+  sf_prompt_ele_2018[3] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_3");
+  sf_prompt_ele_2018[4] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_4");
+  sf_prompt_ele_2018[5] = (TGraphAsymmErrors*)hfile1_sf_2018->Get("grSF1D_5");
+
+	
+	
+	
+	
   if(year==0) {
   }
   else if(year==1) {
