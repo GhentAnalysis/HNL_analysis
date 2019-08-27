@@ -1152,16 +1152,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // l1   
       // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!!  
       if (!samples[sam].isData() && year == 0){
-         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, v4l1, _lEtaSC[l1]);	    
-	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, v4l1, _lEtaSC[l1]);	    
+         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, l1);	    
+	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, l1);	    
       }
       if (!samples[sam].isData() && year == 1){
-         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2017, v4l1, _lEtaSC[l1]);	    
-	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, v4l1, _lEtaSC[l1]);	    
+         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2017, l1);	    
+	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2017, l1);	    
       }    
       if (!samples[sam].isData() && year == 2){
-         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, v4l1, _lEtaSC[l1]);	    
-	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, v4l1, _lEtaSC[l1]);	    
+         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, l1);	    
+	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, l1);	    
       }
 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
