@@ -521,27 +521,29 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
 	
   //   SF leptons histograms	
-  TH2F *sf_prompt_mu_2016[1]; // to be filled
-  TH2F *sf_prompt_ele_2016[1];
-  TFile *hfile1_sf_2016 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root") :
-    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
-  sf_prompt_ele_2016[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
-	
-  TH2F *sf_prompt_mu_2017[1]; // to be filled
-  TH2F *sf_prompt_ele_2017[1];
-  TFile *hfile1_sf_2017 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2017_ElectronMVA90noiso.root") :
-    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
-  sf_prompt_ele_2016[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
-  
-  TH2F *sf_prompt_mu_2018[1]; // to be filled
-  TH2F *sf_prompt_ele_2018[1];
-  TFile *hfile1_sf_2017 = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2018_ElectronMVA90noiso.root") :
-    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
-  sf_prompt_ele_2018[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
- 	
+  TH2F *sf_prompt_mu[1]; // to be filled
+  TH2F *sf_prompt_ele[1];
+  if (year == 0){
+    TFile *hfile1_sf_2016 = ist2b ?
+      TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root") :
+      TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
+   sf_prompt_ele[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
+   sf_prompt_muon[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
+  }	
+  if (year == 1){
+    TFile *hfile1_sf_2017 = ist2b ?
+      TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2017_ElectronMVA90noiso.root") :
+      TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
+    sf_prompt_ele[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
+    sf_prompt_muon[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
+  }
+  if (year == 2 ){	
+    TFile *hfile1_sf_2017 = ist2b ?
+      TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2018_ElectronMVA90noiso.root") :
+      TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
+    sf_prompt_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
+    sf_prompt_muon[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
+  }	
   if(year==0) {
   }
   else if(year==1) {
@@ -1131,19 +1133,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
-      // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!!  
-      if (!samples[sam].isData() && year == 0){
-         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, l1);	    
-	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2016, l1);	    
-      }
-      if (!samples[sam].isData() && year == 1){
-         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2017, l1);	    
-	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2017, l1);	    
-      }    
-      if (!samples[sam].isData() && year == 2){
-         if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, l1);	    
-	 if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele_2018, l1);	    
-      }
+      // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!!      
+      if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);	
+      if (_lFlavor[l1]==0 ) weight_SR[tau_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);	        
+      if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	    
+      if (_lFlavor[l1]==1 ) weight_SR[tau_case][pMuon_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	    
+
 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
@@ -1170,12 +1165,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
      // ------------------------- leptons SF uncertainties ------------------------- //    
      // Systematics on displaced electrons
       double displEleWeight = 1.;
-      if(flavors_3l[1]==0) {
+      if(flavors_3l[l2]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);   
 	//double value_test =  displEleVars[indEle] <= 1 ? displEleVars[indEle] : std::min((unsigned)1, 1/displEleVars[indEle]);      
 	displEleWeight *= displEleVars[indEle];	      
       }	
-      if(flavors_3l[2]==0) {
+      if(flavors_3l[l3]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
 	displEleWeight *= displEleVars[indEle];
       }		      
@@ -1186,10 +1181,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }    	
       // Systematics on displaced muons
       double displMuoWeight = 1.;
-      if(flavors_3l[1]==1) {      
+      if(flavors_3l[l2]==1) {      
 	displMuoWeight *= (1.0 - std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l2])));
       }	
-      if(flavors_3l[2]==1) {
+      if(flavors_3l[l3]==1) {
 	displMuoWeight *= (1.0 - std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
       }		      
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
@@ -1197,10 +1192,19 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  weight_SR[w_loop][npMuo_index][1][effsam] = displMuoWeight;
 	  weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
       }    
-	
-	    
-	    
-      
+       // Systematics on prompt muons	
+       if(flavors_3l[l1]==1) {      
+	   weight_SR[muon_case][pMuon_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
+       	   weight_SR[muon_case][pMuon_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
+           weight_SR[tau_case][pMuon_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
+       	   weight_SR[tau_case][pMuon_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);
+       }
+       if(flavors_3l[l1]==0) {      
+	   weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
+       	   weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
+           weight_SR[tau_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
+       	   weight_SR[tau_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);
+       }    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
