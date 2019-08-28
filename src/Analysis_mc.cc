@@ -1134,13 +1134,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
-      // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!!      
-      if (_lFlavor[l1]==0 ) weight_SR[ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);	
-      if (_lFlavor[l1]==0 ) weight_SR[tau_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);	        
-      if (_lFlavor[l1]==1 ) weight_SR[muon_case][pMuon_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	    
-      if (_lFlavor[l1]==1 ) weight_SR[tau_case][pMuon_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	    
-
-	    
+      // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!! 
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
+	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuon_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	   
+      }	      
+      //   trigger leading leptons
+   	     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
       double btag_weight_central=1;
