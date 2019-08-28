@@ -108,7 +108,7 @@ int Analysis_mc::channel(int  flavors_3l[3], int  charge_3l[3]){
   
 }
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_ele(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
    int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
@@ -116,7 +116,7 @@ double Analysis_mc::SF_prompt_ele(TH2D *ele_sf_histogram[1], const unsigned lept
    return sfValue;	
 }
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_muon(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
    int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
@@ -125,7 +125,7 @@ double Analysis_mc::SF_prompt_muon(TH2D *ele_sf_histogram[1], const unsigned lep
 }
 SF_prompt_ele_error
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_ele_error(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
    int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
@@ -133,7 +133,7 @@ double Analysis_mc::SF_prompt_ele_error(TH2D *ele_sf_histogram[1], const unsigne
    return sfValue;	
 }
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon_error(TH2D *ele_sf_histogram[1], const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_muon_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]));
    int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]));	
