@@ -521,7 +521,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
 	
   //   SF leptons histograms	
-  TH2F *sf_prompt_mu[1]; // to be filled
+  TH2F *sf_prompt_muon[1]; // to be filled
   TH2F *sf_prompt_ele[1];
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?
@@ -538,7 +538,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     sf_prompt_muon[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
   }
   if (year == 2 ){	
-    TFile *hfile1_sf_2017 = ist2b ?
+    TFile *hfile1_sf_2018 = ist2b ?
       TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2018_ElectronMVA90noiso.root") :
       TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root");
     sf_prompt_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
@@ -1137,7 +1137,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!! 
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	  if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
-	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuon_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	   
+	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	   
       }	      
       //   trigger leading leptons
    	     
@@ -1204,10 +1204,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }    
        // Systematics on prompt muons	
        if(flavors_3l[l1]==1) {      
-	   weight_SR[muon_case][pMuon_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
-       	   weight_SR[muon_case][pMuon_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
-           weight_SR[tau_case][pMuon_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
-       	   weight_SR[tau_case][pMuon_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);
+	   weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
+       	   weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
+           weight_SR[tau_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
+       	   weight_SR[tau_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);
        }
        if(flavors_3l[l1]==0) {      
 	   weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
