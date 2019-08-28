@@ -782,6 +782,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }*/      
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
+	_jetPt[j]=_jetSmearedPt[j];      
 	if (jetIsGood(j, _jetPt[j])) ++goodjet;
 	if (jetIsBJet(j, _jetPt[j])) ++bjet;   
       }
@@ -1142,19 +1143,28 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
+      double btag_weight_central=1;
+      double btag_weight_down=1; 	    
+      double btag_weight_up=1; 	    
+
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
 	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
-	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;      
-	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. && std::abs(_jetEta[j])<2.4) {
-          for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  weight_SR[w_loop][btag_index][0][effsam] *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  weight_SR[w_loop][btag_index][1][effsam] *= reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  weight_SR[w_loop][btag_index][2][effsam] *= reader.eval_auto_bounds("up",      BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);				
+	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;   	      
+	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. ) {
+	  btag_weight_central *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  btag_weight_down    *= reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
+	  btag_weight_up      *= reader.eval_auto_bounds("up",      BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);		     	
+	}	//bjet
+      }    //njet
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  if (bjet != 0){    // stays equal to 1 if there are 0 bjet... but it is corrected for events with > 0 jets
+	     weight_SR[w_loop][btag_index][0][effsam] = (1.- btag_weight_central);
+	     weight_SR[w_loop][btag_index][1][effsam] = (1.- btag_weight_down);
+	     weight_SR[w_loop][btag_index][2][effsam] = (1.- btag_weight_up);		
           }
-	}	
-      } 
+      }
       //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	 if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
