@@ -123,7 +123,7 @@ double Analysis_mc::SF_prompt_muon(TH2F *ele_sf_histogram[1], const unsigned lep
    sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
    return sfValue;	
 }
-SF_prompt_ele_error
+
 //_____________________________________________ SF prompt ele
 double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
