@@ -1249,11 +1249,11 @@ class Analysis_mc : public TObject {
   double maxBinC[nDist];
 
 
-  const static int nSystematic = 12;
+  const static int nSystematic = 13;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
 	
-  const TString systNames[nSystematic] 	= { "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR"};
+  const TString systNames[nSystematic] 	= { "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR", "trigger"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 
@@ -1279,6 +1279,7 @@ class Analysis_mc : public TObject {
   const int btag_index =  9;
   const int sFR_index =  10;
   const int dFR_index =  11;
+  const int trigger_index =  12;
 	
 	
 	
