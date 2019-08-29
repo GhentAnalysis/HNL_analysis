@@ -812,6 +812,9 @@ class Analysis_mc : public TObject {
   bool is2016() const { return (year == 0); }
   bool is2017() const { return (year == 1); }
   bool is2018() const { return (year == 2); } 
+	
+   std::shared_ptr<Reweighter> reweighter;                                 //instance of reweighter class used for reweighting functions
+
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
