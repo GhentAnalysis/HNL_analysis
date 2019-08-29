@@ -116,11 +116,19 @@ double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned lept
    return sfValue;	
 }
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
-   double sfValue = 1;  	
-   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
-   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
-   sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
+double Analysis_mc::SF_prompt_muon(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;
+   int binx =0;
+   int biny =0;	
+   if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
+	  binx = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEtaSC[leptonIndex]));
+          biny = muon_sf_histogram[0]->GetXaxis()->FindBin(_lPt[leptonIndex]);   
+   }
+   else { // it means that xaxis has eta so y axis has pt
+	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
+          biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);   
+   }		
+   sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);	
    return sfValue;	
 }
 //_____________________________________________ SF prompt ele
@@ -132,13 +140,43 @@ double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigne
    return sfValue;	
 }
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
-   double sfValue = 1;  	
-   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
-   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
-   sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+double Analysis_mc::SF_prompt_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  		
+   int binx =0;
+   int biny =0;	
+   if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
+	  binx = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEtaSC[leptonIndex]));
+          biny = muon_sf_histogram[0]->GetXaxis()->FindBin(_lPt[leptonIndex]);   
+   }
+   else { // it means that xaxis has eta so y axis has pt
+	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
+          biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);   
+   }		
+   sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+   return sfValue;		
+}
+
+//_____________________________________________ SF prompt muon trigger
+double Analysis_mc::SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  
+   int binx =0;
+   int biny =0;	
+   binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEtaSC[leptonIndex]));
+   biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
+   sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
    return sfValue;	
 }
+//_____________________________________________ SF prompt muon trigger error
+double Analysis_mc::SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+     double sfValue = 1;  
+   int binx =0;
+   int biny =0;	
+   binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEtaSC[leptonIndex]));
+   biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
+   sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+   return sfValue;			
+}
+
 //_____________________________________________
 void Analysis_mc::zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]){
   int ch_lepton1=charge_3l[0];
