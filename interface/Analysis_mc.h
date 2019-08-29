@@ -701,7 +701,12 @@ class Analysis_mc : public TObject {
 		 );
 
   double pu_weight ( TH1D *histo, double numberInteractions);
+  double PUWeight();
+  double puWeight(const unsigned unc = 0) const;
+  void initializeWeights();
 
+	
+	
   double displMuoVars(double idisp, double ipt);
 
 
