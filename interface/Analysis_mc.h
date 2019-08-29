@@ -33,6 +33,7 @@
 
 //include other parts of the code
 #include "Sample.h"
+#include "Reweighter.h"
 
 
 
