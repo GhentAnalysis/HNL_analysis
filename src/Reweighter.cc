@@ -1,7 +1,7 @@
 #include "../interface/Reweighter.h"
 
 //include c++ library classes
-
+#include <map>
 //include ROOT classes
 #include "TFile.h"
 #include "TROOT.h"
