@@ -163,7 +163,7 @@ double Analysis_mc::SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned l
    int biny =0;	
    binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
    biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
-   sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
+   sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);	
    return sfValue;	
 }
 //_____________________________________________ SF prompt muon trigger error
@@ -173,7 +173,7 @@ double Analysis_mc::SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsi
    int biny =0;	
    binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
    biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
-   sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+   sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;			
 }
 
