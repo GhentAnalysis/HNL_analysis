@@ -2,7 +2,7 @@
 #define Reweighter_H
 
 //include c++ library classes
-
+#include <map>
 //include ROOT classes
 #include "TH1D.h"
 #include "TH2D.h"
