@@ -773,8 +773,10 @@ class Analysis_mc : public TObject {
   int SR_bin_muon(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 );
   double SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
   double SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
-  double SF_prompt_muon(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
-  double SF_prompt_muon_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
+  double SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned leptonIndex);
+  double SF_prompt_muon_error(TH2D *muon_sf_histogram[1], const unsigned leptonIndex);
+  double SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
+  double SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
 		
   void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
   void put_at_zero(TH1D *histo);
