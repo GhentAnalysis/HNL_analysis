@@ -515,18 +515,33 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   TH2F *sf_prompt_muon[1]; 
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SF_muon_files[0]) :  TFile::Open(names_SF_muon_files[0]);
-    sf_prompt_muon[0] = (TH2F*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
+    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
   }	
   if (year == 1){
      TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_muon_files[1]) :  TFile::Open(names_SF_muon_files[1]);
-     sf_prompt_muon[0] = (TH2F*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
+     sf_prompt_muon[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
   }
   if (year == 2 ){	
       TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_muon_files[2]) :  TFile::Open(names_SF_muon_files[2]);
-      sf_prompt_muon[0] = (TH2F*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
+      sf_prompt_muon[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
   }	
 	
-TH2F *sf_trigger_muon[1]; 
+	
+ TH2F *sf_prompt_muon_syst[1]; 
+  if (year == 0){
+    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SFSY_muon_files[0]) :  TFile::Open(names_SFSY_muon_files[0]);
+    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
+  }	
+  if (year == 1){
+     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SFSY_muon_files[1]) :  TFile::Open(names_SFSY_muon_files[1]);
+     sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
+  }
+  if (year == 2 ){	
+      TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SFSY_muon_files[2]) :  TFile::Open(names_SFSY_muon_files[2]);
+      sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
+  }	
+	
+ TH2F *sf_trigger_muon[1]; 
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_trigger_muon_files[0]) :  TFile::Open(names_trigger_muon_files[0]);
     hfile1_sf_2016->cd("IsoMu24_OR_IsoTkMu24_PtEtaBins");
@@ -542,21 +557,7 @@ TH2F *sf_trigger_muon[1];
       hfile1_sf_2018->cd("IsoMu24_PtEtaBins");
       sf_trigger_muon[0] = (TH2F*)hfile1_sf_2018->Get("abseta_pt_ratio");
   }		
-	
-TH2F *sf_prompt_muon_syst[1]; 
-  if (year == 0){
-    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SF_muon_files[0]) :  TFile::Open(names_SF_muon_files[0]);
-    sf_prompt_muon_syst[0] = (TH2F*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
-  }	
-  if (year == 1){
-     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_muon_files[1]) :  TFile::Open(names_SF_muon_files[1]);
-     sf_prompt_muon_syst[0] = (TH2F*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
-  }
-  if (year == 2 ){	
-      TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_muon_files[2]) :  TFile::Open(names_SF_muon_files[2]);
-      sf_prompt_muon_syst[0] = (TH2F*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
-  }	
-		
+			
   TH2F *sf_prompt_ele[1];	
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SF_ele_files[0]) :  TFile::Open(names_SF_ele_files[0]);
@@ -1168,7 +1169,9 @@ TH2F *sf_prompt_muon_syst[1];
       // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!! 
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	  if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
-	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1);	   
+	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);	   
+          if (_lFlavor[l1]==1 ) weight_SR[w_loop][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
+	  //eta??? boh... desapparessidos   
       }	      
       //   trigger leading leptons
    	     
@@ -1233,19 +1236,20 @@ TH2F *sf_prompt_muon_syst[1];
 	  weight_SR[w_loop][npMuo_index][1][effsam] = displMuoWeight;
 	  weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
       }    
-       // Systematics on prompt muons	
-       if(flavors_3l[l1]==1) {      
-	   weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
-       	   weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
-           weight_SR[tau_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)-SF_prompt_muon_error(*&sf_prompt_ele, l1);	  
-       	   weight_SR[tau_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_ele, l1)+SF_prompt_muon_error(*&sf_prompt_ele, l1);
+       // Systematics on prompt muons
+       for (int w_loop =0; w_loop < nCoupling; w_loop++){
+          if(flavors_3l[l1]==1) {      
+	     weight_SR[w_loop][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+       	     weight_SR[w_loop][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+             weight_SR[w_loop][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+       	     weight_SR[w_loop][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+          
+	  }
+          if(flavors_3l[l1]==0) {      
+	     weight_SR[w_loop][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
+       	     weight_SR[w_loop][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
+          } 
        }
-       if(flavors_3l[l1]==0) {      
-	   weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
-       	   weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
-           weight_SR[tau_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
-       	   weight_SR[tau_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);
-       }    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
