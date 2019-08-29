@@ -9,7 +9,6 @@
 #include "TGraph.h"
 
 //include other parts of code 
-#include "../bTagSFCode/BTagCalibrationStandalone.h"
 #include "../interface/Sample.h"
 
 //Class storing scale-factor weights to be used in events
