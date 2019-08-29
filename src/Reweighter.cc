@@ -7,7 +7,6 @@
 #include "TROOT.h"
 
 //include other parts of code 
-#include "../interface/analysisTools.h"
 
 Reweighter::Reweighter(const std::vector<Sample>& samples, const bool sampleIs2016) {
     initializePuWeights(samples);
