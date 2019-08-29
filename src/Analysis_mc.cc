@@ -193,7 +193,7 @@ void Analysis_mc::initializeWeights(){
     if( firstTime || changedEra){
         weightsAre2016 = is2016();
         //automatically use b-tag reshaping for now
-        reweighter.reset(new Reweighter(samples, is2016(), "medium") );
+        reweighter.reset(new Reweighter(samples, is2016()) );
     } 
 }
 //_______________________________________________________  weight for PU ____
@@ -206,6 +206,7 @@ double Analysis_mc::PUWeight(){
         std::cerr << "Error: event with negative pileup, returning SF weight 0." << std::endl;
         return 0.;
     }
+   return sf;	
 }
 double Analysis_mc::puWeight(const unsigned unc) const{
     return reweighter->puWeight(_nTrueInt, currentSample, unc);
@@ -539,7 +540,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	
 	
   //   SF leptons histograms	
-  TH2F *sf_prompt_muon[1]; 
+  TH2D *sf_prompt_muon[1]; 
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SF_muon_files[0]) :  TFile::Open(names_SF_muon_files[0]);
     sf_prompt_muon[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
@@ -554,7 +555,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }	
 	
 	
- TH2F *sf_prompt_muon_syst[1]; 
+ TH2D *sf_prompt_muon_syst[1]; 
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SFSY_muon_files[0]) :  TFile::Open(names_SFSY_muon_files[0]);
     sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
