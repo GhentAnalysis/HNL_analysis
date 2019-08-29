@@ -9,31 +9,9 @@
 //include other parts of code 
 #include "../interface/analysisTools.h"
 
-Reweighter::Reweighter(const std::vector<Sample>& samples, const bool sampleIs2016, const std::string& bTagWorkingPoint) : is2016(sampleIs2016), bTagWP( bTagWorkingPoint ) {
-    initializeAllWeights(samples);
-}
-
-void Reweighter::initializeAllWeights(const std::vector<Sample>& samples){
-
-    //initialize pu weights
+Reweighter::Reweighter(const std::vector<Sample>& samples, const bool sampleIs2016) {
     initializePuWeights(samples);
-
-    //initialize b-tag weights
-    initializeBTagWeights();
-
-    //initialize electron weights 
-    initializeElectronWeights();
-
-    //initialize muon weights 
-    initializeMuonWeights();
-
-    //initialize fake-rate
-    initializeFakeRate();
-
-    //initialize prefiring probabilities
-    initializePrefiringProbabilities();
 }
-
 void Reweighter::initializePuWeights(const std::vector< Sample >& sampleList){
 
     static const std::string minBiasVariation[3] = {"central", "down", "up"};
@@ -43,12 +21,14 @@ void Reweighter::initializePuWeights(const std::vector< Sample >& sampleList){
         if( sample.isData() ) continue;
 
         //open root file corresponding to sample
-        TFile* puFile = TFile::Open( (const TString&) "weights/pileUpWeights/puWeights_" + sample.getFileName() );
+        TFile* puFile = TFile::Open( (const TString&) "PU/puWeights_" + sample.getFileName() );
 
         //extract pu weights 
         for(unsigned var = 0; var < 3; ++var){
             std::string histName = "puw_Run";
-            histName += (sample.is2016() ? "2016" : "2017");
+            if (sample.is2016()) histName += "2016" ;
+            if (sample.is2017()) histName += "2017" ;
+            if (sample.is2018()) histName += "2018" ;
             histName += "Inclusive_" + minBiasVariation[var];
             puWeights[sample.getUniqueName()].push_back( std::shared_ptr<TH1D> ( (TH1D*)puFile->Get( (const TString&) histName ) ) );
 
