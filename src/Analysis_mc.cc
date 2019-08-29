@@ -241,14 +241,7 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
   fChain->SetBranchAddress("_lumiBlock", &_lumiBlock, &b__lumiBlock);
   fChain->SetBranchAddress("_eventNb", &_eventNb, &b__eventNb);
   fChain->SetBranchAddress("_nVertex", &_nVertex, &b__nVertex);   
-  fChain->SetBranchAddress("_passMETFilters", &_passMETFilters, &b__passMETFilters);
-  // fChain->SetBranchAddress("_Flag_goodVertices", &_Flag_goodVertices, &b__Flag_goodVertices);
-  // fChain->SetBranchAddress("_Flag_HBHENoiseFilter", &_Flag_HBHENoiseFilter, &b__Flag_HBHENoiseFilter);
-  // fChain->SetBranchAddress("_Flag_HBHENoiseIsoFilter", &_Flag_HBHENoiseIsoFilter, &b__Flag_HBHENoiseIsoFilter);
-  // fChain->SetBranchAddress("_Flag_EcalDeadCellTriggerPrimitiveFilter", &_Flag_EcalDeadCellTriggerPrimitiveFilter, &b__Flag_EcalDeadCellTriggerPrimitiveFilter);
-  // fChain->SetBranchAddress("_Flag_BadPFMuonFilter", &_Flag_BadPFMuonFilter, &b__Flag_BadPFMuonFilter);
-  // fChain->SetBranchAddress("_Flag_BadChargedCandidateFilter", &_Flag_BadChargedCandidateFilter, &b__Flag_BadChargedCandidateFilter);
-  // fChain->SetBranchAddress("_updated_ecalBadCalibFilter", &_updated_ecalBadCalibFilter, &b__updated_ecalBadCalibFilter);  
+  fChain->SetBranchAddress("_passMETFilters", &_passMETFilters, &b__passMETFilters); 
   fChain->SetBranchAddress("_passTrigger_1l", &_passTrigger_1l, &b__passTrigger_1l);   
   fChain->SetBranchAddress("_HLT_IsoMu24", &_HLT_IsoMu24, &b__HLT_IsoMu24);
   if (year==0) fChain->SetBranchAddress("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, &b__HLT_IsoTkMu24);
@@ -616,24 +609,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
   // ------------ b tagging -----------------------------------------------//
   // b-tagging working points (DeepCsv_b + DeepCsv_bb)
-  //double btagCuts[3][3];
-  // selected WP (0: loose; 1: medium; 2: tight)
   BTagEntry::OperatingPoint bwp = BTagEntry::OP_LOOSE;    // = 0
-  //BTagEntry::OperatingPoint bwp = BTagEntry::OP_MEDIUM; // = 1
-  //BTagEntry::OperatingPoint bwp = BTagEntry::OP_TIGHT;  // = 2
-
-  // //  - 2016
-  // btagCuts[0][0] = bjet_loose_2016; // loose
-  // btagCuts[0][1] = 0.6321; // medium
-  // btagCuts[0][2] = 0.8953; // tight
-  // //  - 2017
-  // btagCuts[1][0] = bjet_loose_2017; // loose
-  // btagCuts[1][1] = 0.4941; // medium
-  // btagCuts[1][2] = 0.8001; // tight
-  // //  - 2018
-  // btagCuts[2][0] = bjet_loose_2018; // loose
-  // btagCuts[2][1] = 0.4184; // medium
-  // btagCuts[2][2] = 0.7527; // tight
 
   // B-tagging calibration + reader
   BTagCalibration calib("DeepCSV", (year==0 ? "DeepCSV_2016LegacySF_WP_V1.csv" : (year==1 ? "DeepCSV_94XSF_WP_V4_B_F.csv" : "DeepCSV_102XSF_WP_V1.csv")));
@@ -680,19 +656,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }
   }
-
-
-  /* for(int i = 0; i < nDist; ++i){
-     for(int cat = 0; cat < nCat; ++cat){
-     if (cat !=0 && cat !=6) continue;
-     for(int cha = 0; cha < nChannel; ++cha){ 
-     dataYields[i][cha][cat]->Reset("ICESM");
-     }
-     }
-     }*/
-  
-  
-	
 	
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
@@ -908,15 +871,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
 
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	zero << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		     _runNb, _lumiBlock, _eventNb,  
-      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		     _met)<< std::endl;
-      // }
-
       //vertex l2l3 info
       int index_l2l3= l2l3_vertex_variable (l2,l3);      
       _vertex_X=_vertices[index_l2l3][1];
@@ -961,15 +915,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
       if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
       if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	one << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		    _runNb, _lumiBlock, _eventNb,  
-      // 		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		    _met)<< std::endl;
-      // }
-
       // ------------ closest jet info --------------------------------------//
       TLorentzVector  l1Jet[1] ;
       float JEC       ;
@@ -1042,38 +987,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       
       if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
       if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	three << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		      _runNb, _lumiBlock, _eventNb,  
-      // 		      (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		      (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		      (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		      _met)<< std::endl;
-      // }
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      // bool internal_conv= true;
-      // if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
-      // if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
-      // if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) internal_conv = false;
-      // bool external_conv= false;
-      // if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
-      // if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
-      // if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) external_conv = true;    
-      // if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-      // if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
-
-
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	four << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		     _runNb, _lumiBlock, _eventNb,  
-      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		     _met)<< std::endl;
-      // }
       if (photonOverlap (samples[sam])) continue;
-         
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
       // -----------------   variables useful    --------------------------------//
@@ -1177,21 +1093,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
 	    
       if (!selection_0) continue;
-    //std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-
-      
-      // if (selection_final && samples[sam].getProcessName() == "DY" )   {    
-      // 	five << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		     _runNb, _lumiBlock, _eventNb,  
-      // 		     (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		     (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		     (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		     _met)<< std::endl;
-      // }
-
-     
-	    
-  
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
