@@ -116,7 +116,7 @@ double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned lept
    return sfValue;	
 }
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;
    int binx =0;
    int biny =0;	
@@ -140,7 +140,7 @@ double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigne
    return sfValue;	
 }
 //_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  		
    int binx =0;
    int biny =0;	
