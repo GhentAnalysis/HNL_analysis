@@ -50,6 +50,7 @@ using std::ofstream;
 #include "../interface/tdrstyle.h"
 #include "../interface/plotCode_new.h"
 #include "../interface/kinematicTools.h"
+#include "../interface/Reweighter.h"
 
 // For b-tagging SFs and variations thereof
 #include "../interface/BTagCalibrationStandalone.h"
@@ -184,6 +185,32 @@ void Analysis_mc::initSample(const Sample& samp){
     scale = samp.getXSec()*dataLumi*1000/sumSimulatedEventWeights;       //xSec*lumi divided by total sum of simulated event weights
   }
 }
+//_______________________________________________________ initialize weight for PU ____
+void Analysis_mc::initializeWeights(){
+    static bool weightsAre2016 = is2016();
+    bool firstTime = ( reweighter.use_count() == 0 );
+    bool changedEra = ( weightsAre2016 != is2016() );
+    if( firstTime || changedEra){
+        weightsAre2016 = is2016();
+        //automatically use b-tag reshaping for now
+        reweighter.reset(new Reweighter(samples, is2016(), "medium") );
+    } 
+}
+//_______________________________________________________  weight for PU ____
+double Analysis_mc::PUWeight(){
+    //check if weights are initialized, and initialize if needed 
+    initializeWeights();
+    //pileup reweighting
+    double sf = puWeight();
+    if( _nTrueInt < 0){
+        std::cerr << "Error: event with negative pileup, returning SF weight 0." << std::endl;
+        return 0.;
+    }
+}
+double Analysis_mc::puWeight(const unsigned unc) const{
+    return reweighter->puWeight(_nTrueInt, currentSample, unc);
+}
+
 //_______________________________________________________ initialize sample ____
 void Analysis_mc::initSample(){ //initialize the next sample in the list 
   initSample(samples[++currentSampleIndex]);
@@ -723,7 +750,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
       //ctWeight = 1;
       double scal = 0;
-      scal = scale * _weight * ctWeight * pu_weight(*&pileUpWeight[0],_nTrueInt);
+      //scal = scale * _weight * ctWeight * pu_weight(*&pileUpWeight[0],_nTrueInt);
+      scal = scale * _weight * ctWeight; 
       bwght = 1.;
       if (samples[sam].isData()) scal =1;
 
@@ -1166,15 +1194,20 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
-      // !!!!!!!!! muon imput histogram has to be changed !!!!!!!!!!!!!!!! 
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  // µ and e ID SF    
 	  if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
-	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);	   
+	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
+	  // µ trigger SF    
           if (_lFlavor[l1]==1 ) weight_SR[w_loop][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
 	  //eta??? boh... desapparessidos   
       }	      
-      //   trigger leading leptons
-   	     
+      // Pile UP!
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	weight_SR[w_loop][pu_index][0][effsam] = PUWeight();	      
+      }     
+	      
+	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
       double btag_weight_central=1;
@@ -1250,6 +1283,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
        	     weight_SR[w_loop][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
           } 
        }
+      // ----> SYS Pile UP!
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
+	weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
+      }      
+	    
+	    
+	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
