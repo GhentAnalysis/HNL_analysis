@@ -1093,6 +1093,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
 	    
       if (!selection_0) continue;
+	    
+      bool SR_selection = false;  // bveto is not there because we want btagging SF  
+      SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
+	             M_3L_combined > 45 && 
+	             M_3L_combined < 85 &&    
+	             min_delta_phi > 1 &&
+	             vtxRvtxPcosAlpha > 0.9  &&
+	             M_l2l3_combined < 50);
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
@@ -1246,16 +1254,41 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       if (isOnlyMC) fill = effsam;	    
 
- 
+	    
 
       int channel_bin = -1;
       channel_bin = SR_channel+1;
       if (isSRRun && channel_bin == -1 ) continue;
       if (isOnlyMC && channel_bin == -1 ) continue;
-
-      //std::cout<<"after delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-
-  //std::cout<<"before plottinh: "<<std::endl;
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      // !!!!!!!!!!!!!!    filling all the histograms for data cards !!!!!!!!!!!!!!    	    
+      double central_total_weight = scal;
+      if (!isDataDrivenBgk && !isDataYield){
+	   for (int w_loop =0; w_loop < nSystematic; w_loop++){
+		central_total_weight *= weight_SR[0][w_loop][0][effsam];	      
+           } 	      
+      }
+    	 
+	    
+	    
+      // electron case --> eee eeµ eeµ	  
+      if (SR_selection){ // only final fianl step 
+	// central distribution --> on_index ==> 0 and  "central" => 0    
+      	if (SR_channel > 2)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), central_total_weight);
+	if (SR_channel <= 2) plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight);	    
+        // plots for systematics
+	if (!isDataDrivenBgk && !isDataYield){ // only for MC
+       	 	for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
+			for (int iVariation = 1; iVariation < nVariation; iVariation){//loop on up-down
+				if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+				if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
+			}//end loop up-down		
+		}// end loop on sys			
+	}// end MC	  
+      }  // end SR_selection  
+	
+	    
+      
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal);
