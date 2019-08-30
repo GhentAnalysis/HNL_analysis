@@ -1258,11 +1258,11 @@ class Analysis_mc : public TObject {
   double maxBinC[nDist];
 
 
-  const static int nSystematic = 13;
+  const static int nSystematic = 14;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
 	
-  const TString systNames[nSystematic] 	= { "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR", "trigger"};
+  const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","sFR","dFR", "trigger"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 
@@ -1275,20 +1275,21 @@ class Analysis_mc : public TObject {
   const int muon_case =0;
   const int ele_case = 1;
   const int tau_case = 2;
-	
-  const int pu_index =  0;
-  const int qcd_index =  1;
-  const int pdf_index =  2;
-  const int pEle_index =  3;	
-  const int pMuo_index =  4;
-  const int npEle_index =  5;
-  const int npMuo_index =  6;
-  const int jec_index =  7;
-  const int jer_index =  8;
-  const int btag_index =  9;
-  const int sFR_index =  10;
-  const int dFR_index =  11;
-  const int trigger_index =  12;
+
+  const int on_index =    0;	// is the SR SR plot
+  const int pu_index =    1;
+  const int qcd_index =   2;
+  const int pdf_index =   3;
+  const int pEle_index =  4;	
+  const int pMuo_index =  5;
+  const int npEle_index = 6;
+  const int npMuo_index = 7;
+  const int jec_index =   8;
+  const int jer_index =   9;
+  const int btag_index =  10;
+  const int sFR_index =   11;
+  const int dFR_index =   12;
+  const int trigger_index =  13;
 	
 	
 	
