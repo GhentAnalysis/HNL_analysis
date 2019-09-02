@@ -1421,6 +1421,50 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //                V                         V
   //            unblindED           "silent" is not a verb...
   // TH1D* dataYields[nDist][nChannel][nCat];
+	
+  // all stack etc etc for the right plots to put in the data cards	
+  for(int cha = 0; cha < chaNames; ++cha){  
+	if (cha == 2) continue; // no taus for the moment
+	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
+			if (isSRRun) sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();				
+		}//end loop up-down		
+	}// end loop on sys
+  }// coupling
+    
+  for(int cha = 0; cha < nChannel; ++cha){	
+	if (cha == 2) continue; // no taus for the moment
+	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
+			for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
+	  			put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+		 		bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
+	  			if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
+	  				if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+				}
+	 		}	  
+		}
+  	 }
+   }
+
+   for(int cha = 0; cha < nChannel; ++cha){	
+	if (cha == 2) continue; // no taus for the moment
+	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down              
+			for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	    			signals_SR[signal_sample] =(TH1D*)plots_SR[cha][iSystematics][iVariation][signal_sample+1]->Clone() ;     
+	  		}
+	   		if (isSRRun){plotDataVSMC(cat,cha,dist,
+	   	     		  sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
+	   	      		  eff_names,numer_plot_class ,
+	  	                  chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
+	  	                  true,
+	  	                   2, true, signals,  sigNames_short, nSamples_signal, false);}
+		}
+      	}//t
+   }/
+  
+	
   	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
