@@ -1055,8 +1055,8 @@ void plotDataVSMC_SR(int categoria,int channel,
     std::cerr << "Incorrect width option given can't make plot" << std::endl;
     return;
   }
-  if (istogramma == 0) width = 800;
-  if (istogramma == 0) height = 500;
+  width = 800;
+  height = 500;
 
   TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
   c->cd();
