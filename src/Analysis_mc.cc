@@ -1426,7 +1426,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // all stack etc etc for the right plots to put in the data cards  
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
-  for(int cha = 0; cha < chaNames; ++cha){  
+  for(int cha = 0; cha < nCoupling; ++cha){  
 	if (cha == 2) continue; // no taus for the moment
 	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
 		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
@@ -1435,7 +1435,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}// end loop on sys
   }// coupling
     
-  for(int cha = 0; cha < nChannel; ++cha){	
+  for(int cha = 0; cha < nCoupling; ++cha){	
 	if (cha == 2) continue; // no taus for the moment
 	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
 		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
@@ -1453,7 +1453,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
   
-   for(int cha = 0; cha < nChannel; ++cha){	
+   for(int cha = 0; cha < nCoupling; ++cha){	
 	if (cha == 2) continue; // no taus for the moment
 	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
 		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down              
