@@ -102,8 +102,8 @@ Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
   }
   
  
- // plot for limits 
- // weights for limits	
+  // plot for limits 
+  // weights for limits	
   for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
     for(int var = 0; var < nVariation; ++var){
       for (int syst = 0; syst < nSystematic; ++syst)	{
@@ -187,29 +187,29 @@ void Analysis_mc::initSample(const Sample& samp){
 }
 //_______________________________________________________ initialize weight for PU ____
 void Analysis_mc::initializeWeights(){
-    static bool weightsAre2016 = is2016();
-    bool firstTime = ( reweighter.use_count() == 0 );
-    bool changedEra = ( weightsAre2016 != is2016() );
-    if( firstTime || changedEra){
-        weightsAre2016 = is2016();
-        //automatically use b-tag reshaping for now
-        reweighter.reset(new Reweighter(samples, is2016()) );
-    } 
+  static bool weightsAre2016 = is2016();
+  bool firstTime = ( reweighter.use_count() == 0 );
+  bool changedEra = ( weightsAre2016 != is2016() );
+  if( firstTime || changedEra){
+    weightsAre2016 = is2016();
+    //automatically use b-tag reshaping for now
+    reweighter.reset(new Reweighter(samples, is2016()) );
+  } 
 }
 //_______________________________________________________  weight for PU ____
 double Analysis_mc::PUWeight(){
-    //check if weights are initialized, and initialize if needed 
-    initializeWeights();
-    //pileup reweighting
-    double sf = puWeight();
-    if( _nTrueInt < 0){
-        std::cerr << "Error: event with negative pileup, returning SF weight 0." << std::endl;
-        return 0.;
-    }
-   return sf;	
+  //check if weights are initialized, and initialize if needed 
+  initializeWeights();
+  //pileup reweighting
+  double sf = puWeight();
+  if( _nTrueInt < 0){
+    std::cerr << "Error: event with negative pileup, returning SF weight 0." << std::endl;
+    return 0.;
+  }
+  return sf;	
 }
 double Analysis_mc::puWeight(const unsigned unc) const{
-    return reweighter->puWeight(_nTrueInt, currentSample, unc);
+  return reweighter->puWeight(_nTrueInt, currentSample, unc);
 }
 
 //_______________________________________________________ initialize sample ____
@@ -539,44 +539,44 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     sf_prompt_muon[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
   }	
   if (year == 1){
-     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_muon_files[1]) :  TFile::Open(names_SF_muon_files[1]);
-     sf_prompt_muon[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
+    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_muon_files[1]) :  TFile::Open(names_SF_muon_files[1]);
+    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
   }
   if (year == 2 ){	
-      TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_muon_files[2]) :  TFile::Open(names_SF_muon_files[2]);
-      sf_prompt_muon[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
+    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_muon_files[2]) :  TFile::Open(names_SF_muon_files[2]);
+    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
   }	
 	
 	
- TH2D *sf_prompt_muon_syst[1]; 
+  TH2D *sf_prompt_muon_syst[1]; 
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SFSY_muon_files[0]) :  TFile::Open(names_SFSY_muon_files[0]);
     sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
   }	
   if (year == 1){
-     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SFSY_muon_files[1]) :  TFile::Open(names_SFSY_muon_files[1]);
-     sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
+    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SFSY_muon_files[1]) :  TFile::Open(names_SFSY_muon_files[1]);
+    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
   }
   if (year == 2 ){	
-      TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SFSY_muon_files[2]) :  TFile::Open(names_SFSY_muon_files[2]);
-      sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
+    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SFSY_muon_files[2]) :  TFile::Open(names_SFSY_muon_files[2]);
+    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
   }	
 	
- TH2F *sf_trigger_muon[1]; 
+  TH2F *sf_trigger_muon[1]; 
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_trigger_muon_files[0]) :  TFile::Open(names_trigger_muon_files[0]);
     hfile1_sf_2016->cd("IsoMu24_OR_IsoTkMu24_PtEtaBins");
     sf_trigger_muon[0] = (TH2F*)hfile1_sf_2016->Get("abseta_pt_ratio");
   }	
   if (year == 1){
-     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_trigger_muon_files[1]) :  TFile::Open(names_trigger_muon_files[1]);
-     hfile1_sf_2017->cd("IsoMu27_PtEtaBins");
-     sf_trigger_muon[0] = (TH2F*)hfile1_sf_2017->Get("abseta_pt_ratio");
+    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_trigger_muon_files[1]) :  TFile::Open(names_trigger_muon_files[1]);
+    hfile1_sf_2017->cd("IsoMu27_PtEtaBins");
+    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2017->Get("abseta_pt_ratio");
   }
   if (year == 2 ){	
-      TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_trigger_muon_files[2]) :  TFile::Open(names_trigger_muon_files[2]);
-      hfile1_sf_2018->cd("IsoMu24_PtEtaBins");
-      sf_trigger_muon[0] = (TH2F*)hfile1_sf_2018->Get("abseta_pt_ratio");
+    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_trigger_muon_files[2]) :  TFile::Open(names_trigger_muon_files[2]);
+    hfile1_sf_2018->cd("IsoMu24_PtEtaBins");
+    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2018->Get("abseta_pt_ratio");
   }		
 			
   TH2F *sf_prompt_ele[1];	
@@ -585,12 +585,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     sf_prompt_ele[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
   }	
   if (year == 1){
-     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_ele_files[1]) :  TFile::Open(names_SF_ele_files[1]);
-     sf_prompt_ele[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
+    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_ele_files[1]) :  TFile::Open(names_SF_ele_files[1]);
+    sf_prompt_ele[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
   }
   if (year == 2 ){	
-      TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_ele_files[2]) :  TFile::Open(names_SF_ele_files[2]);
-      sf_prompt_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
+    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_ele_files[2]) :  TFile::Open(names_SF_ele_files[2]);
+    sf_prompt_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
   }	
 	
 	
@@ -796,14 +796,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       /*for (unsigned j =0; j < _nJets ; j++){
 	_jetPt[j]=_jetSmearedPt[j];
 	if(systcat==8) {
-	  if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
-	  else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
+	if(systdir==0) _jetPt[j]=_jetSmearedPt_JECDown[j];	   
+	else _jetPt[j]=_jetSmearedPt_JECUp[j];	   
 	}
 	else if(systcat==9) {
-	  if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
-	  else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
+	if(systdir==0)  _jetPt[j]=_jetSmearedPt_JERDown[j];	  
+	else  _jetPt[j]=_jetSmearedPt_JERUp[j];	  
 	}
-      }*/      
+	}*/      
       //counting bjet and njet
       for (unsigned j =0; j < _nJets ; j++){
 	_jetPt[j]=_jetSmearedPt[j];      
@@ -1088,29 +1088,29 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
       if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
-   // std::cout<<""<<std::endl; 
-  //  std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+      // std::cout<<""<<std::endl; 
+      //  std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 	    
 	    
       if (!selection_0) continue;
 	    
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
-	             M_3L_combined > 45 && 
-	             M_3L_combined < 85 &&    
-	             min_delta_phi > 1 &&
-	             vtxRvtxPcosAlpha > 0.9  &&
-	             M_l2l3_combined < 50;
+					 M_3L_combined > 45 && 
+	M_3L_combined < 85 &&    
+			min_delta_phi > 1 &&
+	vtxRvtxPcosAlpha > 0.9  &&
+	M_l2l3_combined < 50;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  // µ and e ID SF    
-	  if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
-	  if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
-	  // µ trigger SF    
-          if (_lFlavor[l1]==1 ) weight_SR[w_loop][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
-	  //eta??? boh... desapparessidos   
+	// µ and e ID SF    
+	if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
+	if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
+	// µ trigger SF    
+	if (_lFlavor[l1]==1 ) weight_SR[w_loop][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
+	//eta??? boh... desapparessidos   
       }	      
       // Pile UP!
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
@@ -1136,21 +1136,21 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}	//bjet
       }    //njet
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  if (bjet != 0){    // stays equal to 1 if there are 0 bjet... but it is corrected for events with > 0 jets
-	     weight_SR[w_loop][btag_index][0][effsam] = (1.- btag_weight_central);
-	     weight_SR[w_loop][btag_index][1][effsam] = (1.- btag_weight_down);
-	     weight_SR[w_loop][btag_index][2][effsam] = (1.- btag_weight_up);		
-          }
+	if (bjet != 0){    // stays equal to 1 if there are 0 bjet... but it is corrected for events with > 0 jets
+	  weight_SR[w_loop][btag_index][0][effsam] = (1.- btag_weight_central);
+	  weight_SR[w_loop][btag_index][1][effsam] = (1.- btag_weight_down);
+	  weight_SR[w_loop][btag_index][2][effsam] = (1.- btag_weight_up);		
+	}
       }
       //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	 if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
-   	 if (bjet_up_jec != 0)   weight_SR[w_loop][jec_index][2][effsam] = 0.;
-	 if (bjet_down_jer != 0) weight_SR[w_loop][jer_index][1][effsam] = 0.;
-   	 if (bjet_up_jer != 0)   weight_SR[w_loop][jer_index][2][effsam] = 0.;
+	if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
+	if (bjet_up_jec != 0)   weight_SR[w_loop][jec_index][2][effsam] = 0.;
+	if (bjet_down_jer != 0) weight_SR[w_loop][jer_index][1][effsam] = 0.;
+	if (bjet_up_jer != 0)   weight_SR[w_loop][jer_index][2][effsam] = 0.;
       }    
-     // ------------------------- leptons SF uncertainties ------------------------- //    
-     // Systematics on displaced electrons
+      // ------------------------- leptons SF uncertainties ------------------------- //    
+      // Systematics on displaced electrons
       double displEleWeight = 1.;
       if(flavors_3l[l2]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);   
@@ -1162,9 +1162,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	displEleWeight *= displEleVars[indEle];
       }		      
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  weight_SR[w_loop][npEle_index][0][effsam] =1.;
-	  weight_SR[w_loop][npEle_index][1][effsam] = displEleWeight;
-	  weight_SR[w_loop][npEle_index][2][effsam] = 1/displEleWeight;		
+	weight_SR[w_loop][npEle_index][0][effsam] =1.;
+	weight_SR[w_loop][npEle_index][1][effsam] = displEleWeight;
+	weight_SR[w_loop][npEle_index][2][effsam] = 1/displEleWeight;		
       }    	
       // Systematics on displaced muons
       double displMuoWeight = 1.;
@@ -1175,24 +1175,24 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	displMuoWeight *= (1.0 - std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
       }		      
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  weight_SR[w_loop][npMuo_index][0][effsam] =1.;
-	  weight_SR[w_loop][npMuo_index][1][effsam] = displMuoWeight;
-	  weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
+	weight_SR[w_loop][npMuo_index][0][effsam] =1.;
+	weight_SR[w_loop][npMuo_index][1][effsam] = displMuoWeight;
+	weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
       }    
-       // Systematics on prompt muons
-       for (int w_loop =0; w_loop < nCoupling; w_loop++){
-          if(flavors_3l[l1]==1) {      
-	     weight_SR[w_loop][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
-       	     weight_SR[w_loop][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
-             weight_SR[w_loop][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
-       	     weight_SR[w_loop][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+      // Systematics on prompt muons
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	if(flavors_3l[l1]==1) {      
+	  weight_SR[w_loop][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+	  weight_SR[w_loop][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+	  weight_SR[w_loop][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+	  weight_SR[w_loop][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
           
-	  }
-          if(flavors_3l[l1]==0) {      
-	     weight_SR[w_loop][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
-       	     weight_SR[w_loop][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
-          } 
-       }
+	}
+	if(flavors_3l[l1]==0) {      
+	  weight_SR[w_loop][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
+	  weight_SR[w_loop][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
+	} 
+      }
       // ----> SYS Pile UP!
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
@@ -1264,9 +1264,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // !!!!!!!!!!!!!!    filling all the histograms for data cards !!!!!!!!!!!!!!    	    
       double central_total_weight = scal;
       if (!isDataDrivenBgk && !isDataYield){
-	   for (int w_loop =0; w_loop < nSystematic; w_loop++){
-		central_total_weight *= weight_SR[0][w_loop][0][effsam];	      
-           } 	      
+	for (int w_loop =0; w_loop < nSystematic; w_loop++){
+	  central_total_weight *= weight_SR[0][w_loop][0][effsam];	      
+	} 	      
       }
     	 
 	    
@@ -1278,12 +1278,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (SR_channel <= 2) plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight);	    
         // plots for systematics
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
-       	 	for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
-			for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
-				if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-				if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
-			}//end loop up-down		
-		}// end loop on sys			
+	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
+	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
+	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+	      if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
+	    }//end loop up-down		
+	  }// end loop on sys			
 	}// end MC	  
       }  // end SR_selection  
 	
@@ -1407,9 +1407,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if (selection_final) Histos[numero_histo][7][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	}
       }//end histo
-        // std::cout<<"after plottinh: "<<std::endl;
-    //if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-    //if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+      // std::cout<<"after plottinh: "<<std::endl;
+      //if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
+      //if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
     }//end loop over the entries
     
@@ -1427,48 +1427,48 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
   for(int cha = 0; cha < nCoupling; ++cha){  
-	if (cha == 2) continue; // no taus for the moment
-	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
-			if (isSRRun) sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();				
-		}//end loop up-down		
-	}// end loop on sys
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+      for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
+	if (isSRRun) sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();				
+      }//end loop up-down		
+    }// end loop on sys
   }// coupling
     
   for(int cha = 0; cha < nCoupling; ++cha){	
-	if (cha == 2) continue; // no taus for the moment
-	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
-			for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  			put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
-		 		bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
-	  			if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
-	  				if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
-				}
-	 		}	  
-		}
-  	 }
-   }
-   int numer_plot_class =0;
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+      for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
+	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
+	  put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
+	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
+	    if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	  }
+	}	  
+      }
+    }
+  }
+  int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
   
-   for(int cha = 0; cha < nCoupling; ++cha){	
-	if (cha == 2) continue; // no taus for the moment
-	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-		for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down              
-			for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	    			signals_SR[signal_sample] =(TH1D*)plots_SR[cha][iSystematics][iVariation][signal_sample+1]->Clone() ;     
-	  		}
-	   		if (isSRRun){plotDataVSMC_SR(999,cha,
-	   	     		  sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
-	   	      		  eff_names,numer_plot_class ,
-	  	                  chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
-	  	                  true,
-	  	                   2, true, signals,  sigNames_short, nSamples_signal, false);}
-		}
-      	}//t
-   }/
+  for(int cha = 0; cha < nCoupling; ++cha){	
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+      for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down              
+	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	  signals_SR[signal_sample] =(TH1D*)plots_SR[cha][iSystematics][iVariation][signal_sample+1]->Clone() ;     
+	}
+	if (isSRRun){plotDataVSMC_SR(999,cha,
+				     sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
+				     eff_names,numer_plot_class ,
+				     chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
+				     true,
+				     2, true, signals,  sigNames_short, nSamples_signal, false);}
+      }
+    }//t
+  }
   
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1517,19 +1517,19 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	  }
 	  //	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	   if (isSRRun){plotDataVSMC(cat,cha,dist,
-	   	       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-	   	       eff_names,numer_plot_class ,
-	  	       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-	  	       true,
-	  	       2, true, signals,  sigNames_short, nSamples_signal, false);}
+	  if (isSRRun){plotDataVSMC(cat,cha,dist,
+				    dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+				    eff_names,numer_plot_class ,
+				    catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+				    true,
+				    2, true, signals,  sigNames_short, nSamples_signal, false);}
 		
-	   if (isOnlyMC){plotDataVSMC(cat,cha,dist,
-	   	       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-	   	       eff_names,numer_plot_class ,
-	  	       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-	  	       true,
-	  	       2, true, signals,  sigNames_short, nSamples_signal, true);}
+	  if (isOnlyMC){plotDataVSMC(cat,cha,dist,
+				     dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+				     eff_names,numer_plot_class ,
+				     catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+				     true,
+				     2, true, signals,  sigNames_short, nSamples_signal, true);}
 			  
 	}
       }//end cat
@@ -1583,8 +1583,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      meanByBin += iadd;
 	      errorByBin += iadd*iadd;
 	    } // end for(size_t is=6; is<106; ++is)
-	    //
-	    // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
+	      //
+	      // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
 	    errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
 	    errorByBin = std::sqrt(errorByBin);
 	    if(systdir==0) { // down variation
@@ -1599,7 +1599,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     } // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
   } // end if(runtheosyst)
 
-  // List of backgrounds
+    // List of backgrounds
   const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
   const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
