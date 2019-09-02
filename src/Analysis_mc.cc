@@ -1422,7 +1422,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //            unblindED           "silent" is not a verb...
   // TH1D* dataYields[nDist][nChannel][nCat];
 	
-  // all stack etc etc for the right plots to put in the data cards	
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  // all stack etc etc for the right plots to put in the data cards  
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
   for(int cha = 0; cha < chaNames; ++cha){  
 	if (cha == 2) continue; // no taus for the moment
 	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1446,7 +1449,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 		}
   	 }
    }
-
+   int numer_plot_class =0;
+  if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
+  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
+  
    for(int cha = 0; cha < nChannel; ++cha){	
 	if (cha == 2) continue; // no taus for the moment
 	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1454,7 +1460,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 			for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	    			signals_SR[signal_sample] =(TH1D*)plots_SR[cha][iSystematics][iVariation][signal_sample+1]->Clone() ;     
 	  		}
-	   		if (isSRRun){plotDataVSMC(cat,cha,dist,
+	   		if (isSRRun){plotDataVSMC_SR(999,cha,
 	   	     		  sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
 	   	      		  eff_names,numer_plot_class ,
 	  	                  chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
@@ -1464,6 +1470,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       	}//t
    }/
   
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
   	
   for(unsigned dist = 0; dist < nDist; ++dist){
@@ -1497,10 +1505,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
   }
 
-   int numer_plot_class =0;
-  if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
-  if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
-  
+
  
   //TH1D* signals[nSamples_signal];
   if (systcat == 0 ){
