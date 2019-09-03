@@ -1914,6 +1914,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 //  } // end if(systcat==0)
 
   //else { // if(systcat!=0)
+    	for(unsigned syst=1; syst<=nSyst; ++syst) {	
     std::string appx = "_" + systNames[systcat] + (systdir==0 ? "Down" : "Up");
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
@@ -1935,6 +1936,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	rootfile->Close();
       } // end couplings
     } // end signal samples
+	}//loop sty		
 // } // end if(systcat!=0)
   
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
