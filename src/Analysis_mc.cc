@@ -1671,11 +1671,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
          double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
          TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
          TH1D* signals_SR[nSamples_signal];
-  TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
-*/
-	      
-	plots_SR[][]      
-	Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
+	 TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
+	*/	      
+	plots_SR[icoup][0][0][1+isign] ->Write("signal");   
+	//Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
 	// Stream for writing card and tables
 	std::ofstream card, tabletexS, tabletexL;
