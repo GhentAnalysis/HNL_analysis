@@ -1628,16 +1628,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //                       Type     Correl.   Processes
   //                       -------  --------  -------------------------------------------------------------
   procPerSyst["lumi"    ] = "lnN    ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pu"      ] = "shapeN2; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["qcd"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pdf"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pEle"    ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pMuo"    ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["npEle"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["npMuo"   ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["jec"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["jer"     ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["btag"    ] = "shapeN2;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["qcd"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pdf"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pEle"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["npEle"   ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["npMuo"   ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["jec"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["jer"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["btag"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["npsfnorm"] = "lnN    ;  is_corr;                                                     nonpromptSF             ";
   procPerSyst["npdfnorm"] = "lnN    ;  is_corr;                                                                  nonpromptDF";
 
@@ -1646,22 +1647,34 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
   normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
 
-  if(systcat==0) { // print data card only if systcat==0
+  //if(systcat==0) { // print data card only if systcat==0
     // Size of tab
     const size_t ntab = 14;
 
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
-      for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
-	if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+      for(size_t icoup=0; icoup<nCoupling; ++icoup) {
+	if(icoup == 2) continue;     
+	if(icoup==1 && sgn.find("_mu" )==std::string::npos) continue;
+	if(icoup==0 && sgn.find("_e")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
 
 	// ROOT file with shapes
 	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
 	TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
 	rootfile->cd();
-	dataYields[0][couplidx[icoup]][6]->Write("data_obs");
+	sum_expected_SR[icoup][0][0]-> Write ("data_obs");
+	//sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
+	//dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
+	 /*
+	 TH1D*	plots_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
+         double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
+         TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
+         TH1D* signals_SR[nSamples_signal];
+  TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
+*/
+	      
+	plots_SR[][]      
 	Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
 	// Stream for writing card and tables
@@ -1870,7 +1883,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    card << left << std::setw(ntab) << "lnN";
 	  }
 	  else { // all the other systematics: shapeN2
-	    card << left << std::setw(ntab) << "shapeN2";
+	    card << left << std::setw(ntab) << "shapeN";
 	  }
 	  //
 	  // Fill in systs for all processes:
@@ -1897,7 +1910,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	rootfile->Close();
       } // end couplings
     } // end signal samples
-  } // end if(systcat==0)
+//  } // end if(systcat==0)
 
   else { // if(systcat!=0)
     std::string appx = "_" + systNames[systcat] + (systdir==0 ? "Down" : "Up");
@@ -1921,7 +1934,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	rootfile->Close();
       } // end couplings
     } // end signal samples
-  } // end if(systcat!=0)
+ } // end if(systcat!=0)
   
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
