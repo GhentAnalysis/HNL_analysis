@@ -1916,25 +1916,23 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //else { // if(systcat!=0)
     for(unsigned syst=1; syst<=nSyst; ++syst) {
     if(procPerSyst[systNames[syst]].find("lnN")==std::string::npos)	continue;	
-    for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
-    std::string appx = "_" + systNames[syst] + (iVariation==1 ? "Down" : "Up");
-    for(size_t isign=0; isign<nSamples_signal; ++isign) {
-      std::string sgn = sigNames[isign].Data();
-      for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	if(icoup==1 && sgn.find("_mu" )==std::string::npos) continue;
-	if(icoup==0 && sgn.find("_e")==std::string::npos) continue;
-	std::string cpl = couplings[icoup];
+    	for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
+   		std::string appx = "_" + systNames[syst] + (iVariation==1 ? "Down" : "Up");
+   		for(size_t isign=0; isign<nSamples_signal; ++isign) {
+      			std::string sgn = sigNames[isign].Data();
+    			for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+				if(icoup==1 && sgn.find("_mu" )==std::string::npos) continue;
+				if(icoup==0 && sgn.find("_e")==std::string::npos) continue;
+				std::string cpl = couplings[icoup];
 
-	// ROOT file with shapes
-	std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
-	TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
-	rootfile->cd();
-	dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
-	Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());
-	      
-	      
-	sum_expected_SR[icoup][syst][iVariation]->Write(("data_obs"+appx).c_str());
-	plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+				// ROOT file with shapes
+				std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+				TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
+				rootfile->cd();
+				//dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
+				//Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());	      
+	 		  	//sum_expected_SR[icoup][syst][iVariation]->Write(("data_obs"+appx).c_str());
+				plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
 
 	//sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
 	//dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
@@ -1945,18 +1943,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
          TH1D* signals_SR[nSamples_signal];
 	 TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
 	*/	      
-	plots_SR[icoup][0][0][1+isign] ->Write("signal");   
-	//Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");     
 	      
-	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	  rootfile->cd();
-	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
-	}
-	rootfile->Close();
-      } // end couplings
-    } // end signal samples
-    }//variation up down
-	}//loop sty		
+				for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	  				rootfile->cd();
+	 				plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+				}
+				rootfile->Close();
+      			} // end couplings
+   		 } // end signal samples
+   	 }//variation up down
+}//loop sty		
 // } // end if(systcat!=0)
   
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
