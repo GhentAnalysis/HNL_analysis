@@ -1914,7 +1914,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 //  } // end if(systcat==0)
 
   //else { // if(systcat!=0)
-    	for(unsigned syst=1; syst<=nSyst; ++syst) {	
+    for(unsigned syst=1; syst<=nSyst; ++syst) {
+    if(procPerSyst[systNames[syst]].find("lnN")==std::string::npos)	continue;	
     std::string appx = "_" + systNames[systcat] + (systdir==0 ? "Down" : "Up");
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
