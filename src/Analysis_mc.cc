@@ -1681,7 +1681,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
 	tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
 	tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
-
+/*
 	//
 	// ========================================================
 	//   Write tables
@@ -1807,7 +1807,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//
 	// ========================================================
 	//
-
+*/
 	// Add .txt to name if no file extension is given
 	std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard.txt";
 	card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
