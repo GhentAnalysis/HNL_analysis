@@ -1843,12 +1843,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	card << "\n";
 	card << left << std::setw(2*ntab) << "rate";
-	card << left << std::setw(ntab)   << std::setprecision(7) << Histos[0][couplidx[icoup]][6][1+isign]->Integral(0, -1);
+	card << left << std::setw(ntab)   << std::setprecision(7) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
 
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  rootfile->cd();
-	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
-	  float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
+	 // Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
+	  plots_SR[icoup][0][0][1+nSamples_signal+bkg]	->Write(bkgNames[bkg].c_str());
+	  float iyield = 	plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+	  //float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
 	  else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
 	}
