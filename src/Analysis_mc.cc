@@ -1921,8 +1921,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
       for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
-	if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+	if(icoup==1 && sgn.find("_mu" )==std::string::npos) continue;
+	if(icoup==0 && sgn.find("_e")==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
 
 	// ROOT file with shapes
@@ -1931,6 +1931,21 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	rootfile->cd();
 	dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
 	Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());
+	      
+	      
+	 sum_expected_SR[icoup][0][0]-> Write ("data_obs");
+	//sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
+	//dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
+	 /*
+	 TH1D*	plots_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
+         double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
+         TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
+         TH1D* signals_SR[nSamples_signal];
+	 TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
+	*/	      
+	plots_SR[icoup][0][0][1+isign] ->Write("signal");   
+	//Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");     
+	      
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  rootfile->cd();
 	  Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
