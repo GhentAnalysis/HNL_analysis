@@ -1916,6 +1916,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //else { // if(systcat!=0)
     for(unsigned syst=1; syst<=nSyst; ++syst) {
     if(procPerSyst[systNames[syst]].find("lnN")==std::string::npos)	continue;	
+    for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
     std::string appx = "_" + systNames[systcat] + (systdir==0 ? "Down" : "Up");
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
@@ -1937,6 +1938,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	rootfile->Close();
       } // end couplings
     } // end signal samples
+    }//variation up down
 	}//loop sty		
 // } // end if(systcat!=0)
   
