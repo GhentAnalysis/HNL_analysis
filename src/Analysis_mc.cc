@@ -1933,7 +1933,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());
 	      
 	      
-	 sum_expected_SR[icoup][0][0]-> Write ("data_obs");
+	sum_expected_SR[icoup][syst][iVariation]->Write(("data_obs"+appx).c_str());
+	plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+
 	//sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
 	//dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
 	 /*
