@@ -1687,7 +1687,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//   Write tables
 	// ========================================================
 	//
-	size_t nsrbins = Histos[0][couplidx[icoup]][6][1+isign]->GetNbinsX();
+	size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
 	std::vector<double> totconts(nsrbins+3, 0.0);
 	std::vector<double> totstats(nsrbins+3, 0.0);
 	std::vector<double> binconts(3, 0.0);
@@ -1824,7 +1824,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// Define the channels and the number of observed events
 	card << "bin bin1\n";
 	// While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
-	card << "observation " << std::fixed << std::setprecision(7) << dataYields[0][couplidx[icoup]][6]->Integral(0, -1) << "\n";
+	card << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR[icoup][0][0]->Integral(0, -1) << "\n";
 	// Define all backgrounds and their yields
 	card << left << std::setw(2*ntab) << "bin";
 	for(unsigned proc=0; proc<nBkg+1; ++proc) {
