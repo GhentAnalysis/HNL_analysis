@@ -1619,8 +1619,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
   // List of systematics
-  const std::string systNames[] = { "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npsfnorm", "npdfnorm"};
-  const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]);
+  const std::string systNames[] = {"n", "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npsfnorm", "npdfnorm"};
+  const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
   // List of systematics applicable to each process (signal + backgrounds)
   // (delete sample name from list if the systematic source does not aplpy to it)
@@ -1848,8 +1848,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  rootfile->cd();
 	 // Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
-	  plots_SR[icoup][0][0][1+nSamples_signal+bkg]	->Write(bkgNames[bkg].c_str());
-	  float iyield = 	plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+	  plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	  float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
 	  //float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
 	  if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
 	  else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
@@ -1858,7 +1858,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	card << "----------------------------------------------------------------------------------------\n";
 
 	// Define sources of systematic uncertainty, what distibution they follow and how large their effect is
-	for(unsigned syst=0; syst<nSyst; ++syst) {
+	for(unsigned syst=1; syst<=nSyst; ++syst) {
 	  std::string asyst = systNames[syst];
 	  if(procPerSyst.count(asyst)==0) {
 	    std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
@@ -1883,7 +1883,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    }
 	    card << left << std::setw(ntab) << "lnN";
 	  }
-	  else { // all the other systematics: shapeN2
+	  else { // all the other systematics: shapeN
 	    card << left << std::setw(ntab) << "shapeN";
 	  }
 	  //
@@ -1913,7 +1913,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     } // end signal samples
 //  } // end if(systcat==0)
 
-  else { // if(systcat!=0)
+  //else { // if(systcat!=0)
     std::string appx = "_" + systNames[systcat] + (systdir==0 ? "Down" : "Up");
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
@@ -1935,7 +1935,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	rootfile->Close();
       } // end couplings
     } // end signal samples
- } // end if(systcat!=0)
+// } // end if(systcat!=0)
   
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
