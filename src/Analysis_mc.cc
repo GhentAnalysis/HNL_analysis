@@ -1273,8 +1273,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
-	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-	      if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
+	      double central_divided_by_sys_ele= 1.;
+	      double central_divided_by_sys_muon= 1.;
+	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight/weight_SR[ele_case][iSystematics][0][effsam];
+	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight/weight_SR[muon_case][iSystematics][0][effsam];
+	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+	      if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
 	    }//end loop up-down		
 	  }// end loop on sys			
 	}// end MC	  
