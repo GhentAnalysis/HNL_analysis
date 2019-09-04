@@ -1612,7 +1612,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
   // List of systematics
-  const std::string systNames[] = {"n", "lumi", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "npsfnorm", "npdfnorm"};
+  const std::string systNames[] = {"n", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","trigger","lumi", "npsfnorm", "npdfnorm"};
   const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
   // List of systematics applicable to each process (signal + backgrounds)
@@ -1620,7 +1620,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::map<std::string, std::string> procPerSyst;
   //                       Type     Correl.   Processes
   //                       -------  --------  -------------------------------------------------------------
-  procPerSyst["lumi"    ] = "lnN    ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["qcd"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["pdf"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
@@ -1632,6 +1631,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   procPerSyst["jer"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["btag"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["lumi"    ] = "lnN    ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["npsfnorm"] = "lnN    ;  is_corr;                                                     nonpromptSF             ";
   procPerSyst["npdfnorm"] = "lnN    ;  is_corr;                                                                  nonpromptDF";
 
