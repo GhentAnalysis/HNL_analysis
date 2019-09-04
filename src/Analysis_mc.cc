@@ -622,7 +622,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      "comb");           // measurement type
 
   // ------------   samples info -----------------------------------------------//
-  std::vector<Sample> samples = readSampleList(list, directory);
+  samples = readSampleList(list, directory);
   // std::cout << "I am in the analysis number:  " << systcat << std::endl;
   // pdf!
   std::vector<unsigned> theoSystVars;
