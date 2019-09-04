@@ -1107,10 +1107,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	//eta??? boh... desapparessidos   
       }	      
       // Pile UP!
+      if (!samples[sam].isData()){	    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	weight_SR[w_loop][pu_index][0][effsam] = PUWeight();	      
       }     
-	      
+      }      
 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
@@ -1186,11 +1187,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	} 
       }
       // ----> SYS Pile UP!
+      if (!samples[sam].isData()){	    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
 	weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
       }      
-	    
+      }    
 	    
 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
