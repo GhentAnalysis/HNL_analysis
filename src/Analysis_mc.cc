@@ -1193,7 +1193,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
       }      
       }    
-	/*  
+	 
 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1403,7 +1403,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // std::cout<<"after plottinh: "<<std::endl;
       //if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
       //if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-*/
+
     }//end loop over the entries
     
   }//loop over samples
