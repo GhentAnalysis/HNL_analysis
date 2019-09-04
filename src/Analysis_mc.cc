@@ -1098,6 +1098,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
+	    /*
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	// µ and e ID SF    
 	if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
@@ -1118,7 +1119,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       double btag_weight_central=1;
       double btag_weight_down=1; 	    
       double btag_weight_up=1; 	 
-	    /*
+	   
        if (!samples[sam].isData()){
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
