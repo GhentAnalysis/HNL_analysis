@@ -1937,7 +1937,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }//variation up down
   }//loop sty		
   // } // end if(systcat!=0)
-  *
+  
     std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
  
