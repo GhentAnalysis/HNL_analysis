@@ -1118,7 +1118,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       double btag_weight_central=1;
       double btag_weight_down=1; 	    
       double btag_weight_up=1; 	    
-
+       if (!samples[sam].isData()){
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
@@ -1187,7 +1187,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	} 
       }
       // ----> SYS Pile UP!
-      if (!samples[sam].isData()){	    
+         
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
 	weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
