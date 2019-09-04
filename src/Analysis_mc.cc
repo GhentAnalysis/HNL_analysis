@@ -1442,7 +1442,7 @@ if (effsam > 21) continue;
       }
     }
   }
-/*	
+	
   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
@@ -1454,16 +1454,16 @@ if (effsam > 21) continue;
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	  signals_SR[signal_sample] =(TH1D*)plots_SR[cha][iSystematics][iVariation][signal_sample+1]->Clone() ;     
 	}
-	if (isSRRun){plotDataVSMC_SR(999,cha,
+	/*if (isSRRun){plotDataVSMC_SR(999,cha,
 				     sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
 				     eff_names,numer_plot_class ,
 				     chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
 				     true,
-				     2, true, signals,  sigNames_short, nSamples_signal, false);}
+				     2, true, signals,  sigNames_short, nSamples_signal, false);}*/
       }
     }//t
   }
-  
+  /*
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
