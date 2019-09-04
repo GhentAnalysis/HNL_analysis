@@ -1466,7 +1466,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
-  /*	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       //if (cat !=0 && cat !=6) continue;
@@ -1527,7 +1526,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
       }//end cat
     }//end histo  
-    */
+    
  // }
 
  
