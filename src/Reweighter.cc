@@ -12,15 +12,10 @@ Reweighter::Reweighter(const std::vector<Sample>& samples, const bool sampleIs20
     initializePuWeights(samples);
 }
 void Reweighter::initializePuWeights(const std::vector< Sample >& sampleList){
-std::cout<<"==============================================="<<std::endl;
-    std::cout<<"==============================================="<<std::endl;
-std::cout<<"==============================================="<<std::endl;
-std::cout<<"==============================================="<<std::endl;
-std::cout<<"==============================================="<<std::endl;
+
 
     static const std::string minBiasVariation[3] = {"central", "down", "up"};
     for(auto& sample : sampleList){
- std::cout<<"file nme in pu: "<<sample.getFileName()<<std::endl;
         //no pu weights for data 
         if( sample.isData() ) continue;
 
@@ -40,9 +35,6 @@ std::cout<<"==============================================="<<std::endl;
             puWeights[sample.getUniqueName()].back()->SetDirectory(gROOT);
         }
         puFile->Close();
-    }
-    for( auto entry : puWeights ){
-     std::cout << entry.first << std::endl;   
     }
 }
 
