@@ -41,6 +41,9 @@ std::cout<<"==============================================="<<std::endl;
         }
         puFile->Close();
     }
+    for( auto entry : puWeights ){
+     std::cout << entry.first << std::endl;   
+    }
 }
 
 Reweighter::~Reweighter(){}
