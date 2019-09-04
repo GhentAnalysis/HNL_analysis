@@ -20,7 +20,7 @@ std::cout<<"==============================================="<<std::endl;
 
     static const std::string minBiasVariation[3] = {"central", "down", "up"};
     for(auto& sample : sampleList){
-
+ std::cout<<"file nme in pu: "<<sample.getFileName()<<std::endl;
         //no pu weights for data 
         if( sample.isData() ) continue;
 
