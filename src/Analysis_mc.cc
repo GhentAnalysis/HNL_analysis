@@ -1117,7 +1117,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // bjet SF + JEC/JER number of jets
       double btag_weight_central=1;
       double btag_weight_down=1; 	    
-      double btag_weight_up=1; 	    
+      double btag_weight_up=1; 	 
+	    /*
        if (!samples[sam].isData()){
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
@@ -1193,7 +1194,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
       }      
       }    
-	 /*   
+	  
 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
