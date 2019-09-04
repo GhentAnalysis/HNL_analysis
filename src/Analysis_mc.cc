@@ -676,7 +676,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //if (samples[sam].isData() && systcat != 0 ) continue;
 	if (samples[sam].isData()) continue;
   
-    if (effsam > 21) continue;	  
+    if (effsam != 24) continue;	  
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
     
