@@ -1442,6 +1442,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }
   }
+	/*
   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
@@ -1462,10 +1463,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }//t
   }
-  
+  */
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+/*	
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       //if (cat !=0 && cat !=6) continue;
@@ -1500,7 +1501,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
  
   //TH1D* signals[nSamples_signal];
-  //if (systcat == 0 ){
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       //if (cat !=0 && cat !=6) continue;
@@ -1529,7 +1529,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     
   // }
 
- 
+ */
   ////////////////                           ////////////////
   //// List of stuff for data cards and shape ROOT files ////
   ////////////////                           ////////////////
