@@ -1077,13 +1077,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (charge_3l[2] != charge_3l[1])                                        selection_0 = true;
       if ( selection_0 && v4l2.DeltaR(v4l3) < 1)                               selection_1 = true;
       if ( selection_1 && bjet == 0 )                                          selection_2 = true;
-      else {
-	// If there are b-jets, do not skip the event, just give it a small weight, (1-SF)
-	//  N.B.:  the "rejected" events Nr are scaled to Nr' = Nr * SF ==> DNr = Nr' - Nr = (SF-1)*Nr
-	//         the "accepted" events Na are corrected to Na' = Na - DNr = Na - (SF-1)*Nr = Na + (1-SF)*Nr
-	//scal *= (1. - bwght);
-	//selection_2 = true;
-      }
       if ( selection_2 && M_3L_combined > 45 && M_3L_combined < 85)            selection_3 = true;
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
@@ -1096,11 +1089,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
-					 M_3L_combined > 45 && 
-	M_3L_combined < 85 &&    
-			min_delta_phi > 1 &&
-	vtxRvtxPcosAlpha > 0.9  &&
-	M_l2l3_combined < 50;
+		     M_3L_combined > 45 && 
+	             M_3L_combined < 85 && 
+	             bjet == 0   &&
+		     min_delta_phi > 1 &&
+		     vtxRvtxPcosAlpha > 0.9  &&
+		     M_l2l3_combined < 50;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
@@ -1129,18 +1123,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
 	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
 	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;   	      
-	if(jetIsBJet(j, _jetPt[j]) && _jetPt[j]<1000. ) {
-	  btag_weight_central *= reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  btag_weight_down    *= reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);
-	  btag_weight_up      *= reader.eval_auto_bounds("up",      BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]);		     	
+	if(jetIsGood(j, _jetPt[j]) && _jetPt[j]<1000. && _jetHadronFlavor[j] == 5) {
+	  btag_weight_central *= (1. - reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]));
+	  btag_weight_down    *= (1. - reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]));
+	  btag_weight_up      *= (1. - reader.eval_auto_bounds("up",      BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]));		     	
 	}	//bjet
       }    //njet
-      for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	if (bjet != 0){    // stays equal to 1 if there are 0 bjet... but it is corrected for events with > 0 jets
-	  weight_SR[w_loop][btag_index][0][effsam] = (1.- btag_weight_central);
-	  weight_SR[w_loop][btag_index][1][effsam] = (1.- btag_weight_down);
-	  weight_SR[w_loop][btag_index][2][effsam] = (1.- btag_weight_up);		
-	}
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){ 
+	weight_SR[w_loop][btag_index][0][effsam] = btag_weight_central;
+	weight_SR[w_loop][btag_index][1][effsam] = btag_weight_down;
+	weight_SR[w_loop][btag_index][2][effsam] = btag_weight_up;			
       }
       //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
