@@ -1427,7 +1427,7 @@ if (effsam > 21) continue;
       }//end loop up-down		
     }// end loop on sys
   }// coupling
-   /* 
+   
   for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1442,7 +1442,7 @@ if (effsam > 21) continue;
       }
     }
   }
-	
+/*	
   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
