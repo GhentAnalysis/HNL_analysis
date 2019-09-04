@@ -1338,8 +1338,8 @@ if (channel == 1){
   //CMS_lumi(c,"Preliminary", true);
   drawLumi(p1);
   if (channel == 1){
-    c->SaveAs("plots_pdf/e_SR/" + name_histo + ".pdf");
-    c->SaveAs("plots_root/e_SR/"+ name_histo + ".root");
+    c->SaveAs("plots_pdf/ele_SR/" + name_histo + ".pdf");
+    c->SaveAs("plots_root/ele_SR/"+ name_histo + ".root");
   }
 	
 	
