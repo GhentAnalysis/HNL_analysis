@@ -566,17 +566,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   if (year == 0){
     TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_trigger_muon_files[0]) :  TFile::Open(names_trigger_muon_files[0]);
     hfile1_sf_2016->cd("IsoMu24_OR_IsoTkMu24_PtEtaBins");
-    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2016->Get("abseta_pt_ratio");
+    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2016->Get("IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio");
   }	
   if (year == 1){
     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_trigger_muon_files[1]) :  TFile::Open(names_trigger_muon_files[1]);
     hfile1_sf_2017->cd("IsoMu27_PtEtaBins");
-    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2017->Get("abseta_pt_ratio");
+    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2017->Get("IsoMu27_PtEtaBins/abseta_pt_ratio");
   }
   if (year == 2 ){	
     TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_trigger_muon_files[2]) :  TFile::Open(names_trigger_muon_files[2]);
     hfile1_sf_2018->cd("IsoMu24_PtEtaBins");
-    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2018->Get("abseta_pt_ratio");
+    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2018->Get("IsoMu24_PtEtaBins/abseta_pt_ratio");
   }		
 			
   TH2F *sf_prompt_ele[1];	
