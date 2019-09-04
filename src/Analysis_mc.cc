@@ -1254,18 +1254,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isOnlyMC && channel_bin == -1 ) continue;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // !!!!!!!!!!!!!!    filling all the histograms for data cards !!!!!!!!!!!!!!    	    
-      double central_total_weight = scal};
+      double central_total_weight = scal;
       if (!isDataDrivenBgk && !isDataYield){
-	
 	   for (int w_loop =0; w_loop < nSystematic; w_loop++){
 	  	if (_lFlavor[l1]==1 ) central_total_weight *= weight_SR[0][w_loop][0][effsam];	 
 		if (_lFlavor[l1]==0 ) central_total_weight *= weight_SR[1][w_loop][0][effsam];	      
-
-	   } 	      
-      	
+	   } 	        	
       } 
-	    
-	    
+		    
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final fianl step 
 	// central distribution --> on_index ==> 0 and  "central" => 0    
