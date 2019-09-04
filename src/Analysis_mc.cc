@@ -1454,12 +1454,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	  signals_SR[signal_sample] =(TH1D*)plots_SR[cha][iSystematics][iVariation][signal_sample+1]->Clone() ;     
 	}
-	if (isSRRun){plotDataVSMC_SR(999,cha,
+	/*if (isSRRun){plotDataVSMC_SR(999,cha,
 				     sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
 				     eff_names,numer_plot_class ,
 				     chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
 				     true,
-				     2, true, signals_SR,  sigNames_short, nSamples_signal, false);}
+				     2, true, signals_SR,  sigNames_short, nSamples_signal, false);}*/
       }
     }//t
   }
@@ -1510,7 +1510,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	if (isSRRun){plotDataVSMC(cat,cha,dist,
+	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
 				  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 				  eff_names,numer_plot_class ,
 				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
@@ -1522,7 +1522,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 				   eff_names,numer_plot_class ,
 				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				   true,
-				   2, true, signals,  sigNames_short, nSamples_signal, true);}
+				   2, true, signals,  sigNames_short, nSamples_signal, true);}*/
 			  
       }
     }//end cat
@@ -1648,11 +1648,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   for(size_t isign=0; isign<nSamples_signal; ++isign) {
     std::string sgn = sigNames[isign].Data();
     for(size_t icoup=0; icoup<nCoupling; ++icoup) {
+      std::cout<<"index icpuo: "<<icoup<<" nell'array: "<<couplings[icoup]<<" .  segnale: "<< 	 sigNames[isign].Data()<<std::endl;   
       if(icoup == 2) continue;     
       if(icoup==1 && sgn.find("_mu" )==std::string::npos) continue;
       if(icoup==0 && sgn.find("_e")==std::string::npos) continue;
       std::string cpl = couplings[icoup];
-
+	std::cout<<"index icpuo: "<<icoup<<" . rimasto: "<< cpl<<" . "<< sigNames[isign].Data()<<std::endl;
       // ROOT file with shapes
       std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
       TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
