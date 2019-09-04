@@ -674,7 +674,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
     //if (samples[sam].isData() && systcat != 0 ) continue;
-
+	if (samples[sam].isData()) continue;
   
     if (effsam > 21) continue;	  
     bool isSignal= false;
@@ -699,7 +699,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/1000; ++it) {
+    for(ULong64_t it=0; it<nEntries/100; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -1648,12 +1648,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   for(size_t isign=0; isign<nSamples_signal; ++isign) {
     std::string sgn = sigNames[isign].Data();
     for(size_t icoup=0; icoup<nCoupling; ++icoup) {
-      std::cout<<"index icpuo: "<<icoup<<" nell'array: "<<couplings[icoup]<<" .  segnale: "<< 	 sigNames[isign].Data()<<std::endl;   
       if(icoup == 2) continue;     
-      if(icoup==1 && sgn.find("_mu" )==std::string::npos) continue;
-      if(icoup==0 && sgn.find("_e")==std::string::npos) continue;
+      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
       std::string cpl = couplings[icoup];
-	std::cout<<"index icpuo: "<<icoup<<" . rimasto: "<< cpl<<" . "<< sigNames[isign].Data()<<std::endl;
       // ROOT file with shapes
       std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
       TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
@@ -1912,8 +1910,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       for(size_t isign=0; isign<nSamples_signal; ++isign) {
 	std::string sgn = sigNames[isign].Data();
 	for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	  if(icoup==1 && sgn.find("_mu" )==std::string::npos) continue;
-	  if(icoup==0 && sgn.find("_e")==std::string::npos) continue;
+	  if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+	  if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
 	  std::string cpl = couplings[icoup];
 
 	  // ROOT file with shapes
