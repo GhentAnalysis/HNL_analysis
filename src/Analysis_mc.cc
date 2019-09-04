@@ -1254,13 +1254,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isOnlyMC && channel_bin == -1 ) continue;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // !!!!!!!!!!!!!!    filling all the histograms for data cards !!!!!!!!!!!!!!    	    
-      double central_total_weight = scal;
+      double central_total_weight[3] = {scal,scal,scal};
       if (!isDataDrivenBgk && !isDataYield){
-	for (int w_loop =0; w_loop < nSystematic; w_loop++){
-	  central_total_weight *= weight_SR[0][w_loop][0][effsam];	      
+	 for (int coupling_loop =0; coupling_loop < nCoupling; coupling_loop++){
+	   for (int w_loop =0; w_loop < nSystematic; w_loop++){
+	  central_total_weight[coupling_loop] *= weight_SR[coupling_loop][w_loop][0][effsam];	      
 	} 	      
       }
-    	 
+      } 
 	    
 	    
       // electron case --> eee eeµ eeµ	  
