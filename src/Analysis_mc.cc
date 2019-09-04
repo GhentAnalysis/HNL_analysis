@@ -676,7 +676,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //if (samples[sam].isData() && systcat != 0 ) continue;
 
   
-	  
+if (effsam > 21) continue;	  
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
     
@@ -1427,7 +1427,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }//end loop up-down		
     }// end loop on sys
   }// coupling
-    
+   /* 
   for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1442,6 +1442,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }
   }
+	
   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
@@ -1462,7 +1463,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }
     }//t
   }
-  /*
+  
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
