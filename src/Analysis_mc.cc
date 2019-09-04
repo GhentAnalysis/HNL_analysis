@@ -1098,15 +1098,23 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
-	std::cout<<"year: "<<year<<std::endl;    
+      std::cout<<"year: "<<year<<std::endl;    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	 std::cout<<"cpuoling loop: "<<    w_loop<<"   flav l1: "<< _lFlavor[l1]<<std::endl;
 	// µ and e ID SF    
-	if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1);   
+	if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1); 
+	 std::cout<<"after prompt ele"<<std::endl;     
 	if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
+	      	 std::cout<<"after prompt muon"<<std::endl;     
+
 	// µ trigger SF    
        if (_lFlavor[l1]==1 ) weight_SR[w_loop][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
+	      	 std::cout<<"after trigger muon"<<std::endl;     
+
 	//eta??? boh... desapparessidos   
-      }	      
+      }	  
+	    	 std::cout<<"after loop "<<std::endl;     
+
       // Pile UP!
       if (!samples[sam].isData()){	    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
