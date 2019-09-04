@@ -1086,7 +1086,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    
 	    
       if (!selection_0) continue;
-	    
+	/*    
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
 		     M_3L_combined > 45 && 
@@ -1403,7 +1403,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // std::cout<<"after plottinh: "<<std::endl;
       //if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
       //if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-
+*/
     }//end loop over the entries
     
   }//loop over samples
@@ -1418,7 +1418,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // all stack etc etc for the right plots to put in the data cards  
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	
+/*	
   for(int cha = 0; cha < nCoupling; ++cha){  
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1659,13 +1659,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	sum_expected_SR[icoup][0][0]-> Write ("data_obs");
 	//sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
 	//dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
-	 /*
-	 TH1D*	plots_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
-         double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
-         TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
-         TH1D* signals_SR[nSamples_signal];
-	 TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
-	*/	      
+		      
 	plots_SR[icoup][0][0][1+isign] ->Write("signal");   
 	//Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
@@ -1674,6 +1668,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
 	tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
 	tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
+	*/
 /*
 	//
 	// ========================================================
@@ -1801,6 +1796,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	// ========================================================
 	//
 */
+/*
 	// Add .txt to name if no file extension is given
 	std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard.txt";
 	card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
@@ -1929,14 +1925,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
 	//sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
 	//dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
-	 /*
-	 TH1D*	plots_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
-         double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
-         TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
-         TH1D* signals_SR[nSamples_signal];
-	 TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
-	*/	      
-	      
+	  
 				for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	  				rootfile->cd();
 	 				plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
@@ -1947,7 +1936,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
    	 }//variation up down
 }//loop sty		
 // } // end if(systcat!=0)
-  
+ */ 
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
  
