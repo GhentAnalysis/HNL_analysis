@@ -999,7 +999,7 @@ void plotDataVSMC_SR(int categoria,int channel,
   data_up->SetMinimum(0.6);
   data_up->SetMaximum(1.4);
 	
-  HistLabelSizes(data,0.1,0.1,0.07,0.07);
+  HistLabelSizes(data_nominal,0.1,0.1,0.07,0.07);
   data_up -> Draw("hist");	
   data_down -> Draw("hist same");	
   data_nominal -> Draw("ep same");	
