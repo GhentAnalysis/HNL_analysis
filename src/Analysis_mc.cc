@@ -1096,16 +1096,20 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
-      
+      if (flavors_3l[0] == 0) continue;
+	    std::cout<<"----------------------------------"<<std::endl;
+	    std::cout<<"sr channel: "<<SR_channel<<std::endl;
 	// µ and e ID SF    
        if (SR_channel > 2 ) weight_SR[ ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1); 
        if (SR_channel <= 2 ) weight_SR[ muon_case][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
 	// µ trigger SF    
        if (SR_channel <= 2 ) weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
 	//eta??? boh... desapparessidos   
-     
+     std::cout<<"weight_SR[ ele_case][pEle_index][0][effsam] . " << weight_SR[ ele_case][pEle_index][0][effsam]<<std::endl;
+     std::cout<<"weight_SR[ muon_case][pMuo_index][0][effsam] . " << weight_SR[ muon_case][pMuo_index][0][effsam]<<std::endl;
+     std::cout<<"weight_SR[muon_case][trigger_index][0][effsam] . " << weight_SR[muon_case][trigger_index][0][effsam]<<std::endl;
 
-	    
+    
 	    
       // Pile UP!
       if (!samples[sam].isData()){	    
@@ -1147,12 +1151,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // ------------------------- leptons SF uncertainties ------------------------- //    
       // Systematics on displaced electrons
       double displEleWeight = 1.;
-      if(flavors_3l[l2]==0) {
+      if(flavors_3l[1]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l2]);   
 	//double value_test =  displEleVars[indEle] <= 1 ? displEleVars[indEle] : std::min((unsigned)1, 1/displEleVars[indEle]);      
 	displEleWeight *= displEleVars[indEle];	      
       }	
-      if(flavors_3l[l3]==0) {
+      if(flavors_3l[2]==0) {
 	size_t indEle = std::min((unsigned)6, _lElectronMissingHits[l3]);
 	displEleWeight *= displEleVars[indEle];
       }		      
@@ -1163,10 +1167,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       }    	
       // Systematics on displaced muons
       double displMuoWeight = 1.;
-      if(flavors_3l[l2]==1) {      
+      if(flavors_3l[1]==1) {      
 	displMuoWeight *= (1.0 - std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l2])));
       }	
-      if(flavors_3l[l3]==1) {
+      if(flavors_3l[2]==1) {
 	displMuoWeight *= (1.0 - std::abs(1.0-displMuoVars(D2_delta_pv_sv, _lPt[l3])));
       }		      
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
@@ -1186,7 +1190,15 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
 	  weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
 	} 
-      
+  std::cout<<"up---->"<<std::endl;	    
+     std::cout<<"weight_SR[ ele_case][pEle_index][2][effsam] . " << weight_SR[ ele_case][pEle_index][2][effsam]<<std::endl;
+     std::cout<<"weight_SR[ muon_case][pMuo_index][2][effsam] . " << weight_SR[ muon_case][pMuo_index][2][effsam]<<std::endl;
+     std::cout<<"weight_SR[muon_case][trigger_index][2][effsam] . " << weight_SR[muon_case][trigger_index][2][effsam]<<std::endl;
+std::cout<<"down---->"<<std::endl;	    
+     std::cout<<"weight_SR[ ele_case][pEle_index][1][effsam] . " << weight_SR[ ele_case][pEle_index][1][effsam]<<std::endl;
+     std::cout<<"weight_SR[ muon_case][pMuo_index][1][effsam] . " << weight_SR[ muon_case][pMuo_index][1][effsam]<<std::endl;
+     std::cout<<"weight_SR[muon_case][trigger_index][1][effsam] . " << weight_SR[muon_case][trigger_index][1][effsam]<<std::endl;
+
       // ----> SYS Pile UP!
       if (!samples[sam].isData()){  
 	for (int w_loop =0; w_loop < nCoupling; w_loop++){
@@ -1266,7 +1278,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];	      
 	} 	        	
       } 
-		    
+std::cout<<""<<std::endl;
+std::cout<<"central_total_weight_mu: "<< central_total_weight_mu<<std::endl;
+std::cout<<"central_total_weight_ele: "<< central_total_weight_ele<<std::endl;
+
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final fianl step 
 	// central distribution --> on_index ==> 0 and  "central" => 0    
@@ -1280,6 +1295,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      double central_divided_by_sys_muon= 1.;
 	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[ele_case][iSystematics][0][effsam];
 	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[muon_case][iSystematics][0][effsam];
+	     std::cout<<"isys: "<<iSystematics<<" . "<< "iVariation "<< iVariation<<std::endl;
+	    std::cout<<"central_divided_by_sys_muon . "<< central_divided_by_sys_muon<<std::endl;
+	    std::cout<<"central_divided_by_sys_ele . "<< central_divided_by_sys_ele<<std::endl;	    
+
 	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
 	    }//end loop up-down		
