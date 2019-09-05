@@ -980,9 +980,19 @@ void plotDataVSMC_SR(int categoria,int channel,
     
     
     for (int i =1; i <= plot_variation[0]->GetNbinsX(); i++){
-        plot_variation[1] -> SetBinContent(i,plot_variation[1] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
-        plot_variation[2] -> SetBinContent(i,plot_variation[2] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
-        plot_variation[0]-> SetBinContent(i,plot_variation[0] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+	 
+	    
+	    
+        if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[1] -> SetBinContent(i,plot_variation[1] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+        if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[2] -> SetBinContent(i,plot_variation[2] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+        if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[0]-> SetBinContent(i,plot_variation[0] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+    
+	if (plot_variation[1]-> GetBinContent(i) == 0)plot_variation[1] -> SetBinContent(i,0);
+        if (plot_variation[2]-> GetBinContent(i) == 0)plot_variation[2] -> SetBinContent(i,2);        
+	    
+        if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[1] -> SetBinContent(i,0.601);
+        if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[2] -> SetBinContent(i,0.601);
+        if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[0]-> SetBinContent(i,0.601);
     }
     
     
