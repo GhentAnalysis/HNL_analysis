@@ -1005,7 +1005,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     plot_variation[0] -> Draw("ep same");
     legend->Draw("same");
     
-    
+   /* 
     
     Int_t ci;      // for color index setting
     
@@ -1196,7 +1196,7 @@ void plotDataVSMC_SR(int categoria,int channel,
         tex->SetLineWidth(2);
         tex->Draw();
     }
-    
+   */ 
     
     
     
