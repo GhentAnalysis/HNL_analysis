@@ -674,7 +674,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
     //if (samples[sam].isData() && systcat != 0 ) continue;
-	if (samples[sam].isData()) continue;
+    if (samples[sam].isData()) continue;
   
     if (effsam != 24) continue;	  
     bool isSignal= false;
@@ -1097,12 +1097,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //-------------------- central values SF calculations -------------------------
       // l1   
       if (flavors_3l[0] == 0) continue;
-	// µ and e ID SF    
-       if (SR_channel > 2 ) weight_SR[ ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1); 
-       if (SR_channel <= 2 ) weight_SR[ muon_case][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
-	// µ trigger SF    
-       if (SR_channel <= 2 ) weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
-	//eta??? boh... desapparessidos    
+      // µ and e ID SF    
+      if (SR_channel > 2 ) weight_SR[ ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1); 
+      if (SR_channel <= 2 ) weight_SR[ muon_case][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
+      // µ trigger SF    
+      if (SR_channel <= 2 ) weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
+      //eta??? boh... desapparessidos    
 	    
       // Pile UP!
       if (!samples[sam].isData()){	    
@@ -1172,17 +1172,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
       }    
       // Systematics on prompt muons
-	if(SR_channel <= 2) {      
-	  weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
-	  weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
-	  weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
-	  weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+      if(SR_channel <= 2) {      
+	weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
           
-	}
-	if(SR_channel > 2) {      
-	  weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
-	  weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
-	} 
+      }
+      if(SR_channel > 2) {      
+	weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
+	weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
+      } 
   
       // ----> SYS Pile UP!
       if (!samples[sam].isData()){  
@@ -1268,7 +1268,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
         // plots for systematics
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
-	   // if (iSystematics!=pEle_index && iSystematics!=pMuo_index)	  continue; 	  
+	    // if (iSystematics!=pEle_index && iSystematics!=pMuo_index)	  continue; 	  
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
@@ -1278,22 +1278,22 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
 	      }
-	     if (iSystematics==jec_index && iVariation==1){
+	      if (iSystematics==jec_index && iVariation==1){
 		if (SR_channel > 2  && bjet_down_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      	if (SR_channel <= 2 && bjet_down_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
-	     }	
-	    if (iSystematics==jec_index && iVariation==2){
+	      }	
+	      if (iSystematics==jec_index && iVariation==2){
 		if (SR_channel > 2  && bjet_up_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      	if (SR_channel <= 2 && bjet_up_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
-	     } 	    
-	    if (iSystematics==jer_index && iVariation==1){
+	      } 	    
+	      if (iSystematics==jer_index && iVariation==1){
 		if (SR_channel > 2  && bjet_down_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      	if (SR_channel <= 2 && bjet_down_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
-	     }	
-	    if (iSystematics==jer_index && iVariation==2){
+	      }	
+	      if (iSystematics==jer_index && iVariation==2){
 		if (SR_channel > 2  && bjet_up_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      	if (SR_channel <= 2 && bjet_up_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
-	     }    
+	      }    
 	    }//end loop up-down		
 	  }// end loop on sys			
 	}// end MC	  
@@ -1474,11 +1474,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals_SR[signal_sample] =(TH1D*)plots_SR[cha][iSystematics][iVariation][signal_sample+1]->Clone() ;     
 	}
 	/*if (isSRRun){plotDataVSMC_SR(999,cha,
-				     sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
-				     eff_names,numer_plot_class ,
-				     chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
-				     true,
-				     2, true, signals_SR,  sigNames_short, nSamples_signal, false);}*/
+	  sum_expected_SR[cha][iSystematics][iVariation], bkgYields_SR[cha][iSystematics][iVariation],
+	  eff_names,numer_plot_class ,
+	  chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics]+"_"+ varNames[iVariation],
+	  true,
+	  2, true, signals_SR,  sigNames_short, nSamples_signal, false);}*/
       }
     }//t
   }
@@ -1530,18 +1530,18 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
 	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
-				  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-				  eff_names,numer_plot_class ,
-				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-				  true,
-				  2, true, signals,  sigNames_short, nSamples_signal, false);}
+	  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+	  eff_names,numer_plot_class ,
+	  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+	  true,
+	  2, true, signals,  sigNames_short, nSamples_signal, false);}
 		
-	if (isOnlyMC){plotDataVSMC(cat,cha,dist,
-				   dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-				   eff_names,numer_plot_class ,
-				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-				   true,
-				   2, true, signals,  sigNames_short, nSamples_signal, true);}*/
+	  if (isOnlyMC){plotDataVSMC(cat,cha,dist,
+	  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+	  eff_names,numer_plot_class ,
+	  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+	  true,
+	  2, true, signals,  sigNames_short, nSamples_signal, true);}*/
 			  
       }
     }//end cat
@@ -1867,6 +1867,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
       for(unsigned syst=1; syst<=nSyst; ++syst) {
+	if (icoup == 0 && syst == pEle_index) continue;
+	if (icoup == 1 && syst == pMuo_index) continue;
+
 	std::string asyst = systNames[syst];
 	if(procPerSyst.count(asyst)==0) {
 	  std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
@@ -1924,7 +1927,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //else { // if(systcat!=0)
   for(unsigned syst=1; syst<=nSyst; ++syst) {
     if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos)	continue;
-    if (syst!=4 && syst!=5) continue;	  
     for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
       std::string appx = "_" + systNames[syst] + (iVariation==1 ? "Down" : "Up");
       for(size_t isign=0; isign<nSamples_signal; ++isign) {
@@ -1932,6 +1934,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for(size_t icoup=0; icoup<nCoupl; ++icoup) {
 	  if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
 	  if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+	  if (icoup == 0 && syst == pEle_index) continue;
+	  if (icoup == 1 && syst == pMuo_index) continue;
 	  std::string cpl = couplings[icoup];
 
 	  // ROOT file with shapes
@@ -1947,9 +1951,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
 	  
 	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    rootfile->cd();
-	    std::cout<<"icoup: "<<icoup<< "  sys: "<<syst<<" var: "<<iVariation<<" . bkg: "<<bkg<<std::endl;	  
-	    std::cout<<"histogramm title: "<<plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->GetName()<<std::endl; 	  
+	    rootfile->cd(); 	  
 	    plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
 	  }
 	  rootfile->Close();
@@ -1959,7 +1961,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }//loop sty		
   // } // end if(systcat!=0)
   
-    std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
+  std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
  
 	
