@@ -674,9 +674,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
     //if (samples[sam].isData() && systcat != 0 ) continue;
-    if (samples[sam].isData()) continue;
   
-    if (effsam != 24) continue;	  
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
     
@@ -1087,16 +1085,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
-					 M_3L_combined > 45 && 
-	M_3L_combined < 85 && 
-			//bjet == 0   &&
+			M_3L_combined > 45 && 
+			M_3L_combined < 85 && 
 			min_delta_phi > 1 &&
-	vtxRvtxPcosAlpha > 0.9  &&
-	M_l2l3_combined < 50;
+			vtxRvtxPcosAlpha > 0.9  &&
+			M_l2l3_combined < 50;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
-      if (flavors_3l[0] == 0) continue;
       // µ and e ID SF    
       if (SR_channel > 2 ) weight_SR[ ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1); 
       if (SR_channel <= 2 ) weight_SR[ muon_case][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
@@ -1264,7 +1260,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (SR_selection){ // only final fianl step 
 	// central distribution --> on_index ==> 0 and  "central" => 0    
       	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), central_total_weight_ele);
-	if (SR_channel <= 2 && bjet == 0) plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight_mu);	    
+	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight_mu);	    
         // plots for systematics
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1568,7 +1564,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // List of couplings
   //const std::string couplings[] = {"ele", "muo", "tau"};
   const std::string couplings[] = {"muo", "ele"};
-  const size_t couplidx[] = {6, 7};
   const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
   // Theory uncertainties
