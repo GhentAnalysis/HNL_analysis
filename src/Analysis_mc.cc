@@ -1096,6 +1096,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
+	if (!SR_selection  ) continue;  
       if (flavors_3l[0] == 0) continue;
 	    std::cout<<"----------------------------------"<<std::endl;
 	    std::cout<<"sr channel: "<<SR_channel<<std::endl;
@@ -1279,6 +1280,7 @@ std::cout<<"down---->"<<std::endl;
 	} 	        	
       } 
 std::cout<<""<<std::endl;
+std::cout<<"scale: "<<	  scal<<std::endl;  
 std::cout<<"central_total_weight_mu: "<< central_total_weight_mu<<std::endl;
 std::cout<<"central_total_weight_ele: "<< central_total_weight_ele<<std::endl;
 
@@ -1290,6 +1292,7 @@ std::cout<<"central_total_weight_ele: "<< central_total_weight_ele<<std::endl;
         // plots for systematics
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
+	    if (iSystematics!=pEle_index && iSystematics!=pMuo_index)	  continue;
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
@@ -1298,7 +1301,8 @@ std::cout<<"central_total_weight_ele: "<< central_total_weight_ele<<std::endl;
 	     std::cout<<"isys: "<<iSystematics<<" . "<< "iVariation "<< iVariation<<std::endl;
 	    std::cout<<"central_divided_by_sys_muon . "<< central_divided_by_sys_muon<<std::endl;
 	    std::cout<<"central_divided_by_sys_ele . "<< central_divided_by_sys_ele<<std::endl;	    
-
+	    std::cout<<"final weight mu . "<< central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]<<std::endl;
+	    std::cout<<"final weight ele . "<< central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]<<std::endl;
 	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
 	    }//end loop up-down		
