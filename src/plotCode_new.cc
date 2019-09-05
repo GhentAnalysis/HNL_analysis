@@ -930,7 +930,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     legend->AddEntry(plot_variation[2], name_channel+"_up");
     
     
-    /*
+    
     
     // isotgramma delle SR --> linee e roba varia
     
@@ -977,7 +977,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
     p1->SetBottomMargin(0.15);
     
-    
+    /*
     
     for (int i =1; i <= plot_variation[0]->GetNbinsX(); i++){
         plot_variation[1] -> SetBinContent(i,plot_variation[1] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
