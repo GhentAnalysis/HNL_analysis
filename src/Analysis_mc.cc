@@ -1296,11 +1296,13 @@ std::cout<<"central_total_weight_ele: "<< central_total_weight_ele<<std::endl;
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
-	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[ele_case][iSystematics][0][effsam];
-	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[muon_case][iSystematics][0][effsam];
-	     std::cout<<"isys: "<<iSystematics<<" . "<< "iVariation "<< iVariation<<std::endl;
-	    std::cout<<"central_divided_by_sys_muon . "<< central_divided_by_sys_muon<<std::endl;
-	    std::cout<<"central_divided_by_sys_ele . "<< central_divided_by_sys_ele<<std::endl;	    
+	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[muon_case][iSystematics][0][effsam];
+	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[ele_case][iSystematics][0][effsam];
+	  
+		    
+	    std::cout<<"isys: "<<iSystematics<<" . "<< "iVariation "<< iVariation<<std::endl;
+	    std::cout<<"central_divided_by_sys_muon . -> "<< central_total_weight_mu<<" / "<<weight_SR[muon_case][iSystematics][0][effsam]<<" = "<<central_divided_by_sys_muon<<std::endl;
+	    std::cout<<"central_divided_by_sys_ele . -> "<< central_total_weight_ele<<" / "<<weight_SR[ele_case][iSystematics][0][effsam]<<" = "<< central_divided_by_sys_ele<<std::endl;	    
 	    std::cout<<"final weight mu . "<< central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]<<std::endl;
 	    std::cout<<"final weight ele . "<< central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]<<std::endl;
 	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
