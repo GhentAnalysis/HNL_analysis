@@ -699,7 +699,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries; ++it) {
+    for(ULong64_t it=0; it<nEntries/1000; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -1476,7 +1476,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	             2);}  
     }//t
   }
- for(int cha = 0; cha < nCoupling; ++cha){	
+ /*for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
@@ -1489,7 +1489,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	             2);}  
     }   
     }//t
-  }	
+  }	*/
 	
 	
 	
