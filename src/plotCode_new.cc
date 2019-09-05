@@ -977,7 +977,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
     p1->SetBottomMargin(0.15);
     
-    /*
+    
     
     for (int i =1; i <= plot_variation[0]->GetNbinsX(); i++){
         plot_variation[1] -> SetBinContent(i,plot_variation[1] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
@@ -1005,7 +1005,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     plot_variation[0] -> Draw("ep same");
     legend->Draw("same");
     
-    
+    /*
     
     
     Int_t ci;      // for color index setting
