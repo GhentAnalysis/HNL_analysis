@@ -923,7 +923,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     
     
     //Make a legend for data and all backgrounds
-   TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");
+   TLegend* legend = new TLegend(0.7,0.78,0.95,0.88,NULL,"brNDC");
     legend->SetFillStyle(0);
     legend->AddEntry(plot_variation[0], name_channel+"_nominal");
     legend->AddEntry(plot_variation[1], name_channel+"_down");
