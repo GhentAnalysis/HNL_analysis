@@ -934,32 +934,32 @@ void plotDataVSMC_SR(int categoria,int channel,
     
     // isotgramma delle SR --> linee e roba varia
     
-    plot_variation[0]->SetStats(0);
-    plot_variation[0]-> GetXaxis()->LabelsOption("hu");
-    plot_variation[0]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");
-    plot_variation[0]->GetXaxis()->SetTitleSize(0.06);
-    plot_variation[0]->GetXaxis()->SetTitleOffset(1);
-    plot_variation[0]->GetXaxis() ->SetTitleFont(132);
-    plot_variation[0]-> GetXaxis()->SetBinLabel(1, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(2, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(3, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(4, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(5, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(6, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(7, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(8, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(9, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(10, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(11, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(12, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(13, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(14, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(15, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(16, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(17, "< 4 ");
-    plot_variation[0]-> GetXaxis()->SetBinLabel(18, "> 4 ");
-    plot_variation[0]-> GetXaxis()->SetLabelSize(0.02);
-    plot_variation[0]-> GetXaxis()->SetLabelOffset(0.01);
+    plot_variation[2]->SetStats(0);
+    plot_variation[2]-> GetXaxis()->LabelsOption("hu");
+    plot_variation[2]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");
+    plot_variation[2]->GetXaxis()->SetTitleSize(0.06);
+    plot_variation[2]->GetXaxis()->SetTitleOffset(1);
+    plot_variation[2]->GetXaxis() ->SetTitleFont(132);
+    plot_variation[2]-> GetXaxis()->SetBinLabel(1, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(2, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(3, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(4, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(5, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(6, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(7, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(8, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(9, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(10, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(11, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(12, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(13, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(14, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(15, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(16, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(17, "< 4 ");
+    plot_variation[2]-> GetXaxis()->SetBinLabel(18, "> 4 ");
+    plot_variation[2]-> GetXaxis()->SetLabelSize(0.02);
+    plot_variation[2]-> GetXaxis()->SetLabelOffset(0.01);
     
     //Make canvas and pads for plotting
     double width, height;
@@ -1012,17 +1012,17 @@ void plotDataVSMC_SR(int categoria,int channel,
     plot_variation[2] -> Draw("hist");
     plot_variation[1] -> Draw("hist same");
     plot_variation[0] -> Draw("ep same");
-   // legend->Draw("same");
+    legend->Draw("same");
     
     
     
     Int_t ci;      // for color index setting
     
-    TLine *line = new TLine(6.5,0.02,6.5,1.25);
-    line->SetLineWidth(2);
+    TLine *line = new TLine(6.5,0.02,6.5,1.2);
+    line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(12.5,0.02,12.5,1.25);
-    line->SetLineWidth(2);
+    line = new TLine(12.5,0.02,12.5,1.2);
+    line->SetLineWidth(1);
     line->Draw();
     
     line = new TLine(2.5,1.1,2.5,0.1);
