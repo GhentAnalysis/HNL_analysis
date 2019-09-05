@@ -1540,7 +1540,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
+	if (isSRRun){plotDataVSMC(cat,cha,dist,
 	  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 	  eff_names,numer_plot_class ,
 	  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
@@ -1552,7 +1552,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  eff_names,numer_plot_class ,
 	  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 	  true,
-	  2, true, signals,  sigNames_short, nSamples_signal, true);}*/
+	  2, true, signals,  sigNames_short, nSamples_signal, true);}
 			  
       }
     }//end cat
@@ -2002,11 +2002,11 @@ void Analysis_mc::put_at_zero(TH1D *histo){
     double error_to_add =0;
     double error_final =0;
 
-    if (histo->GetBinContent( i+1)  < 0) {
+    if (histo->GetBinContent( i+1)  <= 0) {
       error_original = histo-> GetBinError(i+1);
       error_to_add = histo-> GetBinContent(i+1);
       error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
-      histo-> SetBinContent(i+1, 0.0);
+      histo-> SetBinContent(i+1, 0.000001);
       histo-> SetBinError(i+1, error_final);
     }
   }
