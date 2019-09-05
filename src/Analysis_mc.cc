@@ -1467,7 +1467,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
   
   
-  for(int cha = 0; cha < nCoupling; ++cha){	
+/*  for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
 	if (isSRRun){plotDataVSMC_SR(999,cha,
@@ -1475,7 +1475,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	             chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
 	             2);}  
     }//t
-  }
+  }*/
  for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
