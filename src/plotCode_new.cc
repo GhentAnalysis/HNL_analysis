@@ -937,7 +937,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     plot_variation[2]->SetStats(0);
     plot_variation[2]-> GetXaxis()->LabelsOption("hu");
     plot_variation[2]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");
-    plot_variation[2]->GetXaxis()->SetTitleSize(0.06);
+    plot_variation[2]->GetXaxis()->SetTitleSize(0.07);
     plot_variation[2]->GetXaxis()->SetTitleOffset(1);
     plot_variation[2]->GetXaxis() ->SetTitleFont(132);
     plot_variation[2]-> GetXaxis()->SetBinLabel(1, "< 4 ");
@@ -1018,44 +1018,44 @@ void plotDataVSMC_SR(int categoria,int channel,
     
     Int_t ci;      // for color index setting
     
-    TLine *line = new TLine(6.5,0.02,6.5,1.2);
+    TLine *line = new TLine(6.5,0.6,6.5,1.2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(12.5,0.02,12.5,1.2);
+    line = new TLine(12.5,0.6,12.5,1.2);
     line->SetLineWidth(1);
     line->Draw();
     
-    line = new TLine(2.5,1.1,2.5,0.1);
-    
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(4.5,1.1,4.5,0.1);
+    line = new TLine(2.5,1.1,2.5,0.6);
     
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(8.5,1.1,8.5,0.1);
+    line = new TLine(4.5,1.1,4.5,0.6);
     
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(10.5,1.1,10.5,0.1);
+    line = new TLine(8.5,1.1,8.5,0.6);
     
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(14.5,1.1,14.5,0.1);
+    line = new TLine(10.5,1.1,10.5,0.6);
     
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(16.5,1.1,16.5,0.1);
+    line = new TLine(14.5,1.1,14.5,0.6);
+    
+    ci = TColor::GetColor("#ff6600");
+    line->SetLineColor(ci);
+    line->SetLineWidth(1);
+    line->Draw();
+    line = new TLine(16.5,1.1,16.5,0.6);
     
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
@@ -1097,50 +1097,28 @@ void plotDataVSMC_SR(int categoria,int channel,
     tex->SetLineWidth(2);
     tex->Draw();
 	//7000.46	
-    tex = new TLatex(0.9578318,0.62,"#DeltaR < 2cm");
+    tex = new TLatex(0.9578318,0.65,"#DeltaR < 2cm");
     
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(2.857013,0.62,"#DeltaR [2,10]cm");
+    tex = new TLatex(2.857013,0.65,"#DeltaR [2,10]cm");
     
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(4.912923,0.62,"#DeltaR > 10cm");
+    tex = new TLatex(4.912923,0.65,"#DeltaR > 10cm");
     
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(0.9578318,0.62,"#DeltaR < 2cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();
-    
-    tex = new TLatex(6.9578318,0.62,"#DeltaR < 2cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(8.857013,0.62,"#DeltaR [2,10]cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(10.912923,0.62,"#DeltaR > 10cm");
+    tex = new TLatex(0.9578318,0.65,"#DeltaR < 2cm");
     
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
@@ -1148,21 +1126,43 @@ void plotDataVSMC_SR(int categoria,int channel,
     tex->SetLineWidth(2);
     tex->Draw();
     
-    tex = new TLatex(12.9578318,0.62,"#DeltaR < 2cm");
+    tex = new TLatex(6.9578318,0.65,"#DeltaR < 2cm");
     
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(14.857013,0.62,"#DeltaR [2,10]cm");
+    tex = new TLatex(8.857013,0.65,"#DeltaR [2,10]cm");
     
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(16.912923,0.62,"#DeltaR > 10cm");
+    tex = new TLatex(10.912923,0.65,"#DeltaR > 10cm");
+    
+    ci = TColor::GetColor("#ff6600");
+    tex->SetTextColor(ci);
+    tex->SetTextSize(0.02);
+    tex->SetLineWidth(2);
+    tex->Draw();
+    
+    tex = new TLatex(12.9578318,0.65,"#DeltaR < 2cm");
+    
+    ci = TColor::GetColor("#ff6600");
+    tex->SetTextColor(ci);
+    tex->SetTextSize(0.02);
+    tex->SetLineWidth(2);
+    tex->Draw();
+    tex = new TLatex(14.857013,0.65,"#DeltaR [2,10]cm");
+    
+    ci = TColor::GetColor("#ff6600");
+    tex->SetTextColor(ci);
+    tex->SetTextSize(0.02);
+    tex->SetLineWidth(2);
+    tex->Draw();
+    tex = new TLatex(16.912923,0.65,"#DeltaR > 10cm");
     
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
