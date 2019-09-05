@@ -1165,7 +1165,7 @@ void plotDataVSMC_SR(int categoria,int channel,
         tex->Draw();
     }
     
-    
+    */
     
     
     //redraw axis over histograms
@@ -1182,6 +1182,6 @@ void plotDataVSMC_SR(int categoria,int channel,
         c->SaveAs("plots_pdf/mu_SR/"+ name_histo + ".pdf");
         c->SaveAs("plots_root/mu_SR/"+ name_histo + ".root");
     }
-    */
+    
 }
 
