@@ -1089,7 +1089,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
 					 M_3L_combined > 45 && 
 	M_3L_combined < 85 && 
-			bjet == 0   &&
+			//bjet == 0   &&
 			min_delta_phi > 1 &&
 	vtxRvtxPcosAlpha > 0.9  &&
 	M_l2l3_combined < 50;
@@ -1287,27 +1287,45 @@ std::cout<<"central_total_weight_ele: "<< central_total_weight_ele<<std::endl;
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final fianl step 
 	// central distribution --> on_index ==> 0 and  "central" => 0    
-      	if (SR_channel > 2)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), central_total_weight_ele);
-	if (SR_channel <= 2) plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight_mu);	    
+      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), central_total_weight_ele);
+	if (SR_channel <= 2 && bjet == 0) plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight_mu);	    
         // plots for systematics
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
-	    if (iSystematics!=pEle_index && iSystematics!=pMuo_index)	  continue;
+	   // if (iSystematics!=pEle_index && iSystematics!=pMuo_index)	  continue; 	  
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
 	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[muon_case][iSystematics][0][effsam];
 	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[ele_case][iSystematics][0][effsam];
-	  
+	      if (iSystematics!=jec_index && iSystematics!=jer_index){
+	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
+	      }
+	     if (iSystematics==jec_index && iVariation==1){
+		if (SR_channel > 2  && bjet_down_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+	      	if (SR_channel <= 2 && bjet_down_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+	     }	
+	    if (iSystematics==jec_index && iVariation==2){
+		if (SR_channel > 2  && bjet_up_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+	      	if (SR_channel <= 2 && bjet_up_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+	     } 	    
+	    if (iSystematics==jer_index && iVariation==1){
+		if (SR_channel > 2  && bjet_down_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+	      	if (SR_channel <= 2 && bjet_down_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+	     }	
+	    if (iSystematics==jer_index && iVariation==2){
+		if (SR_channel > 2  && bjet_up_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
+	      	if (SR_channel <= 2 && bjet_up_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+	     }    
+		    
 		    
 	    std::cout<<"isys: "<<iSystematics<<" . "<< "iVariation "<< iVariation<<std::endl;
 	    std::cout<<"central_divided_by_sys_muon . -> "<< central_total_weight_mu<<" / "<<weight_SR[muon_case][iSystematics][0][effsam]<<" = "<<central_divided_by_sys_muon<<std::endl;
 	    std::cout<<"central_divided_by_sys_ele . -> "<< central_total_weight_ele<<" / "<<weight_SR[ele_case][iSystematics][0][effsam]<<" = "<< central_divided_by_sys_ele<<std::endl;	    
 	    std::cout<<"final weight mu . "<< central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]<<std::endl;
 	    std::cout<<"final weight ele . "<< central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]<<std::endl;
-	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-	      if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
-	   
+	     
 	    if (iSystematics==pEle_index && central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam] != central_total_weight_mu)std::cout<<"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"<<std::endl;
 	    }//end loop up-down		
 	  }// end loop on sys			
