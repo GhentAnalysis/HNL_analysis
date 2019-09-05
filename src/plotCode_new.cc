@@ -930,7 +930,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     legend->AddEntry(plot_variation[2], name_channel+"_up");
     
     
-    
+    /*
     
     // isotgramma delle SR --> linee e roba varia
     
@@ -1182,5 +1182,6 @@ void plotDataVSMC_SR(int categoria,int channel,
         c->SaveAs("plots_pdf/mu_SR/"+ name_histo + ".pdf");
         c->SaveAs("plots_root/mu_SR/"+ name_histo + ".root");
     }
+    */
 }
 
