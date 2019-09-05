@@ -1005,7 +1005,6 @@ void plotDataVSMC_SR(int categoria,int channel,
     plot_variation[0] -> Draw("ep same");
     legend->Draw("same");
     
-    /*
     
     
     Int_t ci;      // for color index setting
@@ -1128,9 +1127,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     tex->Draw();
     
     //25000.83
-    if (channel == 0 ){
-        //         tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
-        
+    if (channel == 0 ){        
         tex = new TLatex(2.857013,0.7,"#mu#mu#mu");
         tex->SetTextColor(1);
         tex->SetTextSize(0.04);
@@ -1165,7 +1162,7 @@ void plotDataVSMC_SR(int categoria,int channel,
         tex->Draw();
     }
     
-    */
+    
     
     
     //redraw axis over histograms
