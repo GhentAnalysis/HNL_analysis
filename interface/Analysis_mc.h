@@ -1270,7 +1270,7 @@ class Analysis_mc : public TObject {
   TH1D*	plots_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
   double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
   TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
-  TH1D* signals_SR[nSamples_signal];
+  TH1D* signals_SR[nSamples_signal][nVariation];
 
   TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
   //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
