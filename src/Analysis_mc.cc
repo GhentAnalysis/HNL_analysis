@@ -1096,15 +1096,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-------------------- central values SF calculations -------------------------
       // l1   
-      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+      
 	// µ and e ID SF    
-	if (_lFlavor[l1]==0 ) weight_SR[w_loop][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1); 
-	if (_lFlavor[l1]==1 ) weight_SR[w_loop][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
+       if (SR_channel > 2 ) weight_SR[ ele_case][pEle_index][0][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1); 
+       if (SR_channel <= 2 ) weight_SR[ muon_case][pMuo_index][0][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1);
 	// µ trigger SF    
-        if (_lFlavor[l1]==1 ) weight_SR[w_loop][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
+       if (SR_channel <= 2 ) weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
 	//eta??? boh... desapparessidos   
-      }	  
+     
 
+	    
+	    
       // Pile UP!
       if (!samples[sam].isData()){	    
       	for (int w_loop =0; w_loop < nCoupling; w_loop++){
@@ -1173,19 +1175,18 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	weight_SR[w_loop][npMuo_index][2][effsam] = 1/displMuoWeight;		
       }    
       // Systematics on prompt muons
-      for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	if(flavors_3l[l1]==1) {      
-	  weight_SR[w_loop][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
-	  weight_SR[w_loop][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
-	  weight_SR[w_loop][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
-	  weight_SR[w_loop][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+	if(SR_channel <= 2) {      
+	  weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+	  weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+	  weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+	  weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
           
 	}
-	if(flavors_3l[l1]==0) {      
-	  weight_SR[w_loop][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
-	  weight_SR[w_loop][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
+	if(SR_channel > 2) {      
+	  weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
+	  weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
 	} 
-      }
+      
       // ----> SYS Pile UP!
       if (!samples[sam].isData()){  
 	for (int w_loop =0; w_loop < nCoupling; w_loop++){
@@ -1256,27 +1257,29 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isOnlyMC && channel_bin == -1 ) continue;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // !!!!!!!!!!!!!!    filling all the histograms for data cards !!!!!!!!!!!!!!    	    
-      double central_total_weight = scal;
+      double central_total_weight_mu = scal;
+      double central_total_weight_ele = scal;
+
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
-	  if (_lFlavor[l1]==1 ) central_total_weight *= weight_SR[0][w_loop][0][effsam];	 
-	  if (_lFlavor[l1]==0 ) central_total_weight *= weight_SR[1][w_loop][0][effsam];	      
+	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
+	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];	      
 	} 	        	
       } 
 		    
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final fianl step 
 	// central distribution --> on_index ==> 0 and  "central" => 0    
-      	if (SR_channel > 2)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), central_total_weight);
-	if (SR_channel <= 2) plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight);	    
+      	if (SR_channel > 2)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), central_total_weight_ele);
+	if (SR_channel <= 2) plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight_mu);	    
         // plots for systematics
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
-	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight/weight_SR[ele_case][iSystematics][0][effsam];
-	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight/weight_SR[muon_case][iSystematics][0][effsam];
+	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[ele_case][iSystematics][0][effsam];
+	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[muon_case][iSystematics][0][effsam];
 	      if (SR_channel > 2 )  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
 	      if (SR_channel <= 2)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
 	    }//end loop up-down		
