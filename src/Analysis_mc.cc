@@ -1471,12 +1471,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
 	if (isSRRun){plotDataVSMC_SR(999,cha,
-	             sum_expected_SR[cha][iSystematics][0],sum_expected_SR[cha][iSystematics][1],sum_expected_SR[cha][iSystematics][2],
+	             *&sum_expected_SR[cha][iSystematics],
 	             chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
 	             2);}  
     }//t
   }
- /*for(int cha = 0; cha < nCoupling; ++cha){	
+ for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
 	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
@@ -1484,12 +1484,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals_SR[signal_sample][1] =(TH1D*)plots_SR[cha][iSystematics][1][signal_sample+1]->Clone() ;     
 	  signals_SR[signal_sample][2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
 	if (isSRRun){plotDataVSMC_SR(999,cha,
-	             signals_SR[signal_sample][0],signals_SR[signal_sample][1],signals_SR[signal_sample][3],
+	             *&signals_SR[signal_sample],
 	             chaNames[cha], systNames[iSystematics], sigNames_short[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
 	             2);}  
     }   
     }//t
-  }	*/
+  }	
 	
 	
 	
