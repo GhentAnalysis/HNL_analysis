@@ -1956,7 +1956,8 @@ std::cout<<"down---->"<<std::endl;
 
   //else { // if(systcat!=0)
   for(unsigned syst=1; syst<=nSyst; ++syst) {
-    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos)	continue;	
+    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos)	continue;
+    if (syst!=4 && syst!=5) continue;	  
     for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
       std::string appx = "_" + systNames[syst] + (iVariation==1 ? "Down" : "Up");
       for(size_t isign=0; isign<nSamples_signal; ++isign) {
@@ -1980,6 +1981,8 @@ std::cout<<"down---->"<<std::endl;
 	  
 	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	    rootfile->cd();
+	    std::cout<<"icoup: "<<icoup<< "  sys: "<<syst<<" var: "<<iVariation<<" . bkg: "<<bkg<<std::endl;	  
+	    std::cout<<"histogramm title: "<<plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->GetName()<<std::endl; 	  
 	    plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
 	  }
 	  rootfile->Close();
