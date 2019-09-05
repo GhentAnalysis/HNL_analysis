@@ -917,269 +917,270 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
 
 void plotDataVSMC_SR(int categoria,int channel,
-		  TH1D* data_nominal, TH1D* data_down, TH1D* data_up, 
-		  const TString& name_cut,const TString& name_channel, const TString& name_histo,
-		  const unsigned widthopt){
+                     TH1D* plot_variation[3],
+                     const TString& name_cut,const TString& name_channel, const TString& name_histo,
+                     const unsigned widthopt){
     
-      
-  //Make a legend for data and all backgrounds
-  TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");    
-  legend->SetFillStyle(0);   
-  legend->AddEntry(data_nominal, name_channel+"_nominal");
-  legend->AddEntry(data_down, name_channel+"_down");
-  legend->AddEntry(data_up, name_channel+"_up");
-
-  
- 
-
-  // isotgramma delle SR --> linee e roba varia
-  
-    data_nominal->SetStats(0);
-    data_nominal-> GetXaxis()->LabelsOption("hu");
-    data_nominal-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");	  
-    data_nominal->GetXaxis()->SetTitleSize(0.06);
-    data_nominal->GetXaxis()->SetTitleOffset(1);
-    data_nominal->GetXaxis() ->SetTitleFont(132);
-    data_nominal-> GetXaxis()->SetBinLabel(1, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(2, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(3, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(4, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(5, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(6, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(7, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(8, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(9, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(10, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(11, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(12, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(13, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(14, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(15, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(16, "> 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(17, "< 4 ");
-    data_nominal-> GetXaxis()->SetBinLabel(18, "> 4 ");   
-    data_nominal-> GetXaxis()->SetLabelSize(0.02);
-    data_nominal-> GetXaxis()->SetLabelOffset(0.01);
-  
-  //Make canvas and pads for plotting
-  double width, height;  
-  width = 800;
-  height = 500;
-
-  TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
-  c->cd();
-
-  TPad *p1; //, *p2;
-  //Plot data and MC yields in first pad
-  p1 = new TPad(name_histo,"",0,xPad,1,1);
-  p1->Draw();
-  p1->cd();
-  p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-  p1->SetBottomMargin(0.15);
-	
-	
-	
-  for (int i =1; i <= data_nominal->GetNbinsX(); i++){	
-	data_down -> SetBinContent(i,data_down -> GetBinContent(i)/data_nominal-> GetBinContent(i));  
-	data_up -> SetBinContent(i,data_up -> GetBinContent(i)/data_nominal-> GetBinContent(i));    
-	data_nominal-> SetBinContent(i,data_nominal -> GetBinContent(i)/data_nominal-> GetBinContent(i));  	  
-  }	  
-		
-	
-  data_nominal -> SetLineColor(kBlack);	
-  data_nominal -> SetLineWidth(1);
-  data_nominal-> SetMarkerStyle(8);
-  data_nominal-> SetMarkerColor(1);
-	
-  data_down -> SetLineWidth(3);
-  data_down -> SetLineColor(kRed);
-  data_up -> SetLineWidth(3);
-  data_up -> SetLineColor(kBlue);
-	
-  data_up->SetMinimum(0.6);
-  data_up->SetMaximum(1.4);
-	
-  HistLabelSizes(data_nominal,0.1,0.1,0.07,0.07);
-  data_up -> Draw("hist");	
-  data_down -> Draw("hist same");	
-  data_nominal -> Draw("ep same");	
-  legend->Draw("same");		
-
     
-  
-  
+    //Make a legend for data and all backgrounds
+    TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");
+    legend->SetFillStyle(0);
+    legend->AddEntry(plot_variation[0], name_channel+"_nominal");
+    legend->AddEntry(plot_variation[1], name_channel+"_down");
+    legend->AddEntry(plot_variation[2], name_channel+"_up");
+    
+    
+    
+    
+    // isotgramma delle SR --> linee e roba varia
+    
+    plot_variation[0]->SetStats(0);
+    plot_variation[0]-> GetXaxis()->LabelsOption("hu");
+    plot_variation[0]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");
+    plot_variation[0]->GetXaxis()->SetTitleSize(0.06);
+    plot_variation[0]->GetXaxis()->SetTitleOffset(1);
+    plot_variation[0]->GetXaxis() ->SetTitleFont(132);
+    plot_variation[0]-> GetXaxis()->SetBinLabel(1, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(2, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(3, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(4, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(5, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(6, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(7, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(8, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(9, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(10, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(11, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(12, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(13, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(14, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(15, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(16, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(17, "< 4 ");
+    plot_variation[0]-> GetXaxis()->SetBinLabel(18, "> 4 ");
+    plot_variation[0]-> GetXaxis()->SetLabelSize(0.02);
+    plot_variation[0]-> GetXaxis()->SetLabelOffset(0.01);
+    
+    //Make canvas and pads for plotting
+    double width, height;
+    width = 800;
+    height = 500;
+    
+    TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
+    c->cd();
+    
+    TPad *p1; //, *p2;
+    //Plot data and MC yields in first pad
+    p1 = new TPad(name_histo,"",0,xPad,1,1);
+    p1->Draw();
+    p1->cd();
+    p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
+    p1->SetBottomMargin(0.15);
+    
+    
+    
+    for (int i =1; i <= plot_variation[0]->GetNbinsX(); i++){
+        plot_variation[1] -> SetBinContent(i,plot_variation[1] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+        plot_variation[2] -> SetBinContent(i,plot_variation[2] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+        plot_variation[0]-> SetBinContent(i,plot_variation[0] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+    }
+    
+    
+    plot_variation[0] -> SetLineColor(kBlack);
+    plot_variation[0] -> SetLineWidth(1);
+    plot_variation[0]-> SetMarkerStyle(8);
+    plot_variation[0]-> SetMarkerColor(1);
+    
+    plot_variation[1] -> SetLineWidth(3);
+    plot_variation[1] -> SetLineColor(kRed);
+    plot_variation[2] -> SetLineWidth(3);
+    plot_variation[2] -> SetLineColor(kBlue);
+    
+    plot_variation[2]->SetMinimum(0.6);
+    plot_variation[2]->SetMaximum(1.4);
+    
+    HistLabelSizes(plot_variation[0],0.1,0.1,0.07,0.07);
+    plot_variation[2] -> Draw("hist");
+    plot_variation[1] -> Draw("hist same");
+    plot_variation[0] -> Draw("ep same");
+    legend->Draw("same");
+    
+    
+    
+    
     Int_t ci;      // for color index setting
-   
+    
     TLine *line = new TLine(6.5,0.02,6.5,1.25);
     line->SetLineWidth(2);
     line->Draw();
     line = new TLine(12.5,0.02,12.5,1.25);
     line->SetLineWidth(2);
     line->Draw();
-	
+    
     line = new TLine(2.5,1.1,2.5,0.1);
-
+    
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(4.5,1.1,4.5,0.1);
-
+    
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(8.5,1.1,8.5,0.1);
-
+    
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(10.5,1.1,10.5,0.1);
-
+    
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(14.5,1.1,14.5,0.1);
-
+    
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(16.5,1.1,16.5,0.1);
-
+    
     ci = TColor::GetColor("#ff6600");
     line->SetLineColor(ci);
     line->SetLineWidth(3);
     line->Draw();
-    TLatex *    tex = new TLatex(0.8748578,17546.74,"");	
+    TLatex *    tex = new TLatex(0.8748578,17546.74,"");
     tex = new TLatex(0.9578318,0.62,"#DeltaR < 2cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(2.857013,0.62,"#DeltaR [2,10]cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(4.912923,0.62,"#DeltaR > 10cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(0.9578318,0.62,"#DeltaR < 2cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
-		
+    
     tex = new TLatex(6.9578318,0.62,"#DeltaR < 2cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(8.857013,0.62,"#DeltaR [2,10]cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(10.912923,0.62,"#DeltaR > 10cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
-    tex->Draw();	
-		
+    tex->Draw();
+    
     tex = new TLatex(12.9578318,0.62,"#DeltaR < 2cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(14.857013,0.62,"#DeltaR [2,10]cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(16.912923,0.62,"#DeltaR > 10cm");
-
+    
     ci = TColor::GetColor("#ff6600");
     tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
-    tex->Draw();	
-		
-	//25000.83	
-    if (channel == 0 ){	
-	 //         tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
-
-      tex = new TLatex(2.857013,0.7,"#mu#mu#mu");
-      tex->SetTextColor(1);
-      tex->SetTextSize(0.04);
-      tex->SetLineWidth(2);
-      tex->Draw();
-      tex = new TLatex(8.857013,0.7,"#mu^{#pm}#mu^{#mp}e");
-      tex->SetTextColor(1);
-      tex->SetTextSize(0.04);
-      tex->SetLineWidth(2);
-      tex->Draw();
-      tex = new TLatex(14.857013,0.7,"#mu^{#pm}#mu^{#pm}e");
-      tex->SetTextColor(1);
-      tex->SetTextSize(0.04);
-      tex->SetLineWidth(2);
-      tex->Draw();
-    }	
-    if (channel == 1){	
-      tex = new TLatex(2.857013,0.7,"eee");
-      tex->SetTextColor(1);
-      tex->SetTextSize(0.04);
-      tex->SetLineWidth(2);
-      tex->Draw();
-      tex = new TLatex(8,0.7,"e^{#pm}e^{#mp}#mu");
-      tex->SetTextColor(1);
-      tex->SetTextSize(0.04);
-      tex->SetLineWidth(2);
-      tex->Draw();
-      tex = new TLatex(13.857013,0.7,"e^{#pm}e^{#pm}#mu");
-      tex->SetTextColor(1);
-      tex->SetTextSize(0.04);
-      tex->SetLineWidth(2);
-      tex->Draw();
-    }	
-  
-	
-		
-	
-  //redraw axis over histograms
-  gPad->RedrawAxis();
-  //CMS_lumi(c,"Preliminary", true);
-  drawLumi(p1);
-  if (channel == 1){
-    c->SaveAs("plots_pdf/ele_SR/" + name_histo + ".pdf");
-    c->SaveAs("plots_root/ele_SR/"+ name_histo + ".root");
-  }
-	
-	
-  if (channel == 0){
-    c->SaveAs("plots_pdf/mu_SR/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mu_SR/"+ name_histo + ".root");
-  }
+    tex->Draw();
+    
+    //25000.83
+    if (channel == 0 ){
+        //         tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
+        
+        tex = new TLatex(2.857013,0.7,"#mu#mu#mu");
+        tex->SetTextColor(1);
+        tex->SetTextSize(0.04);
+        tex->SetLineWidth(2);
+        tex->Draw();
+        tex = new TLatex(8.857013,0.7,"#mu^{#pm}#mu^{#mp}e");
+        tex->SetTextColor(1);
+        tex->SetTextSize(0.04);
+        tex->SetLineWidth(2);
+        tex->Draw();
+        tex = new TLatex(14.857013,0.7,"#mu^{#pm}#mu^{#pm}e");
+        tex->SetTextColor(1);
+        tex->SetTextSize(0.04);
+        tex->SetLineWidth(2);
+        tex->Draw();
+    }
+    if (channel == 1){
+        tex = new TLatex(2.857013,0.7,"eee");
+        tex->SetTextColor(1);
+        tex->SetTextSize(0.04);
+        tex->SetLineWidth(2);
+        tex->Draw();
+        tex = new TLatex(8,0.7,"e^{#pm}e^{#mp}#mu");
+        tex->SetTextColor(1);
+        tex->SetTextSize(0.04);
+        tex->SetLineWidth(2);
+        tex->Draw();
+        tex = new TLatex(13.857013,0.7,"e^{#pm}e^{#pm}#mu");
+        tex->SetTextColor(1);
+        tex->SetTextSize(0.04);
+        tex->SetLineWidth(2);
+        tex->Draw();
+    }
+    
+    
+    
+    
+    //redraw axis over histograms
+    gPad->RedrawAxis();
+    //CMS_lumi(c,"Preliminary", true);
+    drawLumi(p1);
+    if (channel == 1){
+        c->SaveAs("plots_pdf/ele_SR/" + name_histo + ".pdf");
+        c->SaveAs("plots_root/ele_SR/"+ name_histo + ".root");
+    }
+    
+    
+    if (channel == 0){
+        c->SaveAs("plots_pdf/mu_SR/"+ name_histo + ".pdf");
+        c->SaveAs("plots_root/mu_SR/"+ name_histo + ".root");
+    }
 }
+
