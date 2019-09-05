@@ -923,11 +923,11 @@ void plotDataVSMC_SR(int categoria,int channel,
     
     
     //Make a legend for data and all backgrounds
-  //  TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");
-  //  legend->SetFillStyle(0);
-  //  legend->AddEntry(plot_variation[0], name_channel+"_nominal");
-  //  legend->AddEntry(plot_variation[1], name_channel+"_down");
-  //  legend->AddEntry(plot_variation[2], name_channel+"_up");
+   TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");
+    legend->SetFillStyle(0);
+    legend->AddEntry(plot_variation[0], name_channel+"_nominal");
+    legend->AddEntry(plot_variation[1], name_channel+"_down");
+    legend->AddEntry(plot_variation[2], name_channel+"_up");
     
     
     
@@ -1014,7 +1014,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     plot_variation[0] -> Draw("ep same");
    // legend->Draw("same");
     
-   /* 
+    
     
     Int_t ci;      // for color index setting
     
@@ -1205,7 +1205,7 @@ void plotDataVSMC_SR(int categoria,int channel,
         tex->SetLineWidth(2);
         tex->Draw();
     }
-   */ 
+    
     
     
     
