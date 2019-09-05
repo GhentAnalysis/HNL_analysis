@@ -923,7 +923,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     
     
     //Make a legend for data and all backgrounds
-   TLegend* legend = new TLegend(0.7,0.78,0.95,0.88,NULL,"brNDC");
+   TLegend* legend = new TLegend(0.8,0.75,0.95,0.88,NULL,"brNDC");
     legend->SetFillStyle(0);
     legend->AddEntry(plot_variation[0], name_channel+"_nominal");
     legend->AddEntry(plot_variation[1], name_channel+"_down");
@@ -958,7 +958,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     plot_variation[2]-> GetXaxis()->SetBinLabel(16, "> 4 ");
     plot_variation[2]-> GetXaxis()->SetBinLabel(17, "< 4 ");
     plot_variation[2]-> GetXaxis()->SetBinLabel(18, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetLabelSize(0.02);
+    plot_variation[2]-> GetXaxis()->SetLabelSize(0.04);
     plot_variation[2]-> GetXaxis()->SetLabelOffset(0.01);
     
     //Make canvas and pads for plotting
