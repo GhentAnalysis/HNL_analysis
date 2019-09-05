@@ -921,10 +921,7 @@ void plotDataVSMC_SR(int categoria,int channel,
 		  const TString& name_cut,const TString& name_channel, const TString& name_histo,
 		  const unsigned widthopt){
     
-  
-    
-  if(signames==nullptr) {} // dummy, just to avoid warning
-    
+      
   //Make a legend for data and all backgrounds
   TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");    
   legend->SetFillStyle(0);   
@@ -1002,24 +999,11 @@ void plotDataVSMC_SR(int categoria,int channel,
   data_up->SetMinimum(0.6);
   data_up->SetMaximum(1.4);
 	
-  data_nominal-> 
-	  
-	  
-  bkgTot->SetFillStyle(3005);
-  bkgTot->SetFillColor(kGray+2);
-  bkgTot->SetMarkerStyle(1);
-  data->SetMinimum(0.1);
-  bkgTot->SetMinimum(0.1);
-  bkgStack->SetMinimum(0.1);
-  if(!ylog) data->SetMinimum(0.01);
-  else if(ylog) p1->SetLogy();
-    
-  if(ylog) p1->SetLogy();
   HistLabelSizes(data,0.1,0.1,0.07,0.07);
   data_up -> Draw("hist");	
   data_down -> Draw("hist same");	
   data_nominal -> Draw("ep same");	
- legend->Draw("same");		
+  legend->Draw("same");		
 
     
   
@@ -1069,7 +1053,7 @@ void plotDataVSMC_SR(int categoria,int channel,
     line->SetLineColor(ci);
     line->SetLineWidth(3);
     line->Draw();
-  	
+    TLatex *    tex = new TLatex(0.8748578,17546.74,"");	
     tex = new TLatex(0.9578318,0.62,"#DeltaR < 2cm");
 
     ci = TColor::GetColor("#ff6600");
