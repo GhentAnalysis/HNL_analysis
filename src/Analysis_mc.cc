@@ -1485,7 +1485,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
 	if (isSRRun){plotDataVSMC_SR(999,cha,
 	             *&signals_SR,
-	             chaNames[cha], systNames[iSystematics], sigNames_short[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
+	             chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
 	             2);}  
     }   
     }//t
