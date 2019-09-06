@@ -1248,8 +1248,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (isOnlyMC && channel_bin == -1 ) continue;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // !!!!!!!!!!!!!!    filling all the histograms for data cards !!!!!!!!!!!!!!    	    
-      double central_total_weight_mu = scal;
-      double central_total_weight_ele = scal;
+      double central_total_weight_mu = 1.;
+      double central_total_weight_ele = 1.;
 
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
@@ -1261,8 +1261,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final fianl step 
 	// central distribution --> on_index ==> 0 and  "central" => 0    
-      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), central_total_weight_ele);
-	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), central_total_weight_mu);	    
+      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);	    
         // plots for systematics
 	if (!isDataDrivenBgk && !isDataYield){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1273,24 +1273,24 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[muon_case][iSystematics][0][effsam];
 	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[ele_case][iSystematics][0][effsam];
 	      if (iSystematics!=jec_index && iSystematics!=jer_index){
-	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);					
+	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
+	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);					
 	      }
 	      if (iSystematics==jec_index && iVariation==1){
-		if (SR_channel > 2  && bjet_down_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-	      	if (SR_channel <= 2 && bjet_down_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+		if (SR_channel > 2  && bjet_down_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);		
+	      	if (SR_channel <= 2 && bjet_down_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);	   	     
 	      }	
 	      if (iSystematics==jec_index && iVariation==2){
-		if (SR_channel > 2  && bjet_up_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-	      	if (SR_channel <= 2 && bjet_up_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+		if (SR_channel > 2  && bjet_up_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
+	      	if (SR_channel <= 2 && bjet_up_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);	   	     
 	      } 	    
 	      if (iSystematics==jer_index && iVariation==1){
-		if (SR_channel > 2  && bjet_down_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-	      	if (SR_channel <= 2 && bjet_down_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+		if (SR_channel > 2  && bjet_down_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);		
+	      	if (SR_channel <= 2 && bjet_down_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);		   	     
 	      }	
 	      if (iSystematics==jer_index && iVariation==2){
-		if (SR_channel > 2  && bjet_up_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]);	
-	      	if (SR_channel <= 2 && bjet_up_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]);	   	     
+		if (SR_channel > 2  && bjet_up_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);		
+	      	if (SR_channel <= 2 && bjet_up_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);		   	     
 	      }    
 	    }//end loop up-down		
 	  }// end loop on sys			
