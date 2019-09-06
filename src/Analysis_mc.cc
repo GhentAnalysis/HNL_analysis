@@ -1450,7 +1450,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  //put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+	  put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
 	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
@@ -1514,7 +1514,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);
 
-	  //if (cat == 6)  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
+	  if (cat == 6)  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
 
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
