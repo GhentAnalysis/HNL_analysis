@@ -1476,21 +1476,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }//t
   }
 	
- for(int cha = 0; cha < nCoupling; ++cha){	
-    if (cha == 2) continue; // no taus for the moment
-    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	  signals_SR[0] =(TH1D*)plots_SR[cha][iSystematics][0][signal_sample+1]->Clone() ;
-	  signals_SR[1] =(TH1D*)plots_SR[cha][iSystematics][1][signal_sample+1]->Clone() ;     
-	  signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
-	  if (isSRRun){plotDataVSMC_SR(999,cha,
-	             *&signals_SR,
-	             chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
-	             2);}  
-    }   
-    }//t
-  }	
-	
+ 
 	
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1561,7 +1547,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
   for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
        std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
- 
+       std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+       std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+
   }	  
   std::cout<<""<<std::endl;
   for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
@@ -1977,9 +1965,30 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }//loop sty		
   // } // end if(systcat!=0)
   
+  for(int cha = 0; cha < nCoupling; ++cha){	
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	  signals_SR[0] =(TH1D*)plots_SR[cha][iSystematics][0][signal_sample+1]->Clone() ;
+	  signals_SR[1] =(TH1D*)plots_SR[cha][iSystematics][1][signal_sample+1]->Clone() ;     
+	  signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
+	  if (isSRRun){plotDataVSMC_SR(999,cha,
+	             *&signals_SR,
+	             chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
+	             2);}  
+    }   
+    }//t
+  }	
+		
+	
+	
+	
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
  
+	
+	
+	
 	
   /*for(int i = 0; i < nDist; ++i){
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
