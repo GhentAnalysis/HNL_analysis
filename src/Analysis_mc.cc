@@ -1560,7 +1560,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
   std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
   for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
-       std::cout<<"bgk "<<effsam1<<") "<< plots_SR[0][0][0][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+       std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " plots_SR[0][0][0][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
  
   }	  
   std::cout<<""<<std::endl;
