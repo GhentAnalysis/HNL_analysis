@@ -711,6 +711,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if(event != usedEvents.end()) continue;
 	usedEvents.insert(std::make_tuple(_eventNb, _lumiBlock, _runNb));
       }	    
+	
+     for(int var = 0; var < nVariation; ++var){
+      for (int syst = 0; syst < nSystematic; ++syst)	{
+	for(int cha = 0; cha < nCoupling; ++cha){
+	  weight_SR[cha][syst][var][effsam]=1.;
+	}
+      }
+    }	    
 	    
 	    
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
@@ -1994,7 +2002,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   for(unsigned syst=1; syst<=nSyst; ++syst) {
     if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos)	continue;
     for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
-      std::string appx = "_" + systNames[syst] + (iVariation==1 ? "Down" : "Up");
+      std::string appx = "_" + systNames[syst];
+      	
+       if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+	  appx += (year==0 ? "_16" : (year==1 ? "_17" : "_18")) + (iVariation==1 ? "Down" : "Up");
+	}
+	else if {	
+	appx += (iVariation==1 ? "Down" : "Up");    
+	}    
       for(size_t isign=0; isign<nSamples_signal; ++isign) {
 	std::string sgn = sigNames[isign].Data();
 	for(size_t icoup=0; icoup<nCoupl; ++icoup) {
