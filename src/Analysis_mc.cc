@@ -2007,10 +2007,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos)	continue;
     for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
       std::string appx = "_" + systNames[syst];
-      if(procPerSyst[appx].find("not_corr")!=std::string::npos) {
-	appx += (year==0 ? "_16" : (year==1 ? "_17" : "_18")) ;
-      }
-		
+      if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
+	if (year==0)   appx +=  "_16"; 
+	if (year==1)   appx +=  "_17";  
+	if (year==2)   appx +=  "_18";  
+
+      }	     	
       appx += (iVariation==1 ? "Down" : "Up");    
 	    
       for(size_t isign=0; isign<nSamples_signal; ++isign) {
