@@ -1262,7 +1262,7 @@ class Analysis_mc : public TObject {
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
   const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
-  //const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
+  //pippoplutominnie const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 
@@ -1279,7 +1279,8 @@ class Analysis_mc : public TObject {
   const int ele_case = 1;
   const int tau_case = 2;
 
- /* const int on_index       =  0; // is the SR SR plot
+ /* pippoplutominnie
+  const int on_index       =  0; // is the SR SR plot
   const int pu_index       =  1;
   const int qcdNorm_index  =  2;
   const int qcdShape_index =  3;
