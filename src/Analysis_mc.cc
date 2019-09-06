@@ -697,7 +697,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/30; ++it) {
+    for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -1469,10 +1469,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-	/*if (isSRRun){plotDataVSMC_SR(999,cha,
+	if (isSRRun){plotDataVSMC_SR(999,cha,
 	             *&sum_expected_SR[cha][iSystematics],
 	             chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
-	             2);}  */
+	             2);}  
     }//t
   }
 	
@@ -1483,10 +1483,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals_SR[0] =(TH1D*)plots_SR[cha][iSystematics][0][signal_sample+1]->Clone() ;
 	  signals_SR[1] =(TH1D*)plots_SR[cha][iSystematics][1][signal_sample+1]->Clone() ;     
 	  signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
-	/*if (isSRRun){plotDataVSMC_SR(999,cha,
+	  if (isSRRun){plotDataVSMC_SR(999,cha,
 	             *&signals_SR,
 	             chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
-	             2);}  */
+	             2);}  
     }   
     }//t
   }	
@@ -1538,7 +1538,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
+	if (isSRRun){plotDataVSMC(cat,cha,dist,
 	  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 	  eff_names,numer_plot_class ,
 	  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
@@ -1550,7 +1550,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  eff_names,numer_plot_class ,
 	  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 	  true,
-	  2, true, signals,  sigNames_short, nSamples_signal, true);}*/
+	  2, true, signals,  sigNames_short, nSamples_signal, true);}
 			  
       }
     }//end cat
