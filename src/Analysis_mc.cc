@@ -1311,6 +1311,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    } //end loop up-down
 	  } // end loop on sys
 	  //
+		
+	/* . pippoplutominnie	
 	  // For QCD scale uncertainties
 	  if(bjet == 0) {
 	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
@@ -1329,7 +1331,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	} // end MC
       } // end SR_selection
 	
-    
+    */
       
       // ------------------- Histo SR
       if (SR_channel <= 2) {
@@ -1460,6 +1462,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //
   //  --> fill plots_SR[ele_case/muon_case][qcdNorm_index/qcdShape_index/pdfNorm_index/pdfShape_index][1/2][fill]
   //
+/*	pippoplutominnie
   for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
     // QCD uncertainties
     for(size_t ib=0; ib<nBins[0]; ++ib) {
@@ -1472,10 +1475,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if(deltabin>errorByBin) errorByBin = deltabin;
 	}
 	// Shape, down variation
-	// -------------->  era nel codice: SOrry, plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
+	 plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
 	//// plots_SR[ic][qcdShape_index][1][ss]->Scale(old_normalization/new_normalization);
 	// Shape, up variation
-	// -------------->  era nel codice: SOrry, plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
+	 plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
 	//// plots_SR[ic][qcdShape_index][2][ss]->Scale(old_normalization/new_normalization);
 	// Normalization, down variation
 	//// plots_SR[ic][qcdNorm_index][1][ss]->Scale(new_normalization/old_normalization);
@@ -1514,7 +1517,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     } // end for(size_t ib=0; ib<nBins[0]; ++ib)
   } // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
 
-
+*/
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
   //                |                         |
   //                V                         V
