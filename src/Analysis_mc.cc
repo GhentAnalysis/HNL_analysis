@@ -1253,8 +1253,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
-	  //if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
-	  //if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];	      
+	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
+	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];	      
 	} 	        	
       } 
 
