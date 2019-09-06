@@ -697,7 +697,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries; ++it) {
+    for(ULong64_t it=0; it<nEntries/100; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -1091,6 +1091,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 			vtxRvtxPcosAlpha > 0.9  &&
 			M_l2l3_combined < 50;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     if (!SR_selection)continue;
+     std::cout<<"------------------------"<<std::endl;
       //-------------------- central values SF calculations -------------------------
       // l1   
       // µ and e ID SF    
@@ -1453,8 +1455,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
 	  }
-	}	  
+	}
       }
+	    
     }
   }
 	
@@ -1472,6 +1475,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	             2);}  
     }//t
   }
+	
  for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1486,8 +1490,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }   
     }//t
   }	
-	
-	
 	
 	
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1554,6 +1556,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }//end cat
   }//end histo  
     
+  	
+  std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> GetIntegral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> GetIntegral (0,-1)<<std::endl;	
+  std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> GetIntegral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> GetIntegral (0,-1)<<std::endl;	
+  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+  	std::cout<<"signal "<<	signal_sample<<") "<< Histos[0][6][6][signal_sample+1]-> GetIntegral (0,-1)<< "      vs       "<<plots_SR[0][0][0][signal_sample+1]-> GetIntegral (0,-1)<<std::endl;	 
+  }	 
+	
+	
   // }
   
   
