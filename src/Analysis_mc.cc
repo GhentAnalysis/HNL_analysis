@@ -1469,10 +1469,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-	if (isSRRun){plotDataVSMC_SR(999,cha,
+	/*if (isSRRun){plotDataVSMC_SR(999,cha,
 	             *&sum_expected_SR[cha][iSystematics],
 	             chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
-	             2);}  
+	             2);}  */
     }//t
   }
 	
@@ -1559,8 +1559,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   	
   std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
   std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
+  for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
+       std::cout<<"bgk "<<effsam1<<") "<< plots_SR[0][0][0][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+ 
+  }	  
+  std::cout<<""<<std::endl;
   for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-  	std::cout<<"signal "<<	signal_sample<<") "<< Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<< "      vs       "<<plots_SR[0][0][0][signal_sample+1]-> Integral (0,-1)<<std::endl;	 
+  	std::cout<<"signal "<<	signal_sample<<") "<<plots_SR[0][0][0][signal_sample+1] -> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<<std::endl;	 
   }	 
 	
 	
