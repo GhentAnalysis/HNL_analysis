@@ -1450,7 +1450,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+	  //put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
 	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
@@ -1514,7 +1514,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);
 
-	  if (cat == 6)  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
+	  //if (cat == 6)  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
 
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
@@ -1888,9 +1888,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
       // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
       for(unsigned syst=1; syst<=nSyst; ++syst) {
-	if (icoup == 0 && syst == pEle_index) continue;
-	if (icoup == 1 && syst == pMuo_index) continue;
-
 	std::string asyst = systNames[syst];
 	if(procPerSyst.count(asyst)==0) {
 	  std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
@@ -1955,8 +1952,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	for(size_t icoup=0; icoup<nCoupl; ++icoup) {
 	  if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
 	  if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
-	  if (icoup == 0 && syst == pEle_index) continue;
-	  if (icoup == 1 && syst == pMuo_index) continue;
 	  std::string cpl = couplings[icoup];
 
 	  // ROOT file with shapes
