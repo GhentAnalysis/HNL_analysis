@@ -1966,7 +1966,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  //sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
 	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
 	  
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	  for(unsigned bkg=0; bkg<nBkg-2; ++bkg) {
 	    rootfile->cd(); 	  
 	    plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
 	  }
