@@ -1472,10 +1472,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if(deltabin>errorByBin) errorByBin = deltabin;
 	}
 	// Shape, down variation
-	plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
+	// -------------->  era nel codice: SOrry, plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
 	//// plots_SR[ic][qcdShape_index][1][ss]->Scale(old_normalization/new_normalization);
 	// Shape, up variation
-	plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
+	// -------------->  era nel codice: SOrry, plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
 	//// plots_SR[ic][qcdShape_index][2][ss]->Scale(old_normalization/new_normalization);
 	// Normalization, down variation
 	//// plots_SR[ic][qcdNorm_index][1][ss]->Scale(new_normalization/old_normalization);
@@ -2003,13 +2003,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos)	continue;
     for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
       std::string appx = "_" + systNames[syst];
-      	
-       if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
-	  appx += (year==0 ? "_16" : (year==1 ? "_17" : "_18")) + (iVariation==1 ? "Down" : "Up");
+       if(procPerSyst[appx].find("not_corr")!=std::string::npos) {
+	  appx += (year==0 ? "_16" : (year==1 ? "_17" : "_18")) ;
 	}
-	else if {	
-	appx += (iVariation==1 ? "Down" : "Up");    
-	}    
+		
+       appx += (iVariation==1 ? "Down" : "Up");    
+	    
       for(size_t isign=0; isign<nSamples_signal; ++isign) {
 	std::string sgn = sigNames[isign].Data();
 	for(size_t icoup=0; icoup<nCoupl; ++icoup) {
