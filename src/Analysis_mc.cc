@@ -1558,7 +1558,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     
   	
   std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
-  std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> GeIntegraltIntegral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
+  std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
   for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
   	std::cout<<"signal "<<	signal_sample<<") "<< Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<< "      vs       "<<plots_SR[0][0][0][signal_sample+1]-> Integral (0,-1)<<std::endl;	 
   }	 
