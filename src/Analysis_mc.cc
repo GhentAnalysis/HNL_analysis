@@ -503,6 +503,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
+  TH1D* hLheCounter;
+
   // FR histograms
   TGraphAsymmErrors *fakeRate_mu[3];
   TGraphAsymmErrors *fakeRate_e[3];
@@ -643,7 +645,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   const unsigned nPdfVars = pdfSystVars.size();
 
   TH1D* qcdHistos[nQcdVars][nCoupling][nSamples_eff+1];
+  TH1D* qcdHistosNorm[nQcdVars][nCoupling][nSamples_eff+1];
   TH1D* pdfHistos[nPdfVars][nCoupling][nSamples_eff+1];
+  TH1D* pdfHistosNorm[nPdfVars][nCoupling][nSamples_eff+1];
   //if(runtheosyst) {
   float binWidth = (HistMax[0] - HistMin[0])/nBins[0];
   std::ostringstream strs; strs << binWidth; std::string Yaxis = strs.str();
@@ -652,12 +656,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //if(cha!=6 && cha!=7) continue;
       // Only for theory systs
       for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
-	qcdHistos[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events /" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-	qcdHistos[sidx][cha][effsam]->Sumw2();
+	qcdHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events /" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
+	qcdHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events", 1, 0., 2.);
+	qcdHistos    [sidx][cha][effsam]->Sumw2();
+	qcdHistosNorm[sidx][cha][effsam]->Sumw2();
       }
       for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
-	pdfHistos[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events /" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-	pdfHistos[sidx][cha][effsam]->Sumw2();
+	pdfHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events /" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
+	pdfHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events", 1, 0., 2.);
+	pdfHistos    [sidx][cha][effsam]->Sumw2();
+	pdfHistosNorm[sidx][cha][effsam]->Sumw2();
       }
     }
   }
@@ -683,7 +691,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
-    
+
+    if(!samp.isData()){
+      //read sum of simulated event weights
+      hLheCounter = new TH1D("lheCounter", "Events counter", 110, 0., 110.);
+      hLheCounter->Read("lheCounter");
+    }
+
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     if(isSignal) {
@@ -1311,23 +1325,35 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  } // end loop on sys
 	  //
 		
-	  /* . pippoplutominnie	
 	  // For QCD scale uncertainties
 	  if(bjet == 0) {
-	  for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
-	  double wghtCorr = _lheWeight[qcdSystVars[sidx]];
-	  if(SR_channel> 2) qcdHistos[sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr);
-	  if(SR_channel<=2) qcdHistos[sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr);
-	  }
-	  //
-	  // For PDF uncertainties
-	  for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
-	  double wghtCorr = _lheWeight[pdfSystVars[sidx]];
-	  if(SR_channel> 2) pdfHistos[sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr);
-	  if(SR_channel<=2) pdfHistos[sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr);
-	  }
+	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
+	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
+	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]];
+	      if(SR_channel> 2) {
+		qcdHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
+		qcdHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
+	      }
+	      if(SR_channel<=2) {
+		qcdHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
+		qcdHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
+	      }
+	    }
+	    //
+	    // For PDF uncertainties
+	    for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
+	      double wghtCorr     = _lheWeight[pdfSystVars[sidx]] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(pdfSystVars[sidx]));
+	      double wghtCorrNorm = _lheWeight[pdfSystVars[sidx]];
+	      if(SR_channel> 2) {
+		pdfHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
+		pdfHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
+	      }
+	      if(SR_channel<=2) {
+		pdfHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
+		pdfHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
+	      }
+	    }
 	  } // end if(bjet == 0)
-	  */
 	} // end MC
       } // end SR_selection
 	
@@ -1462,62 +1488,78 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //
   //  --> fill plots_SR[ele_case/muon_case][qcdNorm_index/qcdShape_index/pdfNorm_index/pdfShape_index][1/2][fill]
   //
-  /*	pippoplutominnie
-	for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
-	// QCD uncertainties
-	for(size_t ib=0; ib<nBins[0]; ++ib) {
+    for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
+      // QCD uncertainties
+      for(size_t ib=0; ib<nBins[0]; ++ib) {
 	//for(size_t ic=0; ic<nCoupling; ++ic) {
 	for(size_t ic=0; ic<2; ++ic) { // skip tau for now
-	double errorByBin = 0.;
-	double iniCont = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
-	for(size_t is=0; is<nQcdVars; ++is) {
-	double deltabin = iniCont>0. ? std::abs(qcdHistos[is][ic][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
-	if(deltabin>errorByBin) errorByBin = deltabin;
+	  double errorByBin = 0.;
+	  double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
+	  double errorNorm  = 0.;
+	  //double iniNorm  = plots_SR[ic][on_index][0][ss]->Integral(1, plots_SR[ic][on_index][0][ss]->GetNbinsX());
+	  double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
+	  for(size_t is=0; is<nQcdVars; ++is) {
+	    double deltabin = iniCont>0. ? std::abs(qcdHistos[is][ic][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
+	    if(deltabin>errorByBin) errorByBin = deltabin;
+	    if(ib==0) {
+	      double deltanorm = iniNorm>0. ? std::abs(qcdHistosNorm[is][ic][ss]->GetBinContent(ib+1) - iniNorm)/iniNorm : 0.;
+	      if(deltanorm>errorNorm) errorNorm = deltanorm;
+	    }
+	  }
+	  // Shape, down variation
+	  plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
+	  // Shape, up variation
+	  plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
+	  if(ib==0) {
+	    // Normalization, down variation
+	    plots_SR[ic][qcdNorm_index][1][ss]->Scale(1./(1.+errorNorm));
+	    // Normalization, up variation
+	    plots_SR[ic][qcdNorm_index][2][ss]->Scale(1.+errorNorm);
+	  }
 	}
-	// Shape, down variation
-	plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-	//// plots_SR[ic][qcdShape_index][1][ss]->Scale(old_normalization/new_normalization);
-	// Shape, up variation
-	plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-	//// plots_SR[ic][qcdShape_index][2][ss]->Scale(old_normalization/new_normalization);
-	// Normalization, down variation
-	//// plots_SR[ic][qcdNorm_index][1][ss]->Scale(new_normalization/old_normalization);
-	// Normalization, up variation
-	//// plots_SR[ic][qcdNorm_index][2][ss]->Scale(new_normalization/old_normalization);
-	}
-	}
-	//
-	// PDF uncertainties
-	for(size_t ib=0; ib<nBins[0]; ++ib) {
+      }
+      //
+      // PDF uncertainties
+      for(size_t ib=0; ib<nBins[0]; ++ib) {
 	//for(size_t ic=0; ic<nCoupling; ++ic) {
 	for(size_t ic=0; ic<2; ++ic) { // skip tau for now
-	double meanByBin = 0.;
-	double errorByBin = 0.;
-	double iniCont = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
-	for(size_t is=0; is<nPdfVars; ++is) {
-	double iadd = iniCont>0. ? pdfHistos[is][ic][ss]->GetBinContent(ib+1)/iniCont : 0.;
-	meanByBin += iadd;
-	errorByBin += iadd*iadd;
-	} // end for(size_t is=6; is<106; ++is)
-	//
-	// Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
-	errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
-	errorByBin = std::sqrt(errorByBin);
-	// Shape, down variation
-	plots_SR[ic][pdfShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-	//// plots_SR[ic][pdfShape_index][1][ss]->Scale(old_normalization/new_normalization);
-	// Shape, up variation
-	plots_SR[ic][pdfShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-	//// plots_SR[ic][pdfShape_index][2][ss]->Scale(old_normalization/new_normalization);
-	// Normalization, down variation
-	//// plots_SR[ic][pdfNorm_index][1][ss]->Scale(new_normalization/old_normalization);
-	// Normalization, up variation
-	//// plots_SR[ic][pdfNorm_index][2][ss]->Scale(new_normalization/old_normalization);
+	  double meanByBin  = 0.;
+	  double errorByBin = 0.;
+	  double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
+	  double meanNorm   = 0.;
+	  double errorNorm  = 0.;
+	  //double iniNorm  = plots_SR[ic][on_index][0][ss]->Integral(1, plots_SR[ic][on_index][0][ss]->GetNbinsX());
+	  double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
+	  for(size_t is=0; is<nPdfVars; ++is) {
+	    double iadd = iniCont>0. ? pdfHistos[is][ic][ss]->GetBinContent(ib+1)/iniCont : 0.;
+	    meanByBin += iadd;
+	    errorByBin += iadd*iadd;
+	    if(ib==0) {
+	      double iaddnorm = iniNorm>0. ? pdfHistosNorm[is][ic][ss]->GetBinContent(ib+1)/iniNorm : 0.;
+	      meanNorm += iaddnorm;
+	      errorNorm += iaddnorm*iaddnorm;
+	    }
+	  } // end for(size_t is=6; is<106; ++is)
+	  //
+	  // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
+	  errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
+	  errorByBin = std::sqrt(errorByBin);
+	  // Shape, down variation
+	  plots_SR[ic][pdfShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
+	  // Shape, up variation
+	  plots_SR[ic][pdfShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
+	  if(ib==0) {
+	    errorNorm = (errorNorm - (meanNorm*meanNorm/100.))/99.;
+	    errorNorm = std::sqrt(errorNorm);
+	    // Normalization, down variation
+	    plots_SR[ic][pdfNorm_index][1][ss]->Scale(1./(1.+errorNorm));
+	    // Normalization, up variation
+	    plots_SR[ic][pdfNorm_index][2][ss]->Scale(1.+errorNorm);
+	  }
 	} // end for(size_t ic=0; ic<nCoupl; ++ic)
-	} // end for(size_t ib=0; ib<nBins[0]; ++ib)
-	} // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
+      } // end for(size_t ib=0; ib<nBins[0]; ++ib)
+    } // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
 
-  */
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
   //                |                         |
   //                V                         V
@@ -1528,17 +1570,17 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // all stack etc etc for the right plots to put in the data cards  
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
-  for(int cha = 0; cha < nCoupling; ++cha){  
+  for(int cha = 0; cha < nCoupling; ++cha) {
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
-	if (isSRRun) sum_expected_SR_plotting[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();				
-	if (isSRRun) sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();				
-      }//end loop up-down		
+	if (isSRRun) sum_expected_SR_plotting[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+	if (isSRRun) sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+      }//end loop up-down
     }// end loop on sys
   }// coupling
    
-  for(int cha = 0; cha < nCoupling; ++cha){	
+  for(int cha = 0; cha < nCoupling; ++cha) {	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down

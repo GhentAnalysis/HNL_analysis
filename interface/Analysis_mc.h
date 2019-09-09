@@ -1261,8 +1261,8 @@ class Analysis_mc : public TObject {
   const static int nSystematic = 12;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
-  const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
-  //pippoplutominnie const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
+  //const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
+  const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 
@@ -1280,7 +1280,6 @@ class Analysis_mc : public TObject {
   const int ele_case = 1;
   const int tau_case = 2;
 
- /* pippoplutominnie
   const int on_index       =  0; // is the SR SR plot
   const int pu_index       =  1;
   const int qcdNorm_index  =  2;
@@ -1294,20 +1293,20 @@ class Analysis_mc : public TObject {
   const int jec_index      = 10;
   const int jer_index      = 11;
   const int btag_index     = 12;
-  const int trigger_index  = 13;*/
+  const int trigger_index  = 13;
 
-  const int on_index =    0;	// is the SR SR plot
-  const int pu_index =    1;
-  const int qcd_index =   2;
-  const int pdf_index =   3;
-  const int pEle_index =  4;	
-  const int pMuo_index =  5;
-  const int npEle_index = 6;
-  const int npMuo_index = 7;
-  const int jec_index =   8;
-  const int jer_index =   9;
-  const int btag_index =  10;
-  const int trigger_index =  11;
+  // const int on_index =    0;	// is the SR SR plot
+  // const int pu_index =    1;
+  // const int qcd_index =   2;
+  // const int pdf_index =   3;
+  // const int pEle_index =  4;	
+  // const int pMuo_index =  5;
+  // const int npEle_index = 6;
+  // const int npMuo_index = 7;
+  // const int jec_index =   8;
+  // const int jer_index =   9;
+  // const int btag_index =  10;
+  // const int trigger_index =  11;
 
   const TString names_FR_files[5] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_mu.root",
 				     "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_e.root",
