@@ -135,7 +135,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
 	    
-      if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
+      if (sig == 3 || sig == 13 ||  sig == 7 || sig == 17 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
       signal[sig]->SetLineColor(sigCols[sig]);
@@ -219,15 +219,15 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]->GetXaxis()->SetTitleSize(0.06);
     signal[0]->GetXaxis()->SetTitleOffset(1.1);
     signal[0]->GetXaxis() ->SetTitleFont(132);
-    signal[0]-> GetXaxis()->SetBinLabel(1, "0-2");
-    signal[0]-> GetXaxis()->SetBinLabel(2, "2-10");
-    signal[0]-> GetXaxis()->SetBinLabel(3, ">10");
-    signal[0]-> GetXaxis()->SetBinLabel(4, "0-2");
-    signal[0]-> GetXaxis()->SetBinLabel(5, "2-10");
-    signal[0]-> GetXaxis()->SetBinLabel(6, ">10");
-    signal[0]-> GetXaxis()->SetBinLabel(7, "0-2");
-    signal[0]-> GetXaxis()->SetBinLabel(8, "2-10");
-    signal[0]-> GetXaxis()->SetBinLabel(9, ">10");
+    signal[0]-> GetXaxis()->SetBinLabel(1, " 0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(2, " 2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(3, " >10");
+    signal[0]-> GetXaxis()->SetBinLabel(4, " 0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(5, " 2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(6, " >10");
+    signal[0]-> GetXaxis()->SetBinLabel(7, " 0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(8, " 2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(9, " >10");
     signal[0]-> GetXaxis()->SetBinLabel(10, "0-2");
     signal[0]-> GetXaxis()->SetBinLabel(11, "2-10");
     signal[0]-> GetXaxis()->SetBinLabel(12, ">10");
@@ -385,7 +385,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   bkgTot->Draw("e2same");
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
+      if (sig == 3 || sig == 13 ||  sig == 7 || sig == 17 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
 
