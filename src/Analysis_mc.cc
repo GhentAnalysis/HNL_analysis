@@ -202,6 +202,7 @@ double Analysis_mc::PUWeight(){
   initializeWeights();
   //pileup reweighting
   double sf = puWeight();
+  if (sf == 0) 	std::cout<<_nTrueInt<<std::endl;
   if( _nTrueInt < 0){
     std::cerr << "Error: event with negative pileup, returning SF weight 0." << std::endl;
     return 0.;
