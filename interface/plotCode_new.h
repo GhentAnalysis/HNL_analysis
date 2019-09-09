@@ -11,8 +11,8 @@
 #include "TH2D.h"
  
 const double xPad = 0.05;
-const Color_t colors[9] ={ kBlue-9,  91,98, kRed-10,51, kGreen+3, 8, kGreen, kGreen  };
-const Color_t sigCols[10] = {1, kAzure +10, kMagenta, 4, kCyan, kGreen+3, 93, kRed-3, kBlue-3, kMagenta -9 };
+const Color_t colors[9] ={ 91,  91,91, kRed-10,51, kRed-10, 8, kGreen, kGreen  };
+const Color_t sigCols[10] = {1, kAzure +10, kMagenta, 4, kCyan, kGreen+3, 93, kRed-3, kBlue-3, kMagenta -4 };
 //Set histogram colors and lines
 void histcol(TH1D *, const Color_t);
 //Return histogram divided by other histogram (both are normalized
