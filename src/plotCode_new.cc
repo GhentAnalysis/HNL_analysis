@@ -408,7 +408,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   if(signames==nullptr) {} // dummy, just to avoid warning
     
   //Make a legend for data and all backgrounds
-  TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");
+  TLegend* legend = new TLegend(0.18,0.75,0.92,0.87,NULL,"brNDC");
     
   legend->SetFillStyle(0);
     
@@ -455,11 +455,12 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
   for(int effsam = nHist - 1; effsam > -1; --effsam){
 	  legend->SetLegendFont(13);
+	  if (names[histI[effsam] + 1 + nSig] != "Xgamma"  && names[histI[effsam] + 1 + nSig] != "nonprompt SF"  && names[histI[effsam] + 1 + nSig] != "nonprompt DF" && names[histI[effsam] + 1 + nSig] != "DY") continue;
 	  if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
-	  else if  (names[histI[effsam] + 1 + nSig] == "XTTX") legend->AddEntry(bkg[effsam], "TT/T+X");
-	  else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "TT/T+X");
-	  else if (names[histI[effsam] + 1 + nSig] == "ttbar") legend->AddEntry(bkg[effsam], "t#bar{t}");
-	  else if (names[histI[effsam] + 1 + nSig] == "WJets") legend->AddEntry(bkg[effsam], "W+jets");
+	  else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "Other");
+	  else if (names[histI[effsam] + 1 + nSig] == "nonprompt SF") legend->AddEntry(bkg[effsam], "nonprompt SF");
+	  else if (names[histI[effsam] + 1 + nSig] == "nonprompt DF") legend->AddEntry(bkg[effsam], "nonprompt DF");
+	  else if (names[histI[effsam] + 1 + nSig] == "DY") legend->AddEntry(bkg[effsam], "Z#gamma^{*}"); 
     	  else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
           legend->     SetNColumns(5);
   }
