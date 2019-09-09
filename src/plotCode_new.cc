@@ -358,7 +358,9 @@ void plotDataVSMC_e(int categoria,int channel,int istogramma,
   //redraw axis over histograms
   gPad->RedrawAxis();
   //CMS_lumi(c,"Preliminary", true);
-  drawLumi(p1);
+  if (channel == 3 || channel == 4 ||channel == 5 ||channel == 7)drawLumi(1,p1);	 
+  if (channel == 0 || channel == 1 ||channel == 2 ||channel == 6 )drawLumi(0,p1);	 
+
   if (channel == 3){
     c->SaveAs("plots_pdf/eee/"+ name_cut + "/"+ name_histo + ".pdf");
     c->SaveAs("plots_root/eee/"+ name_cut + "/"+ name_histo + ".root");
