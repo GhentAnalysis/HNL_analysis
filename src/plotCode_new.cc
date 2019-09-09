@@ -135,7 +135,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
       if (sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
-    if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16) continue;
+      if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16) continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
       signal[sig]->SetLineColor(sigCols[sig]);
