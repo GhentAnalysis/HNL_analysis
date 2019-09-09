@@ -133,12 +133,12 @@ double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned le
    int biny =0;	
    if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
 	  binx = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetXaxis()->GetBinCenter(muon_sf_histogram[0]->GetNbins())); 
+          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetXaxis()->GetBinCenter(muon_sf_histogram[0]->GetXaxis()->GetNbins())); 
           else biny = muon_sf_histogram[0]->GetXaxis()->FindBin(_lPt[leptonIndex]);    
    }
    else { // it means that xaxis has eta so y axis has pt
 	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
-          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetNbins())); 
+          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetYaxis()->GetNbins())); 
           else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);   
    }		
    sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);	
@@ -148,7 +148,9 @@ double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned le
 double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
-   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
+   int biny=0.;	
+   if (_lPt[leptonIndex] > ele_sf_histogram[0]->GetYaxis()->GetBinUpEdge(ele_sf_histogram[0]->GetXaxis()->GetNbins())) biny = ele_sf_histogram[0]->GetYaxis()->FindBin(ele_sf_histogram[0]->GetYaxis()->GetBinCenter(ele_sf_histogram[0]->GetYaxis()->GetNbins())); 
+   else biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]); 	
    sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;	
 }
@@ -159,12 +161,12 @@ double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram[1], const unsig
    int biny =0;	
    if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
 	  binx = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetXaxis()->GetBinCenter(muon_sf_histogram[0]->GetNbins())); 
+	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetXaxis()->GetBinCenter(muon_sf_histogram[0]->GetXaxis()->GetNbins())); 
           else biny = muon_sf_histogram[0]->GetXaxis()->FindBin(_lPt[leptonIndex]);   
    }
    else { // it means that xaxis has eta so y axis has pt
 	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
-	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetNbins())); 
+	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetYaxis()->GetNbins())); 
           else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);   
 
    }		
