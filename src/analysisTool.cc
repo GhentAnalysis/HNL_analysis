@@ -180,7 +180,7 @@ double Analysis_mc::SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned l
    int binx =0;
    int biny =0;	
    binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetNbins())); 
+   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0] ->GetYaxis()->GetNbins())); 
    else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]); 
    sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);	
    return sfValue;	
@@ -191,7 +191,7 @@ double Analysis_mc::SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsi
    int binx =0;
    int biny =0;	
    binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetNbins())); 
+   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetYaxis()->GetNbins())); 
    else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]); 	
    sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;			
