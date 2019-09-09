@@ -1132,7 +1132,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       double btag_weight_down=1; 	    
       double btag_weight_up=1; 	 
 	  
-      
+       bjet_down_jec   = 0; 
+       bjet_up_jec   = 0; 
+       bjet_down_jer   = 0; 
+       bjet_up_jer   = 0; 
+
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
