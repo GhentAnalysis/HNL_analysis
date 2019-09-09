@@ -410,7 +410,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   if(signames==nullptr) {} // dummy, just to avoid warning
     
   //Make a legend for data and all backgrounds
-  TLegend* legend = new TLegend(0.18,0.75,0.92,0.87,NULL,"brNDC");
+  TLegend* legend = new TLegend(0.16,0.75,0.95,0.87,NULL,"brNDC");
     
   legend->SetFillStyle(0);
     
