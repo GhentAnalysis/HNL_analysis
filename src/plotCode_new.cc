@@ -497,29 +497,26 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   // isotgramma delle SR --> linee e roba varia
   if (istogramma == 0 ){
     signal[0]->SetStats(0);
-    signal[0]-> GetXaxis()->LabelsOption("hu");
-    signal[0]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");	  
+    signal[0]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");	  
    signal[0]->GetXaxis()->SetTitleSize(0.06);
     signal[0]->GetXaxis()->SetTitleOffset(1);
     signal[0]->GetXaxis() ->SetTitleFont(132);
-    signal[0]-> GetXaxis()->SetBinLabel(1, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(2, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(3, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(4, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(5, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(6, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(7, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(8, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(9, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(10, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(11, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(12, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(13, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(14, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(15, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(16, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(17, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(18, "> 4 ");
+    signal[0]-> GetXaxis()->LabelsOption("v");
+    signal[0]-> GetXaxis()->SetBinLabel(1, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(2, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(3, ">10");
+    signal[0]-> GetXaxis()->SetBinLabel(1, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(2, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(3, ">10");
+    signal[0]-> GetXaxis()->SetBinLabel(1, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(2, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(3, ">10");
+   signal[0]-> GetXaxis()->SetBinLabel(1, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(2, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(3, ">10");
+     signal[0]-> GetXaxis()->SetBinLabel(1, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(2, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(3, ">10");
  
     signal[10]->SetStats(0);
     signal[10]-> GetXaxis()->LabelsOption("hu");
