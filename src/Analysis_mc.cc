@@ -703,7 +703,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries; ++it) {
+    for(ULong64_t it=0; it<nEntries/30; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
@@ -727,7 +727,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //scal = scale * _weight * ctWeight * pu_weight(*&pileUpWeight[0],_nTrueInt);
       scal = scale * _weight * ctWeight; 
       bwght = 1.;
-      if (samples[sam].isData()) scal =1;
+      if (samples[sam].isData()) scal =1.;
 
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       std::vector<unsigned> ind;
@@ -1607,7 +1607,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	if (isSRRun){plotDataVSMC(cat,cha,dist,
+	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
 				  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 				  eff_names,numer_plot_class ,
 				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
@@ -1620,7 +1620,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				   true,
 				   2, true, signals,  sigNames_short, nSamples_signal, true);}
-			  
+	*/		  
       }
     }//end cat
   }//end histo  
@@ -2052,10 +2052,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	signals_SR[0] =(TH1D*)plots_SR[cha][iSystematics][0][signal_sample+1]->Clone() ;
 	signals_SR[1] =(TH1D*)plots_SR[cha][iSystematics][1][signal_sample+1]->Clone() ;     
 	signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
-	if (isSRRun){plotDataVSMC_SR(999,cha,
+	/*if (isSRRun){plotDataVSMC_SR(999,cha,
 				     *&signals_SR,
 				     chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
-				     2);}  
+				     2);}  */
       }   
     }//t
   }	
@@ -2064,9 +2064,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
   std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
   for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<<" . random bin: "<<plots_SR[0][0][0][effsam1]->GetBinContent(8)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][1][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][2][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
 
   }	  
   std::cout<<""<<std::endl;
