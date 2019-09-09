@@ -368,7 +368,8 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
       }
     }
   }
-    
+     legend->Draw("same");
+ 
   //Draw signal plots
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
@@ -378,18 +379,24 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
 	signal[sig]->SetMinimum(0);
 	signal[sig]->SetMinimum(0.1);
 	signal[sig]->Draw("histe ");
+	if (istogramma == 0) signal[sig] ->GetXaxis()->LabelsOption("v");    
       }
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig == 10){
 	if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
 	signal[sig]->SetMinimum(0);
 	signal[sig]->SetMinimum(0.1);
 	signal[sig]->Draw("histe ");
+	if (istogramma == 0) signal[sig] ->GetXaxis()->LabelsOption("v");    
+
       }
     }
   }
     
   bkgStack->Draw("hist same ");
-  legend->Draw("same");
+	
+  	gPad->Modified();
+	gPad->Update();	
+	
   bkgTot->Draw("e2same");
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
