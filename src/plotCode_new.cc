@@ -428,6 +428,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	signal[sig]->SetMarkerColor(sigCols[sig-10]);
 	signal[sig]->SetLineWidth(4);
       }
+      legend->SetLegendFont(13);
       legend->AddEntry(signal[sig], signames[sig]);
 
       //if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "m_{N}=1 GeV");
@@ -453,7 +454,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
     
   for(int effsam = nHist - 1; effsam > -1; --effsam){
-	  if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "X+#gamma");
+	  legend->SetLegendFont(13);
+	  if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
 	  else if  (names[histI[effsam] + 1 + nSig] == "XTTX") legend->AddEntry(bkg[effsam], "TT/T+X");
 	  else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "TT/T+X");
 	  else if (names[histI[effsam] + 1 + nSig] == "ttbar") legend->AddEntry(bkg[effsam], "t#bar{t}");
@@ -541,9 +543,9 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[10]-> GetXaxis()->SetBinLabel(17, "< 4 ");
     signal[10]-> GetXaxis()->SetBinLabel(18, "> 4 ");
 
-    signal[0]-> GetXaxis()->SetLabelSize(0.02);
+    signal[0]-> GetXaxis()->SetLabelSize(0.04);
     signal[0]-> GetXaxis()->SetLabelOffset(0.01);
-    signal[10]-> GetXaxis()->SetLabelSize(0.02);
+    signal[10]-> GetXaxis()->SetLabelSize(0.04);
     signal[10]-> GetXaxis()->SetLabelOffset(0.01);
 	    
 	    
@@ -684,150 +686,91 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
 	  
     TLine *line = new TLine(6.5,0.07,6.5,50000);
-    line->SetLineWidth(3);
+    line->SetLineWidth(2);
     line->Draw();
     line = new TLine(12.5,0.07,12.5,50000);
-    line->SetLineWidth(3);
+    line->SetLineWidth(2);
     line->Draw();
 	  //100000
     line = new TLine(2.5,7000,2.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
-    line->SetLineWidth(2);
+    line->SetLineWidth(1);
     line->Draw();
     line = new TLine(4.5,7000,4.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
-    line->SetLineWidth(2);
+    line->SetLineWidth(1);
     line->Draw();
     line = new TLine(8.5,7000,8.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
-    line->SetLineWidth(2);
+    line->SetLineWidth(1);
     line->Draw();
     line = new TLine(10.5,7000,10.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
-    line->SetLineWidth(2);
+    line->SetLineWidth(1);
     line->Draw();
     line = new TLine(14.5,7000,14.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
-    line->SetLineWidth(2);
+    line->SetLineWidth(1);
     line->Draw();
     line = new TLine(16.5,7000,16.5,0.1);
 
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
-    line->SetLineWidth(2);
+    line->SetLineWidth(1);
     line->Draw();
     TLatex *    tex = new TLatex(0.8748578,17546.74,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.031586,21625.48,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.25285,33424.77,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.492553,48185.32,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.66772,54433.15,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.833668,62571.47,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.907423,91788.17,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(2.598872,137012.8,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.584746,8013.302,"");
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(1.12378,4134.047,"");
-    tex->SetTextSize(0.003034901);
-    tex->SetLineWidth(2);
-    tex->Draw();
-	//7000.46	
     tex = new TLatex(0.9578318,7000,"#DeltaR < 2cm");
-
-    ci = TColor::GetColor("#ff6600");
-    //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(2.857013,7000,"#DeltaR [2,10]cm");
 
-    ci = TColor::GetColor("#ff6600");
-    //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(4.912923,7000,"#DeltaR > 10cm");
 
-    ci = TColor::GetColor("#ff6600");
-     //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(0.9578318,7000,"#DeltaR < 2cm");
-
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
 		
     tex = new TLatex(6.9578318,7000,"#DeltaR < 2cm");
-
-    ci = TColor::GetColor("#ff6600");
-     //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(8.857013,7000,"#DeltaR [2,10]cm");
-
-    ci = TColor::GetColor("#ff6600");
-     //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(10.912923,7000,"#DeltaR > 10cm");
-
-    ci = TColor::GetColor("#ff6600");
-     //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();	
 		
     tex = new TLatex(12.9578318,7000,"#DeltaR < 2cm");
-
-    ci = TColor::GetColor("#ff6600");
-     //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(14.857013,7000,"#DeltaR [2,10]cm");
-
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
     tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(16.912923,7000,"#DeltaR > 10cm");
-
-    ci = TColor::GetColor("#ff6600");
-     //tex->SetTextColor(ci);
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetLineWidth(2);
     tex->Draw();	
 		
