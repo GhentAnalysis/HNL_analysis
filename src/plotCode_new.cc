@@ -358,8 +358,8 @@ void plotDataVSMC_e(int categoria,int channel,int istogramma,
   //redraw axis over histograms
   gPad->RedrawAxis();
   //CMS_lumi(c,"Preliminary", true);
-  if (channel == 3 || channel == 4 ||channel == 5 ||channel == 7)drawLumi(1,p1);	 
-  if (channel == 0 || channel == 1 ||channel == 2 ||channel == 6 )drawLumi(0,p1);	 
+  if (channel == 3 || channel == 4 ||channel == 5 ||channel == 7)drawLumi(p1,1);	 
+  if (channel == 0 || channel == 1 ||channel == 2 ||channel == 6 )drawLumi(p1,1);	 
 
   if (channel == 3){
     c->SaveAs("plots_pdf/eee/"+ name_cut + "/"+ name_histo + ".pdf");
@@ -1159,7 +1159,10 @@ void plotDataVSMC_SR(int categoria,int channel,
     //redraw axis over histograms
     gPad->RedrawAxis();
     //CMS_lumi(c,"Preliminary", true);
-    drawLumi(p1);
+    //drawLumi(p1);
+	
+  if (channel == 1 )drawLumi(p1,1);	 
+  if (channel == 0 )drawLumi(p1,0);	
     if (channel == 1){
         c->SaveAs("plots_pdf/ele_SR/" + name_histo + ".pdf");
         c->SaveAs("plots_root/ele_SR/"+ name_histo + ".root");
