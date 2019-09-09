@@ -1288,8 +1288,8 @@ if (samples[sam].isData()) continue;
 	      double central_divided_by_sys_muon= 1.;
 	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[muon_case][iSystematics][0][effsam];
 	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[ele_case][iSystematics][0][effsam];
-	     if (weight_SR[muon_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ----------------------------------  "<<std::endl;
-	     if (weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ----------------------------------  "<<std::endl;
+	     if (SR_channel <= 2 && weight_SR[muon_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero muon ----------------------------------  "<<systNames[iSystematics]<< " var: "<< iVariation<<std::endl;
+	     if (SR_channel > 2 && weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ele ----------------------------------  "<<systNames[iSystematics]<< " var: "<< iVariation<<std::endl;
     
 	     if (iSystematics!=jec_index && iSystematics!=jer_index){
 	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
