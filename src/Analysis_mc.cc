@@ -838,7 +838,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //int min_test= 9999;
       double min_mass=999;
       displacedC=0;
-      for(unsigned l = 0; l < lCount; ++l){
+      for(unsigned l = 0; l < lCount-1; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){	  	
 	  if (!IsDisplacedPair(ind[l], ind[j], ind_new_leading, ind)) continue; 
 	  ++displacedC;
