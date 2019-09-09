@@ -12,7 +12,7 @@ void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data){
 	TString channelText;
 	if(data) lumiText = "35.9 fb^{-1} (13 TeV)";
 	else lumiText = "(13 TeV)";
-	if (channel == 0) channelText= "#mu#mu + l";
+	if (channel == 0) channelText= "\mu\mu + l";
 	if (channel == 1) channelText= "ee + l";
 
 	//const float H = pad->GetWh();
@@ -53,10 +53,10 @@ void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data){
 	latex.SetTextSize(lumiTextSize);  
 	latex.DrawLatex(1-r,1-t+lumiTextOffset*t,lumiText);
 	
-	latex.SetTextFont(61);
+	latex.SetTextFont(42);
 	latex.SetTextAlign(11); 
 	latex.SetTextSize(channelTextSize);
-	latex.DrawLatex(l+ 1.7*cmsX,1-t+lumiTextOffset*t,channelText);
+	latex.DrawLatex(l+ 0.4*(r-l),1-t+lumiTextOffset*t,channelText);
 	
 	return;
 }
