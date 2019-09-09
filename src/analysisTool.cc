@@ -7,30 +7,37 @@ int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10,
   int bin = -1;
   if (channel == 0 || channel == 1 || channel == 2  ){
     if (channel == 0){
-      if (less2 && less5)    bin =1;
+      if (less5 && less2)    bin =1;
+      if (less5 && more2_10) bin =2;
+      if (less5 && more10)   bin =3;
+      if (more5 && less2)    bin =4;
+      if (more5 && more2_10) bin =5;
+      if (more5 && more10)   bin =6;
+	    
+     /* if (less2 && less5)    bin =1;
       if (less2 && more5)    bin =2;
       if (more2_10 && less5) bin =3;
       if (more2_10 && more5) bin =4;
       if (more10 && less5)   bin =5;
-      if (more10 && more5)   bin =6;
+      if (more10 && more5)   bin =6;*/	    
 
     }
     if (channel == 1){
-      if (less2 && less5)    bin =7;
-      if (less2 && more5)    bin =8;
-      if (more2_10 && less5) bin =9;
-      if (more2_10 && more5) bin =10;
-      if (more10 && less5)   bin =11;
-      if (more10 && more5)   bin =12;
+      if (less5 && less2)    bin =7;
+      if (less5 && more2_10) bin =8;
+      if (less5 && more10)   bin =9;
+      if (more5 && less2)    bin =10;
+      if (more5 && more2_10) bin =11;
+      if (more5 && more10)   bin =12;
 
     }
     if (channel == 2){
-      if (less2 && less5)    bin =13;
-      if (less2 && more5)    bin =14;
-      if (more2_10 && less5) bin =15;
-      if (more2_10 && more5) bin =16;
-      if (more10 && less5)   bin =17;
-      if (more10 && more5)   bin =18;
+      if (less5 && less2)    bin =13;
+      if (less5 && more2_10) bin =14;
+      if (less5 && more10)   bin =15;
+      if (more5 && less2)    bin =16;
+      if (more5 && more2_10) bin =17;
+      if (more5 && more10)   bin =18;
     }
   }
   return bin;
@@ -41,29 +48,29 @@ int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, 
   int bin = -1;
   if (channel == 3 || channel == 4 || channel == 5  ){
     if (channel == 3){
-      if (less2 && less5)    bin =1;
-      if (less2 && more5)    bin =2;
-      if (more2_10 && less5) bin =3;
-      if (more2_10 && more5) bin =4;
-      if (more10 && less5)   bin =5;
-      if (more10 && more5)   bin =6;
+      if (less5 && less2)    bin =1;
+      if (less5 && more2_10) bin =2;
+      if (less5 && more10)   bin =3;
+      if (more5 && less2)    bin =4;
+      if (more5 && more2_10) bin =5;
+      if (more5 && more10)   bin =6;
     }
     if (channel == 4){
-      if (less2 && less5)    bin =7;
-      if (less2 && more5)    bin =8;
-      if (more2_10 && less5) bin =9;
-      if (more2_10 && more5) bin =10;
-      if (more10 && less5)   bin =11;
-      if (more10 && more5)   bin =12;
+       if (less5 && less2)    bin =7;
+      if (less5 && more2_10) bin =8;
+      if (less5 && more10)   bin =9;
+      if (more5 && less2)    bin =10;
+      if (more5 && more2_10) bin =11;
+      if (more5 && more10)   bin =12;
 
     }
     if (channel == 5){
-      if (less2 && less5)    bin =13;
-      if (less2 && more5)    bin =14;
-      if (more2_10 && less5) bin =15;
-      if (more2_10 && more5) bin =16;
-      if (more10 && less5)   bin =17;
-      if (more10 && more5)   bin =18;
+       if (less5 && less2)    bin =13;
+      if (less5 && more2_10) bin =14;
+      if (less5 && more10)   bin =15;
+      if (more5 && less2)    bin =16;
+      if (more5 && more2_10) bin =17;
+      if (more5 && more10)   bin =18;
 
     }
   }
@@ -111,7 +118,11 @@ int Analysis_mc::channel(int  flavors_3l[3], int  charge_3l[3]){
 double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
-   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
+   int biny = 0.;
+  if (_lPt[leptonIndex] > ele_sf_histogram[0]->GetYaxis()->GetBinUpEdge(ele_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  ele_sf_histogram[0]->GetYaxis()->GetNbins(); 
+  else biny = ele_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], ele_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 	
+	
+	
    sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
    return sfValue;	
 }
@@ -122,12 +133,14 @@ double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned le
    int biny =0;	
    if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
 	  binx = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-          biny = muon_sf_histogram[0]->GetXaxis()->FindBin(_lPt[leptonIndex]);   
+          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+          else biny = muon_sf_histogram[0]->GetXaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetXaxis()->GetBinLowEdge(1)));  
    }
    else { // it means that xaxis has eta so y axis has pt
 	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
-          biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);   
-   }		
+	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+          else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1)));   
+   }	
    sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);	
    return sfValue;	
 }
@@ -135,7 +148,9 @@ double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned le
 double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
-   int biny = ele_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
+   int biny=0.;	
+     if (_lPt[leptonIndex] > ele_sf_histogram[0]->GetYaxis()->GetBinUpEdge(ele_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  ele_sf_histogram[0]->GetYaxis()->GetNbins(); 
+  else biny = ele_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], ele_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 	
    sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;	
 }
@@ -146,12 +161,14 @@ double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram[1], const unsig
    int biny =0;	
    if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
 	  binx = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-          biny = muon_sf_histogram[0]->GetXaxis()->FindBin(_lPt[leptonIndex]);   
+          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+          else biny = muon_sf_histogram[0]->GetXaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetXaxis()->GetBinLowEdge(1)));  
    }
    else { // it means that xaxis has eta so y axis has pt
 	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
-          biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);   
-   }		
+	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+          else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1)));   
+   }			
    sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;		
 }
@@ -162,8 +179,9 @@ double Analysis_mc::SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned l
    int binx =0;
    int biny =0;	
    binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-   biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
-   sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);	
+   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+   else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 
+   sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);
    return sfValue;	
 }
 //_____________________________________________ SF prompt muon trigger error
@@ -172,7 +190,8 @@ double Analysis_mc::SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsi
    int binx =0;
    int biny =0;	
    binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-   biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);	
+   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+   else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 
    sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;			
 }

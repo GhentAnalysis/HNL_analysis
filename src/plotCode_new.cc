@@ -96,287 +96,6 @@ void yieldOrder(TH1D**& hists, unsigned* histInd, const unsigned nHist){
   }
 }
 
-void plotDataVSMC_mu(int categoria,int channel,int istogramma,
-                     TH1D* data, TH1D** bkg,
-                     const TString* names, const unsigned nHist,
-                     const TString& name_cut,const TString& name_channel, const TString& name_histo,
-                     const bool ylog,
-                     const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm){
-  // Dummy: to be removed!
-  if(categoria==-3672 && istogramma==-3276) std::cout << name_channel.Data() << std::endl;
-
-  //Order background histograms in terms of yields
-  unsigned histI[nHist];
-  yieldOrder(bkg, histI, nHist);
-  //Calculate total Bkg yields
-  TH1D* bkgTot = (TH1D*) bkg[0]->Clone();
-  for(unsigned int i = 1; i <  nHist; ++i){
-    bkgTot->Add(bkg[i]);
-  }
-  //Make a stack containing all backgrounds
-  THStack* bkgStack;
-  bkgStack = new THStack("bkgStack", "bkgStack");
-  for(int effsam = nHist -1; effsam > -1 ; --effsam){
-    StackCol(bkg[effsam], colors[effsam]);
-    bkgStack->Add(bkg[effsam], "f");
-  }
-    
-  if(signames==nullptr) {} // dummy, just to avoid warning
-    
-  //Make a legend for data and all backgrounds
-  TLegend* legend = new TLegend(0.2,0.79,0.95,0.88,NULL,"brNDC");
-    
-  legend->SetFillStyle(0);
-    
-  //Add signal to the legenD
-  if(plotsig){
-    for(unsigned sig = 0; sig < nSig; ++sig){
-      signal[sig]->SetLineColor(sigCols[sig]);
-      signal[sig]->SetLineColor(sigCols[sig]);
-      signal[sig]->SetMarkerColor(sigCols[sig]);
-      signal[sig]->SetLineWidth(4);
-      legend->AddEntry(signal[sig], signames[sig]);
-    }
-  }
-    
-  for(int effsam = nHist - 1; effsam > -1; --effsam){
-    legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
-    legend->     SetNColumns(1);
-  }
-  //Make canvas and pads for plotting
-  double width, height;
-  if(widthopt == 0){
-    width = 500;
-    height = 600;
-  } else if(widthopt == 1){
-    width = 2000;
-    height = 500;
-  } else if(widthopt == 2){
-    width = 700;
-    height = 600;
-  } else{
-    std::cerr << "Incorrect width option given can't make plot" << std::endl;
-    return;
-  }
-  TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
-  c->cd();
-    
-    
-  TPad *p1; //, *p2;
-  //Plot data and MC yields in first pad
-  p1 = new TPad(name_histo,"",0,xPad,1,1);
-  p1->Draw();
-  p1->cd();
-  p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-  p1->SetBottomMargin(0);
-  bkgTot->SetFillStyle(3005);
-  bkgTot->SetFillColor(kGray+2);
-  bkgTot->SetMarkerStyle(1);
-  data->SetMinimum(0.1);
-  bkgTot->SetMinimum(0.1);
-  bkgStack->SetMinimum(0.1);
-  if(!ylog) data->SetMinimum(0.01);
-  else if(ylog) p1->SetLogy();
-    
-  if(ylog) p1->SetLogy();
-  HistLabelSizes(data,0.1,0.1,0.07,0.07);
-    
-  //Determine the maximum range of the histogram, depending on the maximum range of the bkg or data
-  if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[3]->GetBinContent(signal[3]->GetMaximumBin()) ){
-    if(!ylog) signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
-    else signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
-  }
-  else{
-    if(!ylog) signal[3]->SetMaximum(signal[3]->GetBinContent(signal[3]->GetMaximumBin())*1.5);
-    else signal[3]->SetMaximum(signal[3]->GetBinContent(signal[3]->GetMaximumBin())*10);
-  }
-    
-    
-  //Draw signal plots
-  if(plotsig){
-    for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 3){
-	if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
-	signal[sig]->SetMinimum(0);
-	signal[sig]->SetMinimum(0.1);
-	signal[sig]->Draw("histe ");
-      }
-    }
-  }
-    
-  bkgStack->Draw("hist same ");
-  legend->Draw("same");
-  bkgTot->Draw("e2same");
-  if(plotsig){
-    for(unsigned sig = 0; sig < nSig; ++sig){
-      if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
-      signal[sig]->SetMinimum(0.1);
-      signal[sig]->Draw("histe same");
-    }
-  }
-  //redraw axis over histograms
-  gPad->RedrawAxis();
-  //CMS_lumi(c,"Preliminary", true);
-  drawLumi(p1);
-  if (channel == 0){
-    c->SaveAs("plots_pdf/mmm/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mmm/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 1){
-    c->SaveAs("plots_pdf/mmeOS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mmeOS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 2){
-    c->SaveAs("plots_pdf/mmeSS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mmeSS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 6){
-    c->SaveAs("plots_pdf/mu/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/mu/"+ name_cut + "/"+ name_histo + ".root");
-  }
-}
-
-void plotDataVSMC_e(int categoria,int channel,int istogramma,
-                    TH1D* data, TH1D** bkg,
-                    const TString* names, const unsigned nHist,
-                    const TString& name_cut,const TString& name_channel, const TString& name_histo,
-                    const bool ylog,
-                    const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm){
-  // Dummy: to be removed!
-  if(categoria==-3672 && istogramma==-3276) std::cout << name_channel.Data() << std::endl;
-    
-  //Order background histograms in terms of yields
-  unsigned histI[nHist];
-  yieldOrder(bkg, histI, nHist);
-  //Calculate total Bkg yields
-  TH1D* bkgTot = (TH1D*) bkg[0]->Clone();
-  for(unsigned int i = 1; i <  nHist; ++i){
-    std::cout<<i<<")  "<< names[i]<< "  "<< name_histo[i]<<std::endl;
-    bkgTot->Add(bkg[i]);
-  }
-  //Make a stack containing all backgrounds
-  THStack* bkgStack;
-  bkgStack = new THStack("bkgStack", "bkgStack");
-  for(int effsam = nHist -1; effsam > -1 ; --effsam){
-    StackCol(bkg[effsam], colors[effsam]);
-    std::cout<<effsam<<" "<< names[effsam]<<std::endl;
-    bkgStack->Add(bkg[effsam], "f");
-  }
-    
-  if(signames==nullptr) {} // dummy, just to avoid warning
-    
-  //Make a legend for data and all backgrounds
-  TLegend* legend = new TLegend(0.81,0.15,0.99,0.88,NULL,"brNDC");
-    
-  legend->SetFillStyle(0);
-    
-  //Add signal to the legenD
-  if(plotsig){
-    for(unsigned sig = 0; sig < nSig; ++sig){
-      signal[sig]->SetLineColor(sigCols[sig]);
-      signal[sig]->SetLineColor(sigCols[sig]);
-      signal[sig]->SetMarkerColor(sigCols[sig]);
-      signal[sig]->SetLineWidth(4);
-      legend->AddEntry(signal[sig], signames[sig]);
-    }
-  }
-    
-  for(int effsam = nHist - 1; effsam > -1; --effsam){
-    legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
-    legend->     SetNColumns(1);
-  }
-  //Make canvas and pads for plotting
-  double width, height;
-  if(widthopt == 0){
-    width = 500;
-    height = 600;
-  } else if(widthopt == 1){
-    width = 2000;
-    height = 500;
-  } else if(widthopt == 2){
-    width = 700;
-    height = 600;
-  } else{
-    std::cerr << "Incorrect width option given can't make plot" << std::endl;
-    return;
-  }
-  TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
-  c->cd();
-    
-    
-  TPad *p1; //, *p2;
-  //Plot data and MC yields in first pad
-  p1 = new TPad(name_histo,"",0,xPad,1,1);
-  p1->Draw();
-  p1->cd();
-  p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-  p1->SetBottomMargin(0.15);
-  p1->SetRightMargin(0.2);
-  bkgTot->SetFillStyle(3005);
-  bkgTot->SetFillColor(kGray+2);
-  bkgTot->SetMarkerStyle(1);
-  data->SetMinimum(0.1);
-  bkgTot->SetMinimum(0.1);
-  bkgStack->SetMinimum(0.1);
-    
-  if(ylog) p1->SetLogy();
-  HistLabelSizes(data,0.1,0.1,0.07,0.07);
-    
-  //Determine the maximum range of the histogram, depending on the maximum range of the bkg or data
-  if(bkgTot->GetBinContent(bkgTot->GetMaximumBin()) > signal[3]->GetBinContent(signal[3]->GetMaximumBin()) ){
-    if(!ylog) signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*1.5);
-    else signal[3]->SetMaximum(bkgTot->GetBinContent(bkgTot->GetMaximumBin())*10);
-  }
-  else{
-    if(!ylog) signal[3]->SetMaximum(signal[3]->GetBinContent(signal[3]->GetMaximumBin())*1.5);
-    else signal[3]->SetMaximum(signal[3]->GetBinContent(signal[3]->GetMaximumBin())*10);
-  }
-    
-    
-  //Draw signal plots
-  if(plotsig){
-    for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 3){
-	if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
-	signal[sig]->SetMinimum(0);
-	signal[sig]->SetMinimum(0.1);
-	signal[sig]->Draw("histe ");
-      }
-    }
-  }
-    
-  bkgStack->Draw("hist same ");
-  legend->Draw("same");
-  bkgTot->Draw("e2same");
-  if(plotsig){
-    for(unsigned sig = 0; sig < nSig; ++sig){
-      if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
-      signal[sig]->SetMinimum(0.1);
-      signal[sig]->Draw("histe same");
-    }
-  }
-  //redraw axis over histograms
-  gPad->RedrawAxis();
-  //CMS_lumi(c,"Preliminary", true);
-  drawLumi(p1);
-  if (channel == 3){
-    c->SaveAs("plots_pdf/eee/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/eee/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 4){
-    c->SaveAs("plots_pdf/eemOS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/eemOS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 5){
-    c->SaveAs("plots_pdf/eemSS/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/eemSS/"+ name_cut + "/"+ name_histo + ".root");
-  }
-  if (channel == 7){
-    c->SaveAs("plots_pdf/e/"+ name_cut + "/"+ name_histo + ".pdf");
-    c->SaveAs("plots_root/e/"+ name_cut + "/"+ name_histo + ".root");
-  }
-}
-
 
 
 void plotDataVSMC(int categoria,int channel,int istogramma,
@@ -401,22 +120,22 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   bkgStack = new THStack("bkgStack", "bkgStack");
   for(int effsam = nHist -1; effsam > -1 ; --effsam){
     StackCol(bkg[effsam], colors[effsam]);
-    if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetFillStyle(3020); 
+    //if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetFillStyle(3020); 
     bkgStack->Add(bkg[effsam], "f");
   }
     
   if(signames==nullptr) {} // dummy, just to avoid warning
     
   //Make a legend for data and all backgrounds
-  TLegend* legend = new TLegend(0.15,0.72,0.95,0.88,NULL,"brNDC");
+  TLegend* legend = new TLegend(0.16,0.75,0.92,0.87,NULL,"brNDC");
     
   legend->SetFillStyle(0);
     
   //Add signal to the legenD
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
-	  
+	    
+      if (sig == 3 || sig == 13 ||  sig == 7 || sig == 17 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
       signal[sig]->SetLineColor(sigCols[sig]);
@@ -428,7 +147,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	signal[sig]->SetMarkerColor(sigCols[sig-10]);
 	signal[sig]->SetLineWidth(4);
       }
-      legend->SetLegendFont(13);
+      legend->SetTextFont(42);
       legend->AddEntry(signal[sig], signames[sig]);
 
       //if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "m_{N}=1 GeV");
@@ -454,14 +173,15 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
     
   for(int effsam = nHist - 1; effsam > -1; --effsam){
-	  legend->SetLegendFont(13);
-	  if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
-	  else if  (names[histI[effsam] + 1 + nSig] == "XTTX") legend->AddEntry(bkg[effsam], "TT/T+X");
-	  else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "TT/T+X");
-	  else if (names[histI[effsam] + 1 + nSig] == "ttbar") legend->AddEntry(bkg[effsam], "t#bar{t}");
-	  else if (names[histI[effsam] + 1 + nSig] == "WJets") legend->AddEntry(bkg[effsam], "W+jets");
-    	  else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
-          legend->     SetNColumns(5);
+    legend->SetTextFont(42);
+    if (names[histI[effsam] + 1 + nSig] != "TTX"  && names[histI[effsam] + 1 + nSig] != "Xgamma"  && names[histI[effsam] + 1 + nSig] != "nonprompt SF"  && names[histI[effsam] + 1 + nSig] != "nonprompt DF" && names[histI[effsam] + 1 + nSig] != "DY") continue;
+    if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
+    else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "Other");
+    else if (names[histI[effsam] + 1 + nSig] == "nonprompt SF") legend->AddEntry(bkg[effsam], "nonprompt SF");
+    else if (names[histI[effsam] + 1 + nSig] == "nonprompt DF") legend->AddEntry(bkg[effsam], "nonprompt DF");
+    else if (names[histI[effsam] + 1 + nSig] == "DY") legend->AddEntry(bkg[effsam], "Z#gamma^{*}"); 
+    else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
+    legend->     SetNColumns(4);
   }
 
   if (istogramma == 1 ){
@@ -492,67 +212,71 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   }
 
   // isotgramma delle SR --> linee e roba varia
+TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10"};	   
+	
   if (istogramma == 0 ){
     signal[0]->SetStats(0);
-    signal[0]-> GetXaxis()->LabelsOption("hu");
-    signal[0]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");	  
-   signal[0]->GetXaxis()->SetTitleSize(0.06);
-    signal[0]->GetXaxis()->SetTitleOffset(1);
+    signal[0]-> GetXaxis()->LabelsOption("vu");
+    signal[0]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");	  
+    signal[0]->GetXaxis()->SetTitleSize(0.06);
+    signal[0]->GetXaxis()->SetTitleOffset(1.1);
     signal[0]->GetXaxis() ->SetTitleFont(132);
-    signal[0]-> GetXaxis()->SetBinLabel(1, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(2, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(3, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(4, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(5, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(6, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(7, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(8, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(9, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(10, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(11, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(12, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(13, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(14, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(15, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(16, "> 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(17, "< 4 ");
-    signal[0]-> GetXaxis()->SetBinLabel(18, "> 4 ");
- 
+    for (int i =0; i<18; i++){	  
+    signal[0]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
+ }					     
+						     
+   /* signal[0]-> GetXaxis()->SetBinLabel(2, " 2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(3, " >10");
+    signal[0]-> GetXaxis()->SetBinLabel(4, " 0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(5, " 2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(6, " >10");
+    signal[0]-> GetXaxis()->SetBinLabel(7, " 0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(8, " 2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(9, " >10");
+    signal[0]-> GetXaxis()->SetBinLabel(10, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(11, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(12, ">10");
+    signal[0]-> GetXaxis()->SetBinLabel(13, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(14, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(15, ">10");
+    signal[0]-> GetXaxis()->SetBinLabel(16, "0-2");
+    signal[0]-> GetXaxis()->SetBinLabel(17, "2-10");
+    signal[0]-> GetXaxis()->SetBinLabel(18, ">10");*/
+    
     signal[10]->SetStats(0);
-    signal[10]-> GetXaxis()->LabelsOption("hu");
-	signal[10]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");	  
-   signal[10]->GetXaxis()->SetTitleSize(0.06);
-    signal[10]->GetXaxis()->SetTitleOffset(1);
+    signal[10]-> GetXaxis()->LabelsOption("vu");
+    signal[10]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");
+    signal[10]->GetXaxis()->SetTitleSize(0.06);
+    signal[10]->GetXaxis()->SetTitleOffset(1.1);
     signal[10]->GetXaxis() ->SetTitleFont(132);
-    signal[10]-> GetXaxis()->SetBinLabel(1, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(2, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(3, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(4, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(5, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(6, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(7, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(8, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(9, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(10, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(11, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(12, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(13, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(14, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(15, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(16, "> 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(17, "< 4 ");
-    signal[10]-> GetXaxis()->SetBinLabel(18, "> 4 ");
+	  for (int i =0; i<18; i++){	  
+    signal[10]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
+ }
+    /*signal[10]-> GetXaxis()->SetBinLabel(1, "0-2");
+    signal[10]-> GetXaxis()->SetBinLabel(2, "2-10");
+    signal[10]-> GetXaxis()->SetBinLabel(3, ">10");
+    signal[10]-> GetXaxis()->SetBinLabel(4, "0-2");
+    signal[10]-> GetXaxis()->SetBinLabel(5, "2-10");
+    signal[10]-> GetXaxis()->SetBinLabel(6, ">10");
+    signal[10]-> GetXaxis()->SetBinLabel(7, "0-2");
+    signal[10]-> GetXaxis()->SetBinLabel(8, "2-10");
+    signal[10]-> GetXaxis()->SetBinLabel(9, ">10");
+    signal[10]-> GetXaxis()->SetBinLabel(10, "0-2");
+    signal[10]-> GetXaxis()->SetBinLabel(11, "2-10");
+    signal[10]-> GetXaxis()->SetBinLabel(12, ">10");
+    signal[10]-> GetXaxis()->SetBinLabel(13, "0-2");
+    signal[10]-> GetXaxis()->SetBinLabel(14, "2-10");
+    signal[10]-> GetXaxis()->SetBinLabel(15, ">10");
+    signal[10]-> GetXaxis()->SetBinLabel(16, "0-2");
+    signal[10]-> GetXaxis()->SetBinLabel(17, "2-10");
+    signal[10]-> GetXaxis()->SetBinLabel(18, ">10");
+*/
 
-    signal[0]-> GetXaxis()->SetLabelSize(0.04);
-    signal[0]-> GetXaxis()->SetLabelOffset(0.01);
-    signal[10]-> GetXaxis()->SetLabelSize(0.04);
-    signal[10]-> GetXaxis()->SetLabelOffset(0.01);
-	    
-	    
-	    
-	    
-	    
-	    
+    signal[0]-> GetXaxis()->SetLabelSize(0.045);
+    signal[0]-> GetXaxis()->SetLabelOffset(0.005);
+    signal[10]-> GetXaxis()->SetLabelSize(0.045);
+    signal[10]-> GetXaxis()->SetLabelOffset(0.005);
+	    	    
   }
     
 
@@ -613,7 +337,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     }
     else{
       if(!ylog) signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*1.5);
-       if(!ylog && istogramma ==0) signal[0]->SetMaximum(signal[0]->GetBinContent(bkgTot->GetMaximumBin())*20);
+      if(!ylog && istogramma ==0) signal[0]->SetMaximum(signal[0]->GetBinContent(bkgTot->GetMaximumBin())*20);
 
       else {
 	if (istogramma !=0)signal[0]->SetMaximum(signal[0]->GetBinContent(signal[0]->GetMaximumBin())*30);
@@ -644,7 +368,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       }
     }
   }
-    
+ 
   //Draw signal plots
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
@@ -654,22 +378,29 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	signal[sig]->SetMinimum(0);
 	signal[sig]->SetMinimum(0.1);
 	signal[sig]->Draw("histe ");
+	if (istogramma == 0) signal[sig] ->GetXaxis()->LabelsOption("v");    
       }
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig == 10){
 	if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
 	signal[sig]->SetMinimum(0);
 	signal[sig]->SetMinimum(0.1);
 	signal[sig]->Draw("histe ");
+	if (istogramma == 0) signal[sig] ->GetXaxis()->LabelsOption("v");    
+
       }
     }
   }
     
   bkgStack->Draw("hist same ");
   legend->Draw("same");
+
+  // gPad->Modified();
+// gPad->Update();	
+	
   bkgTot->Draw("e2same");
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
+      if (sig == 3 || sig == 13 ||  sig == 7 || sig == 17 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
 
@@ -682,130 +413,105 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   if (istogramma == 0){
     Int_t ci;      // for color index setting
     //TColor *color; // for color definition with alpha
-	  //    line = new TLine(12.5,0.02,12.5,50000);
+    //    line = new TLine(12.5,0.02,12.5,50000);
 
+    double high_flav=50000;
+    double high_mll=6000;
+    double left_mll=0.97;
+    
 	  
-    TLine *line = new TLine(6.5,0.07,6.5,50000);
+    TLine *line = new TLine(6.5,0.07,6.5, high_flav);
     line->SetLineWidth(2);
     line->Draw();
-    line = new TLine(12.5,0.07,12.5,50000);
+    line = new TLine(12.5,0.07,12.5, high_flav);
     line->SetLineWidth(2);
     line->Draw();
-	  //100000
-    line = new TLine(2.5,7000,2.5,0.1);
-
+    //100000
+    
+    line = new TLine(3.5,high_mll,3.5,0.1);
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(4.5,7000,4.5,0.1);
-
+    line = new TLine(9.5,high_mll,9.5,0.1);
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(8.5,7000,8.5,0.1);
-
+    line = new TLine(15.5,high_mll,15.5,0.1);
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(10.5,7000,10.5,0.1);
-
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineStyle(2);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(14.5,7000,14.5,0.1);
-
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineStyle(2);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(16.5,7000,16.5,0.1);
-
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineStyle(2);
-    line->SetLineWidth(1);
-    line->Draw();
+    
+   
     TLatex *    tex = new TLatex(0.8748578,17546.74,"");
-    tex = new TLatex(0.9578318,7000,"#DeltaR < 2cm");
-    tex->SetTextSize(0.02);
+    tex = new TLatex(left_mll,high_mll,"M_{ll} < 4 GeV");
+    tex->SetTextSize(0.03);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(2.857013,7000,"#DeltaR [2,10]cm");
+    tex = new TLatex(left_mll+3,high_mll,"M_{ll} > 4 GeV");
+    tex->SetTextSize(0.03);
+    tex->SetTextFont(42);
+    tex->SetLineWidth(2);
+    tex->Draw();
 
-    tex->SetTextSize(0.02);
+    tex = new TLatex(left_mll+6,high_mll,"M_{ll} < 4 GeV");
+    tex->SetTextSize(0.03);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(4.912923,7000,"#DeltaR > 10cm");
+    tex = new TLatex(left_mll+9,high_mll,"M_{ll} > 4 GeV");
+    tex->SetTextSize(0.03);
+    tex->SetTextFont(42);
+    tex->SetLineWidth(2);
+    tex->Draw();
 
-    tex->SetTextSize(0.02);
+    tex = new TLatex(left_mll+12,high_mll,"M_{ll} < 4 GeV");
+    tex->SetTextSize(0.03);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(0.9578318,7000,"#DeltaR < 2cm");
-    tex->SetTextSize(0.02);
+    tex = new TLatex(left_mll+15,high_mll,"M_{ll} > 4 GeV");
+    tex->SetTextSize(0.03);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
+   
 		
-    tex = new TLatex(6.9578318,7000,"#DeltaR < 2cm");
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(8.857013,7000,"#DeltaR [2,10]cm");
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(10.912923,7000,"#DeltaR > 10cm");
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();	
-		
-    tex = new TLatex(12.9578318,7000,"#DeltaR < 2cm");
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(14.857013,7000,"#DeltaR [2,10]cm");
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();
-    tex = new TLatex(16.912923,7000,"#DeltaR > 10cm");
-    tex->SetTextSize(0.02);
-    tex->SetLineWidth(2);
-    tex->Draw();	
-		
-	//25000.83	
+    //25000.83	
     if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
-	 //         tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
+      //         tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
 
-      tex = new TLatex(2.857013,25000.83,"#mu#mu#mu");
+      tex = new TLatex(2.857013,high_flav/2,"#mu#mu#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(8.857013,25000.83,"#mu^{#pm}#mu^{#mp}e");
+      tex = new TLatex(8.857013,high_flav/2,"#mu^{#pm}#mu^{#mp}e");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(14.857013,25000.83,"#mu^{#pm}#mu^{#pm}e");
+      tex = new TLatex(14.857013,high_flav/2,"#mu^{#pm}#mu^{#pm}e");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
     }	
     if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
-      tex = new TLatex(2.857013,25000.83,"eee");
+      tex = new TLatex(2.857013,high_flav/2,"eee");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(8,25000.83,"e^{#pm}e^{#mp}#mu");
+      tex = new TLatex(8,high_flav/2,"e^{#pm}e^{#mp}#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(13.857013,25000.83,"e^{#pm}e^{#pm}#mu");
+      tex = new TLatex(13.857013,high_flav/2,"e^{#pm}e^{#pm}#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
@@ -821,7 +527,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   //redraw axis over histograms
   gPad->RedrawAxis();
   //CMS_lumi(c,"Preliminary", true);
-  drawLumi(p1);
+  if (channel == 3 || channel == 4 ||channel == 5 ||channel == 7)drawLumi(p1,1);	 
+  if (channel == 0 || channel == 1 ||channel == 2 ||channel == 6 )drawLumi(p1,0);
   if (channel == 3){
     c->SaveAs("plots_pdf/eee/"+ name_cut + "/"+ name_histo + ".pdf");
     c->SaveAs("plots_root/eee/"+ name_cut + "/"+ name_histo + ".root");
@@ -865,307 +572,219 @@ void plotDataVSMC_SR(int categoria,int channel,
                      const unsigned widthopt){
     
     
-    //Make a legend for data and all backgrounds
-   TLegend* legend = new TLegend(0.8,0.72,0.95,0.88,NULL,"brNDC");
-    legend->SetFillStyle(0);
-    legend->AddEntry(plot_variation[0], name_channel+"_nominal");
-    legend->AddEntry(plot_variation[1], name_channel+"_down");
-    legend->AddEntry(plot_variation[2], name_channel+"_up");
+  //Make a legend for data and all backgrounds
+  TLegend* legend = new TLegend(0.8,0.72,0.95,0.88,NULL,"brNDC");
+  legend->SetFillStyle(0);
+  legend->AddEntry(plot_variation[0], name_channel+"_nominal");
+  legend->AddEntry(plot_variation[1], name_channel+"_down");
+  legend->AddEntry(plot_variation[2], name_channel+"_up");
     
     
     
     
-    // isotgramma delle SR --> linee e roba varia
+  // isotgramma delle SR --> linee e roba varia
     
-    plot_variation[2]->SetStats(0);
-    plot_variation[2]-> GetXaxis()->LabelsOption("hu");
-    plot_variation[2]-> GetXaxis()->SetTitle ("M_{l_{2}l_{3}} (GeV)");
-    plot_variation[2]->GetXaxis()->SetTitleSize(0.07);
-    plot_variation[2]->GetXaxis()->SetTitleOffset(1);
-    plot_variation[2]->GetXaxis() ->SetTitleFont(132);
-    plot_variation[2]-> GetXaxis()->SetBinLabel(1, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(2, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(3, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(4, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(5, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(6, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(7, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(8, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(9, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(10, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(11, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(12, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(13, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(14, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(15, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(16, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(17, "< 4 ");
-    plot_variation[2]-> GetXaxis()->SetBinLabel(18, "> 4 ");
-    plot_variation[2]-> GetXaxis()->SetLabelSize(0.04);
-    plot_variation[2]-> GetXaxis()->SetLabelOffset(0.01);
+  plot_variation[2]->SetStats(0);
+  plot_variation[2]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");
+  plot_variation[2]->GetXaxis()->SetTitleSize(0.06);
+  plot_variation[2]->GetXaxis()->SetTitleOffset(1);
+  plot_variation[2]->GetXaxis() ->SetTitleFont(132);
+  plot_variation[2]-> GetXaxis()->LabelsOption("v");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(1, "0-2");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(2, "2-10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(3, ">10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(4, "0-2");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(5, "2-10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(6, ">10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(7, "0-2");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(8, "2-10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(9, ">10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(10, "0-2");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(11, "2-10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(12, ">10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(13, "0-2");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(14, "2-10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(15, ">10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(16, "0-2");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(17, "2-10");
+  plot_variation[2]-> GetXaxis()->SetBinLabel(18, ">10");
+  plot_variation[2]-> GetXaxis()->SetLabelSize(0.04);
+  plot_variation[2]-> GetXaxis()->SetLabelOffset(0.01);
+
+
     
-    //Make canvas and pads for plotting
-    double width, height;
-    width = 800;
-    height = 500;
+  //Make canvas and pads for plotting
+  double width, height;
+  width = 800;
+  height = 500;
     
-    TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
-    c->cd();
+  TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
+  c->cd();
     
-    TPad *p1; //, *p2;
-    //Plot data and MC yields in first pad
-    p1 = new TPad(name_histo,"",0,xPad,1,1);
-    p1->Draw();
-    p1->cd();
-    p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-    p1->SetBottomMargin(0.15);
+  TPad *p1; //, *p2;
+  //Plot data and MC yields in first pad
+  p1 = new TPad(name_histo,"",0,xPad,1,1);
+  p1->Draw();
+  p1->cd();
+  p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
+  p1->SetBottomMargin(0.15);
     
     
     
-    for (int i =1; i <= plot_variation[0]->GetNbinsX(); i++){
+  for (int i =1; i <= plot_variation[0]->GetNbinsX(); i++){
 	 
 	    
 	    
-        if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[1] -> SetBinContent(i,plot_variation[1] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
-        if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[2] -> SetBinContent(i,plot_variation[2] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
-        if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[0]-> SetBinContent(i,plot_variation[0] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+    if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[1] -> SetBinContent(i,plot_variation[1] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+    if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[2] -> SetBinContent(i,plot_variation[2] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
+    if (plot_variation[0]-> GetBinContent(i) != 0)plot_variation[0]-> SetBinContent(i,plot_variation[0] -> GetBinContent(i)/plot_variation[0]-> GetBinContent(i));
     
-	if (plot_variation[1]-> GetBinContent(i) == 0)plot_variation[1] -> SetBinContent(i,0);
-        if (plot_variation[2]-> GetBinContent(i) == 0)plot_variation[2] -> SetBinContent(i,2);        
+    if (plot_variation[1]-> GetBinContent(i) == 0)plot_variation[1] -> SetBinContent(i,0);
+    if (plot_variation[2]-> GetBinContent(i) == 0)plot_variation[2] -> SetBinContent(i,2);        
 	    
-        if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[1] -> SetBinContent(i,0.601);
-        if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[2] -> SetBinContent(i,0.601);
-        if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[0]-> SetBinContent(i,0.601);
-    }
+    if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[1] -> SetBinContent(i,0.601);
+    if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[2] -> SetBinContent(i,0.601);
+    if (plot_variation[0]-> GetBinContent(i) == 0)plot_variation[0]-> SetBinContent(i,0.601);
+  }
     
     
-    plot_variation[0] -> SetLineColor(kBlack);
-    plot_variation[0] -> SetLineWidth(1);
-    plot_variation[0]-> SetMarkerStyle(8);
-    plot_variation[0]-> SetMarkerColor(1);
+  plot_variation[0] -> SetLineColor(kBlack);
+  plot_variation[0] -> SetLineWidth(1);
+  plot_variation[0]-> SetMarkerStyle(8);
+  plot_variation[0]-> SetMarkerColor(1);
     
-    plot_variation[1] -> SetLineWidth(3);
-    plot_variation[1] -> SetLineColor(kRed);
-    plot_variation[2] -> SetLineWidth(3);
-    plot_variation[2] -> SetLineColor(kBlue);
+  plot_variation[1] -> SetLineWidth(3);
+  plot_variation[1] -> SetLineColor(kRed);
+  plot_variation[2] -> SetLineWidth(3);
+  plot_variation[2] -> SetLineColor(kBlue);
     
-    plot_variation[2]->SetMinimum(0.6);
-    plot_variation[2]->SetMaximum(1.4);
+  plot_variation[2]->SetMinimum(0.6);
+  plot_variation[2]->SetMaximum(1.4);
     
-    plot_variation[2] -> Draw("hist");
-    plot_variation[1] -> Draw("hist same");
-    plot_variation[0] -> Draw("ep same");
-    legend->Draw("same");
+  plot_variation[2] -> Draw("hist");
+  plot_variation[1] -> Draw("hist same");
+  plot_variation[0] -> Draw("ep same");
+  legend->Draw("same");
     
+
+
+  double high_flav=1.2;
+    double high_mll=1.1;
+    double high_mll2=0.65;
+
+    double left_mll=0.97;
     
+    TLine *line = new TLine(6.5,0.07,6.5, high_flav);
+    line->SetLineWidth(2);
+    line->Draw();
+    line = new TLine(12.5,0.07,12.5, high_flav);
+    line->SetLineWidth(2);
+    line->Draw();
+    //100000
     
-    Int_t ci;      // for color index setting
-    
-    TLine *line = new TLine(6.5,0.6,6.5,1.2);
+    line = new TLine(3.5,high_mll,2.5,0.1);
+    line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(12.5,0.6,12.5,1.2);
+    line = new TLine(9.5,high_mll,4.5,0.1);
+    line->SetLineStyle(2);
+    line->SetLineWidth(1);
+    line->Draw();
+    line = new TLine(15.5,high_mll,8.5,0.1);
+    line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
     
-    line = new TLine(2.5,1.1,2.5,0.6);
-    
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(4.5,1.1,4.5,0.6);
-    
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(8.5,1.1,8.5,0.6);
-    
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(10.5,1.1,10.5,0.6);
-    
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(14.5,1.1,14.5,0.6);
-    
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
-    line = new TLine(16.5,1.1,16.5,0.6);
-    
-    ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
-   ci = TColor::GetColor("#ff6600");
-    line->SetLineColor(ci);
-    line->SetLineWidth(1);
-    line->Draw();
+   
     TLatex *    tex = new TLatex(0.8748578,17546.74,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.031586,21625.48,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.25285,33424.77,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.492553,48185.32,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.66772,54433.15,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.833668,62571.47,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.907423,91788.17,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(2.598872,137012.8,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.584746,8013.302,"");
-    tex->SetLineWidth(1);
-    tex->Draw();
-    tex = new TLatex(1.12378,4134.047,"");
-    tex->SetTextSize(0.003034901);
-    tex->SetLineWidth(1);
-    tex->Draw();
-	//7000.46	
-    tex = new TLatex(0.9578318,0.65,"#DeltaR < 2cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
+    tex = new TLatex(left_mll,high_mll2,"M_{ll} < 4 GeV");
     tex->SetTextSize(0.02);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(2.857013,0.65,"#DeltaR [2,10]cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
+    tex = new TLatex(left_mll+3,high_mll2,"M_{ll} > 4 GeV");
     tex->SetTextSize(0.02);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(4.912923,0.65,"#DeltaR > 10cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
+
+    tex = new TLatex(left_mll+6,high_mll2,"M_{ll} < 4 GeV");
     tex->SetTextSize(0.02);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(0.9578318,0.65,"#DeltaR < 2cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
+    tex = new TLatex(left_mll+9,high_mll2,"M_{ll} > 4 GeV");
     tex->SetTextSize(0.02);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    
-    tex = new TLatex(6.9578318,0.65,"#DeltaR < 2cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
+
+    tex = new TLatex(left_mll+12,high_mll2,"M_{ll} < 4 GeV");
     tex->SetTextSize(0.02);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(8.857013,0.65,"#DeltaR [2,10]cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
+    tex = new TLatex(left_mll+15,high_mll2,"M_{ll} > 4 GeV");
     tex->SetTextSize(0.02);
+    tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(10.912923,0.65,"#DeltaR > 10cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
-    tex->SetTextSize(0.02);
+
+  //25000.83
+  if (channel == 0 ){        
+    tex = new TLatex(2.857013,0.7,"#mu#mu#mu");
+    tex->SetTextColor(1);
+    tex->SetTextSize(0.04);
     tex->SetLineWidth(2);
     tex->Draw();
-    
-    tex = new TLatex(12.9578318,0.65,"#DeltaR < 2cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
-    tex->SetTextSize(0.02);
+    tex = new TLatex(8.857013,0.7,"#mu^{#pm}#mu^{#mp}e");
+    tex->SetTextColor(1);
+    tex->SetTextSize(0.04);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(14.857013,0.65,"#DeltaR [2,10]cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
-    tex->SetTextSize(0.02);
+    tex = new TLatex(14.857013,0.7,"#mu^{#pm}#mu^{#pm}e");
+    tex->SetTextColor(1);
+    tex->SetTextSize(0.04);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(16.912923,0.65,"#DeltaR > 10cm");
-    
-    ci = TColor::GetColor("#ff6600");
-    tex->SetTextColor(ci);
-    tex->SetTextSize(0.02);
+  }
+  if (channel == 1){
+    tex = new TLatex(2.857013,0.7,"eee");
+    tex->SetTextColor(1);
+    tex->SetTextSize(0.04);
     tex->SetLineWidth(2);
     tex->Draw();
-    
-    //25000.83
-    if (channel == 0 ){        
-        tex = new TLatex(2.857013,0.7,"#mu#mu#mu");
-        tex->SetTextColor(1);
-        tex->SetTextSize(0.04);
-        tex->SetLineWidth(2);
-        tex->Draw();
-        tex = new TLatex(8.857013,0.7,"#mu^{#pm}#mu^{#mp}e");
-        tex->SetTextColor(1);
-        tex->SetTextSize(0.04);
-        tex->SetLineWidth(2);
-        tex->Draw();
-        tex = new TLatex(14.857013,0.7,"#mu^{#pm}#mu^{#pm}e");
-        tex->SetTextColor(1);
-        tex->SetTextSize(0.04);
-        tex->SetLineWidth(2);
-        tex->Draw();
-    }
-    if (channel == 1){
-        tex = new TLatex(2.857013,0.7,"eee");
-        tex->SetTextColor(1);
-        tex->SetTextSize(0.04);
-        tex->SetLineWidth(2);
-        tex->Draw();
-        tex = new TLatex(8,0.7,"e^{#pm}e^{#mp}#mu");
-        tex->SetTextColor(1);
-        tex->SetTextSize(0.04);
-        tex->SetLineWidth(2);
-        tex->Draw();
-        tex = new TLatex(13.857013,0.7,"e^{#pm}e^{#pm}#mu");
-        tex->SetTextColor(1);
-        tex->SetTextSize(0.04);
-        tex->SetLineWidth(2);
-        tex->Draw();
-    }
+    tex = new TLatex(8,0.7,"e^{#pm}e^{#mp}#mu");
+    tex->SetTextColor(1);
+    tex->SetTextSize(0.04);
+    tex->SetLineWidth(2);
+    tex->Draw();
+    tex = new TLatex(13.857013,0.7,"e^{#pm}e^{#pm}#mu");
+    tex->SetTextColor(1);
+    tex->SetTextSize(0.04);
+    tex->SetLineWidth(2);
+    tex->Draw();
+  }
     
     
     
     
-    //redraw axis over histograms
-    gPad->RedrawAxis();
-    //CMS_lumi(c,"Preliminary", true);
-    drawLumi(p1);
-    if (channel == 1){
-        c->SaveAs("plots_pdf/ele_SR/" + name_histo + ".pdf");
-        c->SaveAs("plots_root/ele_SR/"+ name_histo + ".root");
-    }
+  //redraw axis over histograms
+  gPad->RedrawAxis();
+  //CMS_lumi(c,"Preliminary", true);
+  //drawLumi(p1);
+	
+  if (channel == 1 )drawLumi(p1,1);	 
+  if (channel == 0 )drawLumi(p1,0);	
+  if (channel == 1){
+    c->SaveAs("plots_pdf/ele_SR/" + name_histo + ".pdf");
+    c->SaveAs("plots_root/ele_SR/"+ name_histo + ".root");
+  }
     
     
-    if (channel == 0){
-        c->SaveAs("plots_pdf/mu_SR/"+ name_histo + ".pdf");
-        c->SaveAs("plots_root/mu_SR/"+ name_histo + ".root");
-    }
+  if (channel == 0){
+    c->SaveAs("plots_pdf/mu_SR/"+ name_histo + ".pdf");
+    c->SaveAs("plots_root/mu_SR/"+ name_histo + ".root");
+  }
     
 }
-

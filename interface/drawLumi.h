@@ -4,13 +4,15 @@
 #include "TLatex.h"
 #include "TLine.h"
 
-void drawLumi(TPad*, const TString& extraText = "Preliminary", const bool data = true);
+void drawLumi(TPad*,int channel = 0, const TString& extraText = "Preliminary", const bool data = true );
 
 
-void drawLumi(TPad* pad, const TString& extraText, const bool data){
+void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data){
 	TString lumiText;
+	TString channelText;
 	if(data) lumiText = "35.9 fb^{-1} (13 TeV)";
 	else lumiText = "(13 TeV)";
+
 	//const float H = pad->GetWh();
   	//const float W = pad->GetWw();
   	const float l = pad->GetLeftMargin();
@@ -20,6 +22,7 @@ void drawLumi(TPad* pad, const TString& extraText, const bool data){
 
 	float CMSTextSize = pad->GetTopMargin()*0.6;
 	float lumiTextSize = pad->GetTopMargin()*0.4;
+	float channelTextSize = pad->GetTopMargin()*0.6;
 
 	//float CMSTextOffset = pad->GetTopMargin()*0.7;
 	float lumiTextOffset = pad->GetTopMargin()*0.7;
@@ -47,6 +50,13 @@ void drawLumi(TPad* pad, const TString& extraText, const bool data){
 	latex.SetTextAlign(31); //31
 	latex.SetTextSize(lumiTextSize);  
 	latex.DrawLatex(1-r,1-t+lumiTextOffset*t,lumiText);
+	
+	latex.SetTextFont(42);
+	latex.SetTextAlign(11); 
+	latex.SetTextSize(channelTextSize);	
+	if (channel == 0) latex.DrawLatex(l + 4.5*cmsX,1-t+lumiTextOffset*t,"#mu#mu + l");
+	if (channel == 1) latex.DrawLatex(l + 4.5*cmsX,1-t+lumiTextOffset*t,"ee + l");
+
 	return;
 }
 #endif

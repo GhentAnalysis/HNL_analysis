@@ -202,6 +202,7 @@ double Analysis_mc::PUWeight(){
   initializeWeights();
   //pileup reweighting
   double sf = puWeight();
+  if (sf == 0) 	std::cout<<_nTrueInt<<std::endl;
   if( _nTrueInt < 0){
     std::cerr << "Error: event with negative pileup, returning SF weight 0." << std::endl;
     return 0.;
@@ -683,7 +684,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
-
+   //if (samples[sam].isData()) continue; 
+	  
+	  
     if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
@@ -698,6 +701,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       hLheCounter->Read("lheCounter");
     }
 
+    //if (!isSignal)	continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     if(isSignal) {
@@ -865,6 +869,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
 	      index_to_use_for_l2_l3[0] = ind[l];
 	      index_to_use_for_l2_l3[1] = ind[j];
+	    }		    
 	    else{
 	      index_to_use_for_l2_l3[0] = ind[j];
 	      index_to_use_for_l2_l3[1] = ind[l];
@@ -1132,7 +1137,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // Pile UP!
       if (!samples[sam].isData()){	    
       	for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();	      
+	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();	 
+	  if (PUWeight() == 0) std::cout<<"-----------> pileup e' zero"<<std::endl;	
 	}     
       }      
 	    
@@ -1142,7 +1148,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       double btag_weight_down=1; 	    
       double btag_weight_up=1; 	 
 	  
-      
+       bjet_down_jec   = 0; 
+       bjet_up_jec   = 0; 
+       bjet_down_jer   = 0; 
+       bjet_up_jer   = 0; 
+
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
@@ -1160,12 +1170,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	weight_SR[w_loop][btag_index][2][effsam] = btag_weight_up;			
       }
       //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
-      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+      /*for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
 	if (bjet_up_jec != 0)   weight_SR[w_loop][jec_index][2][effsam] = 0.;
 	if (bjet_down_jer != 0) weight_SR[w_loop][jer_index][1][effsam] = 0.;
 	if (bjet_up_jer != 0)   weight_SR[w_loop][jer_index][2][effsam] = 0.;
-      }    
+      } */
+	    
+     
       // ------------------------- leptons SF uncertainties ------------------------- //    
       // Systematics on displaced electrons
       double displEleWeight = 1.;
@@ -1202,7 +1214,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
 	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
 	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
-          
       }
       if(SR_channel > 2) {      
 	weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
@@ -1215,7 +1226,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
 	  weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
 	}      
-      }    	    
+      } 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
@@ -1299,9 +1310,15 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
-	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[muon_case][iSystematics][0][effsam];
-	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[ele_case][iSystematics][0][effsam];
-	      if (iSystematics!=jec_index && iSystematics!=jer_index){
+	      if (weight_SR[muon_case][iSystematics][0][effsam]!=0 && SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[muon_case][iSystematics][0][effsam];
+	      if (weight_SR[ele_case][iSystematics][0][effsam] !=0 && SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[ele_case][iSystematics][0][effsam];
+		    
+	      if (weight_SR[muon_case][iSystematics][0][effsam]==0 && SR_channel <= 2 )central_divided_by_sys_muon  =  0.;
+	      if (weight_SR[ele_case][iSystematics][0][effsam] ==0 && SR_channel > 2 ) central_divided_by_sys_ele   =  0.;   
+	      if (SR_channel <= 2 && weight_SR[muon_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero muon ----------------------------------  "<<systNames[iSystematics]<< " var: "<< iVariation<<std::endl;
+	      if (SR_channel > 2 && weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ele ----------------------------------  "<<systNames[iSystematics]<< " var: "<< iVariation<<std::endl;
+    
+	     if (iSystematics!=jec_index && iSystematics!=jer_index){
 	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
 	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);					
 	      }
@@ -2163,12 +2180,13 @@ for(int cha = 0; cha < nCoupling; ++cha){
 //_______________________________________________________ constructor_____
 void Analysis_mc::put_at_zero(TH1D *histo){
   for (int i =0; i < histo-> GetNbinsX(); i++){
-
+    if (std::isnan(histo->GetBinContent( i+1))) std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;
+	  
     double error_original =0;
     double error_to_add =0;
     double error_final =0;
 
-    if (histo->GetBinContent( i+1)  <= 0  || std::isnan(histo->GetBinContent( i+1)) {
+    if (histo->GetBinContent( i+1)  <= 0  || std::isnan(histo->GetBinContent( i+1))) {
       error_original = histo-> GetBinError(i+1);
       error_to_add = histo-> GetBinContent(i+1);
       error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
