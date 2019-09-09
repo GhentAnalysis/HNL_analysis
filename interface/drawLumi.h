@@ -4,16 +4,16 @@
 #include "TLatex.h"
 #include "TLine.h"
 
-void drawLumi(int channel = 0,TPad*, const TString& extraText = "Preliminary", const bool data = true );
+void drawLumi(TPad*,int channel = 0, const TString& extraText = "Preliminary", const bool data = true );
 
 
-void drawLumi(int channel,TPad* pad, const TString& extraText, const bool data){
+void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data){
 	TString lumiText;
 	TString channelText;
 	if(data) lumiText = "35.9 fb^{-1} (13 TeV)";
 	else lumiText = "(13 TeV)";
 	if (channel == 0) channelText= "#mu#mu + l";
-	if (channel == 1) channelText= "ee + l"
+	if (channel == 1) channelText= "ee + l";
 
 	//const float H = pad->GetWh();
   	//const float W = pad->GetWw();
