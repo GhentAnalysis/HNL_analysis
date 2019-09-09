@@ -1628,7 +1628,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }//end histo  
     
   	
-
+/*
 	
 for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
@@ -1655,7 +1655,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
 				   2);}  
     }//t
   }
-			
+	*/		
   std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
   std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
   for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
