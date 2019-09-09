@@ -120,14 +120,14 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   bkgStack = new THStack("bkgStack", "bkgStack");
   for(int effsam = nHist -1; effsam > -1 ; --effsam){
     StackCol(bkg[effsam], colors[effsam]);
-    if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetFillStyle(3020); 
+    //if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetFillStyle(3020); 
     bkgStack->Add(bkg[effsam], "f");
   }
     
   if(signames==nullptr) {} // dummy, just to avoid warning
     
   //Make a legend for data and all backgrounds
-  TLegend* legend = new TLegend(0.16,0.75,0.95,0.87,NULL,"brNDC");
+  TLegend* legend = new TLegend(0.16,0.75,0.92,0.87,NULL,"brNDC");
     
   legend->SetFillStyle(0);
     
@@ -181,7 +181,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     else if (names[histI[effsam] + 1 + nSig] == "nonprompt DF") legend->AddEntry(bkg[effsam], "nonprompt DF");
     else if (names[histI[effsam] + 1 + nSig] == "DY") legend->AddEntry(bkg[effsam], "Z#gamma^{*}"); 
     else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
-    legend->     SetNColumns(5);
+    legend->     SetNColumns(4);
   }
 
   if (istogramma == 1 ){
@@ -212,6 +212,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   }
 
   // isotgramma delle SR --> linee e roba varia
+TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10"};	   
+	
   if (istogramma == 0 ){
     signal[0]->SetStats(0);
     signal[0]-> GetXaxis()->LabelsOption("vu");
@@ -219,8 +221,11 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]->GetXaxis()->SetTitleSize(0.06);
     signal[0]->GetXaxis()->SetTitleOffset(1.1);
     signal[0]->GetXaxis() ->SetTitleFont(132);
-    signal[0]-> GetXaxis()->SetBinLabel(1, " 0-2");
-    signal[0]-> GetXaxis()->SetBinLabel(2, " 2-10");
+    for (int i =0; i<18; i++){	  
+    signal[0]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
+ }					     
+						     
+   /* signal[0]-> GetXaxis()->SetBinLabel(2, " 2-10");
     signal[0]-> GetXaxis()->SetBinLabel(3, " >10");
     signal[0]-> GetXaxis()->SetBinLabel(4, " 0-2");
     signal[0]-> GetXaxis()->SetBinLabel(5, " 2-10");
@@ -236,7 +241,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]-> GetXaxis()->SetBinLabel(15, ">10");
     signal[0]-> GetXaxis()->SetBinLabel(16, "0-2");
     signal[0]-> GetXaxis()->SetBinLabel(17, "2-10");
-    signal[0]-> GetXaxis()->SetBinLabel(18, ">10");
+    signal[0]-> GetXaxis()->SetBinLabel(18, ">10");*/
     
     signal[10]->SetStats(0);
     signal[10]-> GetXaxis()->LabelsOption("vu");
@@ -244,7 +249,10 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[10]->GetXaxis()->SetTitleSize(0.06);
     signal[10]->GetXaxis()->SetTitleOffset(1.1);
     signal[10]->GetXaxis() ->SetTitleFont(132);
-    signal[10]-> GetXaxis()->SetBinLabel(1, "0-2");
+	  for (int i =0; i<18; i++){	  
+    signal[10]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
+ }
+    /*signal[10]-> GetXaxis()->SetBinLabel(1, "0-2");
     signal[10]-> GetXaxis()->SetBinLabel(2, "2-10");
     signal[10]-> GetXaxis()->SetBinLabel(3, ">10");
     signal[10]-> GetXaxis()->SetBinLabel(4, "0-2");
@@ -262,7 +270,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[10]-> GetXaxis()->SetBinLabel(16, "0-2");
     signal[10]-> GetXaxis()->SetBinLabel(17, "2-10");
     signal[10]-> GetXaxis()->SetBinLabel(18, ">10");
-
+*/
 
     signal[0]-> GetXaxis()->SetLabelSize(0.05);
     signal[0]-> GetXaxis()->SetLabelOffset(0.01);
