@@ -236,7 +236,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]-> GetXaxis()->SetBinLabel(15, ">10");
     signal[0]-> GetXaxis()->SetBinLabel(16, "0-2");
     signal[0]-> GetXaxis()->SetBinLabel(17, "2-10");
-    signal[0]-> GetXaxis()->SetBinLabel(18, ">10");
+    signal[0]-> GetXaxis()->SetBinLabel(18, "pippo");
     
     signal[10]->SetStats(0);
     signal[10]-> GetXaxis()->LabelsOption("vu");
