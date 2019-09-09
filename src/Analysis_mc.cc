@@ -1288,7 +1288,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      double central_divided_by_sys_muon= 1.;
 	      if (SR_channel <= 2 )central_divided_by_sys_muon  =  central_total_weight_mu/weight_SR[muon_case][iSystematics][0][effsam];
 	      if (SR_channel > 2 ) central_divided_by_sys_ele   =  central_total_weight_ele/weight_SR[ele_case][iSystematics][0][effsam];
-	      if (iSystematics!=jec_index && iSystematics!=jer_index){
+	     if (weight_SR[muon_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ----------------------------------  "<<std::endl;
+	     if (weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ----------------------------------  "<<std::endl;
+    
+	     if (iSystematics!=jec_index && iSystematics!=jer_index){
 	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
 	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);					
 	      }
@@ -2122,7 +2125,8 @@ for(int cha = 0; cha < nCoupling; ++cha){
 //_______________________________________________________ constructor_____
 void Analysis_mc::put_at_zero(TH1D *histo){
   for (int i =0; i < histo-> GetNbinsX(); i++){
-
+    if (std::isnan(histo->GetBinContent( i+1))) std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;
+	  
     double error_original =0;
     double error_to_add =0;
     double error_final =0;
