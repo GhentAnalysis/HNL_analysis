@@ -1533,6 +1533,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
+	if (isSRRun) sum_expected_SR_plotting[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();				
 	if (isSRRun) sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();				
       }//end loop up-down		
     }// end loop on sys
@@ -1546,7 +1547,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
 	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
-	    if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	  	if (isSRRun)sum_expected_SR_plotting[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+		if (isSRRun)sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
 	  }
 	}
       }
@@ -1626,10 +1628,53 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }//end histo  
     
   	
- 
+
+	
+for(int cha = 0; cha < nCoupling; ++cha){	
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+      for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	signals_SR[0] =(TH1D*)plots_SR[cha][iSystematics][0][signal_sample+1]->Clone() ;
+	signals_SR[1] =(TH1D*)plots_SR[cha][iSystematics][1][signal_sample+1]->Clone() ;     
+	signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
+	if (isSRRun){plotDataVSMC_SR(999,cha,
+				     *&signals_SR,
+				     chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
+				     2);}  
+      }   
+    }//t
+  }	
+	 
+	
+  for(int cha = 0; cha < nCoupling; ++cha){	
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys	   	    
+      if (isSRRun){plotDataVSMC_SR(999,cha,
+				   *&sum_expected_SR_plotting[cha][iSystematics],
+				   chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
+				   2);}  
+    }//t
+  }
+			
+  std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
+  std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
+  for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<<" . random bin: "<<plots_SR[0][0][0][effsam1]->GetBinContent(8)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][1][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][2][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
+
+  }	  
+  std::cout<<""<<std::endl;
+  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+    std::cout<<"signal "<<	signal_sample<<") "<<plots_SR[0][0][0][signal_sample+1] -> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<<std::endl;	 
+  }	 
+	
+	
+	
+	
  	
 	
-  // }
+  
   
   
   ////////////////                           ////////////////
@@ -2045,47 +2090,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }//loop sty		
   // } // end if(systcat!=0)
   
-  for(int cha = 0; cha < nCoupling; ++cha){	
-    if (cha == 2) continue; // no taus for the moment
-    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-      for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	signals_SR[0] =(TH1D*)plots_SR[cha][iSystematics][0][signal_sample+1]->Clone() ;
-	signals_SR[1] =(TH1D*)plots_SR[cha][iSystematics][1][signal_sample+1]->Clone() ;     
-	signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
-	/*if (isSRRun){plotDataVSMC_SR(999,cha,
-				     *&signals_SR,
-				     chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
-				     2);}  */
-      }   
-    }//t
-  }	
-		
-
-  std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
-  std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
-  for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<<" . random bin: "<<plots_SR[0][0][0][effsam1]->GetBinContent(8)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][1][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][2][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
-
-  }	  
-  std::cout<<""<<std::endl;
-  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-    std::cout<<"signal "<<	signal_sample<<") "<<plots_SR[0][0][0][signal_sample+1] -> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<<std::endl;	 
-  }	 
-	
-	
-  for(int cha = 0; cha < nCoupling; ++cha){	
-    if (cha == 2) continue; // no taus for the moment
-    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-      /*if (isSRRun){plotDataVSMC_SR(999,cha,
-				   *&sum_expected_SR[cha][iSystematics],
-				   chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
-				   2);}  */
-    }//t
-  }
-	
-	
+  
 	
   std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
 
