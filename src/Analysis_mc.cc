@@ -1614,7 +1614,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	if (isSRRun){plotDataVSMC(cat,cha,dist,
+	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
 				  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 				  eff_names,numer_plot_class ,
 				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
@@ -1627,7 +1627,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				   true,
 				   2, true, signals,  sigNames_short, nSamples_signal, true);}
-			  
+	*/		  
       }
     }//end cat
   }//end histo  
