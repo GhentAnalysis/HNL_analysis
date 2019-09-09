@@ -430,7 +430,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	signal[sig]->SetMarkerColor(sigCols[sig-10]);
 	signal[sig]->SetLineWidth(4);
       }
-      legend->SetTextFont(13);
+      legend->SetTextFont(42);
       legend->AddEntry(signal[sig], signames[sig]);
 
       //if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "m_{N}=1 GeV");
@@ -456,8 +456,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
     
   for(int effsam = nHist - 1; effsam > -1; --effsam){
-	  legend->SetTextFont(13);
-	  if (names[histI[effsam] + 1 + nSig] != "Xgamma"  && names[histI[effsam] + 1 + nSig] != "nonprompt SF"  && names[histI[effsam] + 1 + nSig] != "nonprompt DF" && names[histI[effsam] + 1 + nSig] != "DY") continue;
+	  legend->SetTextFont(42);
+	  if (names[histI[effsam] + 1 + nSig] != "TTX"  && names[histI[effsam] + 1 + nSig] != "Xgamma"  && names[histI[effsam] + 1 + nSig] != "nonprompt SF"  && names[histI[effsam] + 1 + nSig] != "nonprompt DF" && names[histI[effsam] + 1 + nSig] != "DY") continue;
 	  if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
 	  else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "Other");
 	  else if (names[histI[effsam] + 1 + nSig] == "nonprompt SF") legend->AddEntry(bkg[effsam], "nonprompt SF");
