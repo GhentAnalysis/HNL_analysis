@@ -273,9 +273,9 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
 */
 
     signal[0]-> GetXaxis()->SetLabelSize(0.05);
-    signal[0]-> GetXaxis()->SetLabelOffset(0.01);
+    signal[0]-> GetXaxis()->SetLabelOffset(0.0);
     signal[10]-> GetXaxis()->SetLabelSize(0.05);
-    signal[10]-> GetXaxis()->SetLabelOffset(0.01);
+    signal[10]-> GetXaxis()->SetLabelOffset(0.0);
 	    	    
   }
     
@@ -368,7 +368,6 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
       }
     }
   }
-     legend->Draw("same");
  
   //Draw signal plots
   if(plotsig){
@@ -393,9 +392,10 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
   }
     
   bkgStack->Draw("hist same ");
-	
-  	gPad->Modified();
-	gPad->Update();	
+  legend->Draw("same");
+
+   gPad->Modified();
+ gPad->Update();	
 	
   bkgTot->Draw("e2same");
   if(plotsig){
