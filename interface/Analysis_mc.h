@@ -1004,7 +1004,29 @@ class Analysis_mc : public TObject {
   };
 
   const TString sigNames_short[nSamples_signal] = {
-    "M=1 V=0.0949 #mu",
+    "M=1 V=0.0949",
+    "M=1 V=0.2123",
+    "M=2 V=0.0110",
+    "M=2 V=0.0248",
+    "M=3 V=0.0070",
+    "M=4 V=0.0029",
+    "M=5 V=0.0014",
+    "M=6 V=0.0020",
+    "M=8 V=0.0015",
+    "M=10 V=0.0007",
+    "M=1 V=0.0949",
+    "M=1 V=0.2123",
+    "M=2 V=0.0110",
+    "M=2 V=0.0248",
+    "M=3 V=0.0070",
+    "M=4 V=0.0029",
+    "M=5 V=0.0014",
+    "M=6 V=0.0020",
+    "M=8 V=0.0015",
+    "M=10 V=0.0007",
+  };
+	
+	/*"M=1 V=0.0949 #mu",
     "M=1 V=0.2123 #mu",
     "M=2 V=0.0110 #mu",
     "M=2 V=0.0248 #mu",
@@ -1023,8 +1045,8 @@ class Analysis_mc : public TObject {
     "M=5 V=0.0014 e",
     "M=6 V=0.0020 e",
     "M=8 V=0.0015 e",
-    "M=10 V=0.0007 e"
-  };
+    "M=10 V=0.0007 e"*/
+	
 
   const static int nCat=7;
   const static int nChannel=8;
