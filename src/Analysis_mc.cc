@@ -851,8 +851,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
 	      index_to_use_for_l2_l3[0] = ind[l];
 	      index_to_use_for_l2_l3[1] = ind[j];
-	    }
-	    if (_lPt[ind[l]] < _lPt[ind[j]]){
+	    else{
 	      index_to_use_for_l2_l3[0] = ind[j];
 	      index_to_use_for_l2_l3[1] = ind[l];
 	    }	    
