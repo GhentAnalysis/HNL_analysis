@@ -214,7 +214,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   // isotgramma delle SR --> linee e roba varia
   if (istogramma == 0 ){
     signal[0]->SetStats(0);
-    signal[0]-> GetXaxis()->LabelsOption("v");
+    signal[0]-> GetXaxis()->LabelsOption("vu");
     signal[0]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");	  
     signal[0]->GetXaxis()->SetTitleSize(0.06);
     signal[0]->GetXaxis()->SetTitleOffset(1.1);
@@ -239,7 +239,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]-> GetXaxis()->SetBinLabel(18, ">10");
     
     signal[10]->SetStats(0);
-    signal[10]-> GetXaxis()->LabelsOption("v");
+    signal[10]-> GetXaxis()->LabelsOption("vu");
     signal[10]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");
     signal[10]->GetXaxis()->SetTitleSize(0.06);
     signal[10]->GetXaxis()->SetTitleOffset(1.1);
