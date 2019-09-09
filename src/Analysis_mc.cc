@@ -675,7 +675,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
-if (samples[sam].isData()) continue; 
+   if (samples[sam].isData()) continue; 
+	  
+	  
     if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
@@ -684,6 +686,7 @@ if (samples[sam].isData()) continue;
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
     
+    if (!isSignal)	continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
     if(isSignal) {
