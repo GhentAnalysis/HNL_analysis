@@ -1161,9 +1161,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	if (bjet_up_jer != 0)   weight_SR[w_loop][jer_index][2][effsam] = 0.;
       } */
 	    
-      std::cout<<"bjet_down_jec: "<< bjet_down_jec<<" bjet_up_jec: "<<bjet_up_jec<<std::endl; 
-      std::cout<<"bjet_down_jer: "<< bjet_down_jer<<" bjet_up_jer: "<<bjet_up_jer<<std::endl; 
-    
+     
       // ------------------------- leptons SF uncertainties ------------------------- //    
       // Systematics on displaced electrons
       double displEleWeight = 1.;
