@@ -2082,7 +2082,6 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	  for(unsigned bkg=0; bkg<nBkg-2; ++bkg) {
 	    rootfile->cd(); 	
 	    std::cout<<" in the data card root file: variation "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
-
 	    plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
 	  }
 	  rootfile->Close();
