@@ -273,9 +273,9 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
 */
 
     signal[0]-> GetXaxis()->SetLabelSize(0.05);
-    signal[0]-> GetXaxis()->SetLabelOffset(0.0);
+    signal[0]-> GetXaxis()->SetLabelOffset(0.005);
     signal[10]-> GetXaxis()->SetLabelSize(0.05);
-    signal[10]-> GetXaxis()->SetLabelOffset(0.0);
+    signal[10]-> GetXaxis()->SetLabelOffset(0.005);
 	    	    
   }
     
