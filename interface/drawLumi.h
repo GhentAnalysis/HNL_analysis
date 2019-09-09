@@ -4,10 +4,10 @@
 #include "TLatex.h"
 #include "TLine.h"
 
-void drawLumi(TPad*, const TString& extraText = "Preliminary", const bool data = true, int channel = 0;);
+void drawLumi(int channel = 0,TPad*, const TString& extraText = "Preliminary", const bool data = true );
 
 
-void drawLumi(TPad* pad, const TString& extraText, const bool data, int channel){
+void drawLumi(int channel,TPad* pad, const TString& extraText, const bool data){
 	TString lumiText;
 	TString channelText;
 	if(data) lumiText = "35.9 fb^{-1} (13 TeV)";
