@@ -134,8 +134,8 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   //Add signal to the legenD
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
-      if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16) continue;
+	    
+      if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
       signal[sig]->SetLineColor(sigCols[sig]);
@@ -236,7 +236,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]-> GetXaxis()->SetBinLabel(15, ">10");
     signal[0]-> GetXaxis()->SetBinLabel(16, "0-2");
     signal[0]-> GetXaxis()->SetBinLabel(17, "2-10");
-    signal[0]-> GetXaxis()->SetBinLabel(18, "pippo");
+    signal[0]-> GetXaxis()->SetBinLabel(18, ">10");
     
     signal[10]->SetStats(0);
     signal[10]-> GetXaxis()->LabelsOption("vu");
@@ -385,10 +385,9 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   bkgTot->Draw("e2same");
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
+      if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
-     if (sig == 2 || sig == 12 ||  sig == 6 || sig == 16) continue;
 
       if(signorm && signal[sig]->GetSumOfWeights() != 0) signal[sig]->Scale(bkgTot->GetSumOfWeights()/ signal[sig]->GetSumOfWeights());
       signal[sig]->SetMinimum(0.1);
