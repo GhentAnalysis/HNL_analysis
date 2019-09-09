@@ -54,8 +54,8 @@ void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data){
 	latex.SetTextFont(42);
 	latex.SetTextAlign(11); 
 	latex.SetTextSize(channelTextSize);	
-	if (channel == 0) latex.DrawLatex(l + 2.5*cmsX,1-t+lumiTextOffset*t,"#mu#mu + l");
-	if (channel == 1) latex.DrawLatex(l + 2.5*cmsX,1-t+lumiTextOffset*t,"ee + l");
+	if (channel == 0) latex.DrawLatex(l + 4.5*cmsX,1-t+lumiTextOffset*t,"#mu#mu + l");
+	if (channel == 1) latex.DrawLatex(l + 4.5*cmsX,1-t+lumiTextOffset*t,"ee + l");
 
 	return;
 }
