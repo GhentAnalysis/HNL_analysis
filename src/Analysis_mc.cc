@@ -1983,6 +1983,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	rootfile->cd();
 	// Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	 std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
 	float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
 	//float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
 	if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
@@ -2080,7 +2081,9 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
 	  
 	  for(unsigned bkg=0; bkg<nBkg-2; ++bkg) {
-	    rootfile->cd(); 	  
+	    rootfile->cd(); 	
+	    std::cout<<" in the data card root file: variation "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
+
 	    plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
 	  }
 	  rootfile->Close();
