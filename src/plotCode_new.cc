@@ -214,11 +214,11 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   // isotgramma delle SR --> linee e roba varia
   if (istogramma == 0 ){
     signal[0]->SetStats(0);
+    signal[0]-> GetXaxis()->LabelsOption("v");
     signal[0]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");	  
     signal[0]->GetXaxis()->SetTitleSize(0.06);
-    signal[0]->GetXaxis()->SetTitleOffset(1);
+    signal[0]->GetXaxis()->SetTitleOffset(1.1);
     signal[0]->GetXaxis() ->SetTitleFont(132);
-    signal[0]-> GetXaxis()->LabelsOption("v");
     signal[0]-> GetXaxis()->SetBinLabel(1, "0-2");
     signal[0]-> GetXaxis()->SetBinLabel(2, "2-10");
     signal[0]-> GetXaxis()->SetBinLabel(3, ">10");
@@ -239,11 +239,11 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]-> GetXaxis()->SetBinLabel(18, ">10");
     
     signal[10]->SetStats(0);
+    signal[10]-> GetXaxis()->LabelsOption("v");
     signal[10]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");
     signal[10]->GetXaxis()->SetTitleSize(0.06);
-    signal[10]->GetXaxis()->SetTitleOffset(1);
+    signal[10]->GetXaxis()->SetTitleOffset(1.1);
     signal[10]->GetXaxis() ->SetTitleFont(132);
-    signal[10]-> GetXaxis()->LabelsOption("v");
     signal[10]-> GetXaxis()->SetBinLabel(1, "0-2");
     signal[10]-> GetXaxis()->SetBinLabel(2, "2-10");
     signal[10]-> GetXaxis()->SetBinLabel(3, ">10");
@@ -413,17 +413,17 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     line->Draw();
     //100000
     
-    line = new TLine(3.5,high_mll,2.5,0.1);
+    line = new TLine(3.5,high_mll,3.5,0.1);
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(9.5,high_mll,4.5,0.1);
+    line = new TLine(9.5,high_mll,9.5,0.1);
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(15.5,high_mll,8.5,0.1);
+    line = new TLine(15.5,high_mll,15.5,0.1);
     ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
@@ -432,34 +432,34 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
    
     TLatex *    tex = new TLatex(0.8748578,17546.74,"");
     tex = new TLatex(left_mll,high_mll,"M_{ll} < 4 GeV");
-    tex->SetTextSize(0.02);
+    tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(left_mll+3,high_mll,"M_{ll} > 4 GeV");
-    tex->SetTextSize(0.02);
+    tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
 
     tex = new TLatex(left_mll+6,high_mll,"M_{ll} < 4 GeV");
-    tex->SetTextSize(0.02);
+    tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(left_mll+9,high_mll,"M_{ll} > 4 GeV");
-    tex->SetTextSize(0.02);
+    tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
 
     tex = new TLatex(left_mll+12,high_mll,"M_{ll} < 4 GeV");
-    tex->SetTextSize(0.02);
+    tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
     tex = new TLatex(left_mll+15,high_mll,"M_{ll} > 4 GeV");
-    tex->SetTextSize(0.02);
+    tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
