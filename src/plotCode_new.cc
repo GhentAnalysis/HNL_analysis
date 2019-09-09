@@ -394,8 +394,8 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
   bkgStack->Draw("hist same ");
   legend->Draw("same");
 
-   gPad->Modified();
- gPad->Update();	
+  // gPad->Modified();
+// gPad->Update();	
 	
   bkgTot->Draw("e2same");
   if(plotsig){
