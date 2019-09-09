@@ -1976,7 +1976,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
       }
       card << "\n";
       card << left << std::setw(2*ntab) << "rate";
-      card << left << std::setw(ntab)   << std::setprecision(7) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
+      card << left << std::setw(ntab)   << std::setprecision(5) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
 
       for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	rootfile->cd();
