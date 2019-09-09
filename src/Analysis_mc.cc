@@ -1122,7 +1122,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // Pile UP!
       if (!samples[sam].isData()){	    
       	for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();	      
+	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();	 
+	  if (PUWeight() == 0) std::cout<<"-----------> pileup e' zero"<<std::endl;	
 	}     
       }      
 	    
@@ -1210,7 +1211,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
 	  weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
 	}      
-      }    	    
+      } 	    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
