@@ -668,17 +668,14 @@ void plotDataVSMC_SR(int categoria,int channel,
     //100000
     
     line = new TLine(3.5,high_mll,2.5,0.1);
-    ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(9.5,high_mll,4.5,0.1);
-    ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(15.5,high_mll,8.5,0.1);
-    ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
