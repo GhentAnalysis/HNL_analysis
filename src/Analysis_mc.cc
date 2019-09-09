@@ -1190,7 +1190,7 @@ if (samples[sam].isData()) continue;
 	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
 	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
         std::cout<<"sf trigger µ; "<<SF_trigger_muon(*&sf_trigger_muon, l1) <<" . " << SF_trigger_muon_error(*&sf_trigger_muon, l1)<<std::endl;
-        std::cout<<"sf trigger µ; "<<SF_prompt_muon(*&sf_trigger_muon, l1) <<" . " << SF_prompt_muon_error(*&sf_trigger_muon, l1)<<std::endl;
+        std::cout<<"sf trigger µ; "<<SF_prompt_muon(*&sf_prompt_muon, l1) <<" . " << SF_prompt_muon_error(*&sf_prompt_muon_syst, l1)<<std::endl;
 
       }
       if(SR_channel > 2) {      
