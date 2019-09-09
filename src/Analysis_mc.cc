@@ -707,7 +707,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/1000; ++it) {
+    for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
