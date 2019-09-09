@@ -1825,8 +1825,10 @@ for(int cha = 0; cha < nCoupling; ++cha){
   //                       Type     Correl.   Processes
   //                       -------  --------  -------------------------------------------------------------
   procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["qcd"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pdf"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+  procPerSyst["pdfShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["pEle"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
   procPerSyst["npEle"   ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
