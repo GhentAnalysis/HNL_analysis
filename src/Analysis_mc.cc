@@ -1150,12 +1150,16 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	weight_SR[w_loop][btag_index][2][effsam] = btag_weight_up;			
       }
       //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
-      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+      /*for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
 	if (bjet_up_jec != 0)   weight_SR[w_loop][jec_index][2][effsam] = 0.;
 	if (bjet_down_jer != 0) weight_SR[w_loop][jer_index][1][effsam] = 0.;
 	if (bjet_up_jer != 0)   weight_SR[w_loop][jer_index][2][effsam] = 0.;
-      }    
+      } */
+	    
+      std::cout<<"bjet_down_jec: "<< bjet_down_jec<<" bjet_up_jec: "<<bjet_up_jec<<std::endl; 
+      std::cout<<"bjet_down_jer: "<< bjet_down_jer<<" bjet_up_jer: "<<bjet_up_jer<<std::endl; 
+    
       // ------------------------- leptons SF uncertainties ------------------------- //    
       // Systematics on displaced electrons
       double displEleWeight = 1.;
