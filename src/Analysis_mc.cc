@@ -2078,10 +2078,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-      if (isSRRun){plotDataVSMC_SR(999,cha,
+      /*if (isSRRun){plotDataVSMC_SR(999,cha,
 				   *&sum_expected_SR[cha][iSystematics],
 				   chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
-				   2);}  
+				   2);}  */
     }//t
   }
 	
