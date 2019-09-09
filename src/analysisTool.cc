@@ -119,7 +119,7 @@ double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned lept
    double sfValue = 1;  	
    int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
    int biny = 0.;
-   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetNbins())); 
+   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetYaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetYaxis()->GetNbins())); 
    else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]); 	
 	
 	
