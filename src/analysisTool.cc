@@ -7,30 +7,37 @@ int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10,
   int bin = -1;
   if (channel == 0 || channel == 1 || channel == 2  ){
     if (channel == 0){
-      if (less2 && less5)    bin =1;
+      if (less5 && less2)    bin =1;
+      if (less5 && more2_10) bin =2;
+      if (less5 && more10)   bin =3;
+      if (more5 && less2)    bin =4;
+      if (more5 && more2_10) bin =5;
+      if (more5 && more10)   bin =6;
+	    
+     /* if (less2 && less5)    bin =1;
       if (less2 && more5)    bin =2;
       if (more2_10 && less5) bin =3;
       if (more2_10 && more5) bin =4;
       if (more10 && less5)   bin =5;
-      if (more10 && more5)   bin =6;
+      if (more10 && more5)   bin =6;*/	    
 
     }
     if (channel == 1){
-      if (less2 && less5)    bin =7;
-      if (less2 && more5)    bin =8;
-      if (more2_10 && less5) bin =9;
-      if (more2_10 && more5) bin =10;
-      if (more10 && less5)   bin =11;
-      if (more10 && more5)   bin =12;
+      if (less5 && less2)    bin =7;
+      if (less5 && more2_10) bin =8;
+      if (less5 && more10)   bin =9;
+      if (more5 && less2)    bin =10;
+      if (more5 && more2_10) bin =11;
+      if (more5 && more10)   bin =12;
 
     }
     if (channel == 2){
-      if (less2 && less5)    bin =13;
-      if (less2 && more5)    bin =14;
-      if (more2_10 && less5) bin =15;
-      if (more2_10 && more5) bin =16;
-      if (more10 && less5)   bin =17;
-      if (more10 && more5)   bin =18;
+      if (less5 && less2)    bin =13;
+      if (less5 && more2_10) bin =14;
+      if (less5 && more10)   bin =15;
+      if (more5 && less2)    bin =16;
+      if (more5 && more2_10) bin =17;
+      if (more5 && more10)   bin =18;
     }
   }
   return bin;
@@ -41,29 +48,29 @@ int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, 
   int bin = -1;
   if (channel == 3 || channel == 4 || channel == 5  ){
     if (channel == 3){
-      if (less2 && less5)    bin =1;
-      if (less2 && more5)    bin =2;
-      if (more2_10 && less5) bin =3;
-      if (more2_10 && more5) bin =4;
-      if (more10 && less5)   bin =5;
-      if (more10 && more5)   bin =6;
+      if (less5 && less2)    bin =1;
+      if (less5 && more2_10) bin =2;
+      if (less5 && more10)   bin =3;
+      if (more5 && less2)    bin =4;
+      if (more5 && more2_10) bin =5;
+      if (more5 && more10)   bin =6;
     }
     if (channel == 4){
-      if (less2 && less5)    bin =7;
-      if (less2 && more5)    bin =8;
-      if (more2_10 && less5) bin =9;
-      if (more2_10 && more5) bin =10;
-      if (more10 && less5)   bin =11;
-      if (more10 && more5)   bin =12;
+       if (less5 && less2)    bin =7;
+      if (less5 && more2_10) bin =8;
+      if (less5 && more10)   bin =9;
+      if (more5 && less2)    bin =10;
+      if (more5 && more2_10) bin =11;
+      if (more5 && more10)   bin =12;
 
     }
     if (channel == 5){
-      if (less2 && less5)    bin =13;
-      if (less2 && more5)    bin =14;
-      if (more2_10 && less5) bin =15;
-      if (more2_10 && more5) bin =16;
-      if (more10 && less5)   bin =17;
-      if (more10 && more5)   bin =18;
+       if (less5 && less2)    bin =13;
+      if (less5 && more2_10) bin =14;
+      if (less5 && more10)   bin =15;
+      if (more5 && less2)    bin =16;
+      if (more5 && more2_10) bin =17;
+      if (more5 && more10)   bin =18;
 
     }
   }
