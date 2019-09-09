@@ -1608,7 +1608,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
+	if (isSRRun){plotDataVSMC(cat,cha,dist,
 				  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 				  eff_names,numer_plot_class ,
 				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
@@ -1621,13 +1621,13 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				   true,
 				   2, true, signals,  sigNames_short, nSamples_signal, true);}
-	*/		  
+			  
       }
     }//end cat
   }//end histo  
     
   	
-/*
+
 	
 for(int cha = 0; cha < nCoupling; ++cha){	
     if (cha == 2) continue; // no taus for the moment
@@ -1654,7 +1654,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
 				   2);}  
     }//t
   }
-	*/		
+			
   std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
   std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
   for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
@@ -1982,7 +1982,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	rootfile->cd();
 	// Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	 std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
+	// std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
 	float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
 	//float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
 	if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
@@ -2081,7 +2081,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	  
 	  for(unsigned bkg=0; bkg<nBkg-2; ++bkg) {
 	    rootfile->cd(); 	
-	    std::cout<<" in the data card root file: variation "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
+	    //std::cout<<" in the data card root file: variation "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
 	    plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
 	  }
 	  rootfile->Close();
@@ -2126,11 +2126,11 @@ void Analysis_mc::put_at_zero(TH1D *histo){
     double error_to_add =0;
     double error_final =0;
 
-    if (histo->GetBinContent( i+1)  <= 0) {
+    if (histo->GetBinContent( i+1)  <= 0  || std::isnan(histo->GetBinContent( i+1)) {
       error_original = histo-> GetBinError(i+1);
       error_to_add = histo-> GetBinContent(i+1);
       error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
-      histo-> SetBinContent(i+1, 0.000001);
+      histo-> SetBinContent(i+1, 0.00001);
       histo-> SetBinError(i+1, error_final);
     }
   }
