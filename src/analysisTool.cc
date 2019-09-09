@@ -138,7 +138,9 @@ double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned le
    }
    else { // it means that xaxis has eta so y axis has pt
 	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
-          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins())) biny = muon_sf_histogram[0]->GetXaxis()->FindBin(muon_sf_histogram[0]->GetYaxis()->GetBinCenter(muon_sf_histogram[0]->GetYaxis()->GetNbins())); 
+	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) ){ std::cout<<"too big"<<std::endl;
+          biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+	}
           else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(_lPt[leptonIndex]);   
    }	
    std::cout<< "++++++ .  sf muon: "<< binx<<","<<biny<<" . "<< 	muon_sf_histogram[0]->GetBinContent(binx,biny)<<std::endl;
