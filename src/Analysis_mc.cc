@@ -1816,7 +1816,9 @@ for(int cha = 0; cha < nCoupling; ++cha){
   labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
   // List of systematics
-  const std::string systNames[] = {"n", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag","trigger","lumi", "npsfnorm", "npdfnorm"};
+	 // const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
+
+  const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger""lumi", "npsfnorm", "npdfnorm"};
   const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
   // List of systematics applicable to each process (signal + backgrounds)
