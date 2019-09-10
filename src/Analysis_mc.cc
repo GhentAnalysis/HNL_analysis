@@ -694,7 +694,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
-
+    if (!isSignal) continue;
+	  
     if(!samples[sam].isData()){
       //read sum of simulated event weights
       hHCounter = new TH1D("hCounter", "Events counter", 1, 0, 1);
@@ -723,7 +724,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/1000; ++it) {
+    for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);  
 	    
       if (samples[sam].isData()){
