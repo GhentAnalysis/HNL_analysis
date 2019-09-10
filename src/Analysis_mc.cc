@@ -504,7 +504,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
-  TH1D* hLheCounter;
+  TH1D *hHCounter, *hLheCounter;
 
   // FR histograms
   TGraphAsymmErrors *fakeRate_mu[3];
@@ -697,6 +697,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
     if(!samples[sam].isData()){
       //read sum of simulated event weights
+      hHCounter = new TH1D("hCounter", "Events counter", 1, 0, 1);
+      hHCounter->Read("hCounter"); 
       hLheCounter = new TH1D("lheCounter", "Events counter", 110, 0., 110.);
       hLheCounter->Read("lheCounter");
     }
@@ -1344,6 +1346,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 		
 	  // For QCD scale uncertainties
 	  if(bjet == 0) {
+	    double sumSimulatedEventWeights = hHCounter->GetBinContent(1);
 	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
 	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
 	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]];
