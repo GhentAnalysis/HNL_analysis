@@ -695,7 +695,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
 
-    if(!samp.isData()){
+    if(!samples[sam].isData()){
       //read sum of simulated event weights
       hLheCounter = new TH1D("lheCounter", "Events counter", 110, 0., 110.);
       hLheCounter->Read("lheCounter");
