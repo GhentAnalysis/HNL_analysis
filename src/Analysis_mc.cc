@@ -1348,8 +1348,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  if(bjet == 0) {
 	    double sumSimulatedEventWeights = hHCounter->GetBinContent(1);
 	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
-	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
-	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]];
+	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
+	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]-1];
 	      if(SR_channel> 2) {
 		qcdHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
 		qcdHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
@@ -1362,8 +1362,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	    //
 	    // For PDF uncertainties
 	    for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
-	      double wghtCorr     = _lheWeight[pdfSystVars[sidx]] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(pdfSystVars[sidx]));
-	      double wghtCorrNorm = _lheWeight[pdfSystVars[sidx]];
+	      double wghtCorr     = _lheWeight[pdfSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(pdfSystVars[sidx]));
+	      double wghtCorrNorm = _lheWeight[pdfSystVars[sidx]-1];
 	      if(SR_channel> 2) {
 		pdfHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
 		pdfHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
