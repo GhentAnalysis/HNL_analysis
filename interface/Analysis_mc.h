@@ -1284,7 +1284,7 @@ class Analysis_mc : public TObject {
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
   //const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
-  const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
+  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 

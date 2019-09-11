@@ -108,7 +108,7 @@ Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
     for(int var = 0; var < nVariation; ++var){
       for (int syst = 0; syst < nSystematic; ++syst)	{
 	for(int cha = 0; cha < nCoupling; ++cha){
-	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNames[syst]+"_"+varNames[var], 18, 0.5, 18.5);
+	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], 18, 0.5, 18.5);
 	  plots_SR[cha][syst][var][effsam]-> Sumw2();
 	  weight_SR[cha][syst][var][effsam]=1.;
 	}
@@ -694,7 +694,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
-
+    if (!isSignal) continue;
+	  
     if(!samples[sam].isData()){
       //read sum of simulated event weights
       hHCounter = new TH1D("hCounter", "Events counter", 1, 0, 1);
@@ -1317,8 +1318,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 		    
 	      if (weight_SR[muon_case][iSystematics][0][effsam]==0 && SR_channel <= 2 )central_divided_by_sys_muon  =  0.;
 	      if (weight_SR[ele_case][iSystematics][0][effsam] ==0 && SR_channel > 2 ) central_divided_by_sys_ele   =  0.;   
-	      if (SR_channel <= 2 && weight_SR[muon_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero muon ----------------------------------  "<<systNames[iSystematics]<< " var: "<< iVariation<<std::endl;
-	      if (SR_channel > 2 && weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ele ----------------------------------  "<<systNames[iSystematics]<< " var: "<< iVariation<<std::endl;
+	      if (SR_channel <= 2 && weight_SR[muon_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero muon ----------------------------------  "<<systNamesT[iSystematics]<< " var: "<< iVariation<<std::endl;
+	      if (SR_channel > 2 && weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ele ----------------------------------  "<<systNamesT[iSystematics]<< " var: "<< iVariation<<std::endl;
     
 	     if (iSystematics!=jec_index && iSystematics!=jer_index){
 	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
@@ -1670,7 +1671,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
 	}
 	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	if (isSRRun){plotDataVSMC(cat,cha,dist,
+	/*if (isSRRun){plotDataVSMC(cat,cha,dist,
 				  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 				  eff_names,numer_plot_class ,
 				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
@@ -1683,7 +1684,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				   true,
 				   2, true, signals,  sigNames_short, nSamples_signal, true);}
-			  
+	*/		  
       }
     }//end cat
   }//end histo  
@@ -1700,7 +1701,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	signals_SR[2] =(TH1D*)plots_SR[cha][iSystematics][2][signal_sample+1]->Clone() ;         
 	if (isSRRun){plotDataVSMC_SR(999,cha,
 				     *&signals_SR,
-				     chaNames[cha], systNames[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNames[iSystematics],
+				     chaNames[cha], systNamesT[iSystematics], sigNames[signal_sample]+"_"+chaNames[cha]+"_"+ systNamesT[iSystematics],
 				     2);}  
       }   
     }//t
@@ -1712,7 +1713,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys	   	    
       if (isSRRun){plotDataVSMC_SR(999,cha,
 				   *&sum_expected_SR_plotting[cha][iSystematics],
-				   chaNames[cha], systNames[iSystematics], chaNames[cha]+"_"+ systNames[iSystematics],
+				   chaNames[cha], systNamesT[iSystematics], chaNames[cha]+"_"+ systNamesT[iSystematics],
 				   2);}  
     }//t
   }
@@ -1821,7 +1822,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
   // List of systematics
 	 // const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
 
-  const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger""lumi", "npsfnorm", "npdfnorm"};
+  const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger","lumi", "npsfnorm", "npdfnorm"};
   const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
   // List of systematics applicable to each process (signal + backgrounds)
