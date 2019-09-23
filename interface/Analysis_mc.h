@@ -829,7 +829,7 @@ class Analysis_mc : public TObject {
   //pt prompt
   const double mu_2016=25;
   const double mu_2017=28;
-  const double mu_2018=28;
+  const double mu_2018=24;
   const double ele_2016=30;
   const double ele_2017=38;
   const double ele_2018=35;
