@@ -506,7 +506,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 
   TH1D *hHCounter, *hLheCounter;
 
-  // FR histograms
+ // FR histograms
   TGraphAsymmErrors *fakeRate_mu[3];
   TGraphAsymmErrors *fakeRate_e[3];
   TGraphAsymmErrors *fakeRate_mumu[3];
@@ -595,6 +595,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_ele_files[2]) :  TFile::Open(names_SF_ele_files[2]);
     sf_prompt_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
   }	
+	
 	
 	
 	
@@ -1085,11 +1086,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       int bin_SR_eleCoupling =0;
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
-
-
-      M_3L_combined = (v4l2 + v4l3 + v4l1).M();
-      M_l2l3_combined =  (v4l2 + v4l3).M();
+   
       
+      if (M_l2l3_combined < 10 && (samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") ) continue; // only DY at low mass
+      if (M_l2l3_combined >= 10 && photonOverlap (samples[sam])) continue;
+	    
+	    
       bool selection_0=false;
       bool selection_1=false;
       bool selection_2=false;
