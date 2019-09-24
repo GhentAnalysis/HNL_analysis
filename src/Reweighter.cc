@@ -20,8 +20,8 @@ void Reweighter::initializePuWeights(const std::vector< Sample >& sampleList){
         if( sample.isData() ) continue;
 
         //open root file corresponding to sample
-        //TFile* puFile = TFile::Open( (const TString&) "PU/puWeights_" + sample.getFileName() );
-        TFile* puFile = TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+        TFile* puFile = TFile::Open( (const TString&) "PU/puWeights_" + sample.getFileName() );
+        //TFile* puFile = TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
         //extract pu weights 
         for(unsigned var = 0; var < 3; ++var){
             std::string histName = "puw_Run";
