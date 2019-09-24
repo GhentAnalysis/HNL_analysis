@@ -47,16 +47,16 @@ int main(){
 
   // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
   std::cout << "---------------------------" << std::endl;
-  unsigned year = 1;
+  unsigned year = 0;
 
   //==========================================================================================
   Analysis_mc all(year);
 // --> questa cosa e'molto smart XD
   std::string alist = ist2b ?
-    "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2017.txt" :
+    "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016_new.txt" :
     "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/sampleLists/test_daniel.txt";
   std::string adir = ist2b ?
-    "/pnfs/iihe/cms/store/user/mvit/samples/FINAL/2017/" :
+    "/pnfs/iihe/cms/store/user/mvit/samples/FINAL/2016/" :
     "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/";
   std::string basename = "shape_file";
   //                                 0   1     2      3      4       5       6        7        8      9      10
