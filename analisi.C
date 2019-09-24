@@ -47,7 +47,7 @@ int main(){
 
   // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
   std::cout << "---------------------------" << std::endl;
-  unsigned year = 0;
+  unsigned year = 1;
 
   //==========================================================================================
   Analysis_mc all(year);
