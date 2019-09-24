@@ -978,15 +978,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
       if (isOnlyMC && sideBandRegion) continue;
       if (isOnlyMC && tightC != 2) continue;
-      // if (samples[sam].getProcessName() == "DY" )   {    
-      // 	two << Form("%1d %7d %9d\t%+2d (%6.1f)\t%+2d (%6.1f | %6.1f) %1d\t%+2d (%6.1f | %6.1f) %1d\t %6.1f" ,
-      // 		    _runNb, _lumiBlock, _eventNb,  
-      // 		    (-1)*_lCharge[l1]*(11+2*_lFlavor[l1]),v4l1.Pt(),
-      // 		    (-1)*_lCharge[l2]*(11+2*_lFlavor[l2]),v4l2_naked.Pt(),v4l2.Pt(),_lProvenanceCompressed[l2],
-      // 		    (-1)*_lCharge[l3]*(11+2*_lFlavor[l3]),v4l3_naked.Pt(),v4l3.Pt(),_lProvenanceCompressed[l3],	
-      // 		    _met)<< std::endl;
-      // }
-
+      
       // ------------------ prompt check for MC ------------------------//
       promptC=0;
       if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
