@@ -1330,6 +1330,7 @@ class Analysis_mc : public TObject {
   // const int btag_index =  10;
   // const int trigger_index =  11;
 
+ 
   const TString names_FR_files[5] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_mu.root",
 				     "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_e.root",
 				     "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_mumu.root",
@@ -1354,9 +1355,5 @@ class Analysis_mc : public TObject {
   const TString names_trigger_muon_files[3] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
 				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
 				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"};
-
-
-
-};
 
 #endif
