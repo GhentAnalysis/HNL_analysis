@@ -1345,10 +1345,10 @@ class Analysis_mc : public TObject {
 				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2017_ElectronMVA90noiso.root",
 				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2018_ElectronMVA90noiso.root"};
   const TString names_SF_muon_files[3] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/RunBCDEF_SF_ID_syst",
+				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
 				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	 
   const TString names_SFSY_muon_files[3] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SYS_ID.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/RunBCDEF_SF_ID_syst",
+				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
 				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	
 
 
