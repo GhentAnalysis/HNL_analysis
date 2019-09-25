@@ -686,8 +686,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
    //if (samples[sam].isData()) continue; 
-	  
-	  
+   std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
+	     std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
+
     if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
