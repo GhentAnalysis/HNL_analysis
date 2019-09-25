@@ -1086,7 +1086,6 @@ std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
    
-      
       if (M_l2l3_combined < 10 && (samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") ) continue; // only DY at low mass
       if (M_l2l3_combined >= 10 && photonOverlap (samples[sam])) continue;
 	    
