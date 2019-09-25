@@ -916,7 +916,7 @@ std::cout<<"after weight"<<std::endl;
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
       _vertex_ndf =_vertices[index_l2l3][10];
 
-
+	std::cout<<"dopo selezione"<<std::endl;
 
       // ------------ ==================== -----------------------------------------------//
       // ------------   tight selection   -----------------------------------------------//
@@ -1012,6 +1012,9 @@ std::cout<<"after weight"<<std::endl;
       
       if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
       if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;
+	    
+		std::cout<<"dopo fake"<<std::endl;
+    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       if (photonOverlap (samples[sam])) continue;
@@ -1122,6 +1125,8 @@ std::cout<<"after weight"<<std::endl;
 	M_l2l3_combined < 50;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       if (!SR_selection)continue;
+	    	std::cout<<"prima pesi"<<std::endl;
+
       // std::cout<<"------------------------"<<std::endl;
       //-------------------- central values SF calculations -------------------------
       // l1   
@@ -1224,7 +1229,9 @@ std::cout<<"after weight"<<std::endl;
 	  weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
 	  weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
 	}      
-      } 	    
+      } 
+	    	std::cout<<"dopo pesi"<<std::endl;
+
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
