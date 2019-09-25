@@ -696,6 +696,7 @@ std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
   
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
+	if (!isSignal)continue;
 	  
     if(!samples[sam].isData()){
       //read sum of simulated event weights
