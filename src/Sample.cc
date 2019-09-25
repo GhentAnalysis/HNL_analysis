@@ -46,7 +46,6 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     set2018();
 
    std::cout<<"is2017Sample: "<<is2017Sample<<std::endl;	    
-    std::cout<<"is2016Sample: "<<is2016Sample<<std::endl;	    
    std::cout<<"is2018Sample: "<<is2018Sample<<std::endl;	    
 
     //unique name is equal to fileName without file extension
