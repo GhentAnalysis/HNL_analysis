@@ -1130,7 +1130,10 @@ std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
       if (SR_channel <= 2 ) weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
       //eta??? boh... desapparessidos    
  
-	    
+      if (SR_channel <= 2 && weight_SR[muon_case][pMuo_index][0][effsam] == 0) {
+	      std::cout<<" Warning!!!! divisione per zero muon ----------------------------------  "<<std::endl;
+	std::cout<< SF_prompt_muon(*&sf_prompt_muon, l1)<<" "<<v4l1.Pt()<<" . "<<v4l1.Eta()<<std::endl;
+	   }    
       // Pile UP!
       if (!samples[sam].isData()){	    
       	for (int w_loop =0; w_loop < nCoupling; w_loop++){
