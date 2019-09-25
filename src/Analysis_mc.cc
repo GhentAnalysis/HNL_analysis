@@ -543,7 +543,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }	
   if (year == 1){
     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_muon_files[1]) :  TFile::Open(names_SF_muon_files[1]);
-    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
+    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_genTracks_pt_abseta");
   }
   if (year == 2 ){	
     TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_muon_files[2]) :  TFile::Open(names_SF_muon_files[2]);
@@ -558,7 +558,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   }	
   if (year == 1){
     TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SFSY_muon_files[1]) :  TFile::Open(names_SFSY_muon_files[1]);
-    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
+    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_genTracks_pt_abseta_syst");
   }
   if (year == 2 ){	
     TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SFSY_muon_files[2]) :  TFile::Open(names_SFSY_muon_files[2]);
