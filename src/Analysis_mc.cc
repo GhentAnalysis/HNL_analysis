@@ -725,9 +725,8 @@ std::cout<<"after v=counter"<<std::endl;
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/1000; ++it) {
+    for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);  
-	 std::cout<<"after entry"<<std::endl;
    
       if (samples[sam].isData()){
 	auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
@@ -751,7 +750,6 @@ std::cout<<"after v=counter"<<std::endl;
       scal = scale * _weight * ctWeight; 
       bwght = 1.;
       if (samples[sam].isData()) scal =1.;
-std::cout<<"after weight"<<std::endl;
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       std::vector<unsigned> ind;
       //double*           conePt = new double[_nL];
@@ -916,7 +914,6 @@ std::cout<<"after weight"<<std::endl;
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
       _vertex_ndf =_vertices[index_l2l3][10];
 
-	std::cout<<"dopo selezione"<<std::endl;
 
       // ------------ ==================== -----------------------------------------------//
       // ------------   tight selection   -----------------------------------------------//
@@ -1013,7 +1010,6 @@ std::cout<<"after weight"<<std::endl;
       if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
       if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;
 	    
-		std::cout<<"dopo fake"<<std::endl;
     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1125,7 +1121,6 @@ std::cout<<"after weight"<<std::endl;
 	M_l2l3_combined < 50;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       if (!SR_selection)continue;
-	    	std::cout<<"prima pesi"<<std::endl;
 
       // std::cout<<"------------------------"<<std::endl;
       //-------------------- central values SF calculations -------------------------
@@ -1136,7 +1131,6 @@ std::cout<<"after weight"<<std::endl;
       // µ trigger SF    
       if (SR_channel <= 2 ) weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
       //eta??? boh... desapparessidos    
-	std::cout<<"dopo sf prompt"<<std::endl;
  
 	    
       // Pile UP!
@@ -1146,7 +1140,6 @@ std::cout<<"after weight"<<std::endl;
 	  if (PUWeight() == 0) std::cout<<"-----------> pileup e' zero"<<std::endl;	
 	}     
       }      
-		std::cout<<"dopo pu"<<std::endl;
     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
@@ -1233,7 +1226,6 @@ std::cout<<"after weight"<<std::endl;
 	  weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
 	}      
       } 
-	    	std::cout<<"dopo pesi"<<std::endl;
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
