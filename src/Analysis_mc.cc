@@ -704,7 +704,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       hLheCounter = new TH1D("lheCounter", "Events counter", 110, 0., 110.);
       hLheCounter->Read("lheCounter");
     }
-
+std::cout<<"after v=counter"<<std::endl;
     //if (!isSignal)	continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
@@ -727,7 +727,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
    	  
     for(ULong64_t it=0; it<nEntries/1000; ++it) {
       GetEntry(samples[sam], it);  
-	    
+	 std::cout<<"after entry"<<std::endl;
+   
       if (samples[sam].isData()){
 	auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
 	if(event != usedEvents.end()) continue;
@@ -750,7 +751,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       scal = scale * _weight * ctWeight; 
       bwght = 1.;
       if (samples[sam].isData()) scal =1.;
-
+std::cout<<"after weight"<<std::endl;
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       std::vector<unsigned> ind;
       //double*           conePt = new double[_nL];
