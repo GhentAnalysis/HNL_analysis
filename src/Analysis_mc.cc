@@ -687,7 +687,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
    //if (samples[sam].isData()) continue; 
    std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
-	     std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
+std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
 
     if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
@@ -704,7 +704,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       hLheCounter = new TH1D("lheCounter", "Events counter", 110, 0., 110.);
       hLheCounter->Read("lheCounter");
     }
-std::cout<<"after v=counter"<<std::endl;
     //if (!isSignal)	continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.), ctWeight(1.);
