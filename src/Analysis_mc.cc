@@ -1136,6 +1136,8 @@ std::cout<<"after weight"<<std::endl;
       // µ trigger SF    
       if (SR_channel <= 2 ) weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
       //eta??? boh... desapparessidos    
+	std::cout<<"dopo sf prompt"<<std::endl;
+ 
 	    
       // Pile UP!
       if (!samples[sam].isData()){	    
@@ -1144,7 +1146,8 @@ std::cout<<"after weight"<<std::endl;
 	  if (PUWeight() == 0) std::cout<<"-----------> pileup e' zero"<<std::endl;	
 	}     
       }      
-	    
+		std::cout<<"dopo pu"<<std::endl;
+    
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
       double btag_weight_central=1;
