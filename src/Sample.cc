@@ -179,7 +179,9 @@ void Sample::setOptions( const std::string& optionString ){
         is2017Sample = false;
         is2018Sample = false;
         uniqueName += "_forcedIs2016";
+	    
     }
+	std::cout<<"=======================.........  "<< is2018Sample<< "  "<< is2017Sample<<" . "<<flag2016<<std::endl;
 }
 
 
