@@ -180,7 +180,8 @@ void Analysis_mc::initSample(const Sample& samp){
       dataLumi = lumi2017;
     }
     else dataLumi = lumi2018;
-
+ 
+    std::cout<<"''''''''''''''''''''' lumi ''''''''''"<<dataLumi<<std::endl;	  
     // N.B.: getXSec() returns the cross section, or the *re-weighted* cross section in case of V^2 (or ctau) re-weighting
     scale = samp.getXSec()*dataLumi*1000/sumSimulatedEventWeights;       //xSec*lumi divided by total sum of simulated event weights
   }
@@ -696,7 +697,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
-	  
+	if (eff_names[effsam] == "DY") continue;  
     if(!samples[sam].isData()){
       //read sum of simulated event weights
       hHCounter = new TH1D("hCounter", "Events counter", 1, 0, 1);
@@ -1086,8 +1087,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, less2,  more2_10,  more10,  less5,  more5 );
    
-      if (M_l2l3_combined < 10 && (samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") ) continue; // only DY at low mass
-      if (M_l2l3_combined >= 10 && photonOverlap (samples[sam])) continue;
+      //if (M_l2l3_combined < 10 && (samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") ) continue; // only DY at low mass
+      //if (M_l2l3_combined >= 10 && photonOverlap (samples[sam])) continue;
 	    
 	    
       bool selection_0=false;
