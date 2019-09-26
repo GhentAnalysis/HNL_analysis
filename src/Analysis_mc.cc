@@ -687,7 +687,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
    //if (samples[sam].isData()) continue; 
    std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
-std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
+   std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
 
     if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
@@ -696,7 +696,6 @@ std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
   
     bool isSignal= false;
     if (samples[sam].isMC() && effsam <=20) isSignal = true;
-	if (!isSignal)continue;
 	  
     if(!samples[sam].isData()){
       //read sum of simulated event weights
