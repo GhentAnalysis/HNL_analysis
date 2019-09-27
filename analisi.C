@@ -59,9 +59,6 @@ int main(){
     "/pnfs/iihe/cms/store/user/mvit/samples/FINAL/2017/" :
     "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/samples.noSync/";
   std::string basename = "shape_file";
-  //                                 0   1     2      3      4       5       6        7        8      9      10
-  const std::string systNames[] = { "", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag"};
-  //const size_t nsysts = sizeof(systNames)/sizeof(systNames[0]);
 
   all.analisi(alist, adir, basename.c_str(), 0, 0);
   // for(size_t i=1; i<nsysts; ++i) {  // skip i=0
