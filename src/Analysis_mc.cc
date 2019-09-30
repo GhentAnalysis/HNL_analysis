@@ -725,7 +725,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries; ++it) {
+    for(ULong64_t it=0; it<nEntries/1000; ++it) {
       GetEntry(samples[sam], it);  
    
       if (samples[sam].isData()){
@@ -1135,10 +1135,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       // Pile UP!
       if (!samples[sam].isData()){	    
       	for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();	 
+	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();
+	  if (isSignal) weight_SR[w_loop][pu_index][0][effsam] = 1.;
 	  if (PUWeight() == 0) std::cout<<"-----------> pileup e' zero"<<std::endl;	
 	}     
-      }      
+      }     
+	    
     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // bjet SF + JEC/JER number of jets
