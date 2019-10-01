@@ -1136,7 +1136,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       if (!samples[sam].isData()){	    
       	for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();
-	  if (isSignal) weight_SR[w_loop][pu_index][0][effsam] = 1.;
 	  if (PUWeight() == 0) std::cout<<"-----------> pileup e' zero"<<std::endl;	
 	}     
       }     
