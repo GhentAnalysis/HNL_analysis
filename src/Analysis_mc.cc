@@ -1013,7 +1013,27 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      if (photonOverlap (samples[sam])) continue;
+     bool internal_conv= true;
+      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) internal_conv = false;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) internal_conv = false;
+      if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) internal_conv = false;
+      bool external_conv= false;
+      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) external_conv = true;
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) external_conv = true;
+      if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) external_conv = true;
+      double photon_pt =0.;
+      if (_lIsPrompt[l1] && _lMatchPdgId[l1] ==22) photon_pt = _lMatchPt[l1];	
+      if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) photon_pt = _lMatchPt[l2];	    
+      if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) photon_pt = _lMatchPt[l3];	    
+
+      //if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
+      //if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
+      if ((samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") && internal_conv) continue;	    
+      if (external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 10) continue;	    
+	    
+	    
+	    
+     //if (photonOverlap (samples[sam])) continue;
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
       // -----------------   variables useful    --------------------------------//
