@@ -35,12 +35,12 @@ WJets         WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v10_Fall17.
 multiboson    WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                                  0.1651
 multiboson    WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                                  0.2086
 #multiboson    WZTo3LNu_mllmin01_13TeV-powheg-pythia8_ext1_Summer16.root                                4.42965
-#multiboson    WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                 0.04123
-#multiboson    WGGJets_TuneCP5_13TeV_madgraphMLM_pythia8_realistic_v11_Fall17.root                       0.2147
+multiboson    WZG_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v10_Fall17.root                 0.04123
+multiboson    WGGJets_TuneCP5_13TeV_madgraphMLM_pythia8_realistic_v11_Fall17.root                       0.2147
 multiboson    WWTo2L2Nu_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root           12.178
 multiboson    WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root           49.997
-#multiboson    WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                        0.05565
-#multiboson    ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                        0.01398
+multiboson    WZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                                        0.05565
+multiboson    ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                                        0.01398
 multiboson    ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root                                     1.256
 Xgamma      WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v14_Fall17.root                                   489
 Xgamma      ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root                         117.864
