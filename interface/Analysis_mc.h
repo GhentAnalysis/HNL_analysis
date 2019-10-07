@@ -1331,29 +1331,29 @@ class Analysis_mc : public TObject {
   // const int trigger_index =  11;
 
  
-  const TString names_FR_files[5] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_mu.root",
-				     "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_e.root",
-				     "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_mumu.root",
-				     "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_ee.root",
-				     "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/FR/fake_rate_emu.root"};
+  const TString names_FR_files[5] = {"/FR/fake_rate_mu.root",
+				     "/FR/fake_rate_e.root",
+				     "/FR/fake_rate_mumu.root",
+				     "/FR/fake_rate_ee.root",
+				     "/FR/fake_rate_emu.root"};
  const TString names_FR_files_daniele[5] = {"/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_e.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_ee.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_emu.root"};	
-  const TString names_SF_ele_files[3] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2017_ElectronMVA90noiso.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/2018_ElectronMVA90noiso.root"};
-  const TString names_SF_muon_files[3] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	 
-  const TString names_SFSY_muon_files[3] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SYS_ID.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	
+  const TString names_SF_ele_files[3] = {"/SF_leptons_trigger/2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root",
+				         "/SF_leptons_trigger/2017_ElectronMVA90noiso.root",
+				         "/SF_leptons_trigger/2018_ElectronMVA90noiso.root"};
+  const TString names_SF_muon_files[3] = {"/SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
+				         "/SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
+				         "/SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	 
+  const TString names_SFSY_muon_files[3] = {"/SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SYS_ID.root",
+				         "/SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
+				         "/SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	
 
 
-  const TString names_trigger_muon_files[3] = {"/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
-				         "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"};
+  const TString names_trigger_muon_files[3] = {"/SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
+				         "/SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
+				         "/SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"};
 };
 #endif
