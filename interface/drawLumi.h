@@ -4,14 +4,16 @@
 #include "TLatex.h"
 #include "TLine.h"
 
-void drawLumi(TPad*,int channel = 0, const TString& extraText = "Preliminary", const bool data = true );
+void drawLumi(TPad*,int channel = 0, const TString& extraText = "Preliminary", const bool data = true, const lumi_year =0 );
 
 
-void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data){
-	std::cout<<year<<std::endl;
+void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data, const int lumi_year){
+	
 	TString lumiText;
 	TString channelText;
-	if(data) lumiText = "35.9 fb^{-1} (13 TeV)";
+	if(data && lumi_year==0) lumiText = "35.9 fb^{-1} (13 TeV)";
+	if(data && lumi_year==1) lumiText = "41.5 fb^{-1} (13 TeV)";
+	if(data && lumi_year==2) lumiText = "59.7 fb^{-1} (13 TeV)";
 	else lumiText = "(13 TeV)";
 
 	//const float H = pad->GetWh();
