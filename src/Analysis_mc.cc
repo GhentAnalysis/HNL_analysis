@@ -1029,9 +1029,10 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
       //if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
       if ((samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") && internal_conv) continue;	    
-      if (external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 10) continue;	    
-	    
-	    
+      //if (external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 15) continue;	    
+	if ((year == 1 || year == 2) &&   external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 15) continue;	 
+	if (year == 0 &&   external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 10) continue;	 
+    
 	    
      //if (photonOverlap (samples[sam])) continue;
       // -----------------   function useful    --------------------------------//
