@@ -1694,14 +1694,14 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 				  eff_names,numer_plot_class ,
 				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				  true,
-				  2, true, signals,  sigNames_short, nSamples_signal, false);}
+				  2, true, signals,  sigNames_short, nSamples_signal, false, year);}
 		
 	if (isOnlyMC){plotDataVSMC(cat,cha,dist,
 				   dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 				   eff_names,numer_plot_class ,
 				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				   true,
-				   2, true, signals,  sigNames_short, nSamples_signal, true);}
+				   2, true, signals,  sigNames_short, nSamples_signal, true, year);}
 		  
       }
     }//end cat
