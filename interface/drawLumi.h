@@ -4,7 +4,7 @@
 #include "TLatex.h"
 #include "TLine.h"
 
-void drawLumi(TPad*,int channel = 0, const TString& extraText = "Preliminary", const bool data = true, const lumi_year =0 );
+void drawLumi(TPad*,int channel = 0, const TString& extraText = "Preliminary", const bool data = true, const int lumi_year =0 );
 
 
 void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data, const int lumi_year){
