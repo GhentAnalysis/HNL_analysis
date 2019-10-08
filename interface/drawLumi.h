@@ -8,6 +8,7 @@ void drawLumi(TPad*,int channel = 0, const TString& extraText = "Preliminary", c
 
 
 void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data){
+	std::cout<<year<<std::endl;
 	TString lumiText;
 	TString channelText;
 	if(data) lumiText = "35.9 fb^{-1} (13 TeV)";
