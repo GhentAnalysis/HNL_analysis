@@ -50,4 +50,4 @@ Xgamma      ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall
 #TTX          TTZToLL_M-1to10_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                                            0.0283
 #TTX          tZq_ll_4f_13TeV-amcatnlo-pythia8_Summer16.root                                                                    0.0942
 #TTX          TTWW_TuneCUETP8M2T4_13TeV-madgraph-pythia8_Summer16.root                                        0.007834
-TTX           ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                        0.00
+TTX           ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root                                        0.00
