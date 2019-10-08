@@ -103,7 +103,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 		  const TString* names, const unsigned nHist,
 		  const TString& name_cut,const TString& name_channel, const TString& name_histo,
 		  const bool ylog,
-		  const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm
+		  const unsigned widthopt, const bool plotsig, TH1D** signal , const TString* signames, const unsigned nSig, const bool signorm,
 		  const int lumi_year){
   // Dummy: to be removed!
   if(categoria==-3672) std::cout << name_channel.Data() << std::endl;
