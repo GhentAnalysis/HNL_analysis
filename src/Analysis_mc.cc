@@ -1866,7 +1866,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
   procPerSyst["npdfnorm"] = "lnN    ;  is_corr;                                                                  nonpromptDF";
 
   std::map<std::string, std::vector<std::string> > normSystsPerYear;
-  normSystsPerYear["lumi"    ] = {"1.025", "1.027" "1.025"};
+  normSystsPerYear["lumi"    ] = {"1.025", "1.027", "1.025"};
   normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
   normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
 
