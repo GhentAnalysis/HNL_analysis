@@ -232,12 +232,12 @@ bool Analysis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
 double Analysis_mc::findEleMVACategory(const unsigned leptonIndex) const{
     double category = -1;
     if( !isElectron(leptonIndex)) category = -1;
-    if (_lPt[leptonIndex] < 10 && abs(_lEtaSC[leptonIndex]) < 0.800) category =0;
-    if (_lPt[leptonIndex] < 10 && abs(_lEtaSC[leptonIndex]) >= 0.800 && abs(_lEtaSC[leptonIndex]) < 1.479) category =1;
-    if (_lPt[leptonIndex] < 10 && abs(_lEtaSC[leptonIndex]) >= 1.479) category =2;	
-    if (_lPt[leptonIndex] >= 10 && abs(_lEtaSC[leptonIndex]) < 0.800) category =3;
-    if (_lPt[leptonIndex] >= 10 && abs(_lEtaSC[leptonIndex]) >= 0.800 && abs(_lEtaSC[leptonIndex]) < 1.479) category =4;
-    if (_lPt[leptonIndex] >= 10 && abs(_lEtaSC[leptonIndex]) >= 1.479) category =5;
+    if (_lPt[leptonIndex] < 10 && fabs(_lEtaSC[leptonIndex]) < 0.800) category =0;
+    if (_lPt[leptonIndex] < 10 && fabs(_lEtaSC[leptonIndex]) >= 0.800 && fabs(_lEtaSC[leptonIndex]) < 1.479) category =1;
+    if (_lPt[leptonIndex] < 10 && fabs(_lEtaSC[leptonIndex]) >= 1.479) category =2;	
+    if (_lPt[leptonIndex] >= 10 && fabs(_lEtaSC[leptonIndex]) < 0.800) category =3;
+    if (_lPt[leptonIndex] >= 10 && fabs(_lEtaSC[leptonIndex]) >= 0.800 && fabs(_lEtaSC[leptonIndex]) < 1.479) category =4;
+    if (_lPt[leptonIndex] >= 10 && fabs(_lEtaSC[leptonIndex]) >= 1.479) category =5;
     return category;	
 }
 
