@@ -244,7 +244,6 @@ double Analysis_mc::findEleMVACategory(const unsigned leptonIndex) const{
 //______________________________________________ele MVA category
 double Analysis_mc::convertMVAInRawMva(const unsigned leptonIndex) const{
     double value_converted = -1;
-    if( !isElectron(leptonIndex)) value_converted = -1;
     value_converted = -0.5 * (std::log((1-_lElectronMvaFall17Iso[leptonIndex])/(1+_lElectronMvaFall17Iso[leptonIndex])));
     return value_converted;	
 }
