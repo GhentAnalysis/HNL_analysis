@@ -1329,13 +1329,24 @@ class Analysis_mc : public TObject {
   // const int jer_index =   9;
   // const int btag_index =  10;
   // const int trigger_index =  11;
+	TString anno; 
+	if (year == 0) anno ="16";
+	if (year == 1) anno ="17";
+ 	if (year == 2) anno ="18";
 
- 
-  const TString names_FR_files[5] = {"FR/fake_rate_mu.root",
-				     "FR/fake_rate_e.root",
-				     "FR/fake_rate_mumu.root",
-				     "FR/fake_rate_ee.root",
-				     "FR/fake_rate_emu.root"};
+  const TString names_FR_files[5]= {"FR/" +anno+ "/fake_rate_mu.root",
+				     "FR/" +anno+ "/fake_rate_e.root",
+				     "FR/" +anno+ "/fake_rate_mumu.root",
+				     "FR/" +anno+ "/fake_rate_ee.root",
+				     "FR/" +anno+ "/fake_rate_emu.root"};
+	
+	
+	
+	
+	
+	
+	
+	
  const TString names_FR_files_daniele[5] = {"/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_e.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root",
