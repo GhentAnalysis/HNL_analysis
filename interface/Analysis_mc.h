@@ -1329,7 +1329,7 @@ class Analysis_mc : public TObject {
   // const int jer_index =   9;
   // const int btag_index =  10;
   // const int trigger_index =  11;
-	TString anno; 
+	std::string anno; 
 	if (year == 0) anno ="16";
 	if (year == 1) anno ="17";
  	if (year == 2) anno ="18";
