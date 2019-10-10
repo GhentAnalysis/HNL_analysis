@@ -1329,16 +1329,13 @@ class Analysis_mc : public TObject {
   // const int jer_index =   9;
   // const int btag_index =  10;
   // const int trigger_index =  11;
-	std::string anno[1]; 
-	if (year == 0) anno[0] ="16";
-	if (year == 1) anno[0] ="17";
- 	if (year == 2) anno[0] ="18";
+	
 
-  const TString names_FR_files[5]= {"FR/" +anno[0]+ "/fake_rate_mu.root",
-				     "FR/" +anno[0]+ "/fake_rate_e.root",
-				     "FR/" +anno[0]+ "/fake_rate_mumu.root",
-				     "FR/" +anno[0]+ "/fake_rate_ee.root",
-				     "FR/" +anno[0]+ "/fake_rate_emu.root"};
+  const TString names_FR_files[5]= {"FR/" +std::to_string(year)+ "/fake_rate_mu.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_e.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_mumu.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_ee.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_emu.root"};
 	
 	
 	
