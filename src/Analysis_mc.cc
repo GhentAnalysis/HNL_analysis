@@ -501,7 +501,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // ------------ pile up -----------------------------------------------//
   TH1D *pileUpWeight[1];
   TFile *hfile_pu = ist2b ?
-    TFile::Open("PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root") :
+    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root") :
     TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
@@ -595,13 +595,11 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   if (year == 2 ){	
     TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_ele_files[2]) :  TFile::Open(names_SF_ele_files[2]);
     sf_prompt_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
-  }	
-	
-	
-	
-	
-	
-	
+  }
+
+
+
+
   if(year==0) {
   }
   else if(year==1) {
@@ -690,6 +688,15 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
    std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
    std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
 
+   // >>>>>> FILTER OUT UNWANTED SAMPLES!!!!!!! <<<<<<
+   if(sam!=16) continue;  // only M-4_V-0.00290516780927_e
+   //if(sam==0 || sam>4) continue;
+
+   // Synchronization excercise 
+   // std::ofstream syncfile;
+   // syncfile.open("sync_"+samples[sam].getProcessName()+".txt");
+
+
     if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
     if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
@@ -707,7 +714,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }
     //if (!isSignal)	continue;  
     // For lifetime re-weighting (hip hip hip hurray)
-    double ctauOld(0.), ctauNew(0.), ctWeight(1.);
+    double ctauOld(0.), ctauNew(0.); //, ctWeight(1.);
     if(isSignal) {
       std::cout << " is signal" << std::endl;
       if(samples[sam].getHNLV2New()>0.) {
@@ -718,7 +725,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 		  << ") --> (" << samples[sam].getHNLV2New() << ", " << ctauNew
 		  << ")" << std::endl;
 
-	ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
+	//ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
       }
     }
 
@@ -741,8 +748,12 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  }
 	}
       }	    
-	    
-	    
+
+      double ctWeight(1.);
+      if(isSignal && samples[sam].getHNLV2New()>0.) {
+	ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
+      }
+
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
       //ctWeight = 1;
       double scal = 0;
@@ -1395,9 +1406,20 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	  } // end if(bjet == 0)
 	} // end MC
       } // end SR_selection
-	
-	
-      
+
+
+      // Fin.state  SR_channel
+      // ---------------------
+      // mmm        0
+      // mme OS     1
+      // mme SS     2
+      // eee        3
+      // eem OS     4
+      // eem SS     5
+      // if(selection_final && SR_channel==5  && bjet==0)
+      // 	syncfile << right << std::setw(16) << _eventNb << std::setw(16) << _lumiBlock << std::setw(16) << _runNb << "\n";
+
+
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
@@ -1519,7 +1541,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       //if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
 
     }//end loop over the entries
-    
+
+    // syncfile.close();
+
   }//loop over samples
 
 
