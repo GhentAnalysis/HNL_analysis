@@ -8,7 +8,7 @@
 
 //include other parts of code 
 
-Reweighter::Reweighter(const std::vector<Sample>& samples, const bool sampleIs2016) {
+Reweighter::Reweighter(const std::vector<Sample>& samples /*, const bool sampleIs2016*/) {
     initializePuWeights(samples);
 }
 void Reweighter::initializePuWeights(const std::vector< Sample >& sampleList){

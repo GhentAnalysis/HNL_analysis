@@ -27,7 +27,7 @@
 #include <TClonesArray.h>
 #include <TLegendEntry.h>
 #include <TGraphAsymmErrors.h>
-#include "interface/Analysis_mc.h"
+#include "../../interface/Analysis_mc.h"
 #include <THStack.h>
 #include <TPaveText.h>
 #include <THStack.h>
@@ -59,7 +59,7 @@ int main(){
   if(year==2) adir  = "/pnfs/iihe/cms/store/user/mvit/samples/FINAL/2018/"; // 2018
   //
   // For signal re-weighting
-  std::string alist = "sampleLists/signal_M_08_2018.txt";
+  std::string alist = "jobs/samples/samples_TEMPLABEL.txt";
   //
   // 2016: "2016_new.txt"; 2017: "2017.txt"; 2018: "2018.txt"
   //std::string alist = "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2018.txt";

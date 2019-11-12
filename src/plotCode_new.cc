@@ -412,7 +412,7 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
   }
 	
   if (istogramma == 0){
-    Int_t ci;      // for color index setting
+    //Int_t ci;      // for color index setting
     //TColor *color; // for color definition with alpha
     //    line = new TLine(12.5,0.02,12.5,50000);
 
@@ -430,17 +430,17 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
     //100000
     
     line = new TLine(3.5,high_mll,3.5,0.1);
-    ci = TColor::GetColor("#ff6600");
+    //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(9.5,high_mll,9.5,0.1);
-    ci = TColor::GetColor("#ff6600");
+    //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
     line = new TLine(15.5,high_mll,15.5,0.1);
-    ci = TColor::GetColor("#ff6600");
+    //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
@@ -567,10 +567,13 @@ TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10",
 
 
 
-void plotDataVSMC_SR(int categoria,int channel,
+void plotDataVSMC_SR(//int categoria,
+		     int channel,
                      TH1D* plot_variation[3],
-                     const TString& name_cut,const TString& name_channel, const TString& name_histo,
-                     const unsigned widthopt){
+                     //const TString& name_cut,
+		     const TString& name_channel, const TString& name_histo
+		     //, const unsigned widthopt
+		     ){
     
     
   //Make a legend for data and all backgrounds

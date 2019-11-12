@@ -68,7 +68,7 @@ Analysis_mc::Analysis_mc():TObject()
 }
 
 //_______________________________________________________ constructor_____
-Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
+Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::string& directory) : TObject() {
   if(jaar>2) {
     std::cout << " --- WARNING: invalid value for 'year' variable (" << jaar
 	      << "), setting it to 0 (i.e. 2016) ---" << std::endl;
@@ -81,16 +81,77 @@ Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
     year = jaar;
   }
 
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> histogramms creation >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+  // >>>>>>>>>>>>>>>>>>> samples info >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  samples = readSampleList(list, directory);
+  //std::cout << " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " << samples.size() << std::endl;
+  nSamples_eff       = 0;
+  nSamples_signal    = 0;
+  nSamples_signal_e  = 0;
+  nSamples_signal_mu = 0;
+  TString *bpro = std::begin(eff_names);
+  TString *epro = std::end(eff_names);
+
+  for(size_t is=0; is<samples.size(); ++is) {
+    TString procname(samples[is].getProcessName().c_str());
+    TString *ipro = std::find(bpro, epro, procname);
+    if(ipro!=epro) continue;
+    if(nSamples_eff==max_nSamples_eff+1)
+      throw std::runtime_error("nSamples_eff == max_nSamples_eff + 1");
+    eff_names[nSamples_eff] = procname;
+    if(samples[is].isNewPhysicsSignal()) {
+      if(nSamples_signal==max_nSamples_signal) throw std::runtime_error("nSamples_signal == max_nSamples_signal");
+      sigNames[nSamples_signal] = eff_names[nSamples_eff];
+      sigNames_short[nSamples_signal] = "M = ";
+      sigNames_short[nSamples_signal] += samples[is].getHNLmass();
+      sigNames_short[nSamples_signal] += "GeV, |V_{NYY}|^{2} = ";
+      sigNames_short[nSamples_signal] += (samples[is].getHNLV2New()>0. ? samples[is].getHNLV2New() : samples[is].getHNLV2());
+      if(eff_names[nSamples_eff].EndsWith("_e")) {
+	if(nSamples_signal_e==max_nSamples_signal_e) throw std::runtime_error("nSamples_signal_e == max_nSamples_signal_e");
+	sigNames_short[nSamples_signal].ReplaceAll("YY", "e");
+	sigNames_e[nSamples_signal_e] = eff_names[nSamples_eff];
+	string_sigNames_e[nSamples_signal_e] = samples[is].getProcessName();
+	++nSamples_signal_e;
+      }
+      else if(eff_names[nSamples_eff].EndsWith("_mu")) {
+	if(nSamples_signal_mu==max_nSamples_signal_mu) throw std::runtime_error("nSamples_signal_mu == max_nSamples_signal_mu");
+	sigNames_short[nSamples_signal].ReplaceAll("YY", "#mu");
+	sigNames_mu[nSamples_signal_mu] = eff_names[nSamples_eff];
+	string_sigNames_mu[nSamples_signal_mu] = samples[is].getProcessName();
+	++nSamples_signal_mu;
+      }
+      else {
+	throw std::runtime_error("Signal sample name: "+eff_names[nSamples_eff]);
+      }
+      ++nSamples_signal;
+    } // end if(samples[is].isNewPhysicsSignal())
+    ++nSamples_eff;
+  } // end for(size_t is=0; is<samples.size(); ++is)
+
+  // Add single- and double-fake backgrounds
+  eff_names[++nSamples_eff] = "nonprompt SF";
+  eff_names[++nSamples_eff] = "nonprompt DF";
+
+  // Remove "Obs" from count
+  --nSamples_eff;
+
+  std::cout << " >>>> nSamples_eff = " << nSamples_eff << " - nSamples_signal = " << nSamples_signal
+	    << " - nSamples_signal_e = " << nSamples_signal_e << " - nSamples_signal_mu = " << nSamples_signal_mu
+	    << std::endl;
+  for(size_t ii=0; ii<nSamples_eff; ++ii) std::cout << eff_names[ii] << std::endl;
+
+  if(nSamples_signal!=(nSamples_signal_e+nSamples_signal_mu))
+    throw std::runtime_error("nSamples_signal != nSamples_signal_e + max_nSamples_signal_mu");
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> histogramms creation >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   for(int i = 0; i < nDist; ++i){
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
     std::ostringstream strs; strs << BinWidth; std::string Yaxis = strs.str();
-    for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+    for(size_t effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cat = 0; cat < nCat; ++cat){
 	//if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
-	  Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + "; events /" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
+	  Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
 	  Histos[i][cha][cat][effsam]->Sumw2();
 	}
       }
@@ -104,7 +165,7 @@ Analysis_mc::Analysis_mc(unsigned jaar) : TObject() {
  
   // plot for limits 
   // weights for limits	
-  for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+  for(size_t effsam = 0; effsam < nSamples_eff + 1; ++effsam){
     for(int var = 0; var < nVariation; ++var){
       for (int syst = 0; syst < nSystematic; ++syst)	{
 	for(int cha = 0; cha < nCoupling; ++cha){
@@ -155,7 +216,7 @@ void Analysis_mc::readSamples(const std::string& list, const std::string& direct
 }
 //_______________________________________________________ initialize sample _____
 void Analysis_mc::initSample(const Sample& samp){ 
-std::cout<<"in itnit sample"<<std::endl;
+std::cout << "In initSample(sample)"<<std::endl;
   //update current sample
   currentSample = samp;
   sampleFile = samp.getFile();
@@ -167,8 +228,8 @@ std::cout<<"in itnit sample"<<std::endl;
 
     //read sum of simulated event weights
     TH1D* hCounter = new TH1D("hCounter", "Events counter", 1, 0, 1);
-    hCounter->Read("hCounter"); 
-    double sumSimulatedEventWeights = hCounter->GetBinContent(1);
+    hCounter->Read("hCounter");
+    sumSimulatedEventWeights = hCounter->GetBinContent(1);
     delete hCounter;
 
     //event weights set with lumi depending on sample's era 
@@ -194,7 +255,7 @@ void Analysis_mc::initializeWeights(){
   if( firstTime || changedEra){
     weightsAre2016 = is2016();
     //automatically use b-tag reshaping for now
-    reweighter.reset(new Reweighter(samples, is2016()) );
+    reweighter.reset(new Reweighter(samples /*, is2016()*/) );
   } 
 }
 //_______________________________________________________  weight for PU ____
@@ -475,8 +536,11 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
 //          ================= ================= ================= ================= ================= =================          //
 
 //_______________________________________________________ analysis function ____
-void Analysis_mc::analisi( const std::string& list, const std::string& directory,
-			   std::string outfilename, int systcat, int systdir) {
+void Analysis_mc::analisi( //const std::string& list, const std::string& directory,
+			  std::string outfilename,
+			  bool skipData, bool skipSignal, bool skipBackground,
+			  bool skipPlotting, bool skipLimits, bool skipTables
+			  /*int systcat, int systdir*/) {
 
   // std::ofstream zero("zero.txt"); 
   // std::ofstream one("one.txt");  
@@ -488,24 +552,20 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
   setTDRStyle();
-  if(systdir<0) {
-    std::cout << " >>> Dummy message (to avoid warnings): systdir " << systdir << std::endl;
-  }
 
   // Are we running in local or on T2B?
   TString cwd(gSystem->pwd());
-  bool ist2b = cwd.BeginsWith("/storage_mnt");
+  bool ist2b = true;
+  //bool ist2b = cwd.BeginsWith("/storage_mnt");
   //bool isdtl = (ist2b==false && cwd.Contains("trocino"));
   //if(isdtl==false) ist2b = true;
 
   // ------------ pile up -----------------------------------------------//
-  TH1D *pileUpWeight[1];
-  TFile *hfile_pu = ist2b ?
-    TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root") :
-    TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
-  pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
-
-  TH1D *hHCounter, *hLheCounter;
+  //TH1D *pileUpWeight[1];
+  // TFile *hfile_pu = ist2b ?
+  //   TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root") :
+  //   TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
+  //pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
  // FR histograms
   TGraphAsymmErrors *fakeRate_mu[3];
@@ -624,8 +684,8 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 	      BTagEntry::FLAV_B, // b-tag flavor
 	      "comb");           // measurement type
 
-  // ------------   samples info -----------------------------------------------//
-  samples = readSampleList(list, directory);
+  // // ------------   samples info -----------------------------------------------//
+  // samples = readSampleList(list, directory);
   // std::cout << "I am in the analysis number:  " << systcat << std::endl;
   // pdf!
   std::vector<unsigned> qcdSystVars, pdfSystVars;
@@ -652,19 +712,19 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   //if(runtheosyst) {
   float binWidth = (HistMax[0] - HistMin[0])/nBins[0];
   std::ostringstream strs; strs << binWidth; std::string Yaxis = strs.str();
-  for(int effsam=0; effsam<nSamples_eff+1; ++effsam) {
+  for(size_t effsam=0; effsam<nSamples_eff+1; ++effsam) {
     for(int cha=0; cha<nCoupling; ++cha) {
       //if(cha!=6 && cha!=7) continue;
       // Only for theory systs
       for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
-	qcdHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events /" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-	qcdHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events", 1, 0., 2.);
+	qcdHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
+	qcdHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
 	qcdHistos    [sidx][cha][effsam]->Sumw2();
 	qcdHistosNorm[sidx][cha][effsam]->Sumw2();
       }
       for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
-	pdfHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events /" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-	pdfHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + "; events", 1, 0., 2.);
+	pdfHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
+	pdfHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
 	pdfHistos    [sidx][cha][effsam]->Sumw2();
 	pdfHistosNorm[sidx][cha][effsam]->Sumw2();
       }
@@ -675,7 +735,23 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
   for(size_t sam=0, effsam=0; sam<samples.size(); ++sam, ++effsam) {
+    // >>>>>> FILTER OUT UNWANTED SAMPLES!!!!!!! <<<<<<
+    // NOTE: this assumes that the list of samples in the txt follows a strict order
+    //       (data, signal, background). Otherwise you need to check the file name,
+    //       as is done in initSample(...)
+    //if(sam==0 || sam>nSamples_signal) continue; // only signal, sam = 1-20 (10 mu + 10 e samples)
+    if(skipData       && sam==0) continue;
+    if(skipSignal     && sam>0 && sam<=nSamples_signal) continue;
+    if(skipBackground && sam>nSamples_signal) continue;
+
     initSample(samples[sam]);
+    TH1D *hLheCounter = nullptr;
+    if(!samples[sam].isData()){
+      //read LHE weights of simulated events
+      hLheCounter = new TH1D("lheCounter", "Events counter", 110, 0., 110.);
+      hLheCounter->Read("lheCounter");
+    }
+
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -688,10 +764,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
    std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
    std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
 
-   // >>>>>> FILTER OUT UNWANTED SAMPLES!!!!!!! <<<<<<
-   if(sam!=16) continue;  // only M-4_V-0.00290516780927_e
-   //if(sam==0 || sam>4) continue;
-
    // Synchronization excercise 
    // std::ofstream syncfile;
    // syncfile.open("sync_"+samples[sam].getProcessName()+".txt");
@@ -702,16 +774,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!  
     //if (samples[sam].isData() && systcat != 0 ) continue;
   
-    bool isSignal= false;
-    if (samples[sam].isMC() && effsam <=20) isSignal = true;
-	if (eff_names[effsam] == "DY") continue;  
-    if(!samples[sam].isData()){
-      //read sum of simulated event weights
-      hHCounter = new TH1D("hCounter", "Events counter", 1, 0, 1);
-      hHCounter->Read("hCounter"); 
-      hLheCounter = new TH1D("lheCounter", "Events counter", 110, 0., 110.);
-      hLheCounter->Read("lheCounter");
-    }
+    bool isSignal = samples[sam].isNewPhysicsSignal();
+    //if (samples[sam].isMC() && effsam <=20) isSignal = true;
+    if (eff_names[effsam] == "DY") continue;  
     //if (!isSignal)	continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.); //, ctWeight(1.);
@@ -1334,7 +1399,9 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
       	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
 	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);	    
         // plots for systematics
-	if (!isDataDrivenBgk && !isDataYield){ // only for MC
+	/// FOR MARTINA: why "!isDataDrivenBgk && !isDataYield"?
+	//if (!isDataDrivenBgk && !isDataYield){ // only for MC
+	if (!samples[sam].isData()){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
 	    //if(iSystematics==qcdNorm_index || iSystematics==qcdShape_index || iSystematics==pdfNorm_index || iSystematics==pdfShape_index) continue; 
 	    // if (iSystematics!=pEle_index && iSystematics!=pMuo_index)	  continue; 
@@ -1376,7 +1443,6 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
 		
 	  // For QCD scale uncertainties
 	  if(bjet == 0) {
-	    double sumSimulatedEventWeights = hHCounter->GetBinContent(1);
 	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
 	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
 	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]-1];
@@ -1543,6 +1609,7 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
     }//end loop over the entries
 
     // syncfile.close();
+    delete hLheCounter;
 
   }//loop over samples
 
@@ -1705,32 +1772,32 @@ void Analysis_mc::analisi( const std::string& list, const std::string& directory
  
   //TH1D* signals[nSamples_signal];
   //if (systcat == 0 ){
-  for(unsigned dist = 0; dist < nDist; ++dist){
-    for(unsigned cat = 0; cat < nCat; ++cat){
-      //if (cat !=0 && cat !=6) continue;
-      for(int cha = 0; cha < nChannel; ++cha){               
-	for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	  signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
-	}
-	//	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;           
-	if (isSRRun){plotDataVSMC(cat,cha,dist,
-				  dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-				  eff_names,numer_plot_class ,
-				  catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-				  true,
-				  2, true, signals,  sigNames_short, nSamples_signal, false, year);}
-		
-	if (isOnlyMC){plotDataVSMC(cat,cha,dist,
+  if(skipPlotting == false){
+    for(unsigned dist = 0; dist < nDist; ++dist){
+      for(unsigned cat = 0; cat < nCat; ++cat){
+	//if (cat !=0 && cat !=6) continue;
+	for(int cha = 0; cha < nChannel; ++cha){               
+	  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	  }
+	  //	  signals[signal_sample] = std::shared_ptr<TH1D> ((TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone()) ;
+	  if(isSRRun){plotDataVSMC(cat,cha,dist,
 				   dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 				   eff_names,numer_plot_class ,
 				   catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 				   true,
-				   2, true, signals,  sigNames_short, nSamples_signal, true, year);}
-		  
-      }
-    }//end cat
-  }//end histo  
-    
+				   2, true, signals,  sigNames_short, nSamples_signal, false, year);}
+		
+	  if(isOnlyMC){plotDataVSMC(cat,cha,dist,
+				    dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+				    eff_names,numer_plot_class ,
+				    catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+				    true,
+				    2, true, signals,  sigNames_short, nSamples_signal, true, year);}
+	}
+      } // end cat
+    } // end histo  
+  } // end if skipPlotting
   	
 /*
 	
@@ -1759,456 +1826,408 @@ for(int cha = 0; cha < nCoupling; ++cha){
 				   2);}  
     }//t
   }*/
-			
-  std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;	
-  std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;	
-  for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<<" . random bin: "<<plots_SR[0][0][0][effsam1]->GetBinContent(8)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][1][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][2][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;	 
 
-  }	  
+  /*
+  std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;
+  std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;
+  for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<<" . random bin: "<<plots_SR[0][0][0][effsam1]->GetBinContent(8)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][1][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;
+    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][2][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;
+  }
   std::cout<<""<<std::endl;
   for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-    std::cout<<"signal "<<	signal_sample<<") "<<plots_SR[0][0][0][signal_sample+1] -> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<<std::endl;	 
-  }	 
-	
-	
-	
-	
- 	
-	
-  
-  
-  
-  ////////////////                           ////////////////
-  //// List of stuff for data cards and shape ROOT files ////
-  ////////////////                           ////////////////
-  //
-  // List of couplings
-  //const std::string couplings[] = {"ele", "muo", "tau"};
-  const std::string couplings[] = {"muo", "ele"};
-  const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
-
-  // Theory uncertainties
-  //double errorByBin[nCoupl][nBins[0]];
-  //double meanByBin[nCoupl][nBins[0]];
-  /*  if(runtheosyst) {
-      for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
-      // PDF uncertainties
-      if(systcat==2) {
-      for(size_t ib=0; ib<nBins[0]; ++ib) {
-      for(size_t ic=0; ic<nCoupl; ++ic) {
-      double errorByBin = 0.;
-      double iniCont = Histos[0][couplidx[ic]][6][ss]->GetBinContent(ib+1);
-      for(size_t is=0; is<6; ++is) {
-      double deltabin = iniCont>0. ? std::abs(systHistos[is][couplidx[ic]][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
-      if(deltabin>errorByBin) errorByBin = deltabin;
-      }
-      if(systdir==0) { // down variation
-      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-      }
-      else if(systdir==1) { // up variation
-      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-      }
-      }
-      }
-      }
-      // PDF uncertainties
-      else if(systcat==3) {
-      for(size_t ib=0; ib<nBins[0]; ++ib) {
-      for(size_t ic=0; ic<nCoupl; ++ic) {
-      double meanByBin = 0.;
-      double errorByBin = 0.;
-      double iniCont = Histos[0][couplidx[ic]][6][ss]->GetBinContent(ib+1);
-      for(size_t is=0; is<100; ++is) {
-      double iadd = iniCont>0. ? systHistos[is][couplidx[ic]][ss]->GetBinContent(ib+1)/iniCont : 0.;
-      meanByBin += iadd;
-      errorByBin += iadd*iadd;
-      } // end for(size_t is=6; is<106; ++is)
-      //
-      // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
-      errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
-      errorByBin = std::sqrt(errorByBin);
-      if(systdir==0) { // down variation
-      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-      }
-      else if(systdir==1) { // up variation
-      Histos[0][couplidx[ic]][6][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-      }
-      } // end for(size_t ic=0; ic<nCoupl; ++ic)
-      } // end for(size_t ib=0; ib<nBins[0]; ++ib)
-      } // end if(systcat==2)
-      } // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
-      } // end if(runtheosyst)
+    std::cout<<"signal "<<	signal_sample<<") "<<plots_SR[0][0][0][signal_sample+1] -> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<<std::endl;
+  }
   */
-  // List of backgrounds
-  const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
-  const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
-  // Output directory for datacards and shape ROOT files
-  std::string datacarddir = "dataCards_shapeRoot";
 
-  // List of signal and background labels (for tables)
-  std::map<std::string, std::string> labelPerProc;
-  labelPerProc["signal"     ] = "signal"; // to be changed...
-  labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
-  labelPerProc["ttbar"      ] = "Top";
-  labelPerProc["WJets"      ] = "$\\PW +$ jets";
-  labelPerProc["multiboson" ] = "Multiboson";
-  labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
-  labelPerProc["TTTX"       ] = "Top $+$ X";
-  labelPerProc["nonpromptSF"] = "Nonprompt SF";
-  labelPerProc["nonpromptDF"] = "Nonprompt DF";
+  if((skipLimits && skipTables)==false) {
+    ////////////////                                    ////////////////
+    //// List of stuff for data cards, shape ROOT files, and tables ////
+    ////////////////                                    ////////////////
+    //
+    // List of couplings
+    //const std::string couplings[] = {"ele", "muo", "tau"};
+    const std::string couplings[] = {"muo", "ele"};
+    const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
-  // List of systematics
-	 // const TString systNames[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
+    // List of backgrounds
+    const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+    const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
-  const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger","lumi", "npsfnorm", "npdfnorm"};
-  const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
+    // Output directory for datacards and shape ROOT files
+    std::string datacarddir = "dataCards_shapeRoot";
 
-  // List of systematics applicable to each process (signal + backgrounds)
-  // (delete sample name from list if the systematic source does not aplpy to it)
-  std::map<std::string, std::string> procPerSyst;
-  //                       Type     Correl.   Processes
-  //                       -------  --------  -------------------------------------------------------------
-  procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pdfShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pEle"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["npEle"   ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["npMuo"   ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["jec"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["jer"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["btag"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["lumi"    ] = "lnN    ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
-  procPerSyst["npsfnorm"] = "lnN    ;  is_corr;                                                     nonpromptSF             ";
-  procPerSyst["npdfnorm"] = "lnN    ;  is_corr;                                                                  nonpromptDF";
+    // List of signal and background labels (for tables)
+    std::map<std::string, std::string> labelPerProc;
+    labelPerProc["signal"     ] = "signal"; // to be changed...
+    labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
+    labelPerProc["ttbar"      ] = "Top";
+    labelPerProc["WJets"      ] = "$\\PW +$ jets";
+    labelPerProc["multiboson" ] = "Multiboson";
+    labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
+    labelPerProc["TTTX"       ] = "Top $+$ X";
+    labelPerProc["nonpromptSF"] = "Nonprompt SF";
+    labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
-  std::map<std::string, std::vector<std::string> > normSystsPerYear;
-  normSystsPerYear["lumi"    ] = {"1.025", "1.027", "1.025"};
-  normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
-  normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
+    // List of systematics
+    const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger","lumi", "npsfnorm", "npdfnorm"};
+    const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
-  //if(systcat==0) { // print data card only if systcat==0
-  // Size of tab
-  const size_t ntab = 14;
+    // List of systematics applicable to each process (signal + backgrounds)
+    // (delete sample name from list if the systematic source does not aplpy to it)
+    std::map<std::string, std::string> procPerSyst;
+    //                       Type     Correl.   Processes
+    //                       -------  --------  -------------------------------------------------------------
+    procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["pdfShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["pEle"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["npEle"   ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["npMuo"   ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["jec"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["jer"     ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["btag"    ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
+    procPerSyst["npdfnorm"] = "lnN   ;  is_corr;                                                                  nonpromptDF";
 
-  for(size_t isign=0; isign<nSamples_signal; ++isign) {
-    std::string sgn = sigNames[isign].Data();
-    for(size_t icoup=0; icoup<nCoupling; ++icoup) {
-      if(icoup == 2) continue;     
-      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
-      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
-      std::string cpl = couplings[icoup];
-      // ROOT file with shapes
-      std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
-      TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
-      rootfile->cd();
-      sum_expected_SR[icoup][0][0]-> Write ("data_obs");
-      //sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
-      //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
-		      
-      plots_SR[icoup][0][0][1+isign] ->Write("signal");   
-      //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
+    std::map<std::string, std::vector<std::string> > normSystsPerYear;
+    normSystsPerYear["lumi"    ] = {"1.025", "1.027", "1.025"};
+    normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
+    normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
 
-      // Stream for writing card and tables
-      std::ofstream card, tabletexS, tabletexL;
+    //if(systcat==0) { // print data card only if systcat==0
+    // Size of tab
+    const size_t ntab = 14;
 
-      tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
-      tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
-  
-      /*
-      //
-      // ========================================================
-      //   Write tables
-      // ========================================================
-      //
-      size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
-      std::vector<double> totconts(nsrbins+3, 0.0);
-      std::vector<double> totstats(nsrbins+3, 0.0);
-      std::vector<double> binconts(3, 0.0);
-      std::vector<double> binstats(3, 0.0);
-      //
-      // Write table: signal
-      // Row header
-      tabletexL << left << std::setw(2*ntab) << "  signal";
-      tabletexS << left << std::setw(2*ntab) << "  signal";
-      for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-      tabletexL << " & $"   << left << std::setw(ntab/2) <<  Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1)
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1)
-      << "$";
-      // Group by final state
-      /// >>> WARNING: if bin numbering changes, this needs to be updated!
-      size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-      binconts[ibintmp] += Histos[0][couplidx[icoup]][6][1+isign]->GetBinContent(ibin+1);
-      binstats[ibintmp] += Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+isign]->GetBinError(ibin+1);
-      }
-      //
-      for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-      tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-      << "$";
-      binconts[ibintmp] = 0.;
-      binstats[ibintmp] = 0.;
-      }
-      //
-      tabletexL << " \\\\\n  \\hline\n";
-      tabletexS << " \\\\\n  \\hline\n";
+    for(size_t isign=0; isign<nSamples_signal; ++isign) {
+      std::string sgn = sigNames[isign].Data();
+      for(size_t icoup=0; icoup<nCoupling; ++icoup) {
+	if(icoup==2) continue;     
+	if(icoup==0 && sgn.find("_mu")==std::string::npos) continue;
+	if(icoup==1 && sgn.find("_e" )==std::string::npos) continue;
+	std::string cpl = couplings[icoup];
+
+	//
+	// ========================================================
+	//   Write tables (NEED TO CHECK AFTER LAST CHANGES!!!!)
+	// ========================================================
+	//
+	if(skipTables==false) {
+	  std::ofstream tabletexS, tabletexL;
+	  tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
+	  tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
+	  size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
+	  std::vector<double> totconts(nsrbins+3, 0.0);
+	  std::vector<double> totstats(nsrbins+3, 0.0);
+	  std::vector<double> binconts(3, 0.0);
+	  std::vector<double> binstats(3, 0.0);
+	  //
+	  // Write table: signal
+	  // Row header
+	  tabletexL << left << std::setw(2*ntab) << "  signal";
+	  tabletexS << left << std::setw(2*ntab) << "  signal";
+	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	    tabletexL << " & $"   << left << std::setw(ntab/2) <<  plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)
+		      << "$";
+	    // Group by final state
+	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+	    binconts[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1);
+	    binstats[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1);
+	  }
+	  //
+	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+		      << "$";
+	    binconts[ibintmp] = 0.;
+	    binstats[ibintmp] = 0.;
+	  }
+	  //
+	  tabletexL << " \\\\\n  \\hline\n";
+	  tabletexS << " \\\\\n  \\hline\n";
  
-      //
-      // Write table: backgrounds
-      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-      // Row header
-      tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-      tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-      for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-      tabletexL << " & $"   << left << std::setw(ntab/2)  << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1)
-      << "$";
-      // Add to total background
-      totconts[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-      totstats[ibin] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-      // Group by final state
-      /// >>> WARNING: if bin numbering changes, this needs to be updated!
-      size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-      binconts[ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-      binstats[ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-      // Add to total background!
-      totconts[nsrbins+ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-      totstats[nsrbins+ibintmp] += Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1) * Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-      }
-      //
-      for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-      tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-      << "$";
-      binconts[ibintmp] = 0.;
-      binstats[ibintmp] = 0.;
-      }
-      //
-      tabletexL << " \\\\\n  \\hline\n";
-      tabletexS << " \\\\\n  \\hline\n";
-      }
-
-      //
-      // Write table: total background
-      // Row header
-      tabletexL << left << std::setw(2*ntab) << "  Total background";
-      tabletexS << left << std::setw(2*ntab) << "  Total background";
-      for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-      tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
-      << "$";
-      totconts[ibin] = 0.;
-      totstats[ibin] = 0.;
-      }
-      //
-      for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-      tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
-      << "$";
-      totconts[nsrbins+ibintmp] = 0.;
-      totstats[nsrbins+ibintmp] = 0.;
-      }
-      //
-      tabletexL << " \\\\\n  \\hline\n";
-      tabletexS << " \\\\\n  \\hline\n";
-
-      //
-      // Write table: data
-      // Row header
-      tabletexL << left << std::setw(2*ntab) << "  Observed";
-      tabletexS << left << std::setw(2*ntab) << "  Observed";
-      for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-      tabletexL << " & $"   << left << std::setw(ntab/2)  << dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
-      << "$";
-      // Group by final state
-      /// >>> WARNING: if bin numbering changes, this needs to be updated!
-      size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-      binconts[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
-      binstats[ibintmp] += dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
-      }
-      //
-      for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-      tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-      << "$";
-      binconts[ibintmp] = 0.;
-      binstats[ibintmp] = 0.;
-      }
-      //
-      tabletexL << " \\\\\n  \\hline\n";
-      tabletexS << " \\\\\n  \\hline\n";
-      //
-      // ========================================================
-      //
-      */
-      
-      // Add .txt to name if no file extension is given
-      std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard.txt";
-      card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
-      // Define number of channels, background sources and systematics
-      card << "imax 1 number of channels\n";
-      card << "jmax " << nBkg << " number of backgrounds\n";
-      card << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
-      card << "----------------------------------------------------------------------------------------\n";
-
-      // Shape file
-      card << "shapes * * " << rootfilename.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
-      card << "----------------------------------------------------------------------------------------\n";
-
-      // Define the channels and the number of observed events
-      card << "bin bin1\n";
-      // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
-      card << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR[icoup][0][0]->Integral(0, -1) << "\n";
-      // Define all backgrounds and their yields
-      card << left << std::setw(2*ntab) << "bin";
-      for(unsigned proc=0; proc<nBkg+1; ++proc) {
-	card << left << std::setw(ntab) << "bin1";
-      }
-      card << "\n";
-      card << left << std::setw(2*ntab) << "process";
-      card << left << std::setw(ntab)   << "signal";
-      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	card << left << std::setw(ntab) << bkgNames[bkg];
-      }
-      card << "\n";
-      card << left << std::setw(2*ntab) << "process";
-      for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
-	card << left << std::setw(ntab) << bkg;
-      }
-      card << "\n";
-      card << left << std::setw(2*ntab) << "rate";
-      card << left << std::setw(ntab)   << std::setprecision(5) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
-
-      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	rootfile->cd();
-	// Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
-	plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	// std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
-	float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
-	//float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
-	if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
-	else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
-      }
-      card << "\n";
-      card << "----------------------------------------------------------------------------------------\n";
-
-      // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
-      for(unsigned syst=1; syst<=nSyst; ++syst) {
-	std::string asyst = systNames[syst];
-	if(procPerSyst.count(asyst)==0) {
-	  std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
-	  continue;
-	}
-	// Correlated or uncorrelated
-	if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
-	  asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
-	}
-
-	card << left << std::setw(ntab) << asyst;
-	// If shape error, set it to 1.000
-	std::string errStr = "1.000";
-	// If normalization error, change it accordingly
-	if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
-	  if(normSystsPerYear.count(systNames[syst])==0) {
-	    std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
-	    errStr = "2.000";
+	  //
+	  // Write table: backgrounds
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    // Row header
+	    tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
+	    tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
+	    for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	      tabletexL << " & $"   << left << std::setw(ntab/2)  << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
+			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)
+			<< "$";
+	      // Add to total background
+	      totconts[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	      totstats[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	      // Group by final state
+	      /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	      size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+	      binconts[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	      binstats[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	      // Add to total background!
+	      totconts[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	      totstats[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	    }
+	    //
+	    for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	      tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
+			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+			<< "$";
+	      binconts[ibintmp] = 0.;
+	      binstats[ibintmp] = 0.;
+	    }
+	    //
+	    tabletexL << " \\\\\n  \\hline\n";
+	    tabletexS << " \\\\\n  \\hline\n";
 	  }
-	  else {
-	    errStr = normSystsPerYear[systNames[syst]][year];
+
+	  //
+	  // Write table: total background
+	  // Row header
+	  tabletexL << left << std::setw(2*ntab) << "  Total background";
+	  tabletexS << left << std::setw(2*ntab) << "  Total background";
+	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	    tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
+		      << "$";
+	    totconts[ibin] = 0.;
+	    totstats[ibin] = 0.;
 	  }
-	  card << left << std::setw(ntab) << "lnN";
-	}
-	else { // all the other systematics: shapeN
-	  card << left << std::setw(ntab) << "shapeN";
-	}
-	//
-	// Fill in systs for all processes:
-	//
-	//  - signal
-	if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
-	  card << left << std::setw(ntab) << "-";
-	else
-	  card << left << std::setw(ntab) << errStr.c_str();
-	//
-	//  - backgrounds
-	for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	  if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
-	    card << left << std::setw(ntab) << "-";
-	  else
-	    card << left << std::setw(ntab) << errStr;
-	}
-	card << "\n";
-      } // end systs
-      card << "* autoMCStats 0\n";
-      card.close();
-      tabletexS.close();
-      tabletexL.close();
-      rootfile->Close();
-    } // end couplings
-  } // end signal samples
-  //  } // end if(systcat==0)
+	  //
+	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	    tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
+		      << "$";
+	    totconts[nsrbins+ibintmp] = 0.;
+	    totstats[nsrbins+ibintmp] = 0.;
+	  }
+	  //
+	  tabletexL << " \\\\\n  \\hline\n";
+	  tabletexS << " \\\\\n  \\hline\n";
 
-  //else { // if(systcat!=0)
-  for(unsigned syst=1; syst<=nSyst; ++syst) {
-    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos)	continue;
-    for (unsigned iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
-      std::string appx = "_" + systNames[syst];
-      if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
-	if (year==0)   appx +=  "_16"; 
-	if (year==1)   appx +=  "_17";  
-	if (year==2)   appx +=  "_18";  
+	  //
+	  // Write table: data
+	  // Row header
+	  tabletexL << left << std::setw(2*ntab) << "  Observed";
+	  tabletexS << left << std::setw(2*ntab) << "  Observed";
+	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	    tabletexL << " & $"   << left << std::setw(ntab/2)  << 0 //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << 0 //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
+		      << "$";
+	    // Group by final state
+	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+	    binconts[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
+	    binstats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
+	  }
+	  //
+	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+		      << "$";
+	    binconts[ibintmp] = 0.;
+	    binstats[ibintmp] = 0.;
+	  }
+	  //
+	  tabletexL << " \\\\\n  \\hline\n";
+	  tabletexS << " \\\\\n  \\hline\n";
 
-      }	     	
-      appx += (iVariation==1 ? "Down" : "Up");    
-	    
-      for(size_t isign=0; isign<nSamples_signal; ++isign) {
-	std::string sgn = sigNames[isign].Data();
-	for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	  if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
-	  if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
-	  std::string cpl = couplings[icoup];
+	  tabletexS.close();
+	  tabletexL.close();
+	  //
+	  // ========================================================
+	  //
+	} // end if(skipTables==false)
 
+	//
+	// ========================================================
+	//   Write shape ROOT files and data cards (NEED TO CHECK AFTER LAST CHANGES!!!!)
+	// ========================================================
+	//
+	if(skipLimits==false) {
 	  // ROOT file with shapes
 	  std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
-	  TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
+	  TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
 	  rootfile->cd();
-	  //dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
-	  //Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());	      
-	  //sum_expected_SR[icoup][syst][iVariation]->Write(("data_obs"+appx).c_str());
-	  plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
-
+	  sum_expected_SR[icoup][0][0]-> Write ("data_obs");
 	  //sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
 	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
-	  
-	  for(unsigned bkg=0; bkg<nBkg-2; ++bkg) {
-	    rootfile->cd(); 	
-	    //std::cout<<" in the data card root file: variation "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
-	    plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
-	  }
-	  rootfile->Close();
-	} // end couplings
-      } // end signal samples
-    }//variation up down
-  }//loop sty		
-  // } // end if(systcat!=0)
-  
-  
-	
-  std::cout<<"dovrebbe essere la fine di analisis"<<std::endl;
+		      
+	  plots_SR[icoup][0][0][1+isign] ->Write("signal");   
+	  //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
- 
-	
-	
-	
-	
+	  // Stream for writing card and tables
+	  std::ofstream card;
+
+	  // Add .txt to name if no file extension is given
+	  std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard.txt";
+	  card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
+	  // Define number of channels, background sources and systematics
+	  card << "imax 1 number of channels\n";
+	  card << "jmax " << nBkg  << " number of backgrounds\n";
+	  card << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
+	  card << "----------------------------------------------------------------------------------------\n";
+
+	  // Shape file
+	  card << "shapes * * " << rootfilename.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
+	  card << "----------------------------------------------------------------------------------------\n";
+
+	  // Define the channels and the number of observed events
+	  card << "bin bin1\n";
+	  // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
+	  card << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR[icoup][0][0]->Integral(0, -1) << "\n";
+	  // Define all backgrounds and their yields
+	  card << left << std::setw(2*ntab) << "bin";
+	  for(unsigned proc=0; proc<nBkg+1; ++proc) {
+	    card << left << std::setw(ntab) << "bin1";
+	  }
+	  card << "\n";
+	  card << left << std::setw(2*ntab) << "process";
+	  card << left << std::setw(ntab)   << "signal";
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    card << left << std::setw(ntab) << bkgNames[bkg];
+	  }
+	  card << "\n";
+	  card << left << std::setw(2*ntab) << "process";
+	  for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
+	    card << left << std::setw(ntab) << bkg;
+	  }
+	  card << "\n";
+	  card << left << std::setw(2*ntab) << "rate";
+	  card << left << std::setw(ntab)   << std::setprecision(5) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
+
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    rootfile->cd();
+	    // Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
+	    plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	    // std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
+	    float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+	    //float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
+	    if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
+	    else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
+	  }
+	  card << "\n";
+	  card << "----------------------------------------------------------------------------------------\n";
+
+	  // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
+	  for(unsigned syst=1; syst<=nSyst; ++syst) {
+	    std::string asyst = systNames[syst];
+	    if(procPerSyst.count(asyst)==0) {
+	      std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
+	      continue;
+	    }
+	    // Correlated or uncorrelated
+	    if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+	      asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
+	    }
+
+	    card << left << std::setw(ntab) << asyst;
+	    // If shape error, set it to 1.000
+	    std::string errStr = "1.000";
+	    // If normalization error, change it accordingly
+	    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
+	      if(normSystsPerYear.count(systNames[syst])==0) {
+		std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
+		errStr = "2.000";
+	      }
+	      else {
+		errStr = normSystsPerYear[systNames[syst]][year];
+	      }
+	      card << left << std::setw(ntab) << "lnN";
+	    }
+	    else { // all the other systematics: shapeN
+	      card << left << std::setw(ntab) << "shapeN";
+	    }
+	    //
+	    // Fill in systs for all processes:
+	    //
+	    //  - signal
+	    if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
+	      card << left << std::setw(ntab) << "-";
+	    else
+	      card << left << std::setw(ntab) << errStr.c_str();
+	    //
+	    //  - backgrounds
+	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
+		card << left << std::setw(ntab) << "-";
+	      else
+		card << left << std::setw(ntab) << errStr;
+	    }
+	    card << "\n";
+	  } // end systs
+
+	  card << "* autoMCStats 0\n";
+	  card.close();
+	  rootfile->Close();
+	} // end if(skipLimits)
+
+	// if(skipTables==false) {
+	//   tabletexS.close();
+	//   tabletexL.close();
+	// }
+      } // end for(size_t icoup=0; icoup<nCoupling; ++icoup)
+    } // end for(size_t isign=0; isign<nSamples_signal; ++isign)
+    //  } // end if(systcat==0)
+
+    //else { // if(systcat!=0)
+    if(skipLimits==false) {
+      for(unsigned syst=1; syst<=nSyst; ++syst) {
+	if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
+	for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
+	  std::string appx = "_" + systNames[syst];
+	  if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
+	    if(year==0) appx += "_16";
+	    if(year==1) appx += "_17";
+	    if(year==2) appx += "_18";
+	  }	     	
+	  appx += (iVariation==1 ? "Down" : "Up");    
+	    
+	  for(size_t isign=0; isign<nSamples_signal; ++isign) {
+	    std::string sgn = sigNames[isign].Data();
+	    for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+	      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+	      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+	      std::string cpl = couplings[icoup];
+
+	      // ROOT file with shapes
+	      std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+	      TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
+	      rootfile->cd();
+	      //dataYields[0][couplidx[icoup]][6]->Write(("data_obs"+appx).c_str());
+	      //Histos[0][couplidx[icoup]][6][1+isign]->Write(("signal"+appx).c_str());	      
+	      //sum_expected_SR[icoup][syst][iVariation]->Write(("data_obs"+appx).c_str());
+	      plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+
+	      //sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
+	      //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
+	  
+	      for(unsigned bkg=0; bkg<nBkg-2; ++bkg) {
+		rootfile->cd(); 	
+		//std::cout<<" in the data card root file: variation "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
+		plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+	      }
+	      rootfile->Close();
+	    } // end couplings
+	  } // end signal samples
+	} // variation up down
+      } // loop sty
+    } // end if(skipLimits==false)
+    // } // end if(systcat!=0)
+
+  } // end of if((skipLimits && skipTables)==false)
+
+  std::cout << "  === This is the end of all hope ===" << std::endl;
+
   /*for(int i = 0; i < nDist; ++i){
     for(int effsam = 0; effsam < nSamples_eff + 1; ++effsam){
     for(int cat = 0; cat < nCat; ++cat){
@@ -2218,13 +2237,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     }
     }
     }*/
-
-
-
-
-
-}//END ANALIUSI  --> (l'analisi sicula?)
-
+} // end analisi
 
 
 //_______________________________________________________ constructor_____

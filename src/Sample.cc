@@ -34,19 +34,18 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     v2HnlNew = ( v2HnlNewString == "" ? -1. : std::stod(v2HnlNewString) );
 
     // Initialize HNL parameters
-    couplHnl   = "";
-    isDiracHnl = false;
-    massHnl    = -1.;
-    xSecNew    = -1.;
-    ctauHnlNew = -1.;
+    newPhysicsSignal = false;
+    v2Hnl            = -1.;
+    couplHnl         = "";
+    isDiracHnl       = false;
+    massHnl          = -1.;
+    xSecNew          = -1.;
+    ctauHnlNew       = -1.;
 
     setHNL();
     setData();
     set2017();
     set2018();
-
-   std::cout<<"is2017Sample: "<<is2017Sample<<std::endl;	    
-   std::cout<<"is2018Sample: "<<is2018Sample<<std::endl;	    
 
     //unique name is equal to fileName without file extension
     uniqueName = stringTools::fileWithoutExtension( fileName );
@@ -69,18 +68,23 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     //setOptions(optionString);
 
     // Tmp
-    std::cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-    std::cout << " File       : " << fileName         << std::endl;
-    std::cout << " couplHnl   : " << getHNLcoupling() << std::endl;
-    std::cout << " isDiracHnl : " << isHNLdirac()     << std::endl;
-    std::cout << " massHnl    : " << getHNLmass()     << std::endl;
-    std::cout << " v2Hnl      : " << getHNLV2()       << std::endl;
-    std::cout << " v2HnlNew   : " << getHNLV2New()    << std::endl;
-    std::cout << " ctauHnl    : " << getHNLctau()     << std::endl;
-    std::cout << " ctauHnlNew : " << getHNLctauNew()  << std::endl;
-    std::cout << " xSec       : " << getXSec()        << std::endl;
-    std::cout << " xSecOrig   : " << getXSecOrig()    << std::endl;
-    std::cout << " xSecNew    : " << getXSecNew()     << std::endl;
+    std::cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"     << std::endl;
+    std::cout << " Process    : " << getProcessName()     << std::endl;
+    std::cout << " File       : " << getFileName()        << std::endl;
+    std::cout << " is HNL     : " << isNewPhysicsSignal() << std::endl;
+    std::cout << " is data    : " << isData()             << std::endl;
+    std::cout << " is 2017    : " << is2017()             << std::endl;
+    std::cout << " is 2018    : " << is2018()             << std::endl;
+    std::cout << " couplHnl   : " << getHNLcoupling()     << std::endl;
+    std::cout << " isDiracHnl : " << isHNLdirac()         << std::endl;
+    std::cout << " massHnl    : " << getHNLmass()         << std::endl;
+    std::cout << " v2Hnl      : " << getHNLV2()           << std::endl;
+    std::cout << " v2HnlNew   : " << getHNLV2New()        << std::endl;
+    std::cout << " ctauHnl    : " << getHNLctau()         << std::endl;
+    std::cout << " ctauHnlNew : " << getHNLctauNew()      << std::endl;
+    std::cout << " xSec       : " << getXSec()            << std::endl;
+    std::cout << " xSecOrig   : " << getXSecOrig()        << std::endl;
+    std::cout << " xSecNew    : " << getXSecNew()         << std::endl;
 }
 
 
@@ -131,6 +135,7 @@ void Sample::setData(){
     for(auto it = dataNames.cbegin(); it != dataNames.cend(); ++it){
         if(fileName.find(*it) != std::string::npos){
             isDataSample = true;
+	    return;
         }
     }
 }
@@ -207,7 +212,7 @@ std::ostream& operator<<( std::ostream& os, const Sample& sam ){
 
 //read a list of samples into a vector 
 std::vector< Sample > readSampleList( const std::string& listFile, const std::string& directory ){
-	std::vector< Sample> sampleList;
+    std::vector< Sample> sampleList;
 
     //read sample info from txt file
     std::ifstream inFile(listFile);

@@ -661,7 +661,7 @@ class Analysis_mc : public TObject {
 
 
   Analysis_mc();
-  Analysis_mc(unsigned jaar);
+  Analysis_mc(unsigned jaar, const std::string& list, const std::string& directory);
   virtual ~Analysis_mc();
 
   void printProgress(double progress) ;
@@ -695,9 +695,16 @@ class Analysis_mc : public TObject {
   // 10. b tagging
   // 11. MC systematics
   //
-  void analisi(  const std::string& list, const std::string& directory,
+  void analisi(  //const std::string& list, const std::string& directory,
 		 std::string outfilename,
-		 int systcat = 0, int systdir = 0
+		 bool skipData       = false,
+		 bool skipSignal     = false,
+		 bool skipBackground = false,
+		 bool skipPlotting   = false,
+		 bool skipLimits     = false,
+		 bool skipTables     = false
+		 //int systcat = 0,
+		 //int systdir = 0
 		 );
 
   double pu_weight ( TH1D *histo, double numberInteractions);
@@ -802,6 +809,7 @@ class Analysis_mc : public TObject {
   Sample currentSample;                                                   //reference to current sample, needed to check what era sample belongs to
   int currentSampleIndex = -1;                                            //current index in list
   //bool isData = false;
+  double sumSimulatedEventWeights = 0;
   double scale = 0;
   double weight = 1;                                                      //weight of given event
   unsigned long nEntries = 0;
@@ -818,8 +826,7 @@ class Analysis_mc : public TObject {
   bool is2017() const { return (year == 1); }
   bool is2018() const { return (year == 2); } 
 	
-   std::shared_ptr<Reweighter> reweighter;                                 //instance of reweighter class used for reweighting functions
-
+  std::shared_ptr<Reweighter> reweighter;                                 //instance of reweighter class used for reweighting functions
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -893,138 +900,152 @@ class Analysis_mc : public TObject {
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  //******************* HISTO **********************
-  const static int nSamples_signal_e  = 10;
-  const static int nSamples_signal_mu = 10;
-  const static int nSamples_signal    = nSamples_signal_e + nSamples_signal_mu;
-  const static int nSamples_eff       = 8 + nSamples_signal;   // when there was still ttx
+  //
+  // Constant size, x2 than expected (could be done better...)
+  const static unsigned int max_nSamples_signal_e  = 30;
+  const static unsigned int max_nSamples_signal_mu = 30;
+  const static unsigned int max_nSamples_signal    = max_nSamples_signal_e + max_nSamples_signal_mu;
+  const static unsigned int max_nSamples_eff       = 16 + max_nSamples_signal;   // when there was still ttx
+  //
+  // Variable size (could be done better...)
+  unsigned int nSamples_signal_e;
+  unsigned int nSamples_signal_mu;
+  unsigned int nSamples_signal;
+  unsigned int nSamples_eff;   // when there was still ttx
 	
-  const TString eff_names[nSamples_eff+1] = {
-    "obs",      
-    "M-1_V-0.0949736805647_mu",
-    "M-1_V-0.212367605816_mu",
-    "M-2_V-0.0110905365064_mu",
-    "M-2_V-0.0248394846967_mu",
-    "M-3_V-0.00707813534767_mu",
-    "M-4_V-0.00290516780927_mu",
-    "M-5_V-0.00145602197786_mu",
-    "M-6_V-0.00202484567313_mu",
-    "M-8_V-0.00151327459504_mu",
-    "M-10_V-0.000756967634711_mu",
-    "M-1_V-0.0949736805647_e",
-    "M-1_V-0.212367605816_e",
-    "M-2_V-0.0110905365064_e",
-    "M-2_V-0.0248394846967_e",
-    "M-3_V-0.00707813534767_e",
-    "M-4_V-0.00290516780927_e",
-    "M-5_V-0.00145602197786_e",
-    "M-6_V-0.00202484567313_e",
-    "M-8_V-0.00151327459504_e",
-    "M-10_V-0.000756967634711_e",
-    "DY",  
-    "ttbar",
-    "WJets",
-    "multiboson", 
-    "Xgamma",    
-    "TTX",		
-    "nonprompt SF",
-    "nonprompt DF"
+  TString eff_names[max_nSamples_eff+1];
+  // const TString eff_names[max_nSamples_eff+1] = {
+  //   "obs",      
+  //   "M-1_V-0.0949736805647_mu",
+  //   "M-1_V-0.212367605816_mu",
+  //   "M-2_V-0.0110905365064_mu",
+  //   "M-2_V-0.0248394846967_mu",
+  //   "M-3_V-0.00707813534767_mu",
+  //   "M-4_V-0.00290516780927_mu",
+  //   "M-5_V-0.00145602197786_mu",
+  //   "M-6_V-0.00202484567313_mu",
+  //   "M-8_V-0.00151327459504_mu",
+  //   "M-10_V-0.000756967634711_mu",
+  //   "M-1_V-0.0949736805647_e",
+  //   "M-1_V-0.212367605816_e",
+  //   "M-2_V-0.0110905365064_e",
+  //   "M-2_V-0.0248394846967_e",
+  //   "M-3_V-0.00707813534767_e",
+  //   "M-4_V-0.00290516780927_e",
+  //   "M-5_V-0.00145602197786_e",
+  //   "M-6_V-0.00202484567313_e",
+  //   "M-8_V-0.00151327459504_e",
+  //   "M-10_V-0.000756967634711_e",
+  //   "DY",  
+  //   "ttbar",
+  //   "WJets",
+  //   "multiboson", 
+  //   "Xgamma",    
+  //   "TTX",		
+  //   "nonprompt SF",
+  //   "nonprompt DF"
+  // };
 
-  };
+  std::string string_sigNames_e[max_nSamples_signal_e];
+  // const std::string string_sigNames_e[max_nSamples_signal_e] = {
+  //   "M-1_V-0.0949736805647_e",
+  //   "M-1_V-0.212367605816_e",
+  //   "M-2_V-0.0110905365064_e",
+  //   "M-2_V-0.0248394846967_e",
+  //   "M-3_V-0.00707813534767_e",
+  //   "M-4_V-0.00290516780927_e",
+  //   "M-5_V-0.00145602197786_e",
+  //   "M-6_V-0.00202484567313_e",
+  //   "M-8_V-0.00151327459504_e",
+  //   "M-10_V-0.000756967634711_e"
+  // };
+  std::string string_sigNames_mu[max_nSamples_signal_mu];
+  // const std::string string_sigNames_mu[max_nSamples_signal_mu] = {
+  //   "M-1_V-0.0949736805647_mu",
+  //   "M-1_V-0.212367605816_mu",
+  //   "M-2_V-0.0110905365064_mu",
+  //   "M-2_V-0.0248394846967_mu",
+  //   "M-3_V-0.00707813534767_mu",
+  //   "M-4_V-0.00290516780927_mu",
+  //   "M-5_V-0.00145602197786_mu",
+  //   "M-6_V-0.00202484567313_mu",
+  //   "M-8_V-0.00151327459504_mu",
+  //   "M-10_V-0.000756967634711_mu"
+  // };
+  TString sigNames_e[max_nSamples_signal_e];
+  // const TString sigNames_e[max_nSamples_signal_e] = {
+  //   "M-1_V-0.0949736805647_e",
+  //   "M-1_V-0.212367605816_e",
+  //   "M-2_V-0.0110905365064_e",
+  //   "M-2_V-0.0248394846967_e",
+  //   "M-3_V-0.00707813534767_e",
+  //   "M-4_V-0.00290516780927_e",
+  //   "M-5_V-0.00145602197786_e",
+  //   "M-6_V-0.00202484567313_e",
+  //   "M-8_V-0.00151327459504_e",
+  //   "M-10_V-0.000756967634711_e"
+  // };
+  TString sigNames_mu[max_nSamples_signal_mu];
+  // const TString sigNames_mu[max_nSamples_signal_mu] = {
+  //   "M-1_V-0.0949736805647_mu",
+  //   "M-1_V-0.212367605816_mu",
+  //   "M-2_V-0.0110905365064_mu",
+  //   "M-2_V-0.0248394846967_mu",
+  //   "M-3_V-0.00707813534767_mu",
+  //   "M-4_V-0.00290516780927_mu",
+  //   "M-5_V-0.00145602197786_mu",
+  //   "M-6_V-0.00202484567313_mu",
+  //   "M-8_V-0.00151327459504_mu",
+  //   "M-10_V-0.000756967634711_mu"
+  // };
 
-  const std::string string_sigNames_e[nSamples_signal_e] = {
-    "M-1_V-0.0949736805647_e",
-    "M-1_V-0.212367605816_e",
-    "M-2_V-0.0110905365064_e",
-    "M-2_V-0.0248394846967_e",
-    "M-3_V-0.00707813534767_e",
-    "M-4_V-0.00290516780927_e",
-    "M-5_V-0.00145602197786_e",
-    "M-6_V-0.00202484567313_e",
-    "M-8_V-0.00151327459504_e",
-    "M-10_V-0.000756967634711_e"
-  };
-  const std::string string_sigNames_mu[nSamples_signal_mu] = {
-    "M-1_V-0.0949736805647_mu",
-    "M-1_V-0.212367605816_mu",
-    "M-2_V-0.0110905365064_mu",
-    "M-2_V-0.0248394846967_mu",
-    "M-3_V-0.00707813534767_mu",
-    "M-4_V-0.00290516780927_mu",
-    "M-5_V-0.00145602197786_mu",
-    "M-6_V-0.00202484567313_mu",
-    "M-8_V-0.00151327459504_mu",
-    "M-10_V-0.000756967634711_mu"
-  };
-  const TString sigNames_e[nSamples_signal_e] = {
-    "M-1_V-0.0949736805647_e",
-    "M-1_V-0.212367605816_e",
-    "M-2_V-0.0110905365064_e",
-    "M-2_V-0.0248394846967_e",
-    "M-3_V-0.00707813534767_e",
-    "M-4_V-0.00290516780927_e",
-    "M-5_V-0.00145602197786_e",
-    "M-6_V-0.00202484567313_e",
-    "M-8_V-0.00151327459504_e",
-    "M-10_V-0.000756967634711_e"
-  };
-  const TString sigNames_mu[nSamples_signal_mu] = {
-    "M-1_V-0.0949736805647_mu",
-    "M-1_V-0.212367605816_mu",
-    "M-2_V-0.0110905365064_mu",
-    "M-2_V-0.0248394846967_mu",
-    "M-3_V-0.00707813534767_mu",
-    "M-4_V-0.00290516780927_mu",
-    "M-5_V-0.00145602197786_mu",
-    "M-6_V-0.00202484567313_mu",
-    "M-8_V-0.00151327459504_mu",
-    "M-10_V-0.000756967634711_mu"
-  };
+  TString sigNames[max_nSamples_signal];
+  // const TString sigNames[max_nSamples_signal] = {
+  //   "M-1_V-0.0949736805647_mu",
+  //   "M-1_V-0.212367605816_mu",
+  //   "M-2_V-0.0110905365064_mu",
+  //   "M-2_V-0.0248394846967_mu",
+  //   "M-3_V-0.00707813534767_mu",
+  //   "M-4_V-0.00290516780927_mu",
+  //   "M-5_V-0.00145602197786_mu",
+  //   "M-6_V-0.00202484567313_mu",
+  //   "M-8_V-0.00151327459504_mu",
+  //   "M-10_V-0.000756967634711_mu",
+  //   "M-1_V-0.0949736805647_e",
+  //   "M-1_V-0.212367605816_e",
+  //   "M-2_V-0.0110905365064_e",
+  //   "M-2_V-0.0248394846967_e",
+  //   "M-3_V-0.00707813534767_e",
+  //   "M-4_V-0.00290516780927_e",
+  //   "M-5_V-0.00145602197786_e",
+  //   "M-6_V-0.00202484567313_e",
+  //   "M-8_V-0.00151327459504_e",
+  //   "M-10_V-0.000756967634711_e"
+  // };
 
-  const TString sigNames[nSamples_signal] = {
-    "M-1_V-0.0949736805647_mu",
-    "M-1_V-0.212367605816_mu",
-    "M-2_V-0.0110905365064_mu",
-    "M-2_V-0.0248394846967_mu",
-    "M-3_V-0.00707813534767_mu",
-    "M-4_V-0.00290516780927_mu",
-    "M-5_V-0.00145602197786_mu",
-    "M-6_V-0.00202484567313_mu",
-    "M-8_V-0.00151327459504_mu",
-    "M-10_V-0.000756967634711_mu",
-    "M-1_V-0.0949736805647_e",
-    "M-1_V-0.212367605816_e",
-    "M-2_V-0.0110905365064_e",
-    "M-2_V-0.0248394846967_e",
-    "M-3_V-0.00707813534767_e",
-    "M-4_V-0.00290516780927_e",
-    "M-5_V-0.00145602197786_e",
-    "M-6_V-0.00202484567313_e",
-    "M-8_V-0.00151327459504_e",
-    "M-10_V-0.000756967634711_e"
-  };
-
-  const TString sigNames_short[nSamples_signal] = {
-    "M_{1} c#tau=74mm",
-    "M=1 V=0.2123",
-    "M=2 V=0.0110",
-    "M_{2} c#tau=32mm",
-    "M=3 V=0.0070",
-    "M_{4} c#tau=57mm",
-    "M=5 V=0.0014",
-    "M_{6} c#tau=14mm",
-    "M=8 V=0.0015",
-    "M_{10} c#tau=7mm",
-    "M_{1} c#tau=74mm",
-    "M=1 V=0.2123",
-    "M=2 V=0.0110",
-    "M_{2} c#tau=32mm",
-    "M=3 V=0.0070",
-    "M_{4} c#tau=57mm",
-    "M=5 V=0.0014",
-    "M_{6} c#tau=14mm",
-    "M=8 V=0.0015",
-    "M_{10} c#tau=7mm",
-  };
+  TString sigNames_short[max_nSamples_signal];
+  // const TString sigNames_short[max_nSamples_signal] = {
+  //   "M_{1} c#tau=74mm",
+  //   "M=1 V=0.2123",
+  //   "M=2 V=0.0110",
+  //   "M_{2} c#tau=32mm",
+  //   "M=3 V=0.0070",
+  //   "M_{4} c#tau=57mm",
+  //   "M=5 V=0.0014",
+  //   "M_{6} c#tau=14mm",
+  //   "M=8 V=0.0015",
+  //   "M_{10} c#tau=7mm",
+  //   "M_{1} c#tau=74mm",
+  //   "M=1 V=0.2123",
+  //   "M=2 V=0.0110",
+  //   "M_{2} c#tau=32mm",
+  //   "M=3 V=0.0070",
+  //   "M_{4} c#tau=57mm",
+  //   "M=5 V=0.0014",
+  //   "M_{6} c#tau=14mm",
+  //   "M=8 V=0.0015",
+  //   "M_{10} c#tau=7mm",
+  // };
 	
 	/*"M=1 V=0.0949 #mu",
     "M=1 V=0.2123 #mu",
@@ -1271,12 +1292,12 @@ class Analysis_mc : public TObject {
 
 
  
-  TH1D*	Histos[nDist][nChannel][nCat][nSamples_eff +1];
+  TH1D*	Histos[nDist][nChannel][nCat][max_nSamples_eff+1];
   //std::vector<unsigned> theoSystVars;
   //const unsigned nTheoVars = theoSystVars.size();
   TH1D* dataYields[nDist][nChannel][nCat];
-  TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
-  TH1D* signals[nSamples_signal];
+  TH1D* bkgYields[nDist][nChannel][nCat][max_nSamples_eff - max_nSamples_signal]; //change to max_nSamples_eff if sig is removed
+  TH1D* signals[max_nSamples_signal];
   double maxBinC[nDist];
 
 
@@ -1289,18 +1310,18 @@ class Analysis_mc : public TObject {
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 
 	
-  TH1D*	plots_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
-  double weight_SR[nCoupling][nSystematic][nVariation][nSamples_eff +1];
-  TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
+  TH1D*	plots_SR[nCoupling][nSystematic][nVariation][max_nSamples_eff+1];
+  double weight_SR[nCoupling][nSystematic][nVariation][max_nSamples_eff+1];
+  TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][max_nSamples_eff - max_nSamples_signal]; //change to max_nSamples_eff if sig is removed
   TH1D* signals_SR[nVariation];
   TH1D*	sum_expected_SR_plotting[nCoupling][nSystematic][nVariation];
 
   TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
   //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
 
-  const int muon_case =0;
-  const int ele_case = 1;
-  const int tau_case = 2;
+  const int muon_case = 0;
+  const int ele_case  = 1;
+  const int tau_case  = 2;
 
   const int on_index       =  0; // is the SR SR plot
   const int pu_index       =  1;
