@@ -1181,6 +1181,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //bin histogram SR
       int bin_SR_muonCoupling =0;
       int bin_SR_eleCoupling =0;
+      
+      	/*  double value_mass_cut = 4.0 ;
+            double value_displaced_first_cut = 0.5 ;
+            double value_displaced_second_cut = 3 ;*/
+      
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, D2_delta_pv_sv,  M_l2l3_combined );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, D2_delta_pv_sv,  M_l2l3_combined  );
    
