@@ -782,8 +782,8 @@ class Analysis_mc : public TObject {
   void from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, int number_point);
   void zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]);
   int channel(int  flavors_3l[3], int  charge_3l[3]);
-  int SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 );
-  int SR_bin_muon(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 );
+  int SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_combined );
+  int SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_combined);
   double SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
   double SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
   double SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned leptonIndex);
