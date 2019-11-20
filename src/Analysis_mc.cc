@@ -1173,12 +1173,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       bool more10    =false;  
       bool less5     =false;
       bool more5     =false;
-      if (D2_delta_pv_sv < 2)                         less2   = true;
-      if (D2_delta_pv_sv >= 2 && D2_delta_pv_sv < 10) more2_10= true;
-      if (D2_delta_pv_sv >= 10 )                      more10  = true;
-      if (M_l2l3_combined < 4 )   less5= true;
-      if (M_l2l3_combined > 4 )   more5= true;
-      //bin histogram SR
+   
+     //bin histogram SR
       int bin_SR_muonCoupling =0;
       int bin_SR_eleCoupling =0;
       
