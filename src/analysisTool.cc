@@ -3,7 +3,7 @@
 
 //_____________________________________________
 
-int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 ){
+int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_combined ){
   int bin = -1;
   if (channel == 0 || channel == 1 || channel == 2  ){
     if (channel == 0){
@@ -44,7 +44,7 @@ int Analysis_mc::SR_bin_muon(int channel,bool less2, bool more2_10, bool more10,
 }
 //_____________________________________________
 
-int Analysis_mc::SR_bin_ele(int channel,bool less2, bool more2_10, bool more10, bool less5, bool more5 ){
+int Analysis_mc::SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_combined ){
   int bin = -1;
   if (channel == 3 || channel == 4 || channel == 5  ){
     if (channel == 3){
