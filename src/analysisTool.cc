@@ -5,14 +5,31 @@
 
 int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_combined ){
   int bin = -1;
+  double value_mass_cut = 4.0 ;
+  double value_displaced_first_cut = 0.5 ;
+  double value_displaced_second_cut = 3 ;
+	
+  bool mass_bool_less = false;	
+  bool mass_bool_more = false; 	
+  bool disp_bool_first = false;
+  bool disp_bool_second = false;
+  bool disp_bool_third = false;
+
+  mass_bool_less = M_l2l3_combined < value_mass_cut;
+  mass_bool_more = M_l2l3_combined >= value_mass_cut;
+  disp_bool_first =  D2_delta_pv_sv < 	value_displaced_first_cut;
+  disp_bool_second =  D2_delta_pv_sv > 	value_displaced_first_cut  && D2_delta_pv_sv < 	value_displaced_second_cut;
+  disp_bool_third =  D2_delta_pv_sv > 	value_displaced_second_cut;
+	
+		
   if (channel == 0 || channel == 1 || channel == 2  ){
     if (channel == 0){
-      if (less5 && less2)    bin =1;
-      if (less5 && more2_10) bin =2;
-      if (less5 && more10)   bin =3;
-      if (more5 && less2)    bin =4;
-      if (more5 && more2_10) bin =5;
-      if (more5 && more10)   bin =6;
+      if (mass_bool_less && disp_bool_first)    bin =1;
+      if (mass_bool_less && disp_bool_second) bin =2;
+      if (mass_bool_less && disp_bool_third)   bin =3;
+      if (mass_bool_more && disp_bool_first)    bin =4;
+      if (mass_bool_more && disp_bool_second) bin =5;
+      if (mass_bool_more && disp_bool_third)   bin =6;
 	    
      /* if (less2 && less5)    bin =1;
       if (less2 && more5)    bin =2;
@@ -23,21 +40,21 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
 
     }
     if (channel == 1){
-      if (less5 && less2)    bin =7;
-      if (less5 && more2_10) bin =8;
-      if (less5 && more10)   bin =9;
-      if (more5 && less2)    bin =10;
-      if (more5 && more2_10) bin =11;
-      if (more5 && more10)   bin =12;
+      if (mass_bool_less && disp_bool_first)    bin =7;
+      if (mass_bool_less && disp_bool_second) bin =8;
+      if (mass_bool_less && disp_bool_third)   bin =9;
+      if (mass_bool_more && disp_bool_first)    bin =10;
+      if (mass_bool_more && disp_bool_second) bin =11;
+      if (mass_bool_more && disp_bool_third)   bin =12;
 
     }
     if (channel == 2){
-      if (less5 && less2)    bin =13;
-      if (less5 && more2_10) bin =14;
-      if (less5 && more10)   bin =15;
-      if (more5 && less2)    bin =16;
-      if (more5 && more2_10) bin =17;
-      if (more5 && more10)   bin =18;
+      if (mass_bool_less && disp_bool_first)    bin =13;
+      if (mass_bool_less && disp_bool_second) bin =14;
+      if (mass_bool_less && disp_bool_third)   bin =15;
+      if (mass_bool_more && disp_bool_first)    bin =16;
+      if (mass_bool_more && disp_bool_second) bin =17;
+      if (mass_bool_more && disp_bool_third)   bin =18;
     }
   }
   return bin;
@@ -46,31 +63,47 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
 
 int Analysis_mc::SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_combined ){
   int bin = -1;
+  double value_mass_cut = 4.0 ;
+  double value_displaced_first_cut = 0.5 ;
+  double value_displaced_second_cut = 3 ;
+	
+  bool mass_bool_less = false;	
+  bool mass_bool_more = false; 	
+  bool disp_bool_first = false;
+  bool disp_bool_second = false;
+  bool disp_bool_third = false;
+
+  mass_bool_less = M_l2l3_combined < value_mass_cut;
+  mass_bool_more = M_l2l3_combined >= value_mass_cut;
+  disp_bool_first =  D2_delta_pv_sv < 	value_displaced_first_cut;
+  disp_bool_second =  D2_delta_pv_sv > 	value_displaced_first_cut  && D2_delta_pv_sv < 	value_displaced_second_cut;
+  disp_bool_third =  D2_delta_pv_sv > 	value_displaced_second_cut;	
+	
   if (channel == 3 || channel == 4 || channel == 5  ){
     if (channel == 3){
-      if (less5 && less2)    bin =1;
-      if (less5 && more2_10) bin =2;
-      if (less5 && more10)   bin =3;
-      if (more5 && less2)    bin =4;
-      if (more5 && more2_10) bin =5;
-      if (more5 && more10)   bin =6;
+      if (mass_bool_less && disp_bool_first)    bin =1;
+      if (mass_bool_less && disp_bool_second) bin =2;
+      if (mass_bool_less && disp_bool_third)   bin =3;
+      if (mass_bool_more && disp_bool_first)    bin =4;
+      if (mass_bool_more && disp_bool_second) bin =5;
+      if (mass_bool_more && disp_bool_third)   bin =6;
     }
     if (channel == 4){
-       if (less5 && less2)    bin =7;
-      if (less5 && more2_10) bin =8;
-      if (less5 && more10)   bin =9;
-      if (more5 && less2)    bin =10;
-      if (more5 && more2_10) bin =11;
-      if (more5 && more10)   bin =12;
+       if (mass_bool_less && disp_bool_first)    bin =7;
+      if (mass_bool_less && disp_bool_second) bin =8;
+      if (mass_bool_less && disp_bool_third)   bin =9;
+      if (mass_bool_more && disp_bool_first)    bin =10;
+      if (mass_bool_more && disp_bool_second) bin =11;
+      if (mass_bool_more && disp_bool_third)   bin =12;
 
     }
     if (channel == 5){
-       if (less5 && less2)    bin =13;
-      if (less5 && more2_10) bin =14;
-      if (less5 && more10)   bin =15;
-      if (more5 && less2)    bin =16;
-      if (more5 && more2_10) bin =17;
-      if (more5 && more10)   bin =18;
+       if (mass_bool_less && disp_bool_first)    bin =13;
+      if (mass_bool_less && disp_bool_second) bin =14;
+      if (mass_bool_less && disp_bool_third)   bin =15;
+      if (mass_bool_more && disp_bool_first)    bin =16;
+      if (mass_bool_more && disp_bool_second) bin =17;
+      if (mass_bool_more && disp_bool_third)   bin =18;
 
     }
   }
