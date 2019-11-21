@@ -39,5 +39,5 @@ for sgn in signals:
     os.chmod('jobs/jobfiles/limit_job_'+label+'.sh', 0o777)  # for sh/bash
     #os.chmod('jobs/jobfiles/limit_job_'+label+'.csh', 0o777)  # for (t)csh
     ## Submit job
-    os.system('qsub jobs/jobfiles/limit_job_'+label+'.sh -q express -o jobs/outfiles/output_'+label+'.stdout -e jobs/outfiles/output_'+label+'.stdout > jobs/outfiles/submitCheck_'+label+'.out 2>> jobs/outfiles/submitCheck_'+label+'.out')  # for sh/bash
+    os.system('qsub jobs/jobfiles/limit_job_'+label+'.sh -o jobs/outfiles/output_'+label+'.stdout -e jobs/outfiles/output_'+label+'.stdout > jobs/outfiles/submitCheck_'+label+'.out 2>> jobs/outfiles/submitCheck_'+label+'.out')  # for sh/bash
     #os.system('qsub jobs/jobfiles/limit_job_'+label+'.csh -q express -o jobs/outfiles/output_'+label+'.stdout -e jobs/outfiles/output_'+label+'.stderr > jobs/outfiles/submitCheck_'+label+'.out 2>> jobs/outfiles/submitCheck_'+label+'.out')  # for (t)csh
