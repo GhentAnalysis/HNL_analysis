@@ -1,7 +1,8 @@
 #!/bin/bash                                                                                                                                           
 
 label='TEMPLABEL'
-cmsdir='/storage_mnt/storage/user/trocino/Analysis/HNL/Displaced/2019-03-11_LegacyRelease/CMSSW_10_2_9/src/'
+#cmsdir='/storage_mnt/storage/user/trocino/Analysis/HNL/Displaced/2019-03-11_LegacyRelease/CMSSW_10_2_9/src/'
+cmsdir='/user/mvit/CMSSW_9_4_4/src/'
 wrkdir='TEMPDIR'
 curdir=`pwd`
 cd $cmsdir
