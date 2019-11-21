@@ -1168,11 +1168,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (isSRRun && SR_channel == 3 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
       if (isOnlyMC && SR_channel == 0 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
       if (isOnlyMC && SR_channel == 3 && charge_3l[0] == charge_3l[1] && charge_3l[0] == charge_3l[2]) continue;
-      bool less2     =false;
-      bool more2_10  =false;
-      bool more10    =false;  
-      bool less5     =false;
-      bool more5     =false;
+      
    
      //bin histogram SR
       int bin_SR_muonCoupling =0;
