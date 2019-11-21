@@ -2,8 +2,9 @@ import ROOT as r
 import sys, os
 from array import array
 
-indir    = '/user/trocino/Analysis/HNL/Displaced/2019-10-21_ETH_Synchronization/HNL_analysis/dataCards_shapeRoot/'
-outdir   = 'merged_datacards_rootfiles_2018/'
+#indir    = '/user/trocino/Analysis/HNL/Displaced/2019-10-21_ETH_Synchronization/HNL_analysis/dataCards_shapeRoot/'
+indir    = '/user/mvit/CMSSW_9_4_4/src/HNL_analysis/dataCards_shapeRoot/'
+outdir   = 'merged_datacards_rootfiles_2016/'
 inbkgdir = '/user/mvit/CMSSW_9_4_4/src/HNL_analysis/dataCards_shapeRoot/'
 
 if not os.path.exists(outdir): os.mkdir(outdir)
