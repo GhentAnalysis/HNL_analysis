@@ -1707,12 +1707,26 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     }// end loop on sys
   }// coupling
    
+   
+   for(int cha = 0; cha < nCoupling; ++cha) {	
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+      for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
+	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
+	  put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+	}
+      }
+	    
+    }
+  }
+   
+   
   for(int cha = 0; cha < nCoupling; ++cha) {	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+	  //put_at_zero(*&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
 	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	  	if (isSRRun)sum_expected_SR_plotting[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
