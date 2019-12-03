@@ -2260,6 +2260,8 @@ void Analysis_mc::put_at_zero(TH1D *histo){
     double error_to_add =0;
     double error_final =0;
 
+    if (histo->GetBinContent( i+1)  < 0.000001 )  histo-> SetBinContent(i+1, 0.00001);
+
     if (histo->GetBinContent( i+1)  <= 0  || std::isnan(histo->GetBinContent( i+1))) {
       error_original = histo-> GetBinError(i+1);
       error_to_add = histo-> GetBinContent(i+1);
@@ -2267,6 +2269,8 @@ void Analysis_mc::put_at_zero(TH1D *histo){
       histo-> SetBinContent(i+1, 0.00001);
       histo-> SetBinError(i+1, error_final);
       if (error_final == 0) histo-> SetBinError(i+1,  0.00001);
+      if (error_final < 0.000001) histo-> SetBinError(i+1,  0.00001);
+
     }
   }
 }
