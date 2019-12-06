@@ -131,12 +131,17 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   TLegend* legend = new TLegend(0.16,0.75,0.92,0.87,NULL,"brNDC");
     
   legend->SetFillStyle(0);
-    
+  const int signal_out= 14;	 
+  int list_signal_out[signal_out] = {1,3,4,5,6,7,9,11,13,14,15,16,17,19};	
+	
   //Add signal to the legenD
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
-	    
-      if (sig == 3 || sig == 13 ||  sig == 7 || sig == 17 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
+      bool skip_signal = false;   
+      for (int j = 0; j < signal_out; j++){
+	 if (sig == list_signal_out[j])   skip_signal=true;   	      
+      }	  
+      if (skip_signal)    continue;
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
       signal[sig]->SetLineColor(sigCols[sig]);
@@ -149,13 +154,13 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 	signal[sig]->SetLineWidth(4);
       }
       legend->SetTextFont(42);
-      legend->AddEntry(signal[sig], signames[sig]);
+      //legend->AddEntry(signal[sig], signames[sig]);
 
-      //if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "m_{N}=1 GeV");
-      //if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "m_{N}=2 GeV");
+      if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "M_{1} c#tau=74m");
+      if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "M_{2} c#tau=44m");
       //if (sig == 4 ||sig == 14 ) legend->AddEntry(signal[sig], "m_{N}=4 GeV");
       //if (sig == 6 ||sig == 16 ) legend->AddEntry(signal[sig], "m_{N}=6 GeV");
-      //if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "m_{N}=10 GeV");
+      if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "M_{8} c#tau=6m");
 		 
     }
   }
@@ -401,7 +406,12 @@ TString labels_sr[18]={"0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3"
   bkgTot->Draw("e2same");
   if(plotsig){
     for(unsigned sig = 0; sig < nSig; ++sig){
-      if (sig == 3 || sig == 13 ||  sig == 7 || sig == 17 || sig == 1 || sig == 4 || sig == 6 || sig == 8 || sig == 2 || sig == 11 || sig == 14 || sig == 16 || sig == 18 || sig == 12 ) continue;
+	 bool skip_signal = false;   
+         for (int j = 0; j < signal_out; j++){
+	    if (sig == list_signal_out[j])   skip_signal=true;   	      
+         }	  
+      if (skip_signal)    continue;
+	    
       if ((channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 )  && sig >= 10) continue; 
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
 
