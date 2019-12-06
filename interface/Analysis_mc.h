@@ -1223,8 +1223,8 @@ class Analysis_mc : public TObject {
   
   const double HistMax[nDist] = { 18.5 , 7.5,
 				  200,
-				  100,
-				  100,
+				  99,
+				  99,
 				  300,
 				  150,
 				  20,
@@ -1257,8 +1257,8 @@ class Analysis_mc : public TObject {
   };
   const unsigned nBins[nDist] = { 18 , 7,
 				  45,
-				  30,
-				  30,
+				  48,
+				  48,
 				  35,
 				  50,
 				  20,
