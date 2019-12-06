@@ -7,7 +7,8 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
   int bin = -1;
   double value_mass_cut = 4.0 ;
   double value_displaced_first_cut = 0.5 ;
-  double value_displaced_second_cut = 3 ;
+  double value_displaced_second_cut = 1.5 ;
+  double value_displaced_third_cut = 4 ;
 	
   bool mass_bool_less = false;	
   bool mass_bool_more = false; 	
