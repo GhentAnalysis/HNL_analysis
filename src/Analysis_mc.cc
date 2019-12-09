@@ -129,8 +129,10 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   } // end for(size_t is=0; is<samples.size(); ++is)
 
   // Add single- and double-fake backgrounds
-  eff_names[++nSamples_eff] = "nonprompt SF";
-  eff_names[++nSamples_eff] = "nonprompt DF";
+  eff_names[nSamples_eff] = "nonprompt SF";
+  ++nSamples_eff;
+  eff_names[nSamples_eff] = "nonprompt DF";
+  ++nSamples_eff;
 
   // Remove "Obs" from count
   --nSamples_eff;
