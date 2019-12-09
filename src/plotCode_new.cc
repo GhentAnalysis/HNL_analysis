@@ -219,15 +219,17 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
 
   // isotgramma delle SR --> linee e roba varia
 //TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10"};	   
-TString labels_sr[18]={"0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3"};	
-  if (istogramma == 0 ){
+//TString labels_sr[18]={"0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3"};	
+TString labels_sr[24]={"0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4"};	
+
+if (istogramma == 0 ){
     signal[0]->SetStats(0);
     signal[0]-> GetXaxis()->LabelsOption("vu");
     signal[0]-> GetXaxis()->SetTitle ("#Delta (PV-SV)_{2D} (cm)");	  
     signal[0]->GetXaxis()->SetTitleSize(0.06);
     signal[0]->GetXaxis()->SetTitleOffset(1.1);
     signal[0]->GetXaxis() ->SetTitleFont(132);
-    for (int i =0; i<18; i++){	  
+    for (int i =0; i<24; i++){	  
     signal[0]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
  }					     
 						     
@@ -255,7 +257,7 @@ TString labels_sr[18]={"0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3"
     signal[10]->GetXaxis()->SetTitleSize(0.06);
     signal[10]->GetXaxis()->SetTitleOffset(1.1);
     signal[10]->GetXaxis() ->SetTitleFont(132);
-	  for (int i =0; i<18; i++){	  
+	  for (int i =0; i<24; i++){	  
     signal[10]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
  }
     /*signal[10]-> GetXaxis()->SetBinLabel(1, "0-2");
