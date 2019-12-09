@@ -776,7 +776,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   
     bool isSignal = samples[sam].isNewPhysicsSignal();
     //if (samples[sam].isMC() && effsam <=20) isSignal = true;
-    if (eff_names[effsam] == "DY") continue;  
+    //if (eff_names[effsam] == "DY") continue;  
+    
+    if (eff_names[effsam] == "ttbar") continue;  
+    if (eff_names[effsam] == "WJets") continue;  
+
+    
+    
+    
     //if (!isSignal)	continue;  
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.); //, ctWeight(1.);
