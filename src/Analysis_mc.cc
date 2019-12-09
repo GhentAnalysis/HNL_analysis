@@ -1875,9 +1875,9 @@ for(int cha = 0; cha < nCoupling; ++cha){
     const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
     // List of backgrounds
-    //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+    const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
 
-   const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+  // const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
     const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
     // Output directory for datacards and shape ROOT files
@@ -1887,8 +1887,8 @@ for(int cha = 0; cha < nCoupling; ++cha){
     std::map<std::string, std::string> labelPerProc;
     labelPerProc["signal"     ] = "signal"; // to be changed...
     labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
-    //labelPerProc["ttbar"      ] = "Top";
-    //labelPerProc["WJets"      ] = "$\\PW +$ jets";
+    labelPerProc["ttbar"      ] = "Top";
+    labelPerProc["WJets"      ] = "$\\PW +$ jets";
     labelPerProc["multiboson" ] = "Multiboson";
     labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
     labelPerProc["TTTX"       ] = "Top $+$ X";
@@ -1904,7 +1904,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     std::map<std::string, std::string> procPerSyst;
     //                       Type     Correl.   Processes
     //                       -------  --------  -------------------------------------------------------------
-    /*procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+    procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
@@ -1920,7 +1920,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
     procPerSyst["npdfnorm"] = "lnN   ;  is_corr;                                                                  nonpromptDF";
-*/
+/*
 
     procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
@@ -1939,7 +1939,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
     procPerSyst["npdfnorm"] = "lnN   ;  is_corr;                                                                  nonpromptDF";
 
-
+*/
 
 
     std::map<std::string, std::vector<std::string> > normSystsPerYear;
