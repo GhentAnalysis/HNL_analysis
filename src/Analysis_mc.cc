@@ -163,7 +163,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   }
   
      for(size_t effsam = 0; effsam < nSamples_eff + 1; ++effsam){
-	 std::cout<<"-----------------> pippo: "<< eff_names[nSamples_eff] <<std::endl;
+	 std::cout<<"-----------------> pippo: "<< eff_names[effsam] <<std::endl;
      }	
 	
  
