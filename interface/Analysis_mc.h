@@ -902,10 +902,10 @@ class Analysis_mc : public TObject {
  //******************* HISTO **********************
   //
   // Constant size, x2 than expected (could be done better...)
-  const static unsigned int max_nSamples_signal_e  = 30;
-  const static unsigned int max_nSamples_signal_mu = 30;
+  const static unsigned int max_nSamples_signal_e  = 10;
+  const static unsigned int max_nSamples_signal_mu = 10;
   const static unsigned int max_nSamples_signal    = max_nSamples_signal_e + max_nSamples_signal_mu;
-  const static unsigned int max_nSamples_eff       = 16 + max_nSamples_signal;   // when there was still ttx
+  const static unsigned int max_nSamples_eff       = 6 + max_nSamples_signal;   // when there was still ttx
   //
   // Variable size (could be done better...)
   unsigned int nSamples_signal_e;
