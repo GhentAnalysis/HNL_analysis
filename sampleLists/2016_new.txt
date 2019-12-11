@@ -24,14 +24,14 @@ DY       DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root  
 #ttbar    TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                                   87.31483776
 #ttbar    TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                            182.17540224
 #ttbar    TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                            182.17540224
-ttbar    TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_Summer16.root                                   87.31483776
-ttbar    TTToSemilepton_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_Summer16.root                            364.3508
+#ttbar    TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_Summer16.root                                   87.31483776
+#ttbar    TTToSemilepton_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_Summer16.root                            364.3508
 #ttbar    ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1_Summer16.root                        3.68064
 #ttbar    ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1_Summer16.root   80.95
 #ttbar    ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1_Summer16.root          136.02
 #ttbar    ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4_Summer16.root                       35.85
 #ttbar    ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4_Summer16.root                       35.85
-WJets         WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                                        61526.7
+#WJets         WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                                        61526.7
 multiboson    WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                            0.2086
 multiboson    WZTo3LNu_mllmin01_13TeV-powheg-pythia8_ext1_Summer16.root                                4.42965
 multiboson    WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                                             0.04123
