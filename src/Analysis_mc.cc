@@ -1938,7 +1938,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
     procPerSyst["npdfnorm"] = "lnN   ;  is_corr;                                                                  nonpromptDF";
 
-*/
+
 
 
     std::map<std::string, std::vector<std::string> > normSystsPerYear;
