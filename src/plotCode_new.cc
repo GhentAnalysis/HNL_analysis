@@ -156,11 +156,11 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       legend->SetTextFont(42);
       //legend->AddEntry(signal[sig], signames[sig]);
 
-      if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "M_{1} c#tau=74m");
-      if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "M_{2} c#tau=44m");
+      if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "M_{1} c#tau=74mm");
+      if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "M_{2} c#tau=44mm");
       //if (sig == 4 ||sig == 14 ) legend->AddEntry(signal[sig], "m_{N}=4 GeV");
       //if (sig == 6 ||sig == 16 ) legend->AddEntry(signal[sig], "m_{N}=6 GeV");
-      if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "M_{8} c#tau=6m");
+      if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "M_{8} c#tau=6mm");
 		 
     }
   }
