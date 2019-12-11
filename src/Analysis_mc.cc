@@ -2152,9 +2152,9 @@ for(int cha = 0; cha < nCoupling; ++cha){
 
 
 	std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
-	std::cout<< sum_expected_SR[icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR[icoup][0][0]->GetNbinsX()<<std::endl;
-	std::cout<< plots_SR[icoup][0][0][21]->Integral(0, -1) <<" .  "<< plots_SR[icoup][0][0][21]->GetNbinsX()<<std::endl;
-	std::cout<< plots_SR[icoup][0][0][33]->Integral(0, -1) <<" .  "<< plots_SR[icoup][0][0][33]->GetNbinsX()<<std::endl;
+	std::cout<<"sum: "<< sum_expected_SR[icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR[icoup][0][0]->GetNbinsX()<<std::endl;
+	//std::cout<<"21(DY)" plots_SR[icoup][0][0][21]->Integral(0, -1) <<" .  "<< plots_SR[icoup][0][0][21]->GetNbinsX()<<std::endl;
+	//std::cout<< plots_SR[icoup][0][0][33]->Integral(0, -1) <<" .  "<< plots_SR[icoup][0][0][33]->GetNbinsX()<<std::endl;
 
 
 
