@@ -2162,11 +2162,12 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	    rootfile->cd();
 	    // Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	    plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	    std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<" .  "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX()<<std::endl;   
+	    std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<" .  "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX()<<" . sum of weight: "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> GetSumOfWeights()
+std::endl;   
 		for(int bini=0; bini < plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX(); bini++){
 			std::cout<<"bin: "<<bini<<" . "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(bini+1)<<std::endl;
 		}
-float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+            float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
 	    
 	    
 	    
