@@ -786,6 +786,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     
     if (eff_names[effsam] == "ttbar") continue;  
     if (eff_names[effsam] == "WJets") continue;  
+    if (samples[sam].getFileName() != "DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && samples[sam].getFileName() != "ZZTo4L_13TeV-amcatnloFXFX-pythia8_Summer16.root") continue;  
 
     
     
@@ -1219,12 +1220,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (!selection_0) continue;
   
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
-      SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
+      SR_selection = v4l2.DeltaR(v4l3) < 1 ;/*&&   
 					 M_3L_combined > 45 && 
 	M_3L_combined < 85 && 
 			min_delta_phi > 1 &&
 	vtxRvtxPcosAlpha > 0.9  &&
-	M_l2l3_combined < 50;
+	M_l2l3_combined < 50;*/
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //if (!SR_selection)continue;
 
@@ -1754,9 +1755,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   int numer_plot_class =0;
   if (isSRRun) 	numer_plot_class = nSamples_eff -  nSamples_signal;
   if (isOnlyMC) numer_plot_class = nSamples_eff -  nSamples_signal - 2;
-  
-  
-  
 	
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -2152,12 +2150,23 @@ for(int cha = 0; cha < nCoupling; ++cha){
 	  card << left << std::setw(2*ntab) << "rate";
 	  card << left << std::setw(ntab)   << std::setprecision(5) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
 
+
+	std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
+	std::cout<< sum_expected_SR[icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR[icoup][0][0]->GetNbinsX()<<std::endl;
+	std::cout<< plots_SR[icoup][0][0][21]->Integral(0, -1) <<" .  "<< plots_SR[icoup][0][0][21]->->GetNbinsX()<<std::endl;
+	std::cout<< plots_SR[icoup][0][0][33]->Integral(0, -1) <<" .  "<< plots_SR[icoup][0][0][33]->->GetNbinsX()<<std::endl;
+
+
+
 	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
 	    rootfile->cd();
 	    // Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	    plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	    // std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
+	    std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<std::endl;   
 	    float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+	    
+	    
+	    
 	    //float iyield = Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Integral(0, -1);
 	    if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
 	    else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
