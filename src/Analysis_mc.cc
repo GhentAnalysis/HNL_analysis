@@ -786,7 +786,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     
     if (eff_names[effsam] == "ttbar") continue;  
     if (eff_names[effsam] == "WJets") continue;  
-    if (samples[sam].getFileName() != "DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && samples[sam].getFileName() != "ZZTo4L_13TeV-amcatnloFXFX-pythia8_Summer16.root") continue;  
 
     
     
@@ -1219,13 +1218,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    
       if (!selection_0) continue;
   
-      bool SR_selection = true;  // bveto is not there because we want btagging SF  
-     /* SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
+      bool SR_selection = false;  // bveto is not there because we want btagging SF  
+      SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
 					 M_3L_combined > 45 && 
 	M_3L_combined < 85 && 
 			min_delta_phi > 1 &&
 	vtxRvtxPcosAlpha > 0.9  &&
-	M_l2l3_combined < 50;*/
+	M_l2l3_combined < 50;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //if (!SR_selection)continue;
 
@@ -1875,9 +1874,9 @@ for(int cha = 0; cha < nCoupling; ++cha){
     const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
     // List of backgrounds
-    const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+    //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
 
-  //const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+  const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
     const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
     // Output directory for datacards and shape ROOT files
@@ -1887,8 +1886,8 @@ for(int cha = 0; cha < nCoupling; ++cha){
     std::map<std::string, std::string> labelPerProc;
     labelPerProc["signal"     ] = "signal"; // to be changed...
     labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
-    labelPerProc["ttbar"      ] = "Top";
-    labelPerProc["WJets"      ] = "$\\PW +$ jets";
+    //labelPerProc["ttbar"      ] = "Top";
+   // labelPerProc["WJets"      ] = "$\\PW +$ jets";
     labelPerProc["multiboson" ] = "Multiboson";
     labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
     labelPerProc["TTTX"       ] = "Top $+$ X";
@@ -1904,7 +1903,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     std::map<std::string, std::string> procPerSyst;
     //                       Type     Correl.   Processes
     //                       -------  --------  -------------------------------------------------------------
-    procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
+   /* procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
@@ -1920,7 +1919,7 @@ for(int cha = 0; cha < nCoupling; ++cha){
     procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY, ttbar, WJets, multiboson, Xgamma, TTTX                          ";
     procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
     procPerSyst["npdfnorm"] = "lnN   ;  is_corr;                                                                  nonpromptDF";
-/*
+*/
 
     procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
