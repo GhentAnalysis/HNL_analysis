@@ -831,15 +831,15 @@ class Analysis_mc : public TObject {
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   //pt displaced
-  const double mu_pt=3.;
+  const double mu_pt=5.;
   const double ele_pt=7.;
   //pt prompt
   const double mu_2016=25;
-  const double mu_2017=28;
+  const double mu_2017=25;
   const double mu_2018=25;
   const double ele_2016=30;
-  const double ele_2017=38;
-  const double ele_2018=35;
+  const double ele_2017=35;
+  const double ele_2018=32;
   //iso FO
   const double mu_iso_loose=1.2;
   const double ele_iso_loose=1.2;
