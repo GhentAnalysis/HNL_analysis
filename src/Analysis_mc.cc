@@ -1164,6 +1164,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (Double_fake) M_3L_combined = (v4l2_naked + v4l3_naked + v4l1).M();
       double M_l2l3_combined = (v4l2 + v4l3).M();
       if (Double_fake) M_l2l3_combined = (v4l2_naked + v4l3_naked).M();
+      double M_l1l2_combine = (v4l2 + v4l1).M();
+      if (Double_fake) M_l1l2_combine = (v4l2_naked + v4l1).M();
+       double M_l1l3_combine = (v4l3 + v4l1).M();
+      if (Double_fake) M_l1l3_combine = (v4l3_naked + v4l1).M();
+      
       METvec.SetPtEtaPhiE(_met, 0, _metPhi,_met);    
       TLorentzVector to_use_mT;
       to_use_mT.SetPtEtaPhiE(other[0].Pt(),0, other[0].Phi(), other[0].Pt());
@@ -1228,15 +1233,73 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	
 	
 	//* veto for resonances!
-	bool j_psi_veto = true;
-	bool psi_2_veto = true;
+	bool j_psi_veto_l2l3 = true;
+	bool psi_2_veto_l2l3 = true;
+	bool omega_veto_l2l3 = true;
+	bool phi_veto_l2l3 = true;	
+	bool j_psi_veto_l1l2 = true;
+	bool psi_2_veto_l1l2 = true;
+	bool omega_veto_l1l2 = true;
+	bool phi_veto_l1l2 = true;
+	bool z_veto_l1l2 = true;
+	bool upsilon_veto_l1l2 = true;
+	bool upsilon2_veto_l1l2 = true;
+	bool upsilon3_veto_l1l2 = true;	
+	bool j_psi_veto_l1l3 = true;
+	bool psi_2_veto_l1l3 = true;
+	bool omega_veto_l1l3 = true;
+	bool phi_veto_l1l3 = true;
+	bool z_veto_l1l3 = true;
+	bool upsilon_veto_l1l3 = true;
+	bool upsilon2_veto_l1l3 = true;
+	bool upsilon3_veto_l1l3 = true;
+
 	if (SR_channel == 0 || SR_channel == 3){
-		if (fabs (M_l2l3_combined - 3.0969) < 0.08 ) j_psi_veto = false;
-		if (fabs (M_l2l3_combined - 3.6861) < 0.08 ) psi_2_veto = false;
+		if (fabs (M_l2l3_combined - 3.0969) < 0.08 ) j_psi_veto_l2l3 = false;
+		if (fabs (M_l2l3_combined - 3.6861) < 0.08 ) psi_2_veto_l2l3 = false;
+		if (fabs (M_l2l3_combined - 0.7827) < 0.08 ) omega_veto_l2l3 = false;
+		if (fabs (M_l2l3_combined - 1.0190) < 0.08 ) phi_veto_l2l3 = false;
+		
+		if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 0.7827) < 0.08 ) omega_veto_l1l2 = false;
+		if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 1.0190) < 0.08 ) phi_veto_l1l2 = false;
+	        if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.0969) < 0.08 ) j_psi_veto_l1l2 = false;
+		if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.6861) < 0.08 ) psi_2_veto_l1l2 = false;
+		if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 9.4603) < 0.08 ) upsilon_veto_l1l2 = false;
+		if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l2 = false;
+		if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l2 = false;
+		if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 91.1876) < 10 )  z_veto_l1l2 = false;
+
+		if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 0.7827) < 0.08 ) omega_veto_l1l3 = false;
+		if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 1.0190) < 0.08 ) phi_veto_l1l3 = false;
+	        if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.0969) < 0.08 ) j_psi_veto_l1l3 = false;
+		if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.6861) < 0.08 ) psi_2_veto_l1l3 = false;
+		if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 9.4603) < 0.08 ) upsilon_veto_l1l3 = false;
+		if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l3 = false;
+		if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l3 = false;
+		if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 91.1876) < 10 )  z_veto_l1l3 = false;	
 	}
-	
-	
-	
+	if (SR_channel == 1 || SR_channel == 4){
+	        if (flavors_3l[0] == flavors_3l[1]){
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 0.7827) < 0.08 ) omega_veto_l1l2 = false;
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 1.0190) < 0.08 ) phi_veto_l1l2 = false;
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.0969) < 0.08 ) j_psi_veto_l1l2 = false;
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.6861) < 0.08 ) psi_2_veto_l1l2 = false;
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 9.4603) < 0.08 ) upsilon_veto_l1l2 = false;
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l2 = false;
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l2 = false;
+			if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 91.1876) < 10 )  z_veto_l1l2 = false;
+		}
+		if (flavors_3l[0] == flavors_3l[2]){
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 0.7827) < 0.08 ) omega_veto_l1l3 = false;
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 1.0190) < 0.08 ) phi_veto_l1l3 = false;
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.0969) < 0.08 ) j_psi_veto_l1l3 = false;
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.6861) < 0.08 ) psi_2_veto_l1l3 = false;
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 9.4603) < 0.08 ) upsilon_veto_l1l3 = false;
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l3 = false;
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l3 = false;
+			if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 91.1876) < 10 )  z_veto_l1l3 = false;
+		}
+	}
 	    
       if (!selection_0) continue;
   
@@ -1250,8 +1313,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		(v4l2+v4l3).Pt() > 15 &&
 		D2_delta_pv_svSig > 20 &&	
 		prob_vertex > 0.001 &&
-		j_psi_veto &&
-		psi_2_veto
+		j_psi_veto_l2l3  && psi_2_veto_l2l3  && omega_veto_l2l3  && phi_veto_l2l3 &&
+		j_psi_veto_l1l2  && psi_2_veto_l1l2  && omega_veto_l1l2  && phi_veto_l1l2  && z_veto_l1l2  && upsilon_veto_l1l2  && upsilon2_veto_l1l2  && upsilon3_veto_l1l2 
+		&& j_psi_veto_l1l3  && psi_2_veto_l1l3  && omega_veto_l1l3  && phi_veto_l1l3  && z_veto_l1l3  && upsilon_veto_l1l3  && upsilon2_veto_l1l3  && upsilon3_veto_l1l3
 	;
 	
 	
