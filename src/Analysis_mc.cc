@@ -946,7 +946,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       int index_to_use_for_l2_l3[2]={0,0};
       //find the right OS pair with min invariant mass
       //int min_test= 9999;
-      double min_mass=999;
+      double min_mass=0; // 999 if minMass idea is used
       displacedC=0;
       for(unsigned l = 0; l < lCount-1; ++l){
 	for(unsigned j = l+1; j < lCount; ++j){	  	
@@ -956,8 +956,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  TLorentzVector temp_displaced2;
 	  temp_displaced1.SetPtEtaPhiE(_lPt[ind[l]],_lEta[ind[l]], _lPhi[ind[l]], _lE[ind[l]]);
 	  temp_displaced2.SetPtEtaPhiE(_lPt[ind[j]],_lEta[ind[j]], _lPhi[ind[j]], _lE[ind[j]]);
-	  if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
-	    min_mass= (temp_displaced1+temp_displaced2).M();
+	  if ( (temp_displaced1+temp_displaced2).Pt()  > min_mass) {
+	    min_mass= (temp_displaced1+temp_displaced2).Pt();
 	    if (_lPt[ind[l]]> _lPt[ind[j]]){
 	      index_to_use_for_l2_l3[0] = ind[l];
 	      index_to_use_for_l2_l3[1] = ind[j];
@@ -967,6 +967,17 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      index_to_use_for_l2_l3[1] = ind[l];
 	    }	    
 	  }
+	  /*if ( (temp_displaced1+temp_displaced2).M()  < min_mass) {
+	    min_mass= (temp_displaced1+temp_displaced2).M();
+	    if (_lPt[ind[l]]> _lPt[ind[j]]){
+	      index_to_use_for_l2_l3[0] = ind[l];
+	      index_to_use_for_l2_l3[1] = ind[j];
+	    }		    
+	    else{
+	      index_to_use_for_l2_l3[0] = ind[j];
+	      index_to_use_for_l2_l3[1] = ind[l];
+	    }	    
+	  }*/	  
 	  //std::cout<<"mass min: "<<min_mass<<std::endl;
 	}//end loop2
       }//end loop1
@@ -1211,10 +1222,21 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if ( selection_2 && M_3L_combined > 45 && M_3L_combined < 85)            selection_3 = true;
       if ( selection_3 && min_delta_phi > 1)                                   selection_4 = true;
       if ( selection_4 && vtxRvtxPcosAlpha > 0.9)                              selection_5 = true;
-      if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
+      //if ( selection_5 && M_l2l3_combined < 50)                                selection_final = true;
       // std::cout<<""<<std::endl; 
       //  std::cout<<"delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-	    
+	
+	
+	//* veto for resonances!
+	bool j_psi_veto = true;
+	bool psi_2_veto = true;
+	if (SR_channel == 0 || SR_channel == 3){
+		if (fabs (M_l2l3_combined - 3.0969) < 0.08 ) j_psi_veto = false;
+		if (fabs (M_l2l3_combined - 3.6861) < 0.08 ) psi_2_veto = false;
+	}
+	
+	
+	
 	    
       if (!selection_0) continue;
   
@@ -1226,8 +1248,19 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		vtxRvtxPcosAlpha > 0.99  &&
 		M_l2l3_combined < 12 &&
 		(v4l2+v4l3).Pt() > 15 &&
-	//TMath::Prob(_vertex_chi2[2],_vertex_ndf[2] )
+		D2_delta_pv_svSig > 20 &&	
+		prob_vertex > 0.001 &&
+		j_psi_veto &&
+		psi_2_veto
 	;
+	
+	
+	
+	
+	
+	
+      if (SR_selection) selection_final = true;
+	
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //if (!SR_selection)continue;
 
