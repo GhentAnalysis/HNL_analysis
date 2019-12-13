@@ -207,22 +207,25 @@ bool Analysis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
   if( is2016() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2016) return false;
   if( is2017() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2017) return false;
   if( is2018() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2018) return false;
-  
+  if (!lepPromptTriggerMatching(leptonIndex)) return false;
+
   return true;
 }
 //______________________________________________trigger matching for prompt leptons!
 bool Analysis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
+  bool Analysis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
   if (!lepIsFOBase(leptonIndex)) return false;
-  if (!lepIsTightPrompt(leptonIndex)) return false;
+  //if (!lepIsTightPrompt(leptonIndex)) return false;
   
-  if( is2016() && isMu(leptonIndex) && ((_lHasTrigger[leptonIndex] & 1)==0 || (_lHasTrigger[leptonIndex] & 2)==0)) return true;
-  if( is2016() && isElectron(leptonIndex) && (_lHasTrigger[leptonIndex] & 1)==0) return true;
+  if( is2016() && isMu(leptonIndex) && !((_lHasTrigger[leptonIndex] & 1)==0 && (_lHasTrigger[leptonIndex] & 2)==0)) return true;
+  if( is2016() && isElectron(leptonIndex) && !((_lHasTrigger[leptonIndex] & 1)==0)) return true;
 
-  if( is2017() && isMu(leptonIndex) && ((_lHasTrigger[leptonIndex] & 1)==0 || (_lHasTrigger[leptonIndex] & 2)==0)) return true;
-  if( is2017() && isElectron(leptonIndex) && (_lHasTrigger[leptonIndex] & 1)==0) return true;
+  // std::cout<< isMu(leptonIndex)<<"   "<< "   "<< "  "<<(_lHasTrigger[leptonIndex] & 1) <<" "<< (_lHasTrigger[leptonIndex] & 2)<<std::endl;
+  if( is2017() && isMu(leptonIndex) && !((_lHasTrigger[leptonIndex] & 1)==0 && (_lHasTrigger[leptonIndex] & 2)==0)) return true;
+  if( is2017() && isElectron(leptonIndex) && !((_lHasTrigger[leptonIndex] & 1)==0)) return true;
 
-  if( is2018() && isMu(leptonIndex) && ((_lHasTrigger[leptonIndex] & 1)==0 || (_lHasTrigger[leptonIndex] & 2)==0)) return true;
-  if( is2018() && isElectron(leptonIndex) && (_lHasTrigger[leptonIndex] & 1)==0) return true;
+  if( is2018() && isMu(leptonIndex) && !((_lHasTrigger[leptonIndex] & 1)==0 && (_lHasTrigger[leptonIndex] & 2)==0)) return true;
+  if( is2018() && isElectron(leptonIndex) && !((_lHasTrigger[leptonIndex] & 1)==0)) return true;
 
   // If none of the above (to avoid compilation warnings)
   return false;
