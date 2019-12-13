@@ -193,7 +193,7 @@ bool Analysis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
   if (!lepIsFOBase(leptonIndex)) return false;
   //Variable
   if (_relIso[leptonIndex] > 0.1)  return false;
-  //if (fabs(_3dIPSig[leptonIndex]) > 4)  return false;
+  if (fabs(_3dIPSig[leptonIndex]) > 4)  return false;
   if (fabs(_dz[leptonIndex]) > 0.1)  return false;
   if (fabs(_dxy[leptonIndex]) > 0.05)  return false;
   //ID
