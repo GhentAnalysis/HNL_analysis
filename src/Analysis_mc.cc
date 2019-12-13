@@ -1220,11 +1220,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
-					 M_3L_combined > 45 && 
-	M_3L_combined < 85 && 
-			min_delta_phi > 1 &&
-	vtxRvtxPcosAlpha > 0.9  &&
-	M_l2l3_combined < 50;
+		M_3L_combined > 50 && 
+		M_3L_combined < 80 && 
+		min_delta_phi > 1 &&
+		vtxRvtxPcosAlpha > 0.99  &&
+		M_l2l3_combined < 12 &&
+		(v4l2+v4l3).Pt() > 15 &&
+	//TMath::Prob(_vertex_chi2[2],_vertex_ndf[2] )
+	;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //if (!SR_selection)continue;
 
