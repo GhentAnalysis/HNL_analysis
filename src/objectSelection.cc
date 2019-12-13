@@ -213,7 +213,6 @@ bool Analysis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
 }
 //______________________________________________trigger matching for prompt leptons!
 bool Analysis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
-  bool Analysis_mc::lepPromptTriggerMatching(const unsigned leptonIndex) const{
   if (!lepIsFOBase(leptonIndex)) return false;
   //if (!lepIsTightPrompt(leptonIndex)) return false;
   
