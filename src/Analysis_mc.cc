@@ -1164,10 +1164,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (Double_fake) M_3L_combined = (v4l2_naked + v4l3_naked + v4l1).M();
       double M_l2l3_combined = (v4l2 + v4l3).M();
       if (Double_fake) M_l2l3_combined = (v4l2_naked + v4l3_naked).M();
-      double M_l1l2_combine = (v4l2 + v4l1).M();
-      if (Double_fake) M_l1l2_combine = (v4l2_naked + v4l1).M();
-       double M_l1l3_combine = (v4l3 + v4l1).M();
-      if (Double_fake) M_l1l3_combine = (v4l3_naked + v4l1).M();
+      double M_l1l2_combined = (v4l2 + v4l1).M();
+      if (Double_fake) M_l1l2_combined = (v4l2_naked + v4l1).M();
+       double M_l1l3_combined = (v4l3 + v4l1).M();
+      if (Double_fake) M_l1l3_combined = (v4l3_naked + v4l1).M();
       
       METvec.SetPtEtaPhiE(_met, 0, _metPhi,_met);    
       TLorentzVector to_use_mT;
