@@ -3,9 +3,9 @@ import sys, os
 from array import array
 
 #indir    = '/user/trocino/Analysis/HNL/Displaced/2019-10-21_ETH_Synchronization/HNL_analysis/dataCards_shapeRoot/'
-indir    = '/dataCards_shapeRoot/'
+indir    = 'dataCards_shapeRoot/'
 outdir   = 'merged_datacards_rootfiles_2016/'
-inbkgdir = '/dataCards_shapeRoot/'
+inbkgdir = 'dataCards_shapeRoot/'
 
 if not os.path.exists(outdir): os.mkdir(outdir)
 
