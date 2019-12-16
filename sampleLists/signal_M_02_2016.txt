@@ -1,4 +1,9 @@
 Obs  data_2016_2.root
+M-2_V-0.891067_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    7.94e-01
+M-2_V-0.707814_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    5.01e-01
+M-2_V-0.562139_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    3.16e-01
+M-2_V-0.447214_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    2.00e-01
+M-2_V-0.354965_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    1.26e-01
 M-2_V-0.28178_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    7.94e-02
 M-2_V-0.22383_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    5.01e-02
 M-2_V-0.177764_mu    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_mu_massiveAndCKM_LO_2016.root     2.651e+00   31.50    3.16e-02
@@ -19,6 +24,11 @@ M-2_V-0.00707814_mu    HeavyNeutrino_trilepton_M-2_V-0.0110905365064_mu_massiveA
 M-2_V-0.00562139_mu    HeavyNeutrino_trilepton_M-2_V-0.0110905365064_mu_massiveAndCKM_LO_2016.root     5.287e-01  158.00    3.16e-05
 M-2_V-0.00447214_mu    HeavyNeutrino_trilepton_M-2_V-0.0110905365064_mu_massiveAndCKM_LO_2016.root     5.287e-01  158.00    2.00e-05
 M-2_V-0.00354965_mu    HeavyNeutrino_trilepton_M-2_V-0.0110905365064_mu_massiveAndCKM_LO_2016.root     5.287e-01  158.00    1.26e-05
+M-2_V-0.891067_e    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    7.94e-01
+M-2_V-0.707814_e    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    5.01e-01
+M-2_V-0.562139_e    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    3.16e-01
+M-2_V-0.447214_e    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    2.00e-01
+M-2_V-0.354965_e    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    1.26e-01
 M-2_V-0.28178_e        HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    7.94e-02
 M-2_V-0.22383_e        HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    5.01e-02
 M-2_V-0.177764_e    HeavyNeutrino_trilepton_M-2_V-0.0248394846967_e_massiveAndCKM_LO_2016.root         2.634e+00   31.15    3.16e-02
