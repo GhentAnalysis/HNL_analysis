@@ -1069,12 +1069,12 @@ class Analysis_mc : public TObject {
     "M=10 V=0.0007 e"*/
 	
 
-  const static int nCat=8;
+  const static int nCat=17;
   const static int nChannel=8;
   const static int nDist = 45;  //Number of distributions to plo
 
 
-  const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final","_inverted"};
+  const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final","a","b","c","d","e","f","g","h","i","l"};
   const TString channelNames[nChannel]= {"mmm", "mmeOS", "mmeSS","eee", "eemOS", "eemSS","mu","e"};
 
   
