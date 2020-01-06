@@ -148,7 +148,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   const int nBin_probvertex = 18;	
   Double_t bin_probvertex[nBin_probvertex+1] = {0,0.0005,0.001,0.005,0.01,0.03,0.05,0.07,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.75,1.};
 	
-  const int nBin_cos = 27;	
+  const int nBin_cos = 28;	
   Double_t bin_cos[nBin_cos+1] = {-1.,-0.99,-0.98,-0.9,-0.8,-0.7, -0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8, 0.9, 0.92,0.94,0.96,0.97,0.98,0.99,1.};
 
   const int nBin_2d = 13;	
