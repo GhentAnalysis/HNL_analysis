@@ -145,6 +145,15 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   if(nSamples_signal!=(nSamples_signal_e+nSamples_signal_mu))
     throw std::runtime_error("nSamples_signal != nSamples_signal_e + max_nSamples_signal_mu");
 
+const int nBin_probvertex = 18;	
+Double_t bin_probvertex[nBin_probvertex+1] = {0,0.0005,0.001,0.005,0.01,0.03,0.05,0.07,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.75,1.};
+	
+const int nBin_cos = 27;	
+Double_t bin_cos[nBin_cos+1] = {-1.,-0.99,-0.98,-0.9,-0.8,-0.7, -0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8, 0.9, 0.92,0.94,0.96,0.97,0.98,0.99,1.};
+
+const int nBin_2d = 13;	
+Double_t bin_2d[nBin_2d+1] = {0,1,2,3,4,5,6,7,8,9,10,15,25,50};
+	
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> histogramms creation >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   for(int i = 0; i < nDist; ++i){
     float BinWidth = (HistMax[i] - HistMin[i])/nBins[i];
@@ -153,8 +162,13 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
       for(int cat = 0; cat < nCat; ++cat){
 	//if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
-	  Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);
-	  Histos[i][cha][cat][effsam]->Sumw2();
+	 if (i != 34 && i!= 37 && i!=40){
+	  Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);  
+	 }	
+	 if (i == 34) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_probvertex, bin_probvertex);  
+	 if (i == 37) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_cos, bin_cos);  
+	 if (i == 40) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d, bin_2d);  		
+	Histos[i][cha][cat][effsam]->Sumw2();	
 	}
       }
     }
@@ -1469,7 +1483,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			     D2_delta_pv_sv,
 			     D2_delta_pv_sv,
 			     D2_delta_pv_svSig,
-			     momentum_jet, momentum_jet};
+			     momentum_jet, (v4l2+v4l3).Pt()};
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       bool isDataDrivenBgk= false;
