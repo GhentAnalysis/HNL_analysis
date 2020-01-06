@@ -1069,12 +1069,12 @@ class Analysis_mc : public TObject {
     "M=10 V=0.0007 e"*/
 	
 
-  const static int nCat=7;
+  const static int nCat=8;
   const static int nChannel=8;
   const static int nDist = 45;  //Number of distributions to plo
 
 
-  const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final"};
+  const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final","_inverted"};
   const TString channelNames[nChannel]= {"mmm", "mmeOS", "mmeSS","eee", "eemOS", "eemSS","mu","e"};
 
   
@@ -1111,7 +1111,7 @@ class Analysis_mc : public TObject {
 					 "DeltaPV_SV_2D",
 					 "DeltaPV_SV_2D_zomm",
 					 "sigmaDeltaPV_SV_2D",
-					 "momentumjet","closestjetPt"
+					 "momentumjet","sum_Pt_L2L3"
   };
 
 
@@ -1148,7 +1148,7 @@ class Analysis_mc : public TObject {
 				"#Delta (PV-SV)_{2D}",
 				"#Delta (PV-SV)_{2D}",
 				"#sigma #Delta (PV-SV)_{2D}",
-				"momentumjet","closest jetPt"};
+				"momentumjet","sum P_{T} l_{2}+l_{3}"};
 
 
   const TString Units[nDist] = {" "," ",
@@ -1217,7 +1217,7 @@ class Analysis_mc : public TObject {
 				 0,
 				 0,
 				 10,
-				 10};
+				 5};
 
   
   
