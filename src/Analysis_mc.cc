@@ -1689,16 +1689,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (_h)      Histos[0][SR_channel][14][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
 	if (_i)      Histos[0][SR_channel][15][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
 	if (_l)      Histos[0][SR_channel][16][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_a)      Histos[0][6][7][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_b)      Histos[0][6][8][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_c)      Histos[0][6][9][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_d)      Histos[0][6][10][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_e)      Histos[0][6][11][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_f)      Histos[0][6][12][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_g)      Histos[0][6][13][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_h)      Histos[0][6][14][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_i)      Histos[0][6][15][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (_l)      Histos[0][6][16][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_a)      Histos[0][7][7][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_b)      Histos[0][7][8][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_c)      Histos[0][7][9][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_d)      Histos[0][7][10][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_e)      Histos[0][7][11][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_f)      Histos[0][7][12][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_g)      Histos[0][7][13][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_h)      Histos[0][7][14][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_i)      Histos[0][7][15][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (_l)      Histos[0][7][16][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
 
       }
       // ------------------- Histo cut flow  
