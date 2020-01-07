@@ -1731,27 +1731,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (selection_final)  Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_ele);
       }     
       
-      /*
-	SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
-	M_3L_combined > 50 && 
-	M_3L_combined < 80 && 
-	min_delta_phi > 1 &&
-	vtxRvtxPcosAlpha > 0.99  &&
-	M_l2l3_combined < 12 &&
-	(v4l2+v4l3).Pt() > 15 &&
-	D2_delta_pv_svSig > 20 &&	
-	prob_vertex > 0.001 &&
-	j_psi_veto_l2l3  && psi_2_veto_l2l3  && omega_veto_l2l3  && phi_veto_l2l3 &&
-	j_psi_veto_l1l2  && psi_2_veto_l1l2  && omega_veto_l1l2  && phi_veto_l1l2  && z_veto_l1l2  && upsilon_veto_l1l2  && upsilon2_veto_l1l2  && upsilon3_veto_l1l2 
-	&& j_psi_veto_l1l3  && psi_2_veto_l1l3  && omega_veto_l1l3  && phi_veto_l1l3  && z_veto_l1l3  && upsilon_veto_l1l3  && upsilon2_veto_l1l3  && upsilon3_veto_l1l3
-	; 
-      */
-      
-      
-      
-      
-      
-      
       
       // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
@@ -2030,7 +2009,57 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   } // end if skipPlotting
 
 
+
+  TH1D* signals_mu[nSamples_signal][11];
+  TH1D* signals_mu[nSamples_signal][11];
+
+
+  for(unsigned dist = 0; dist < nDist; ++dist){
+      for(unsigned cat = 0; cat < nCat; ++cat){
+	//if (cat !=0 && cat !=6) continue;
+	for(int cha = 0; cha < nChannel; ++cha){               
+	  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	  }
+
+}
+
+
+
+
   for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+    if (signal_sample < 10) {
+    signals2[signal_sample][0] =(TH1D*)Histos[0][6][6][signal_sample+1]->Clone() ;   
+    signals2[signal_sample][0] =(TH1D*)Histos[0][6][6][signal_sample+1]->Clone() ;   
+    signals2[signal_sample][0] =(TH1D*)Histos[0][6][6][signal_sample+1]->Clone() ;   
+    signals2[signal_sample][0] =(TH1D*)Histos[0][6][6][signal_sample+1]->Clone() ;   
+    signals2[signal_sample][0] =(TH1D*)Histos[0][6][6][signal_sample+1]->Clone() ;   
+    signals2[signal_sample][0] =(TH1D*)Histos[0][6][6][signal_sample+1]->Clone() ;   
+    signals2[signal_sample][0] =(TH1D*)Histos[0][6][6][signal_sample+1]->Clone() ;   
+  
+  
+    }
+  
+ bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   if (signal_sample < 10){
     ratios_n_1 << sigNames[signal_sample]<< "  ------------------------  "<<std::endl;
     ratios_n_1 << "    mu coupling  -->  bgk: "<<dataYields[0][6][6]->Integral(0, -1)<<"   signal: "<<Histos[0][6][6][signal_sample+1]->Integral(0, -1)<<std::endl;
