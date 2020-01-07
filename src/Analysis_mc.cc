@@ -824,7 +824,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries; ++it) {
+    for(ULong64_t it=0; it<nEntries/1000; ++it) {
       GetEntry(samples[sam], it);  
    
       if (samples[sam].isData()){
@@ -2008,8 +2008,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     } // end histo  
   } // end if skipPlotting
 
-  TH1D* signals_w[nSamples_signal][11];
-  TH1D* bgk_w[nSamples_signal][11];
+  TH1D* signals_w[nSamples_signal];
+  TH1D* bgk_w[nSamples_signal];
 
 
 for(unsigned dist = 0; dist < nDist; ++dist){
