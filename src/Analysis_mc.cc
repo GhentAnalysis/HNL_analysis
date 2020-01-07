@@ -2023,7 +2023,7 @@ for(unsigned dist = 0; dist < nDist; ++dist){
 
 	
 	if (cat == 6 ) {  
-	  ratios_n_1 << left << std::setw(ntab) <<sigNames[signal_sample]<< "  ------------------------  "<<std::endl;
+	  ratios_n_1 << left << std::setw(ntab) <<sigNames[signal_sample]<< "  ------------------------  "<< cha<< std::endl;
 	  ratios_n_1 << left << std::setw(ntab)<<"    -->  bgk: "<<bgk_w[signal_sample]->Integral(0, -1)<<"   signal: "<<signals_w[signal_sample]->Integral(0, -1)<<std::endl;
 	  ratios_n_1 << left << std::setw(ntab)<<"         --- "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(Histos[0][6][6][signal_sample+1]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  ---"<<std::endl;
 	}
@@ -2076,7 +2076,7 @@ for(unsigned dist = 0; dist < nDist; ++dist){
   if(skipPlotting == false){
     for(unsigned dist = 0; dist < nDist; ++dist){
       for(unsigned cat = 0; cat < nCat; ++cat){
-	//if (cat !=0 && cat !=6) continue;
+	if (cat ==1 ||  cat ==1 || cat == 3 || cat==4 || cat == 5) continue;
 	for(int cha = 0; cha < nChannel; ++cha){               
 	  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
