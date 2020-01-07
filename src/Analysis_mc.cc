@@ -1323,16 +1323,17 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	&& j_psi_veto_l1l3  && psi_2_veto_l1l3  && omega_veto_l1l3  && phi_veto_l1l3  && z_veto_l1l3  && upsilon_veto_l1l3  && upsilon2_veto_l1l3  && upsilon3_veto_l1l3;
       
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
-      SR_selection = v4l2.DeltaR(v4l3) < 1 &&   
-					 M_3L_combined > 50 && 
-	M_3L_combined < 80 && 
+      SR_selection = 	v4l2.DeltaR(v4l3) < 1 &&   
+			M_3L_combined > 50 && 
+			M_3L_combined < 80 && 
 			min_delta_phi > 1 &&
-	vtxRvtxPcosAlpha > 0.99  &&
-	M_l2l3_combined < 12 &&
-			  (v4l2+v4l3).Pt() > 15 &&
-	D2_delta_pv_svSig > 20 &&	
-	prob_vertex > 0.001 &&
-	vetoes;
+			vtxRvtxPcosAlpha > 0.99  &&
+			M_l2l3_combined < 12 &&
+			(v4l2+v4l3).Pt() > 15 &&
+			D2_delta_pv_svSig > 20 &&	
+			prob_vertex > 0.001 &&
+			bjet == 0 &&
+			vetoes;
 	
 	
       bool _a,_b,_c,_d,_e,_f,_g,_h,_i,_l=false;
