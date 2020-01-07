@@ -2029,34 +2029,34 @@ for(unsigned dist = 0; dist < nDist; ++dist){
 	  ratios_n_1 << left << std::setw(ntab)<<"         --- "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(Histos[0][6][6][signal_sample+1]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  ---"<<std::endl;
 	}
 	if (cat == 7 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"deltaR: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"deltaR: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 8 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"Mlll: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"Mlll: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 9 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"Ml2l3: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"Ml2l3: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 10 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"minDeltaphi: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"minDeltaphi: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 11 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"cos: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"cos: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 12 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"l2+l3.Pt: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"l2+l3.Pt: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 13 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"sigma2D: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"sigma2D: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 14 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"prob: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"prob: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 15 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"vetoes: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"vetoes: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 	if (cat == 16 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"bjet: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"bjet: "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
 	}
 
 	delete signals_w[signal_sample];
