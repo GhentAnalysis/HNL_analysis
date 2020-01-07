@@ -1988,6 +1988,7 @@ for(unsigned dist = 0; dist < nDist; ++dist){
   if (dist !=0) continue;
   for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
     for(int cha = 0; cha < nChannel; ++cha){
+      if (cha !=6 && cha!=7) continue;
       if (cha == 6 && signal_sample >= 10) continue;
       if (cha == 7 && signal_sample < 10) continue;
       for(unsigned cat = 0; cat < nCat; ++cat){
