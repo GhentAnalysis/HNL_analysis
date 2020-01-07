@@ -2030,6 +2030,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 
   for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+  if (signal_sample < 10){
     ratios_n_1 << sigNames[signal_sample]<< "  ------------------------  "<<std::endl;
     ratios_n_1 << "    mu coupling  -->  bgk: "<<dataYields[0][6][6]->Integral(0, -1)<<"   signal: "<<Histos[0][6][6][signal_sample+1]->Integral(0, -1)<<std::endl;
     ratios_n_1 << "         --- "<< Histos[0][6][6][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][6][6][signal_sample+1]->Integral(0, -1)+dataYields[0][6][6]->Integral(0, -1)))<<"  ---"<<std::endl;
@@ -2045,6 +2046,28 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     ratios_n_1 << "         "<<"bjet: "<< Histos[0][6][16][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][6][16][signal_sample+1]->Integral(0, -1)+dataYields[0][6][16]->Integral(0, -1)))<<"  (sig: "<<Histos[0][6][16][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][6][16]->Integral(0, -1)<<")"<<std::endl;											       
     ratios_n_1<<""<<std::endl;
     ratios_n_1<<""<<std::endl;
+  }
+
+if (signal_sample >= 10){
+    ratios_n_1 << sigNames[signal_sample]<< "  ------------------------  "<<std::endl;
+ratios_n_1 << "    mu coupling  -->  bgk: "<<dataYields[0][7][6]->Integral(0, -1)<<"   signal: "<<Histos[0][7][6][signal_sample+1]->Integral(0, -1)<<std::endl;
+ratios_n_1 << "         --- "<< Histos[0][7][6][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][6][signal_sample+1]->Integral(0, -1)+dataYields[0][7][6]->Integral(0, -1)))<<"  ---"<<std::endl;
+ratios_n_1 << "         "<<"deltaR: "<< Histos[0][7][7][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][7][signal_sample+1]->Integral(0, -1)+dataYields[0][7][7]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][7][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][7]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"Mlll: "<< Histos[0][7][8][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][8][signal_sample+1]->Integral(0, -1)+dataYields[0][7][8]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][8][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][8]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"Ml2l3: "<< Histos[0][7][9][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][9][signal_sample+1]->Integral(0, -1)+dataYields[0][7][9]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][9][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][9]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"minDeltaphi: "<< Histos[0][7][10][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][10][signal_sample+1]->Integral(0, -1)+dataYields[0][7][10]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][10][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][10]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"cos: "<< Histos[0][7][11][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][11][signal_sample+1]->Integral(0, -1)+dataYields[0][7][11]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][11][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][11]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"l2+l3: "<< Histos[0][7][12][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][12][signal_sample+1]->Integral(0, -1)+dataYields[0][7][12]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][12][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][12]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"s2D: "<< Histos[0][7][13][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][13][signal_sample+1]->Integral(0, -1)+dataYields[0][7][13]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][13][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][13]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"prob: "<< Histos[0][7][14][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][14][signal_sample+1]->Integral(0, -1)+dataYields[0][7][14]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][14][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][14]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"vetoes: "<< Histos[0][7][15][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][15][signal_sample+1]->Integral(0, -1)+dataYields[0][7][15]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][15][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][15]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1 << "         "<<"bjet: "<< Histos[0][7][16][signal_sample+1]->Integral(0, -1)/(TMath::Sqrt(Histos[0][7][16][signal_sample+1]->Integral(0, -1)+dataYields[0][7][16]->Integral(0, -1)))<<"  (sig: "<<Histos[0][7][16][signal_sample+1]->Integral(0, -1)<<"     bgk: "<< dataYields[0][7][16]->Integral(0, -1)<<")"<<std::endl;
+ratios_n_1<<""<<std::endl;
+ratios_n_1<<""<<std::endl;
+
+  }
+
+
 
   }
 
