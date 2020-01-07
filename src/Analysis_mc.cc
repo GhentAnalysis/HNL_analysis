@@ -2007,6 +2007,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       } // end cat
     } // end histo  
   } // end if skipPlotting
+    const size_t ntab = 14;
+
+
 
   TH1D* signals_w[nSamples_signal];
   TH1D* bgk_w[nSamples_signal];
@@ -2234,7 +2237,6 @@ for(unsigned dist = 0; dist < nDist; ++dist){
 
     //if(systcat==0) { // print data card only if systcat==0
     // Size of tab
-    const size_t ntab = 14;
 
     for(size_t isign=0; isign<nSamples_signal; ++isign) {
       std::string sgn = sigNames[isign].Data();
