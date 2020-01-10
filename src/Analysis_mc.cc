@@ -568,7 +568,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   // std::ofstream three("three.txt"); 
   // std::ofstream four("four.txt"); 
   std::ofstream ratios_n_1("ratios_n_1.txt"); 
-  
+  std::ofstream yields_check("yields_check.txt"); 
+
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
   setTDRStyle();
