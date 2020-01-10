@@ -1194,6 +1194,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	}	
       }
       double met_sumjet=_met+sumjet;
+      
+      double sum_vec_l2l3=0.;
+      sum_vec_l2l3 = (v4l2+v4l3).Pt();
+      if (Double_fake) sum_vec_l2l3 = (v4l2_naked+v4l3_naked).Pt();
       // -----------------   function useful  2 --> SR also    --------------------------------//
       // 0 = mmm
       // 1 = mme OS
@@ -1268,11 +1272,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       bool upsilon2_veto_l1l3 = true;
       bool upsilon3_veto_l1l3 = true;
 
+      
       if (SR_channel == 0 || SR_channel == 3){
-	if (fabs (M_l2l3_combined - 3.0969) < 0.08 ) j_psi_veto_l2l3 = false;
-	if (fabs (M_l2l3_combined - 3.6861) < 0.08 ) psi_2_veto_l2l3 = false;
-	if (fabs (M_l2l3_combined - 0.7827) < 0.08 ) omega_veto_l2l3 = false;
-	if (fabs (M_l2l3_combined - 1.0190) < 0.08 ) phi_veto_l2l3 = false;
+	if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 3.0969) < 0.08 ) j_psi_veto_l2l3 = false;
+	if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 3.6861) < 0.08 ) psi_2_veto_l2l3 = false;
+	if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 0.7827) < 0.08 ) omega_veto_l2l3 = false;
+	if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 1.0190) < 0.08 ) phi_veto_l2l3 = false;
 		
 	if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 0.7827) < 0.08 ) omega_veto_l1l2 = false;
 	if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 1.0190) < 0.08 ) phi_veto_l1l2 = false;
@@ -1314,7 +1319,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 91.1876) < 10 )  z_veto_l1l3 = false;
 	}
       }
-	    
+         
       if (!selection_0) continue;
       
       bool vetoes=false;
@@ -1329,7 +1334,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			min_delta_phi > 1 &&
 			vtxRvtxPcosAlpha > 0.99  &&
 			M_l2l3_combined < 12 &&
-			(v4l2+v4l3).Pt() > 15 &&
+			sum_vec_l2l3 > 15 &&
 			D2_delta_pv_svSig > 20 &&	
 			prob_vertex > 0.001 &&
 			bjet == 0 &&
@@ -1458,14 +1463,18 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	      
 	}      
       } 
-
+      double ptl2,ptl3= 0.;
+      ptl2 = v4l2.Pt();
+      ptl3 = v4l3.Pt();
+      if (Double_fake) ptl2 =  v4l2_naked.Pt();
+      if (Double_fake) ptl3 =  v4l3_naked.Pt();
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
 			     v4l1.Pt(),
-			     v4l2.Pt(),
-			     v4l3.Pt(),
-			     M_3L,
+			     ptl2,
+			     ptl3,
+			     M_3L_combined,
 			     M_l2l3,
 			     M_l2l3,
 			     M_l2l3_combined,
@@ -1494,7 +1503,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			     D2_delta_pv_sv,
 			     D2_delta_pv_sv,
 			     D2_delta_pv_svSig,
-			     momentum_jet, (v4l2+v4l3).Pt()};
+			     momentum_jet, sum_vec_l2l3};
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       bool isDataDrivenBgk= false;
@@ -2071,6 +2080,30 @@ for(unsigned dist = 0; dist < nDist; ++dist){
     ratios_n_1<<""<<std::endl;
   }
  }
+yields_check << "Muon coupling -----------> "<<std::endl;
+for (int i = 0; i < 24; i ++){
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 ) yields_check<<"---      µµµ      ---"<<std::endl;
+	if (i == 8 ) yields_check<<"---      µµOSe      ---"<<std::endl;
+	if (i == 16 ) yields_check<<"---      µµSSe      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+	yields_check << left << std::setw(ntab) << dataYields[0][6][6]-> GetBinContent (i+1)<<"  ±  "<<dataYields[0][6][6]-> GetBinError (i+1)<<std::endl;	
+}
+yields_check << "Electron coupling -----------> "<<std::endl;
+for (int i = 0; i < 24; i ++){
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 ) yields_check<<"---      eee      ---"<<std::endl;
+	if (i == 8 ) yields_check<<"---      eeOSµ      ---"<<std::endl;
+	if (i == 16 ) yields_check<<"---      eeSSµ      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+	yields_check << left << std::setw(ntab) << dataYields[0][7][6]-> GetBinContent (i+1)<<"  ±  "<<dataYields[0][7][6]-> GetBinError (i+1)<<std::endl;	
+}
 
  
   //TH1D* signals[nSamples_signal];
