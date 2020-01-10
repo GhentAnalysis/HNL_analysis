@@ -2129,7 +2129,7 @@ for (int i = 0; i < 24; i ++){
 	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
 	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
 	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
-	yields_check << left << std::setw(ntab) << Histos[0][7][6][9]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][7][6][9]-> GetBinError (i+1)<<std::endl;	
+	yields_check << left << std::setw(ntab) << Histos[0][7][6][19]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][7][6][19]-> GetBinError (i+1)<<std::endl;	
 }
 
 
