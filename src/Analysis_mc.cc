@@ -2106,6 +2106,42 @@ for (int i = 0; i < 24; i ++){
 	yields_check << left << std::setw(ntab) << dataYields[0][7][6]-> GetBinContent (i+1)<<"  ±  "<<dataYields[0][7][6]-> GetBinError (i+1)<<std::endl;	
 }
 
+
+yields_check << "Muon coupling signal -----------> "<<std::endl;
+for (int i = 0; i < 24; i ++){
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 ) yields_check<<"---      µµµ      ---"<<std::endl;
+	if (i == 8 ) yields_check<<"---      µµOSe      ---"<<std::endl;
+	if (i == 16 ) yields_check<<"---      µµSSe      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+	yields_check << left << std::setw(ntab) << Histos[0][6][6][9]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][6][6][9]-> GetBinError (i+1)<<std::endl;	
+}
+yields_check << "Electron coupling signal -----------> "<<std::endl;
+for (int i = 0; i < 24; i ++){
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 0 ) yields_check<<"---      eee      ---"<<std::endl;
+	if (i == 8 ) yields_check<<"---      eeOSµ      ---"<<std::endl;
+	if (i == 16 ) yields_check<<"---      eeSSµ      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+	yields_check << left << std::setw(ntab) << Histos[0][7][6][9]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][7][6][9]-> GetBinError (i+1)<<std::endl;	
+}
+
+
+
+
+
+
+
+
+
+
+
  
   //TH1D* signals[nSamples_signal];
   //if (systcat == 0 ){
