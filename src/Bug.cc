@@ -1,4 +1,4 @@
-#include "Bug.h"
+#include "../interface/Bug.h"
 
 //include c++ library classes
 #include <fstream>
