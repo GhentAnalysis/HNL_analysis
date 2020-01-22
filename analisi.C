@@ -31,7 +31,7 @@
 #include <THStack.h>
 #include <TPaveText.h>
 #include <THStack.h>
-#include <Bug.h>
+#include "interface/Bug.h"
 
 int main ();
 
