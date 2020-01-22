@@ -31,6 +31,7 @@
 #include <THStack.h>
 #include <TPaveText.h>
 #include <THStack.h>
+#include <Bug.h>
 
 int main ();
 
@@ -44,7 +45,10 @@ int main(){
   //if(isdtl==false) ist2b = true;
 
   // Double_t pigreco= TMath::ACos(-1);
-
+  Bug bug;
+  bug.printBug();
+  
+  
   // std::cout << " >>> dummy: " << inputRootFile.c_str() << std::endl;
   std::cout << "---------------------------" << std::endl;
   unsigned year = 0;  // 2016: 0; 2017: 1; 2018: 2; 
