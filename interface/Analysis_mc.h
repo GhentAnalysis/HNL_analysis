@@ -1071,7 +1071,7 @@ class Analysis_mc : public TObject {
 
   const static int nCat=17;
   const static int nChannel=8;
-  const static int nDist = 47;  //Number of distributions to plo
+  const static int nDist = 49;  //Number of distributions to plo
 
 
   const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final","a","b","c","d","e","f","g","h","i","l"};
@@ -1111,7 +1111,7 @@ class Analysis_mc : public TObject {
 					 "DeltaPV_SV_2D",
 					 "DeltaPV_SV_2D_zomm",
 					 "sigmaDeltaPV_SV_2D",
-					 "momentumjet","sum_Pt_L2L3", "etal2", "etal3"
+					 "momentumjet","sum_Pt_L2L3", "etal2", "etal3","eta_ele", "eta_mu"
   };
 
 
@@ -1148,7 +1148,7 @@ class Analysis_mc : public TObject {
 				"#Delta (PV-SV)_{2D}",
 				"#Delta (PV-SV)_{2D}",
 				"#sigma #Delta (PV-SV)_{2D}",
-				"momentumjet","sum P_{T} l_{2}+l_{3}","#eta l_{2}","#eta l_{3}"};
+				"momentumjet","sum P_{T} l_{2}+l_{3}","#eta l_{2}","#eta l_{3}","#eta l_{e}", "#eta l_{#mu}"};
 
 
   const TString Units[nDist] = {" "," ",
@@ -1185,7 +1185,7 @@ class Analysis_mc : public TObject {
 				"GeV",
 				"GeV",
 			       "",
-			       ""};
+			       "", "",""};
 
   const double HistMin[nDist] = {0.5, 0.5,
 				 20,
@@ -1221,7 +1221,8 @@ class Analysis_mc : public TObject {
 				 10,
 				 5,
 				-2.5,
-				-2.5};
+				-2.5,
+				-2.5,-2.5};
 
   
   
@@ -1259,7 +1260,7 @@ class Analysis_mc : public TObject {
 				  100,
 				  100,
 				 2.5,
-				 2.5
+				 2.5, 2.5,2.5
 					 
   };
   const unsigned nBins[nDist] = { 24 , 7,
@@ -1296,7 +1297,7 @@ class Analysis_mc : public TObject {
 				  25,
 				  25,
 				10,
-				10};
+				10, 10,10};
 
 
 
