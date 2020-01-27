@@ -1506,7 +1506,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			     D2_delta_pv_svSig,
 			     momentum_jet, sum_vec_l2l3,
 			     _lEta[l2],
-			     _lEta[l3]};
+			     _lEta[l3],_lEta[l2],_lEta[l2] };
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       bool isDataDrivenBgk= false;
@@ -1743,13 +1743,45 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (selection_final)  Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_ele);
       }     
       
+        if (selection_0 && _lFlavor[l2] == 0) Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
+	if (selection_1&& _lFlavor[l2] == 0) Histos[47][7][1][fill]->Fill(_lEta[l2], scal);
+	if (selection_2&& _lFlavor[l2] == 0) Histos[47][7][2][fill]->Fill(_lEta[l2], scal);
+	if (selection_3&& _lFlavor[l2] == 0) Histos[47][7][3][fill]->Fill(_lEta[l2], scal);
+	if (selection_4&& _lFlavor[l2] == 0) Histos[47][7][4][fill]->Fill(_lEta[l2], scal);
+	if (selection_5&& _lFlavor[l2] == 0) Histos[47][7][5][fill]->Fill(_lEta[l2], scal);
+	if (selection_final&& _lFlavor[l2] == 0)Histos[47][7][6][fill]->Fill(_lEta[l2], scal);
+	if (selection_0 && _lFlavor[l3] == 0) Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
+	if (selection_1&& _lFlavor[l3] == 0) Histos[47][7][1][fill]->Fill(_lEta[l3], scal);
+	if (selection_2&& _lFlavor[l3] == 0) Histos[47][7][2][fill]->Fill(_lEta[l3], scal);
+	if (selection_3&& _lFlavor[l3] == 0) Histos[47][7][3][fill]->Fill(_lEta[l3], scal);
+	if (selection_4&& _lFlavor[l3] == 0) Histos[47][7][4][fill]->Fill(_lEta[l3], scal);
+	if (selection_5&& _lFlavor[l3] == 0) Histos[47][7][5][fill]->Fill(_lEta[l3], scal);
+	if (selection_final&& _lFlavor[l3] == 0)Histos[47][7][6][fill]->Fill(_lEta[l3], scal);
+      
+      
+      if (selection_0 && _lFlavor[l2] ==1) Histos[48][6][0][fill]->Fill(_lEta[l2], scal);
+	if (selection_1&& _lFlavor[l2] ==1) Histos[48][6][1][fill]->Fill(_lEta[l2], scal);
+	if (selection_2&& _lFlavor[l2] ==1) Histos[48][6][2][fill]->Fill(_lEta[l2], scal);
+	if (selection_3&& _lFlavor[l2] ==1) Histos[48][6][3][fill]->Fill(_lEta[l2], scal);
+	if (selection_4&& _lFlavor[l2] ==1) Histos[48][6][4][fill]->Fill(_lEta[l2], scal);
+	if (selection_5&& _lFlavor[l2] ==1) Histos[48][6][5][fill]->Fill(_lEta[l2], scal);
+	if (selection_final&& _lFlavor[l2] ==1)Histos[48][6][6][fill]->Fill(_lEta[l2], scal);
+	if (selection_0 && _lFlavor[l3] ==1) Histos[48][6][0][fill]->Fill(_lEta[l2], scal);
+	if (selection_1&& _lFlavor[l3] ==1) Histos[48][6][1][fill]->Fill(_lEta[l3], scal);
+	if (selection_2&& _lFlavor[l3] ==1) Histos[48][6][2][fill]->Fill(_lEta[l3], scal);
+	if (selection_3&& _lFlavor[l3] ==1) Histos[48][6][3][fill]->Fill(_lEta[l3], scal);
+	if (selection_4&& _lFlavor[l3] ==1) Histos[48][6][4][fill]->Fill(_lEta[l3], scal);
+	if (selection_5&& _lFlavor[l3] ==1) Histos[48][6][5][fill]->Fill(_lEta[l3], scal);
+	if (selection_final&& _lFlavor[l3] ==1)Histos[48][6][6][fill]->Fill(_lEta[l3], scal);
+
       
       // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
 	//Histos[numero_histo][SR_channel][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if ( numero_histo == 0) continue;
 	if ( numero_histo == 1) continue;
-
+        if ( numero_histo == 47) continue;
+        if ( numero_histo == 48) continue;
 	if (selection_0) Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_1) Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_2) Histos[numero_histo][SR_channel][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
@@ -1768,7 +1800,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (_i) Histos[numero_histo][SR_channel][15][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (_l) Histos[numero_histo][SR_channel][16][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
         
-
+	
+	
 	
 	if (SR_channel <= 2){
 	  if (selection_0) Histos[numero_histo][6][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
