@@ -1504,7 +1504,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			     D2_delta_pv_sv,
 			     D2_delta_pv_sv,
 			     D2_delta_pv_svSig,
-			     momentum_jet, sum_vec_l2l3};
+			     momentum_jet, sum_vec_l2l3,
+			     _lEta[l2],
+			     _lEta[l3]};
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       bool isDataDrivenBgk= false;
