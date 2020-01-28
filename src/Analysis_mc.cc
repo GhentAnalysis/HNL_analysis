@@ -169,6 +169,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
 	  if (i == 37) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_cos, bin_cos);  
 	  if (i == 40) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d, bin_2d);  		
 	  Histos[i][cha][cat][effsam]->Sumw2();	
+		std::cout<<i<<") . i have created: -> "<< eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] <<std::endl;
 	}
       }
     }
