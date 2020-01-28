@@ -169,7 +169,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
 	  if (i == 37) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_cos, bin_cos);  
 	  if (i == 40) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d, bin_2d);  		
 	  Histos[i][cha][cat][effsam]->Sumw2();	
-		std::cout<<i<<") . i have created: -> "<< eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] <<std::endl;
+	  if (i == 48)std::cout<<i<<") . i have created: -> "<< eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] <<std::endl;
 	}
       }
     }
@@ -826,7 +826,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/10; ++it) {
+    for(ULong64_t it=0; it<nEntries/100; ++it) {
       GetEntry(samples[sam], it);  
    
       if (samples[sam].isData()){
@@ -2574,10 +2574,10 @@ for (int i = 0; i < 24; i ++){
 	    rootfile->cd();
 	    // Histos[0][couplidx[icoup]][6][1+nSamples_signal+bkg]->Write(bkgNames[bkg].c_str());
 	    plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	    std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<" .  "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX()<<" . sum of weight: "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> GetSumOfWeights()<<std::endl;   
-	    for(int bini=0; bini < plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX(); bini++){
-	      std::cout<<"bin: "<<bini<<" . "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(bini+1)<<std::endl;
-	    }
+	    //std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<" .  "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX()<<" . sum of weight: "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> GetSumOfWeights()<<std::endl;   
+	    //for(int bini=0; bini < plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX(); bini++){
+	      //std::cout<<"bin: "<<bini<<" . "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(bini+1)<<std::endl;
+	    //}
 	    float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
 	    
 	    
