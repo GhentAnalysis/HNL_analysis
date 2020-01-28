@@ -1746,23 +1746,26 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       
       
-        if (selection_0 && _lFlavor[l2] == 0) {
-	Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
+      
+	
+	if (_lFlavor[l2] == 0){
 	std::cout<<"i am in.: "<< _lEta[l2]<<std::endl;
+	if (selection_0 ) Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
+	if (selection_1 ) Histos[47][7][1][fill]->Fill(_lEta[l2], scal);
+	if (selection_2 ) Histos[47][7][2][fill]->Fill(_lEta[l2], scal);
+	if (selection_3 ) Histos[47][7][3][fill]->Fill(_lEta[l2], scal);
+	if (selection_4 ) Histos[47][7][4][fill]->Fill(_lEta[l2], scal);
+	if (selection_5 ) Histos[47][7][5][fill]->Fill(_lEta[l2], scal);
+	if (selection_final)Histos[47][7][6][fill]->Fill(_lEta[l2], scal);
 	}
-	if (selection_1 && _lFlavor[l2] == 0) Histos[47][7][1][fill]->Fill(_lEta[l2], scal);
-	if (selection_2 && _lFlavor[l2] == 0) Histos[47][7][2][fill]->Fill(_lEta[l2], scal);
-	if (selection_3 && _lFlavor[l2] == 0) Histos[47][7][3][fill]->Fill(_lEta[l2], scal);
-	if (selection_4 && _lFlavor[l2] == 0) Histos[47][7][4][fill]->Fill(_lEta[l2], scal);
-	if (selection_5 && _lFlavor[l2] == 0) Histos[47][7][5][fill]->Fill(_lEta[l2], scal);
-	if (selection_final&& _lFlavor[l2] == 0)Histos[47][7][6][fill]->Fill(_lEta[l2], scal);
-	if (selection_0 && _lFlavor[l3] == 0) Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
-	if (selection_1 && _lFlavor[l3] == 0) Histos[47][7][1][fill]->Fill(_lEta[l3], scal);
-	if (selection_2 && _lFlavor[l3] == 0) Histos[47][7][2][fill]->Fill(_lEta[l3], scal);
-	if (selection_3 && _lFlavor[l3] == 0) Histos[47][7][3][fill]->Fill(_lEta[l3], scal);
-	if (selection_4 && _lFlavor[l3] == 0) Histos[47][7][4][fill]->Fill(_lEta[l3], scal);
-	if (selection_5 && _lFlavor[l3] == 0) Histos[47][7][5][fill]->Fill(_lEta[l3], scal);
-	if (selection_final && _lFlavor[l3] == 0)Histos[47][7][6][fill]->Fill(_lEta[l3], scal);
+	if (_lFlavor[l3] == 0)
+	if (selection_0 ) Histos[47][7][0][fill]->Fill(_lEta[l3], scal);
+	if (selection_1) Histos[47][7][1][fill]->Fill(_lEta[l3], scal);
+	if (selection_2 ) Histos[47][7][2][fill]->Fill(_lEta[l3], scal);
+	if (selection_3 ) Histos[47][7][3][fill]->Fill(_lEta[l3], scal);
+	if (selection_4 ) Histos[47][7][4][fill]->Fill(_lEta[l3], scal);
+	if (selection_5 ) Histos[47][7][5][fill]->Fill(_lEta[l3], scal);
+	if (selection_final )Histos[47][7][6][fill]->Fill(_lEta[l3], scal);
       
       
       if (selection_0 && _lFlavor[l2] ==1) Histos[48][6][0][fill]->Fill(_lEta[l2], scal);
