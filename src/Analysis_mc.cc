@@ -1749,7 +1749,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
 	
 	if (_lFlavor[l2] == 0){
-	std::cout<<"i am in.: "<< _lEta[l2]<<std::endl;
+	std::cout<<"i am in.: "<< _lEta[l2]<<" .  -> "<< scal<<std::endl;
+	std::cout<<"max "<<Histos[47][7][0][fill]->GetXaxis()->GetBinUpEdge(Histos[47][7][0][fill]->GetXaxis()->GetNbins());
 	if (selection_0 ) Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
 	if (selection_1 ) Histos[47][7][1][fill]->Fill(_lEta[l2], scal);
 	if (selection_2 ) Histos[47][7][2][fill]->Fill(_lEta[l2], scal);
