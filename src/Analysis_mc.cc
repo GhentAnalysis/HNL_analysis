@@ -1750,7 +1750,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	
 	if (_lFlavor[l2] == 0){
 	std::cout<<"i am in.: "<< _lEta[l2]<<" .  -> "<< scal<<std::endl;
-	std::cout<<"max "<<Histos[47][7][0][fill]->GetXaxis()->GetBinUpEdge(Histos[47][7][0][fill]->GetXaxis()->GetNbins());
+	std::cout<<"max "<<Histos[47][7][0][fill]->GetXaxis()->GetBinUpEdge(Histos[47][7][0][fill]->GetXaxis()->GetNbins()) <<std::endl;
 	if (selection_0 ) Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
 	if (selection_1 ) Histos[47][7][1][fill]->Fill(_lEta[l2], scal);
 	if (selection_2 ) Histos[47][7][2][fill]->Fill(_lEta[l2], scal);
@@ -1788,6 +1788,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 	std::cout<<"--> ele "<< Histos[47][7][1][fill]->GetIntegral()<<" "<< Histos[47][7][2][fill]->GetIntegral()<<" "<<Histos[47][7][3][fill]->GetIntegral()<<" "<<Histos[47][7][4][fill]->GetIntegral()<<" "<<Histos[47][7][5][fill]->GetIntegral()<<" "<<Histos[47][7][6][fill]->GetIntegral()<<" "<<std::endl;
 	std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetIntegral()<<" "<< Histos[47][6][2][fill]->GetIntegral()<<" "<<Histos[47][6][3][fill]->GetIntegral()<<" "<<Histos[47][6][4][fill]->GetIntegral()<<" "<<Histos[47][6][5][fill]->GetIntegral()<<" "<<Histos[47][6][6][fill]->GetIntegral()<<" "<<std::endl;
+std::cout<<"--> ele "<< Histos[47][7][1][fill]->GetSumOfWeights()<<" "<< Histos[47][7][2][fill]->GetSumOfWeights()<<" "<<Histos[47][7][3][fill]->GetSumOfWeights()<<" "<<Histos[47][7][4][fill]->GetSumOfWeights()<<" "<<Histos[47][7][5][fill]->GetSumOfWeights()<<" "<<Histos[47][7][6][fill]->GetSumOfWeights()<<" "<<std::endl;
+std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetSumOfWeights()<<" "<< Histos[47][6][2][fill]->GetSumOfWeights()<<" "<<Histos[47][6][3][fill]->GetSumOfWeights()<<" "<<Histos[47][6][4][fill]->GetSumOfWeights()<<" "<<Histos[47][6][5][fill]->GetSumOfWeights()<<" "<<Histos[47][6][6][fill]->GetSumOfWeights()<<" "<<std::endl;
+
 
       
       // ------------------- all the other histograms
