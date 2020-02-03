@@ -766,7 +766,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     if(skipSignal     && sam>0 && sam<=nSamples_signal) continue;
     if(skipBackground && sam>nSamples_signal) continue;
 
-	if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-9_V-0.0316227766017_mu_massiveAndCKM_LO_2016.root") continue;
 
     initSample(samples[sam]);
     TH1D *hLheCounter = nullptr;
