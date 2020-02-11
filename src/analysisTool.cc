@@ -349,13 +349,14 @@ double Analysis_mc::FR_weight(TGraphAsymmErrors *fakeRate_mu_sFR[3],
 			      ) {
   double factor=0;
 
-  
+  //std::cout<< "                   inside function for FR: "<<factor<<std::endl;
   if (isSFR && flavorsLepton == 0 )  factor =  sFR_factor_e  (*&fakeRate_e_sFR ,etaLepton, ptLepton);
   if (isSFR && flavorsLepton == 1 )  factor =  sFR_factor_mu (*&fakeRate_mu_sFR ,etaLepton, ptLepton);
 
   if (isDFR && flavorsJet == 0 )     factor =  dFR_factor_ee   (*&fakeRate_ee_dFR ,etaJet, ptJet);
   if (isDFR && flavorsJet == 1 )     factor =  dFR_factor_mumu (*&fakeRate_mumu_dFR ,etaJet, ptJet);
   if (isDFR && flavorsJet == 2 )     factor =  dFR_factor_emu  (*&fakeRate_emu_dFR ,etaJet, ptJet);
+  //std::cout<< "                   return factor: "<<factor<<std::endl;
 
   return factor;
 }
@@ -370,8 +371,10 @@ double Analysis_mc::dFR_factor_ee(TGraphAsymmErrors *fakeRate_e[3],
   const int nBinMu=5;
   const int nBinMu3=4;
     
-  Double_t newBins_e1[nBinMu+1] = {10,25,35,55,70, 100};
+  Double_t newBins_e1[nBinMu+1] = {10,25,40,55,70, 100};
   Double_t newBins_e3[nBinMu3+1] ={10,30,50,70, 100};
+
+  //std::cout<<"                             it is ee: eta and pt  "<<eta<< "   "<<lptcone<< std::endl;
    
   TH1D *fakeRate_e_histo[3]; 
   fakeRate_e_histo[0]= new TH1D("fake_rate_e_histo_eta1","",nBinMu,newBins_e1);
@@ -381,7 +384,8 @@ double Analysis_mc::dFR_factor_ee(TGraphAsymmErrors *fakeRate_e[3],
     if (i ==0 || i ==1) from_TGraph_to_TH1D(*&fakeRate_e[i],*&fakeRate_e_histo[i],nBinMu);
     if (i ==2) from_TGraph_to_TH1D(*&fakeRate_e[i],*&fakeRate_e_histo[i],nBinMu3);
   }
- 
+  //std::cout<<"                             check first bin eta1: "<< fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(20))<<std::endl;
+
   double momentum = lptcone;
   double factore=0;
   if (momentum < 100){
@@ -396,7 +400,9 @@ double Analysis_mc::dFR_factor_ee(TGraphAsymmErrors *fakeRate_e[3],
   }  
   delete fakeRate_e_histo[0];
   delete fakeRate_e_histo[1];
-  delete fakeRate_e_histo[2];    
+  delete fakeRate_e_histo[2];
+  //std::cout<<"                             it is ee: factor "<<factore<<std::endl;
+
   return factore;  
 }
 
@@ -409,8 +415,9 @@ double Analysis_mc::dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],
   const int nBinMu=5;
   const int nBinMu3=4;
     
-  Double_t newBins_e1[nBinMu+1] = {10,15,25,40,70, 100};
-  Double_t newBins_e3[nBinMu3+1] = {10,20,40,70, 100};
+  Double_t newBins_e1[nBinMu+1] = {10,25,35,55,70, 100};
+  Double_t newBins_e3[nBinMu3+1] = {10,20,45,70, 100};
+  // std::cout<<"                             it is emu: eta and pt  "<<eta<< "   "<<lptcone<< std::endl;
 
   TH1D *fakeRate_e_histo[3]; 
   fakeRate_e_histo[0]= new TH1D("fake_rate_e_histo_eta1","",nBinMu,newBins_e1);
@@ -420,7 +427,8 @@ double Analysis_mc::dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],
     if (i ==0 || i ==1) from_TGraph_to_TH1D(*&fakeRate_e[i],*&fakeRate_e_histo[i],nBinMu);
     if (i ==2) from_TGraph_to_TH1D(*&fakeRate_e[i],*&fakeRate_e_histo[i],nBinMu3);
   }
- 
+  //std::cout<<"                             check first bin eta1: "<< fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(20))<<std::endl;
+
   double momentum = lptcone;
   double factore=0;
   if (momentum < 100){
@@ -435,7 +443,9 @@ double Analysis_mc::dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],
   }  
   delete fakeRate_e_histo[0];
   delete fakeRate_e_histo[1];
-  delete fakeRate_e_histo[2];    
+  delete fakeRate_e_histo[2];
+  //std::cout<<"                             it is emu: factor "<<factore<<std::endl;
+
   return factore;  
 }
 
@@ -447,7 +457,9 @@ double Analysis_mc::dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],
     
   const int nBinMu=5;
   //const int nBinMu3=4;
-  Double_t newBins_e1[nBinMu+1] = {10,15,25,40,70, 100};    
+  Double_t newBins_e1[nBinMu+1] = {10,25,35,55,70, 100};
+  //  std::cout<<"                             it is mumu: eta and pt  "<<eta<< "   "<<lptcone<< std::endl;
+
   TH1D *fakeRate_e_histo[3];  
   fakeRate_e_histo[0]= new TH1D("fake_rate_e_histo_eta1","",nBinMu,newBins_e1);
   fakeRate_e_histo[1]= new TH1D("fake_rate_e_histo_eta2","",nBinMu,newBins_e1);
@@ -455,6 +467,8 @@ double Analysis_mc::dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],
   for (int i=0; i< 3; i++){
     from_TGraph_to_TH1D(*&fakeRate_e[i],*&fakeRate_e_histo[i],nBinMu);
   }
+
+  //std::cout<<"                             check first bin eta1: "<< fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(20))<<std::endl;
   
   double momentum = lptcone;
   double factore=0;
@@ -470,7 +484,9 @@ double Analysis_mc::dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],
   }  
   delete fakeRate_e_histo[0];
   delete fakeRate_e_histo[1];
-  delete fakeRate_e_histo[2];    
+  delete fakeRate_e_histo[2];
+  //   std::cout<<"                             it is mumu: factor "<<factore<<std::endl;
+
   return factore;  
 }
 
@@ -578,8 +594,10 @@ void Analysis_mc::from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, in
     x_graph[i]=0;
     y_graph[i]=0;
   }
+  
   for (int i =0; i <number_point; i ++){
     graph -> GetPoint(i, x_graph[i], y_graph[i]);
+    //std::cout<<"                                                          "<<i<<") "<<x_graph[i]<<"   "<<y_graph[i]<<std::endl;
     histo->SetBinContent (i+1, x_graph[i],  y_graph[i]);        
   }
 }
