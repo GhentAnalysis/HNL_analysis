@@ -560,7 +560,7 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
 void Analysis_mc::analisi( //const std::string& list, const std::string& directory,
 			  std::string outfilename,
 			  bool skipData, bool skipSignal, bool skipBackground,
-			  bool skipPlotting, bool skipLimits, bool skipTables
+			  bool skipPlotting, bool skipLimits, bool skipTables, bool skipXCheck 
 			  /*int systcat, int systdir*/) {
 
   // std::ofstream zero("zero.txt"); 
