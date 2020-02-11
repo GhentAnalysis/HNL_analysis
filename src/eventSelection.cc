@@ -18,8 +18,9 @@ void Analysis_mc::orderByPt(std::vector<unsigned>& ind, const double* pt, const 
 double Analysis_mc::coneCorr(const unsigned ind) const{
     double corr = 1.;
     if( lepIsFOBase(ind) && !lepIsTightDisplaced(ind) ){
-      if (isMu(ind)) corr *=( 1. + std::max(_relIso[ind] - mu_iso_tight, 0.) );
-      if (isElectron(ind)) corr *=( 1. + std::max(_relIso[ind] - ele_iso_tight, 0.) );
+      //if (isMu(ind)) corr *=( 1. + std::max(_relIso[ind] - mu_iso_tight, 0.) );
+      //if (isElectron(ind)) corr *=( 1. + std::max(_relIso[ind] - ele_iso_tight, 0.) );
+      corr = 1.;
     }
     return corr;
 }
