@@ -132,7 +132,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
   legend->SetFillStyle(0);
   const int signal_out= 14;	 
-  int list_signal_out[signal_out] = {1,3,4,5,6,7,9,11,13,14,15,16,17,19};	
+  unsigned list_signal_out[signal_out] = {1,3,4,5,6,7,9,11,13,14,15,16,17,19};	
 	
   //Add signal to the legenD
   if(plotsig){
