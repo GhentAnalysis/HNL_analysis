@@ -589,6 +589,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   //   TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   //pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
+	 const TString names_FR_files[5]= {"FR/" +std::to_string(year)+ "/fake_rate_mu.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_e.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_mumu.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_ee.root",
+				     "FR/" +std::to_string(year)+ "/fake_rate_emu.root"};
+	
+	
+	
+
+
   // FR histograms
   TGraphAsymmErrors *fakeRate_mu[3];
   TGraphAsymmErrors *fakeRate_e[3];
