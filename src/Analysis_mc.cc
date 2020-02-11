@@ -2083,6 +2083,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	ratios_n_1<<""<<std::endl;
       }
     }
+    
+    
     yields_check << "Muon coupling -----------> "<<std::endl;
     for (int i = 0; i < 24; i ++){
       if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
