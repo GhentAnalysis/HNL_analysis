@@ -1363,14 +1363,7 @@ class Analysis_mc : public TObject {
   // const int trigger_index =  11;
 	
 
-  const TString names_FR_files[5]= {"FR/" +std::to_string(year)+ "/fake_rate_mu.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_e.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_mumu.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_ee.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_emu.root"};
-	
-	
-	
+ 
 	
 	
 	
