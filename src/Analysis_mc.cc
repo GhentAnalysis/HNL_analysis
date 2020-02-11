@@ -1190,7 +1190,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       double D2_delta_pv_svSig= D2_delta_pv_sv*D2_delta_pv_sv/(TMath::Sqrt(_vertex_X*_vertex_X*_vertex_errX*_vertex_errX  +   _vertex_Y*_vertex_Y*_vertex_errY*_vertex_errY));
       double D3_delta_pv_svSig= D3_delta_pv_sv*D3_delta_pv_sv/(TMath::Sqrt(_vertex_X*_vertex_X*_vertex_errX*_vertex_errX  +   _vertex_Y*_vertex_Y*_vertex_errY*_vertex_errY +   _vertex_Z*_vertex_Z*_vertex_errZ*_vertex_errZ));    
       // -----------------   masses
-      double M_3L= (v4l2 + v4l3 + v4l1).M();
       double M_ZPair = (pair[0]+pair[1]).M();
       double M_l2l3 = (v4l2 + v4l3).M();
       double M_3L_combined = (v4l2 + v4l3 + v4l1).M();
