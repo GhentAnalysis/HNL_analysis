@@ -907,6 +907,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       TLorentzVector  v4l3;
       TLorentzVector  v4l2_naked;
       TLorentzVector  v4l3_naked;
+      TLorentzVector  v4l2_cone;
+      TLorentzVector  v4l3_cone;
       TLorentzVector  v4l2_propagated;
       TLorentzVector  v4l3_propagated;
 
@@ -1012,16 +1014,29 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (displacedC < 1) continue;     
       //trigger NOT trigger matching!!!!!!
       if (!_passTrigger_1l) continue;
-         
+
+
+      bool single_fake=false;
+      bool Double_fake=false;     
+      if ( _closest_l1JetE[l2] ==  _closest_l1JetE[l3] ) Double_fake = true;
+      if (!Double_fake) single_fake = true;
+      if(Double_fake && _closest_l1JetE[l2] ==0) {
+	single_fake = true;
+	Double_fake = false;
+      }
+
+
       // ------------ changing all the lep info and vertex-----------------------------------------------//
-      l1=ind_new_leading;
+        l1=ind_new_leading;
       l2=index_to_use_for_l2_l3[0];
       l3=index_to_use_for_l2_l3[1];
       v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
-      v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
-      v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
+      if (single_fake)  v4l2.SetPtEtaPhiE(_lPt[l2]*(1+std::max(_relIso[l2]-0.2,0.)),_lEta[l2], _lPhi[l2], _lE[l2]*(1+std::max(_relIso[l2]-0.2,0.)));
+      if (Double_fake)  v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
+      if (single_fake)  v4l3.SetPtEtaPhiE(_lPt[l3]*(1+std::max(_relIso[l3]-0.2,0.)),_lEta[l3], _lPhi[l3], _lE[l3]*(1+std::max(_relIso[l3]-0.2,0.)));
+      if (Double_fake)  v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
       v4l2_naked.SetPtEtaPhiE(_ptReal[l2],_lEta[l2], _lPhi[l2], _EReal[l2]);
-      v4l3_naked.SetPtEtaPhiE(_ptReal[l3],_lEta[l3], _lPhi[l3], _EReal[l3]);
+      v4l3_naked.SetPtEtaPhiE(_ptReal[l3],_lEta[l3], _lPhi[l3], _EReal[l3]); 
       flavors_3l[0]=_lFlavor[l1];
       flavors_3l[1]=_lFlavor[l2];
       flavors_3l[2]=_lFlavor[l3];
@@ -1070,15 +1085,15 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       // -----------------------------------------------------------//
       if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
-      if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
-      if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
+      if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 7) continue;
+      if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 7) continue;
       // ------------ closest jet info --------------------------------------//
       TLorentzVector  l1Jet[1] ;
       float JEC       ;
       TLorentzVector  lepAwareJet[1] ;
       l1Jet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
       JEC             = _closestJEC[l2];
-      lepAwareJet[0] = (l1Jet[0] - v4l2_naked - v4l3_naked)*JEC + v4l3_naked + v4l2_naked;  
+      lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
       double momentum_jet=0.;
       momentum_jet = lepAwareJet[0].Pt();
       if (momentum_jet<10) momentum_jet=12;
@@ -1153,13 +1168,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) photon_pt = _lMatchPt[l2];	    
       if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) photon_pt = _lMatchPt[l3];	    
 
-      //if (samples[sam].getProcessName() == "DY" && !internal_conv) continue;
-      //if (samples[sam].getFileName() == "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" && !external_conv) continue;
+     
       if ((samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") && internal_conv) continue;	    
-      //if (external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 15) continue;	    
       if ((year == 1 || year == 2) &&   external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 15) continue;	 
-      if (year == 0 &&   external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 10) continue;	 
-    
+      if (year == 0 &&   external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 10) continue;
+      if ((samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") && !external_conv) continue;
+
 	    
       //if (photonOverlap (samples[sam])) continue;
       // -----------------   function useful    --------------------------------//
@@ -1188,13 +1202,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       double M_ZPair = (pair[0]+pair[1]).M();
       double M_l2l3 = (v4l2 + v4l3).M();
       double M_3L_combined = (v4l2 + v4l3 + v4l1).M();
-      if (Double_fake) M_3L_combined = (v4l2_naked + v4l3_naked + v4l1).M();
       double M_l2l3_combined = (v4l2 + v4l3).M();
-      if (Double_fake) M_l2l3_combined = (v4l2_naked + v4l3_naked).M();
       double M_l1l2_combined = (v4l2 + v4l1).M();
-      if (Double_fake) M_l1l2_combined = (v4l2_naked + v4l1).M();
       double M_l1l3_combined = (v4l3 + v4l1).M();
-      if (Double_fake) M_l1l3_combined = (v4l3_naked + v4l1).M();
       
       METvec.SetPtEtaPhiE(_met, 0, _metPhi,_met);    
       TLorentzVector to_use_mT;
@@ -1210,7 +1220,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       double sum_vec_l2l3=0.;
       sum_vec_l2l3 = (v4l2+v4l3).Pt();
-      if (Double_fake) sum_vec_l2l3 = (v4l2_naked+v4l3_naked).Pt();
       // -----------------   function useful  2 --> SR also    --------------------------------//
       // 0 = mmm
       // 1 = mme OS
