@@ -589,11 +589,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   //   TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
   //pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
 
-	 const TString names_FR_files[5]= {"FR/" +std::to_string(year)+ "/fake_rate_mu.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_e.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_mumu.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_ee.root",
-				     "FR/" +std::to_string(year)+ "/fake_rate_emu.root"};
+  const TString names_FR_files[5]= {"FR/" +std::to_string(year)+ "/fake_rate_mu.root",
+				    "FR/" +std::to_string(year)+ "/fake_rate_e.root",
+				    "FR/" +std::to_string(year)+ "/fake_rate_mumu.root",
+				    "FR/" +std::to_string(year)+ "/fake_rate_ee.root",
+				    "FR/" +std::to_string(year)+ "/fake_rate_emu.root"};
 	
 	
 	
@@ -1027,7 +1027,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 
       // ------------ changing all the lep info and vertex-----------------------------------------------//
-        l1=ind_new_leading;
+      l1=ind_new_leading;
       l2=index_to_use_for_l2_l3[0];
       l3=index_to_use_for_l2_l3[1];
       v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
@@ -1351,16 +1351,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = 	v4l2.DeltaR(v4l3) < 1 &&   
-			M_3L_combined > 50 && 
-			M_3L_combined < 80 && 
+					    M_3L_combined > 50 && 
+	M_3L_combined < 80 && 
 			min_delta_phi > 1 &&
-			vtxRvtxPcosAlpha > 0.99  &&
-			M_l2l3_combined < 12 &&
-			sum_vec_l2l3 > 15 &&
-			D2_delta_pv_svSig > 20 &&	
-			prob_vertex > 0.001 &&
-			bjet == 0 &&
-			vetoes;
+	vtxRvtxPcosAlpha > 0.99  &&
+	M_l2l3_combined < 12 &&
+			  sum_vec_l2l3 > 15 &&
+	D2_delta_pv_svSig > 20 &&	
+	prob_vertex > 0.001 &&
+	bjet == 0 &&
+	vetoes;
 	
 	
       bool _a,_b,_c,_d,_e,_f,_g,_h,_i,_l=false;
@@ -1525,9 +1525,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			     D2_delta_pv_sv,
 			     D2_delta_pv_sv,
 			     D2_delta_pv_svSig,
-			     momentum_jet, sum_vec_l2l3,
-			     _lEta[l2],
-			     _lEta[l3],_lEta[l2],_lEta[l2] };
+			     momentum_jet, sum_vec_l2l3};
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       bool isDataDrivenBgk= false;
@@ -1560,7 +1558,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
 	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
-	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];	      
+	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];
+	  if (isSignal && w_loop == pu_index && SR_channel <= 2) central_total_weight_mu *= 1.;
+	  if (isSignal && w_loop == pu_index && SR_channel > 2) central_total_weight_ele *= 1.;
+
 	} 	        	
       } 
 
@@ -1653,10 +1654,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       // eee        3
       // eem OS     4
       // eem SS     5
-      // if(selection_final && SR_channel==5  && bjet==0)
-      // 	syncfile << right << std::setw(16) << _eventNb << std::setw(16) << _lumiBlock << std::setw(16) << _runNb << "\n";
-
-
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
@@ -1765,61 +1762,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }     
       
       
-      
-      
-	
-	if (_lFlavor[l2] == 0){
-	//std::cout<<"i am in.: "<< _lEta[l2]<<" .  -> "<< scal<<std::endl;
-	//std::cout<<"max "<<Histos[47][7][0][fill]->GetXaxis()->GetBinUpEdge(Histos[47][7][0][fill]->GetXaxis()->GetNbins()) <<std::endl;
-	if (selection_0 ) Histos[47][7][0][fill]->Fill(_lEta[l2], scal);
-	if (selection_1 ) Histos[47][7][1][fill]->Fill(_lEta[l2], scal);
-	if (selection_2 ) Histos[47][7][2][fill]->Fill(_lEta[l2], scal);
-	if (selection_3 ) Histos[47][7][3][fill]->Fill(_lEta[l2], scal);
-	if (selection_4 ) Histos[47][7][4][fill]->Fill(_lEta[l2], scal);
-	if (selection_5 ) Histos[47][7][5][fill]->Fill(_lEta[l2], scal);
-	if (selection_final)Histos[47][7][6][fill]->Fill(_lEta[l2], scal);
-	}
-	if (_lFlavor[l3] == 0)
-	if (selection_0 ) Histos[47][7][0][fill]->Fill(_lEta[l3], scal);
-	if (selection_1) Histos[47][7][1][fill]->Fill(_lEta[l3], scal);
-	if (selection_2 ) Histos[47][7][2][fill]->Fill(_lEta[l3], scal);
-	if (selection_3 ) Histos[47][7][3][fill]->Fill(_lEta[l3], scal);
-	if (selection_4 ) Histos[47][7][4][fill]->Fill(_lEta[l3], scal);
-	if (selection_5 ) Histos[47][7][5][fill]->Fill(_lEta[l3], scal);
-	if (selection_final )Histos[47][7][6][fill]->Fill(_lEta[l3], scal);
-      
-      
-      if (selection_0 && _lFlavor[l2] ==1) Histos[48][6][0][fill]->Fill(_lEta[l2], scal);
-	if (selection_1 && _lFlavor[l2] ==1) Histos[48][6][1][fill]->Fill(_lEta[l2], scal);
-	if (selection_2 && _lFlavor[l2] ==1) Histos[48][6][2][fill]->Fill(_lEta[l2], scal);
-	if (selection_3 && _lFlavor[l2] ==1) Histos[48][6][3][fill]->Fill(_lEta[l2], scal);
-	if (selection_4 && _lFlavor[l2] ==1) Histos[48][6][4][fill]->Fill(_lEta[l2], scal);
-	if (selection_5 && _lFlavor[l2] ==1) Histos[48][6][5][fill]->Fill(_lEta[l2], scal);
-	if (selection_final && _lFlavor[l2] ==1)Histos[48][6][6][fill]->Fill(_lEta[l2], scal);
-	if (selection_0 && _lFlavor[l3] ==1) Histos[48][6][0][fill]->Fill(_lEta[l2], scal);
-	if (selection_1 && _lFlavor[l3] ==1) Histos[48][6][1][fill]->Fill(_lEta[l3], scal);
-	if (selection_2 && _lFlavor[l3] ==1) Histos[48][6][2][fill]->Fill(_lEta[l3], scal);
-	if (selection_3 && _lFlavor[l3] ==1) Histos[48][6][3][fill]->Fill(_lEta[l3], scal);
-	if (selection_4 && _lFlavor[l3] ==1) Histos[48][6][4][fill]->Fill(_lEta[l3], scal);
-	if (selection_5 && _lFlavor[l3] ==1) Histos[48][6][5][fill]->Fill(_lEta[l3], scal);
-	if (selection_final && _lFlavor[l3] ==1)Histos[48][6][6][fill]->Fill(_lEta[l3], scal);
-
-
-
-	/*std::cout<<"--> ele "<< Histos[47][7][1][fill]->GetIntegral()<<" "<< Histos[47][7][2][fill]->GetIntegral()<<" "<<Histos[47][7][3][fill]->GetIntegral()<<" "<<Histos[47][7][4][fill]->GetIntegral()<<" "<<Histos[47][7][5][fill]->GetIntegral()<<" "<<Histos[47][7][6][fill]->GetIntegral()<<" "<<std::endl;
-	std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetIntegral()<<" "<< Histos[47][6][2][fill]->GetIntegral()<<" "<<Histos[47][6][3][fill]->GetIntegral()<<" "<<Histos[47][6][4][fill]->GetIntegral()<<" "<<Histos[47][6][5][fill]->GetIntegral()<<" "<<Histos[47][6][6][fill]->GetIntegral()<<" "<<std::endl;
-std::cout<<"--> ele "<< Histos[47][7][1][fill]->GetSumOfWeights()<<" "<< Histos[47][7][2][fill]->GetSumOfWeights()<<" "<<Histos[47][7][3][fill]->GetSumOfWeights()<<" "<<Histos[47][7][4][fill]->GetSumOfWeights()<<" "<<Histos[47][7][5][fill]->GetSumOfWeights()<<" "<<Histos[47][7][6][fill]->GetSumOfWeights()<<" "<<std::endl;
-std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetSumOfWeights()<<" "<< Histos[47][6][2][fill]->GetSumOfWeights()<<" "<<Histos[47][6][3][fill]->GetSumOfWeights()<<" "<<Histos[47][6][4][fill]->GetSumOfWeights()<<" "<<Histos[47][6][5][fill]->GetSumOfWeights()<<" "<<Histos[47][6][6][fill]->GetSumOfWeights()<<" "<<std::endl;
-*/
-
-      
       // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
 	//Histos[numero_histo][SR_channel][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if ( numero_histo == 0) continue;
 	if ( numero_histo == 1) continue;
-        if ( numero_histo == 47) continue;
-        if ( numero_histo == 48) continue;
 	if (selection_0) Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_1) Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_2) Histos[numero_histo][SR_channel][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
@@ -1884,9 +1831,6 @@ std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetSumOfWeights()<<" "<< Histos[4
 	}
       }//end histo
       // std::cout<<"after plottinh: "<<std::endl;
-      //if (selection_0)     std::cout<<"sel0 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-      //if (selection_1)     std::cout<<"sel1 delta R "<< v4l2.DeltaR(v4l3)<<std::endl;	    
-
     }//end loop over the entries
 
     // syncfile.close();
@@ -1896,8 +1840,6 @@ std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetSumOfWeights()<<" "<< Histos[4
 
 
   // Theory uncertainties
-  //
-  //  --> fill plots_SR[ele_case/muon_case][qcdNorm_index/qcdShape_index/pdfNorm_index/pdfShape_index][1/2][fill]
   //
   for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
     // QCD uncertainties
@@ -2040,16 +1982,12 @@ std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetSumOfWeights()<<" "<< Histos[4
     }
   }
 
-  // TH1D* bkgYields[nDist][nChannel][nCat][nSamples_eff - nSamples_signal]; //change to nSamples_eff if sig is removed
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       //if (cat !=0 && cat !=6) continue;
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  // put_at_zero(*&Histos[dist][cha][cat][effsam1]);
-
-	  if (cat >= 6)  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
-
+	  put_at_zero(*&Histos[dist][cha][cat][effsam1]);	  
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    if (isSRRun)dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
@@ -2059,162 +1997,153 @@ std::cout<<"--> mu "<< Histos[47][6][1][fill]->GetSumOfWeights()<<" "<< Histos[4
       }
     }
   }
- const size_t ntab = 14;
+  const size_t ntab = 14;
+
+  if (skipXCheck == false){
+
+    TH1D* signals_w[nSamples_signal];
+    TH1D* bgk_w[nSamples_signal];
 
 
-
-  TH1D* signals_w[nSamples_signal];
-  TH1D* bgk_w[nSamples_signal];
-
-
-for(unsigned dist = 0; dist < nDist; ++dist){
-  if (dist !=0) continue;
-  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-    for(int cha = 0; cha < nChannel; ++cha){
-      if (cha !=6 && cha!=7) continue;
-      if (cha == 6 && signal_sample >= 10) continue;
-      if (cha == 7 && signal_sample < 10) continue;
-      for(unsigned cat = 0; cat < nCat; ++cat){
-	if (cat < 6) continue;
+    for(unsigned dist = 0; dist < nDist; ++dist){
+      if (dist !=0) continue;
+      for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	for(int cha = 0; cha < nChannel; ++cha){
+	  if (cha !=6 && cha!=7) continue;
+	  if (cha == 6 && signal_sample >= 10) continue;
+	  if (cha == 7 && signal_sample < 10) continue;
+	  for(unsigned cat = 0; cat < nCat; ++cat){
+	    if (cat < 6) continue;
      
-	signals_w[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;
-	bgk_w[signal_sample] =(TH1D*)dataYields[dist][cha][cat]->Clone() ;
+	    signals_w[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;
+	    bgk_w[signal_sample] =(TH1D*)dataYields[dist][cha][cat]->Clone() ;
 
-	signals_w[signal_sample] -> SetBinContent (1,0.);
-	signals_w[signal_sample] -> SetBinContent (2,0.);
-	signals_w[signal_sample] -> SetBinContent (9,0.);
-	signals_w[signal_sample] -> SetBinContent (10,0.);
-	signals_w[signal_sample] -> SetBinContent (17,0.);
-	signals_w[signal_sample] -> SetBinContent (18,0.);
-	signals_w[signal_sample] -> SetBinError (1,0.);
-	signals_w[signal_sample] -> SetBinError (2,0.);
-	signals_w[signal_sample] -> SetBinError (9,0.);
-	signals_w[signal_sample] -> SetBinError (10,0.);
-	signals_w[signal_sample] -> SetBinError (17,0.);
-	signals_w[signal_sample] -> SetBinError (18,0.);
-	bgk_w[signal_sample] -> SetBinContent (1,0.);
-	bgk_w[signal_sample] -> SetBinContent (2,0.);
-	bgk_w[signal_sample] -> SetBinContent (9,0.);
-	bgk_w[signal_sample] -> SetBinContent (10,0.);
-	bgk_w[signal_sample] -> SetBinContent (17,0.);
-	bgk_w[signal_sample] -> SetBinContent (18,0.);
-	bgk_w[signal_sample] -> SetBinError (1,0.);
-	bgk_w[signal_sample] -> SetBinError (2,0.);
-	bgk_w[signal_sample] -> SetBinError (9,0.);
-	bgk_w[signal_sample] -> SetBinError (10,0.);
-	bgk_w[signal_sample] -> SetBinError (17,0.);
-	bgk_w[signal_sample] -> SetBinError (18,0.);
+	    signals_w[signal_sample] -> SetBinContent (1,0.);
+	    signals_w[signal_sample] -> SetBinContent (2,0.);
+	    signals_w[signal_sample] -> SetBinContent (9,0.);
+	    signals_w[signal_sample] -> SetBinContent (10,0.);
+	    signals_w[signal_sample] -> SetBinContent (17,0.);
+	    signals_w[signal_sample] -> SetBinContent (18,0.);
+	    signals_w[signal_sample] -> SetBinError (1,0.);
+	    signals_w[signal_sample] -> SetBinError (2,0.);
+	    signals_w[signal_sample] -> SetBinError (9,0.);
+	    signals_w[signal_sample] -> SetBinError (10,0.);
+	    signals_w[signal_sample] -> SetBinError (17,0.);
+	    signals_w[signal_sample] -> SetBinError (18,0.);
+	    bgk_w[signal_sample] -> SetBinContent (1,0.);
+	    bgk_w[signal_sample] -> SetBinContent (2,0.);
+	    bgk_w[signal_sample] -> SetBinContent (9,0.);
+	    bgk_w[signal_sample] -> SetBinContent (10,0.);
+	    bgk_w[signal_sample] -> SetBinContent (17,0.);
+	    bgk_w[signal_sample] -> SetBinContent (18,0.);
+	    bgk_w[signal_sample] -> SetBinError (1,0.);
+	    bgk_w[signal_sample] -> SetBinError (2,0.);
+	    bgk_w[signal_sample] -> SetBinError (9,0.);
+	    bgk_w[signal_sample] -> SetBinError (10,0.);
+	    bgk_w[signal_sample] -> SetBinError (17,0.);
+	    bgk_w[signal_sample] -> SetBinError (18,0.);
 	
 
 	
-	if (cat == 6 ) {  
-	  ratios_n_1 << left << std::setw(ntab) <<sigNames[signal_sample]<< "  ------------------------  "<< cha<< std::endl;
-	  ratios_n_1 << left << std::setw(ntab)<<"    --> signal: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<<bgk_w[signal_sample]->Integral(0, -1)<<"   signal: "<<signals_w[signal_sample]->Integral(0, -1)<<std::endl;
-	  ratios_n_1 << left << std::setw(ntab)<<"         --- "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(Histos[0][6][6][signal_sample+1]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  ---"<<std::endl;
-	}
-	if (cat == 7 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"deltaR: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 8 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"Mlll: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 9 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"Ml2l3: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 10 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"minDeltaphi: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 11 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"cos: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 12 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"l2+l3.Pt: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 13 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"sigma2D: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 14 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"prob: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 15 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"vetoes: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
-	if (cat == 16 ) {  
-	  ratios_n_1 << left << std::setw(ntab)<<"         "<<"bjet: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
-	}
+	    if (cat == 6 ) {  
+	      ratios_n_1 << left << std::setw(ntab) <<sigNames[signal_sample]<< "  ------------------------  "<< cha<< std::endl;
+	      ratios_n_1 << left << std::setw(ntab)<<"    --> signal: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<<bgk_w[signal_sample]->Integral(0, -1)<<"   signal: "<<signals_w[signal_sample]->Integral(0, -1)<<std::endl;
+	      ratios_n_1 << left << std::setw(ntab)<<"         --- "<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(Histos[0][6][6][signal_sample+1]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<<"  ---"<<std::endl;
+	    }
+	    if (cat == 7 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"deltaR: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 8 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"Mlll: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 9 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"Ml2l3: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 10 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"minDeltaphi: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 11 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"cos: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 12 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"l2+l3.Pt: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 13 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"sigma2D: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 14 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"prob: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 15 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"vetoes: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
+	    if (cat == 16 ) {  
+	      ratios_n_1 << left << std::setw(ntab)<<"         "<<"bjet: "<<std::setw(ntab)<< signals_w[signal_sample]->Integral(0, -1)/(TMath::Sqrt(signals_w[signal_sample]->Integral(0, -1)+bgk_w[signal_sample]->Integral(0, -1)))<< std::setw(ntab)<<"  (sig: "<<signals_w[signal_sample]->Integral(0, -1)<<"     bgk: "<< bgk_w[signal_sample]->Integral(0, -1)<<")"<<std::endl;										       
+	    }
 
-	delete signals_w[signal_sample];
-	delete bgk_w[signal_sample];	
+	    delete signals_w[signal_sample];
+	    delete bgk_w[signal_sample];	
+	  }
+	  ratios_n_1<< " - - - - - - "<<std::endl;
+	}
+	ratios_n_1<<""<<std::endl;
+	ratios_n_1<<""<<std::endl;
+	ratios_n_1<<""<<std::endl;
+	ratios_n_1<<""<<std::endl;
       }
-      ratios_n_1<< " - - - - - - "<<std::endl;
     }
-    ratios_n_1<<""<<std::endl;
-    ratios_n_1<<""<<std::endl;
-    ratios_n_1<<""<<std::endl;
-    ratios_n_1<<""<<std::endl;
+    yields_check << "Muon coupling -----------> "<<std::endl;
+    for (int i = 0; i < 24; i ++){
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 ) yields_check<<"---      µµµ      ---"<<std::endl;
+      if (i == 8 ) yields_check<<"---      µµOSe      ---"<<std::endl;
+      if (i == 16 ) yields_check<<"---      µµSSe      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+      yields_check << left << std::setw(ntab) << dataYields[0][6][6]-> GetBinContent (i+1)<<"  ±  "<<dataYields[0][6][6]-> GetBinError (i+1)<<std::endl;	
+    }
+    yields_check << "Electron coupling -----------> "<<std::endl;
+    for (int i = 0; i < 24; i ++){
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 ) yields_check<<"---      eee      ---"<<std::endl;
+      if (i == 8 ) yields_check<<"---      eeOSµ      ---"<<std::endl;
+      if (i == 16 ) yields_check<<"---      eeSSµ      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+      yields_check << left << std::setw(ntab) << dataYields[0][7][6]-> GetBinContent (i+1)<<"  ±  "<<dataYields[0][7][6]-> GetBinError (i+1)<<std::endl;	
+    }
+
+
+    yields_check << "Muon coupling signal -----------> "<<std::endl;
+    for (int i = 0; i < 24; i ++){
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 ) yields_check<<"---      µµµ      ---"<<std::endl;
+      if (i == 8 ) yields_check<<"---      µµOSe      ---"<<std::endl;
+      if (i == 16 ) yields_check<<"---      µµSSe      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+      yields_check << left << std::setw(ntab) << Histos[0][6][6][9]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][6][6][9]-> GetBinError (i+1)<<std::endl;	
+    }
+    yields_check << "Electron coupling signal -----------> "<<std::endl;
+    for (int i = 0; i < 24; i ++){
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 0 ) yields_check<<"---      eee      ---"<<std::endl;
+      if (i == 8 ) yields_check<<"---      eeOSµ      ---"<<std::endl;
+      if (i == 16 ) yields_check<<"---      eeSSµ      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
+      if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
+      if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
+      yields_check << left << std::setw(ntab) << Histos[0][7][6][19]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][7][6][19]-> GetBinError (i+1)<<std::endl;	
+    }
+
   }
- }
-yields_check << "Muon coupling -----------> "<<std::endl;
-for (int i = 0; i < 24; i ++){
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 ) yields_check<<"---      µµµ      ---"<<std::endl;
-	if (i == 8 ) yields_check<<"---      µµOSe      ---"<<std::endl;
-	if (i == 16 ) yields_check<<"---      µµSSe      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
-	yields_check << left << std::setw(ntab) << dataYields[0][6][6]-> GetBinContent (i+1)<<"  ±  "<<dataYields[0][6][6]-> GetBinError (i+1)<<std::endl;	
-}
-yields_check << "Electron coupling -----------> "<<std::endl;
-for (int i = 0; i < 24; i ++){
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 ) yields_check<<"---      eee      ---"<<std::endl;
-	if (i == 8 ) yields_check<<"---      eeOSµ      ---"<<std::endl;
-	if (i == 16 ) yields_check<<"---      eeSSµ      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
-	yields_check << left << std::setw(ntab) << dataYields[0][7][6]-> GetBinContent (i+1)<<"  ±  "<<dataYields[0][7][6]-> GetBinError (i+1)<<std::endl;	
-}
-
-
-yields_check << "Muon coupling signal -----------> "<<std::endl;
-for (int i = 0; i < 24; i ++){
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 ) yields_check<<"---      µµµ      ---"<<std::endl;
-	if (i == 8 ) yields_check<<"---      µµOSe      ---"<<std::endl;
-	if (i == 16 ) yields_check<<"---      µµSSe      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
-	yields_check << left << std::setw(ntab) << Histos[0][6][6][9]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][6][6][9]-> GetBinError (i+1)<<std::endl;	
-}
-yields_check << "Electron coupling signal -----------> "<<std::endl;
-for (int i = 0; i < 24; i ++){
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 0 ) yields_check<<"---      eee      ---"<<std::endl;
-	if (i == 8 ) yields_check<<"---      eeOSµ      ---"<<std::endl;
-	if (i == 16 ) yields_check<<"---      eeSSµ      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"  "<<std::endl;
-	if (i == 4 || i == 12 || i == 20 ) yields_check<<"---      M > 4      ---"<<std::endl;
-	if (i == 0 || i == 8 || i == 16 ) yields_check<<"---      M < 4      ---"<<std::endl;
-	yields_check << left << std::setw(ntab) << Histos[0][7][6][19]-> GetBinContent (i+1)<<"  ±  "<<Histos[0][7][6][19]-> GetBinError (i+1)<<std::endl;	
-}
-
-
-
-
-
-
-
-
-
-
-
  
   //TH1D* signals[nSamples_signal];
   //if (systcat == 0 ){
@@ -2282,20 +2211,7 @@ for (int i = 0; i < 24; i ++){
     }//t
     }*/
 
-  /*
-    std::cout<<"mu --> sum_expected_SR: "<< sum_expected_SR[0][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][6][6]-> Integral (0,-1)<<std::endl;
-    std::cout<<"ele --> sum_expected_SR: "<< sum_expected_SR[1][0][0] -> Integral (0,-1)<< "      vs       "<<dataYields[0][7][6]-> Integral (0,-1)<<std::endl;
-    for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<" -> " <<plots_SR[0][0][0][effsam1]-> Integral (0,-1)<<" . random bin: "<<plots_SR[0][0][0][effsam1]->GetBinContent(8)<< "      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     down -> " <<plots_SR[0][1][1][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][1][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;
-    std::cout<<"bgk "<<effsam1<<") "<<eff_names[effsam1]<<"     up -> " <<plots_SR[0][1][2][effsam1]-> Integral (0,-1)<< " . random bin: "<<plots_SR[0][1][2][effsam1]->GetBinContent(8)<<"      vs       "<<Histos[0][6][6][effsam1]-> Integral (0,-1)<<std::endl;
-    }
-    std::cout<<""<<std::endl;
-    for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-    std::cout<<"signal "<<	signal_sample<<") "<<plots_SR[0][0][0][signal_sample+1] -> Integral (0,-1)<< "      vs       "<<Histos[0][6][6][signal_sample+1]-> Integral (0,-1)<<std::endl;
-    }
-  */
-
+  
 
   if((skipLimits && skipTables)==false) {
     ////////////////                                    ////////////////
@@ -2596,7 +2512,7 @@ for (int i = 0; i < 24; i ++){
 	    plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
 	    //std::cout<<" in the data card root file: "<<bkgNames[bkg].c_str()<<" . "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> Integral (0,-1)  <<" .  "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX()<<" . sum of weight: "<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]-> GetSumOfWeights()<<std::endl;   
 	    //for(int bini=0; bini < plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetNbinsX(); bini++){
-	      //std::cout<<"bin: "<<bini<<" . "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(bini+1)<<std::endl;
+	    //std::cout<<"bin: "<<bini<<" . "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(bini+1)<<std::endl;
 	    //}
 	    float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
 	    
