@@ -1074,14 +1074,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (isCRRun && v4l1.Pt() < 30) continue;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      bool single_fake=false;
-      bool Double_fake=false;     
-      if ( _closest_l1JetE[l2] ==  _closest_l1JetE[l3] ) Double_fake = true;
-      if (!Double_fake) single_fake = true;
-      if(Double_fake && _closest_l1JetE[l2] ==0) {
-	single_fake = true;
-	Double_fake = false;
-      }
       // -----------------------------------------------------------//
       if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
