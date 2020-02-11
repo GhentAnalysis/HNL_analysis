@@ -702,7 +702,8 @@ class Analysis_mc : public TObject {
 		 bool skipBackground = false,
 		 bool skipPlotting   = false,
 		 bool skipLimits     = false,
-		 bool skipTables     = false
+		 bool skipTables     = false,
+	  	 bool skipXCheck     = false
 		 //int systcat = 0,
 		 //int systdir = 0
 		 );
