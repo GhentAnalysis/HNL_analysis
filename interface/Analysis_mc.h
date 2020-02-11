@@ -842,8 +842,8 @@ class Analysis_mc : public TObject {
   const double ele_2017=35;
   const double ele_2018=32;
   //iso FO
-  const double mu_iso_loose=1.2;
-  const double ele_iso_loose=1.2;
+  const double mu_iso_loose=2.;
+  const double ele_iso_loose=2.;
   const double mu_iso_tight=0.2;
   const double ele_iso_tight=0.2;
   //jet pt
@@ -860,7 +860,7 @@ class Analysis_mc : public TObject {
   const double met_cuts =80;
   const int number_veto_leptons=3;
 
-  const double isolation_loose=1.2;
+  const double isolation_loose=2.;
   const double isolation_tight=0.2;
     
   
