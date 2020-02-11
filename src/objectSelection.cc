@@ -167,7 +167,7 @@ bool Analysis_mc::lepIsFOBase(const unsigned leptonIndex) const{
   if ( isElectron(leptonIndex) && _relIso[leptonIndex] > ele_iso_loose) return false;
   //mu
   if( isMu(leptonIndex) && !muOurMedium(leptonIndex)) return false;
-  //if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
+  if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
   if (isMu(leptonIndex) && _lPt[leptonIndex] < mu_pt) return false;
   if ( isMu(leptonIndex) && _relIso[leptonIndex] > mu_iso_loose) return false;
 
