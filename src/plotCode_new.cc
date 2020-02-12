@@ -160,7 +160,9 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "M_{2} c#tau=44mm");
       //if (sig == 4 ||sig == 14 ) legend->AddEntry(signal[sig], "m_{N}=4 GeV");
       //if (sig == 6 ||sig == 16 ) legend->AddEntry(signal[sig], "m_{N}=6 GeV");
-      if (sig == 8 ||sig == 18 ) legend->AddEntry(signal[sig], "M_{8} c#tau=6mm");
+      if (sig == 8  ) legend->AddEntry(signal[sig], "M_{10} c#tau=0.4mm");
+      if (sig == 18 ) legend->AddEntry(signal[sig], "M_{8} c#tau=6mm");
+	    
 		 
     }
   }
