@@ -57,7 +57,7 @@ double Reweighter::puWeight(const double nTrueInt, const Sample& sample, const u
         // up to 50 interactions. So one needs to be sure to check for what campaign the sample was generated.
         // When using a sample (potentially simulated for 2017) for 2016 data analysis, always limit the bin
         // to 50 interactions which is the limit to which the data pileup profile was evaluated.
-        bool sampleIsSimulatedFor2016 =  ( sample.getFileName().find("Summer16") != std::string::npos );
+        //bool sampleIsSimulatedFor2016 =  ( sample.getFileName().find("Summer16") != std::string::npos );
         double maxBin = 0.;
         if (sample.is2016())  maxBin = 49.5;
         if (sample.is2017())  maxBin = 99.5;
