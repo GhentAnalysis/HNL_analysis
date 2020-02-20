@@ -92,12 +92,25 @@ bool Analysis_mc::lepIsLoose2018(const unsigned leptonIndex) const{
 //______________________________________________ele loose ID
 bool Analysis_mc::eleIsLoose2016(const unsigned leptonIndex) const{
   if( !isElectron(leptonIndex)) return false;
-  
   if (!(_lEleIsEB[leptonIndex] || _lEleIsEE[leptonIndex])) return false;
+	
+  double elehadronicOverEm = 0.;
+  double rho = 0.;
+  if (std::abs (_lEta[leptonIndex]) < 1.00) rho	= _puCorr[leptonIndex] / 0.1440;
+  if (std::abs (_lEta[leptonIndex]) >= 1.00 && std::abs (_lEta[leptonIndex]) < 1.479) rho= _puCorr[leptonIndex] / 0.1562;
+  if (std::abs (_lEta[leptonIndex]) >= 1.479 && std::abs (_lEta[leptonIndex]) < 2.00) rho= _puCorr[leptonIndex] / 0.1032;
+  if (std::abs (_lEta[leptonIndex]) >= 2.00 && std::abs (_lEta[leptonIndex]) < 2.20) rho= _puCorr[leptonIndex] / 0.0859;
+  if (std::abs (_lEta[leptonIndex]) >= 2.20 && std::abs (_lEta[leptonIndex]) < 2.30) rho= _puCorr[leptonIndex] / 0.1116;
+  if (std::abs (_lEta[leptonIndex]) >= 2.30 && std::abs (_lEta[leptonIndex]) < 2.40) rho= _puCorr[leptonIndex] / 0.1321;
+  if (std::abs (_lEta[leptonIndex]) >= 2.40 && std::abs (_lEta[leptonIndex]) < 2.50) rho= _puCorr[leptonIndex] / 0.1654;
+  double _x = _lEleIsEB[leptonIndex] ? 1.12       : 0.5 ;
+  double _y = _lEleIsEB[leptonIndex] ? 0.0368       : 0.201 ;
+  elehadronicOverEm = 	_lElehadronicOverEm[leptonIndex] - (_x + _y*rho)/_lEleEcalEnergy[leptonIndex];
+	
   if(_lElefull5x5SigmaIetaIeta[leptonIndex]                  >= (_lEleIsEB[leptonIndex] ? 0.11       : 0.0314 ))       return false;
   if(_lEleDEtaInSeed  [leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.00477    : 0.00868))       return false;
   if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
-  if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
+  if(elehadronicOverEm                                       >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
   if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
   return true;
 
@@ -105,25 +118,51 @@ bool Analysis_mc::eleIsLoose2016(const unsigned leptonIndex) const{
 //______________________________________________ele loose ID
 bool Analysis_mc::eleIsLoose2017(const unsigned leptonIndex) const{
   if( !isElectron(leptonIndex)) return false;
-  
   if (!(_lEleIsEB[leptonIndex] || _lEleIsEE[leptonIndex])) return false;
+	
+  double elehadronicOverEm = 0.;
+  double rho = 0.;
+  if (std::abs (_lEta[leptonIndex]) < 1.00) rho	= _puCorr[leptonIndex] / 0.1440;
+  if (std::abs (_lEta[leptonIndex]) >= 1.00 && std::abs (_lEta[leptonIndex]) < 1.479) rho= _puCorr[leptonIndex] / 0.1562;
+  if (std::abs (_lEta[leptonIndex]) >= 1.479 && std::abs (_lEta[leptonIndex]) < 2.00) rho= _puCorr[leptonIndex] / 0.1032;
+  if (std::abs (_lEta[leptonIndex]) >= 2.00 && std::abs (_lEta[leptonIndex]) < 2.20) rho= _puCorr[leptonIndex] / 0.0859;
+  if (std::abs (_lEta[leptonIndex]) >= 2.20 && std::abs (_lEta[leptonIndex]) < 2.30) rho= _puCorr[leptonIndex] / 0.1116;
+  if (std::abs (_lEta[leptonIndex]) >= 2.30 && std::abs (_lEta[leptonIndex]) < 2.40) rho= _puCorr[leptonIndex] / 0.1321;
+  if (std::abs (_lEta[leptonIndex]) >= 2.40 && std::abs (_lEta[leptonIndex]) < 2.50) rho= _puCorr[leptonIndex] / 0.1654;
+  double _x = _lEleIsEB[leptonIndex] ? 1.12       : 0.5 ;
+  double _y = _lEleIsEB[leptonIndex] ? 0.0368       : 0.201 ;
+  elehadronicOverEm = 	_lElehadronicOverEm[leptonIndex] - (_x + _y*rho)/_lEleEcalEnergy[leptonIndex];
+	
   if(_lElefull5x5SigmaIetaIeta[leptonIndex]                  >= (_lEleIsEB[leptonIndex] ? 0.11       : 0.0314 ))       return false;
   if(_lEleDEtaInSeed  [leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.00477    : 0.00868))       return false;
   if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
-  if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
+  if(elehadronicOverEm                                       >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
   if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
   return true;
 
 }
 //______________________________________________ele loose ID
 bool Analysis_mc::eleIsLoose2018(const unsigned leptonIndex) const{
-  if( !isElectron(leptonIndex)) return false;
-  
+ if( !isElectron(leptonIndex)) return false;
   if (!(_lEleIsEB[leptonIndex] || _lEleIsEE[leptonIndex])) return false;
+	
+  double elehadronicOverEm = 0.;
+  double rho = 0.;
+  if (std::abs (_lEta[leptonIndex]) < 1.00) rho	= _puCorr[leptonIndex] / 0.1440;
+  if (std::abs (_lEta[leptonIndex]) >= 1.00 && std::abs (_lEta[leptonIndex]) < 1.479) rho= _puCorr[leptonIndex] / 0.1562;
+  if (std::abs (_lEta[leptonIndex]) >= 1.479 && std::abs (_lEta[leptonIndex]) < 2.00) rho= _puCorr[leptonIndex] / 0.1032;
+  if (std::abs (_lEta[leptonIndex]) >= 2.00 && std::abs (_lEta[leptonIndex]) < 2.20) rho= _puCorr[leptonIndex] / 0.0859;
+  if (std::abs (_lEta[leptonIndex]) >= 2.20 && std::abs (_lEta[leptonIndex]) < 2.30) rho= _puCorr[leptonIndex] / 0.1116;
+  if (std::abs (_lEta[leptonIndex]) >= 2.30 && std::abs (_lEta[leptonIndex]) < 2.40) rho= _puCorr[leptonIndex] / 0.1321;
+  if (std::abs (_lEta[leptonIndex]) >= 2.40 && std::abs (_lEta[leptonIndex]) < 2.50) rho= _puCorr[leptonIndex] / 0.1654;
+  double _x = _lEleIsEB[leptonIndex] ? 1.12       : 0.5 ;
+  double _y = _lEleIsEB[leptonIndex] ? 0.0368       : 0.201 ;
+  elehadronicOverEm = 	_lElehadronicOverEm[leptonIndex] - (_x + _y*rho)/_lEleEcalEnergy[leptonIndex];
+	
   if(_lElefull5x5SigmaIetaIeta[leptonIndex]                  >= (_lEleIsEB[leptonIndex] ? 0.11       : 0.0314 ))       return false;
   if(_lEleDEtaInSeed  [leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.00477    : 0.00868))       return false;
   if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
-  if(_lElehadronicOverEm[leptonIndex]                        >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
+  if(elehadronicOverEm                                       >= (_lEleIsEB[leptonIndex] ? 0.298      : 0.101  ))       return false;
   if(_lEleInvMinusPInv[leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.241      : 0.14   ))       return false;
   return true;
 
