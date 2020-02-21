@@ -1348,7 +1348,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	vtxRvtxPcosAlpha > 0.99  &&
 	M_l2l3_combined < 12 &&
 			  sum_vec_l2l3 > 15 &&
-	D2_delta_pv_svSig > 20 &&	
+	//D2_delta_pv_svSig > 20 &&	
 	prob_vertex > 0.001 &&
 	bjet == 0 &&
 	vetoes;
