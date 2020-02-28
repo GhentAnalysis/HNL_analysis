@@ -1342,16 +1342,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = 	v4l2.DeltaR(v4l3) < 1 &&   
-					    M_3L_combined > 50 && 
-	M_3L_combined < 80 && 
+			M_3L_combined > 50 && 
+			M_3L_combined < 80 && 
 			min_delta_phi > 1 &&
-	vtxRvtxPcosAlpha > 0.99  &&
-	M_l2l3_combined < 12 &&
-			  sum_vec_l2l3 > 15 &&
-	//D2_delta_pv_svSig > 20 &&	
-	prob_vertex > 0.001 &&
-	bjet == 0 &&
-	vetoes;
+			vtxRvtxPcosAlpha > 0.99  &&
+			M_l2l3_combined < 12 &&
+			sum_vec_l2l3 > 15 &&
+			D2_delta_pv_svSig > 20 &&	
+			prob_vertex > 0.001 &&
+			bjet == 0 &&
+			vetoes;
 	
 	
       bool _a,_b,_c,_d,_e,_f,_g,_h,_i,_l=false;
@@ -2143,7 +2143,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   if(skipPlotting == false){
     for(unsigned dist = 0; dist < nDist; ++dist){
       for(unsigned cat = 0; cat < nCat; ++cat){
-	if (cat ==1 ||  cat ==1 || cat == 3 || cat==4 || cat == 5) continue;
+	if (cat ==1 ||  cat == 3 || cat==4 || cat == 5) continue;
 	for(int cha = 0; cha < nChannel; ++cha){               
 	  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
 	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
