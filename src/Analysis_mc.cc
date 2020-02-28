@@ -2655,10 +2655,10 @@ void Analysis_mc::put_at_zero(TH1D *histo){
       error_original = histo-> GetBinError(i+1);
       error_to_add = histo-> GetBinContent(i+1);
       error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
-      histo-> SetBinContent(i+1, 0.00001);
+      histo-> SetBinContent(i+1, 0.00002);
       histo-> SetBinError(i+1, error_final);
-      if (error_final == 0) histo-> SetBinError(i+1,  0.00001);
-      if (error_final < 0.000001) histo-> SetBinError(i+1,  0.00001);
+      if (error_final == 0) histo-> SetBinError(i+1,  0.000002);
+      if (error_final < 0.000001) histo-> SetBinError(i+1,  0.000002);
 
     }
   }
