@@ -66,7 +66,7 @@ int main(){
   //std::string alist = "sampleLists/signal_M_08_2018.txt";
   //
   // 2016: "2016_new.txt"; 2017: "2017.txt"; 2018: "2018.txt"
-  std::string alist = "/user/mvit/CMSSW_9_4_4/src/HNL_analysis/sampleLists/2016_new.txt";
+  std::string alist = "sampleLists/2016_new.txt";
 
   Analysis_mc all(year, alist, adir);
 
