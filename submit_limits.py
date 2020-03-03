@@ -21,7 +21,8 @@ for sgn in signals:
     outlist = open('jobs/samples/samples_'+label+'.txt', 'w+')
     outlist.write(data_backgrounds[0])
     outlist.write(sgn)
-    for i in range(1, len(data_backgrounds)): outlist.write(data_backgrounds[i])
+    for ibkg in data_backgrounds[1:]: outlist.write(ibkg)
+    #for i in range(1, len(data_backgrounds)): outlist.write(data_backgrounds[i])
     ## Create analisi.C
     with open('analisi_TEMPLATE.C', 'r') as inanalisi: analisidata = inanalisi.read()
     analisidata = analisidata.replace('TEMPLABEL', label)
