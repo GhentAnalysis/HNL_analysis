@@ -11,10 +11,10 @@ void drawLumi(TPad* pad,int channel, const TString& extraText, const bool data, 
 	
 	TString lumiText;
 	TString channelText;
-	if(data && lumi_year==0) lumiText = "35.9 fb^{-1} (13 TeV)";
-	if(data && lumi_year==1) lumiText = "41.5 fb^{-1} (13 TeV)";
-	if(data && lumi_year==2) lumiText = "59.7 fb^{-1} (13 TeV)";
-	else lumiText = "(13 TeV)";
+	lumiText = "35.9 fb^{-1} (13 TeV)";
+	//if(data && lumi_year==1) lumiText = "41.5 fb^{-1} (13 TeV)";
+	//if(data && lumi_year==2) lumiText = "59.7 fb^{-1} (13 TeV)";
+	//else lumiText = "(13 TeV)";
 
 	//const float H = pad->GetWh();
   	//const float W = pad->GetWw();
