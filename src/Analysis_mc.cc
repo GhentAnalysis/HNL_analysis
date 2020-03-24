@@ -107,6 +107,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
       sigNames_short[nSamples_signal] += "GeV, |V_{NYY}|^{2} = ";
       sigNames_short[nSamples_signal] += (samples[is].getHNLV2New()>0. ? samples[is].getHNLV2New() : samples[is].getHNLV2());
       if(eff_names[nSamples_eff].EndsWith("_e")) {
+	//if(eff_names[nSamples_eff].Contains("_e_")) {
 	if(nSamples_signal_e==max_nSamples_signal_e) throw std::runtime_error("nSamples_signal_e == max_nSamples_signal_e");
 	sigNames_short[nSamples_signal].ReplaceAll("YY", "e");
 	sigNames_e[nSamples_signal_e] = eff_names[nSamples_eff];
@@ -114,6 +115,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
 	++nSamples_signal_e;
       }
       else if(eff_names[nSamples_eff].EndsWith("_mu")) {
+      //else if(eff_names[nSamples_eff].Contains("_mu_")) {
 	if(nSamples_signal_mu==max_nSamples_signal_mu) throw std::runtime_error("nSamples_signal_mu == max_nSamples_signal_mu");
 	sigNames_short[nSamples_signal].ReplaceAll("YY", "#mu");
 	sigNames_mu[nSamples_signal_mu] = eff_names[nSamples_eff];
@@ -145,7 +147,8 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   if(nSamples_signal!=(nSamples_signal_e+nSamples_signal_mu))
     throw std::runtime_error("nSamples_signal != nSamples_signal_e + max_nSamples_signal_mu");
 
-  const int nBin_probvertex = 18;	
+
+const int nBin_probvertex = 18;	
   Double_t bin_probvertex[nBin_probvertex+1] = {0,0.0005,0.001,0.005,0.01,0.03,0.05,0.07,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.75,1.};
 	
   const int nBin_cos = 28;	
@@ -153,6 +156,11 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
 
   const int nBin_2d = 13;	
   Double_t bin_2d[nBin_2d+1] = {0,1,2,3,4,5,6,7,8,9,10,15,25,50};
+
+  const int nBin_2d_zoom = 8;	
+  Double_t bin_2d_zoom[nBin_2d_zoom+1] = {0.,0.25,0.5,0.75,1.,1.50,2.,3.,4.};
+
+  
 	
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> histogramms creation >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   for(int i = 0; i < nDist; ++i){
@@ -162,14 +170,16 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
       for(int cat = 0; cat < nCat; ++cat){
 	//if (cat !=0 && cat !=6) continue;
 	for(int cha = 0; cha < nChannel; ++cha){  
-	  if (i != 34 && i!= 37 && i!=40){
+	  if (i != 34 && i!= 37 && i!=40 && i!=41){
 	    Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBins[i], HistMin[i], HistMax[i]);  
 	  }	
 	  if (i == 34) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_probvertex, bin_probvertex);  
 	  if (i == 37) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_cos, bin_cos);  
-	  if (i == 40) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d, bin_2d);  		
+	  if (i == 40) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d, bin_2d);
+	  if (i == 41) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d_zoom, bin_2d_zoom);  		
+
+	  
 	  Histos[i][cha][cat][effsam]->Sumw2();	
-	  if (i == 48)std::cout<<i<<") . i have created: -> "<< eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] <<std::endl;
 	}
       }
     }
@@ -178,6 +188,9 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   for(int i = 0; i < nDist; ++i){
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
   }
+
+
+
   
   for(size_t effsam = 0; effsam < nSamples_eff + 1; ++effsam){
     std::cout<<"-----------------> pippo: "<< eff_names[effsam] <<std::endl;
