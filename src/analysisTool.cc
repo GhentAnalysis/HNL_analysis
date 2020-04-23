@@ -165,6 +165,32 @@ int Analysis_mc::channel(int  flavors_3l[3], int  charge_3l[3]){
   return canale;
   
 }
+
+//_____________________________________________ SF prompt ele
+double Analysis_mc::SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const double pt, const int flav){
+   double sfValue = 1;
+   if (flav == 0) {   
+   int binx = sf_btag_eff[0]->GetXaxis()->FindBin(pt);
+   int biny = sf_btag_eff[0]->GetYaxis()->FindBin(fabs(eta));
+   sfValue = sf_btag_eff[0]->GetBinContent(binx,biny);
+   }
+   if (flav == 4) {   
+   int binx = sf_btag_eff[1]->GetXaxis()->FindBin(pt);
+   int biny = sf_btag_eff[1]->GetYaxis()->FindBin(fabs(eta));
+   sfValue = sf_btag_eff[1]->GetBinContent(binx,biny);
+   }
+   if (flav == 5) {   
+   int binx = sf_btag_eff[2]->GetXaxis()->FindBin(pt);
+   int biny = sf_btag_eff[2]->GetYaxis()->FindBin(fabs(eta));
+   sfValue = sf_btag_eff[2]->GetBinContent(binx,biny);
+
+   }
+   return sfValue;	
+}
+
+
+
+
 //_____________________________________________ SF prompt ele
 double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  	

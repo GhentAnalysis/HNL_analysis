@@ -704,13 +704,26 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 
 
+  TH2F *sf_btag_eff[3];	//0 uds, 1 charm, 2 b
+  if (year == 0){
+    TFile *hfile1_btag_2016 = ist2b ?   TFile::Open(names_btagging_eff_files[0]) :  TFile::Open(names_btagging_eff_files[0]);
+    sf_btag_eff[0] = (TH2F*)hfile1_btag_2016->Get("bTagEff_loose_udsg");
+    sf_btag_eff[1] = (TH2F*)hfile1_btag_2016->Get("bTagEff_loose_charm");
+    sf_btag_eff[2] = (TH2F*)hfile1_btag_2016->Get("bTagEff_loose_beauty");
+  }	
+  if (year == 1){
+    TFile *hfile1_btag_2017 = ist2b ?   TFile::Open(names_btagging_eff_files[1]) :  TFile::Open(names_btagging_eff_files[1]);
+    sf_btag_eff[0] = (TH2F*)hfile1_btag_2017->Get("bTagEff_loose_udsg");
+    sf_btag_eff[1] = (TH2F*)hfile1_btag_2017->Get("bTagEff_loose_charm");
+    sf_btag_eff[2] = (TH2F*)hfile1_btag_2017->Get("bTagEff_loose_beauty");
+  }
+  if (year == 2 ){	
+    TFile *hfile1_btag_2018 = ist2b ?   TFile::Open(names_btagging_eff_files[2]) :  TFile::Open(names_btagging_eff_files[2]);
+    sf_btag_eff[0] = (TH2F*)hfile1_btag_2018->Get("bTagEff_loose_udsg");
+    sf_btag_eff[1] = (TH2F*)hfile1_btag_2018->Get("bTagEff_loose_charm");
+    sf_btag_eff[2] = (TH2F*)hfile1_btag_2018->Get("bTagEff_loose_beauty");
+  }
 
-  if(year==0) {
-  }
-  else if(year==1) {
-  }
-  else {
-  }
 
   // Displaced electron efficiency errors
   double displEleVars[7] = {1.0, 0.93, 0.80, 0.76, 0.72, 0.67, 0.50};
@@ -1405,8 +1418,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    
     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< calculation of the systematicvs weights <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      if (bjet == 0) continue;
-      
+      std::cout<<".   in the loop of the jets: "<< jetIsGood(j, _jetPt[j])<<". "<<_jetPt[j]<<". "<< _jetHadronFlavor[j]<<std::endl;
+
       // bjet SF + JEC/JER number of jets
       double btag_weight_central=1;
       double btag_weight_down=1; 	    
@@ -1422,14 +1435,26 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
 	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
 	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;   
-	std::cout<<".   in the loop of the jets: "<< jetIsGood(j, _jetPt[j])<<". "<<_jetPt[j]<<". "<< _jetHadronFlavor[j]<<std::endl;
-	if(jetIsGood(j, _jetPt[j]) && _jetPt[j]<1000. && _jetHadronFlavor[j] == 5) {
-		std::cout<<". "<<_jetEta[j]<<std::endl;
-		std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<". "<< reader.eval_auto_bounds("up",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<std::endl;
-	
-	  btag_weight_central *= (1. - reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]));
-	  btag_weight_down    *= (1. - reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]));
-	  btag_weight_up      *= (1. - reader.eval_auto_bounds("up",      BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j]));		     	
+	if(jetIsGood(j, _jetPt[j]) && _jetPt[j]<1000. && (_jetHadronFlavor[j] == 5 ||  _jetHadronFlavor[j] == 4 ||  _jetHadronFlavor[j] == 0)) {
+
+	  double eff_cy = 0.;
+	  eff_cy = SF_btag_eff(*&sf_btag_eff, _jetEta[j], _jetPt[j], _jetHadronFlavor[j]);
+	  	  
+	  if (_jetHadronFlavor[j] == 0){	
+	    btag_weight_central *= (1. - eff_cy* reader.eval_auto_bounds("central", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	    btag_weight_down    *=  (1. - eff_cy* reader.eval_auto_bounds("down", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	    btag_weight_up      *=  (1. - eff_cy* reader.eval_auto_bounds("up", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	  }
+	  if (_jetHadronFlavor[j] == 4){	
+	    btag_weight_central *= (1. - eff_cy* reader.eval_auto_bounds("central", BTagEntry::FLAV_C, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	    btag_weight_down    *=  (1. - eff_cy* reader.eval_auto_bounds("down", BTagEntry::FLAV_C, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	    btag_weight_up      *=  (1. - eff_cy* reader.eval_auto_bounds("up", BTagEntry::FLAV_C, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	  }
+	  if (_jetHadronFlavor[j] == 5){	
+	    btag_weight_central *= (1. - eff_cy* reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	    btag_weight_down    *=  (1. - eff_cy* reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	    btag_weight_up      *=  (1. - eff_cy* reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
+	  }	  
 	}	//bjet
       }    //njet
       for (int w_loop =0; w_loop < nCoupling; w_loop++){ 

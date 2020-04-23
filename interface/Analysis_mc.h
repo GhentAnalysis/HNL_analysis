@@ -791,6 +791,10 @@ class Analysis_mc : public TObject {
   double SF_prompt_muon_error(TH2D *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
+  double SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const double pt, const int flav);
+
+
+  
 		
   void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
   void put_at_zero(TH1D *histo);
@@ -1379,5 +1383,13 @@ class Analysis_mc : public TObject {
   const TString names_trigger_muon_files[3] = {"SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
 				         "SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
 				         "SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"};
+
+
+
+   const TString names_btagging_eff_files[3] = {"bTagging/bTagEff_looseLeptonCleaned_2016.root",
+				         "bTagging/bTagEff_looseLeptonCleaned_2017.root",
+				         "bTagging/bTagEff_looseLeptonCleaned_2018.root"};
+
+  
 };
 #endif
