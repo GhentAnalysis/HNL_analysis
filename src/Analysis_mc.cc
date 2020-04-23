@@ -1421,7 +1421,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
 	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
-	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;   	      
+	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;   
+	std::cout<<".   in the loop of the jets: "<< jetIsGood(j, _jetPt[j])<<". "<<_jetPt[j]<<". "<< _jetHadronFlavor[j]<<std::endl;
 	if(jetIsGood(j, _jetPt[j]) && _jetPt[j]<1000. && _jetHadronFlavor[j] == 5) {
 		std::cout<<". "<<_jetEta[j]<<std::endl;
 		std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<". "<< reader.eval_auto_bounds("up",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<std::endl;
