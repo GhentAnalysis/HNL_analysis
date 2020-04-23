@@ -725,9 +725,30 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   }
 
 
-  // Displaced electron efficiency errors
-  double displEleVars[7] = {1.0, 0.93, 0.80, 0.76, 0.72, 0.67, 0.50};
-  
+  // Displaced electron efficiency errors by Daniele old
+  //double displEleVars[7] = {1.0, 0.93, 0.80, 0.76, 0.72, 0.67, 0.50};
+  // by tom
+  double displEleVars[7] = {1.012, 1.024, 0.850, 0.818, 0.785, 0.658, 0.506}; // 2016
+
+  if (year == 1){
+    displEleVars[0] = 1.028;
+    displEleVars[1] = 1.095;
+    displEleVars[2] = 1.070;
+    displEleVars[3] = 1.173;
+    displEleVars[4] = 1.101;
+    displEleVars[5] = 1.124;
+    displEleVars[6] = 1.304;
+  }
+  if (year == 2){
+    displEleVars[0] = 1.109;
+    displEleVars[1] = 1.155;
+    displEleVars[2] = 1.094;
+    displEleVars[3] = 1.072;
+    displEleVars[4] = 1.116;
+    displEleVars[5] = 1.134;
+    displEleVars[6] = 1.225;
+  }
+    
   // ------------ b tagging -----------------------------------------------//
   // b-tagging working points (DeepCsv_b + DeepCsv_bb)
   BTagEntry::OperatingPoint bwp = BTagEntry::OP_LOOSE;    // = 0
@@ -741,14 +762,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   reader.load(calib,             // calibration instance
 	      BTagEntry::FLAV_B, // b-tag flavor
 	      "comb");           // measurement type
-reader.load(calib,             // calibration instance
+  reader.load(calib,             // calibration instance
               BTagEntry::FLAV_C, // b-tag flavor
               "comb");           // measurement type
-reader.load(calib,             // calibration instance
+  reader.load(calib,             // calibration instance
               BTagEntry::FLAV_UDSG, // b-tag flavor
               "incl");           // measurement type
-
-
 
 
 
@@ -1438,24 +1457,15 @@ reader.load(calib,             // calibration instance
       bjet_up_jec   = 0; 
       bjet_down_jer   = 0; 
       bjet_up_jer   = 0; 
-	std::cout<<"------"<<std::endl;
       for (unsigned j =0; j < _nJets ; j++){
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
 	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
 	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;
-	std::cout<<".   in the loop of the jets: "<< jetIsGood(j, _jetPt[j])<<". "<<_jetPt[j]<<". "<< _jetHadronFlavor[j]<<std::endl;
 
 	if(jetIsGood(j, _jetPt[j]) && _jetPt[j]<1000. && (_jetHadronFlavor[j] == 5 ||  _jetHadronFlavor[j] == 4 ||  _jetHadronFlavor[j] == 0)) {
-	  std::cout<<"in the loop"<<std::endl;
 	  double eff_cy = 0.;
 	  eff_cy = SF_btag_eff(*&sf_btag_eff, _jetEta[j], _jetPt[j], _jetHadronFlavor[j]);
-
-	  std::cout<<"eff-cy: "<< eff_cy<<std::endl;
-
-std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<". "<< reader.eval_auto_bounds("up",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<std::endl;
-std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_C, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<std::endl;
-	  std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<std::endl;
 	  if (_jetHadronFlavor[j] == 0){	
 	    btag_weight_central *= (1. - eff_cy* reader.eval_auto_bounds("central", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
 	    btag_weight_down    *=  (1. - eff_cy* reader.eval_auto_bounds("down", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
@@ -1470,12 +1480,7 @@ std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntr
 	    btag_weight_central *= (1. - eff_cy* reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
 	    btag_weight_down    *=  (1. - eff_cy* reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
 	    btag_weight_up      *=  (1. - eff_cy* reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
-	  }
-
-	  std::cout<<btag_weight_central<<std::endl;
-	  std::cout<<btag_weight_down<<std::endl;
-	  std::cout<<btag_weight_up<<std::endl;
-			  
+	  }		  
 	}	//bjet
       }    //njet
       for (int w_loop =0; w_loop < nCoupling; w_loop++){ 
@@ -1484,7 +1489,6 @@ std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntr
 	weight_SR[w_loop][btag_index][2][effsam] = btag_weight_up;			
       }
       
-      std::cout<<"bjet tagged  = "<<bjet<<"                        . -> "<< btag_weight_central<<". "<<btag_weight_down<<". "<< btag_weight_up<<std::endl;
       //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
       /*for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
@@ -1615,7 +1619,6 @@ std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntr
 
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
-	if (w_loop == btag_index ) std::cout<<" loop nstyst. "<< weight_SR[0][w_loop][0][effsam]<<".  "<< weight_SR[1][w_loop][0][effsam]<<std::endl;
 	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
 	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];
 	  //if (isSignal && w_loop == pu_index && SR_channel <= 2) central_total_weight_mu *= 1.;
@@ -1649,7 +1652,7 @@ std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntr
 	      if (SR_channel > 2 && weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ele ----------------------------------  "<<systNamesT[iSystematics]<< " var: "<< iVariation<<std::endl;
     
 	      if (iSystematics!=jec_index && iSystematics!=jer_index){
-	      if (iSystematics == btag_index) std::cout<<"in the ;loop 2: "<< iVariation<<". "<<central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]<<". "<<central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]<<". "<< std::endl;
+ 
 	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
 	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);					
 	      }
