@@ -1431,6 +1431,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	weight_SR[w_loop][btag_index][1][effsam] = btag_weight_down;
 	weight_SR[w_loop][btag_index][2][effsam] = btag_weight_up;			
       }
+      
+      std::cout<<"bjet = "<<bjet<<". -> "<< btag_weight_central<<". "<<btag_weight_down<<". "<< btag_weight_up<<std::endl;
       //putting at zero the case when we have more than 0 bjet due to the variation on JEC and JER	    
       /*for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	if (bjet_down_jec != 0) weight_SR[w_loop][jec_index][1][effsam] = 0.;
@@ -1561,6 +1563,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
+	if (w_loop == btag_index ) std::cout<<" loop nstyst. "<< weight_SR[0][w_loop][0][effsam]<<".  "<< weight_SR[1][w_loop][0][effsam]<<std::endl;
 	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
 	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];
 	  //if (isSignal && w_loop == pu_index && SR_channel <= 2) central_total_weight_mu *= 1.;
@@ -1594,6 +1597,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      if (SR_channel > 2 && weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ele ----------------------------------  "<<systNamesT[iSystematics]<< " var: "<< iVariation<<std::endl;
     
 	      if (iSystematics!=jec_index && iSystematics!=jer_index){
+	      if (iSystematics == btag_index) std::cout<<"in the ;loop 2: "<< iVariation<<". "<<central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]<<". "<<central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]<<". "<< std::endl;
 	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
 	      	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);					
 	      }
