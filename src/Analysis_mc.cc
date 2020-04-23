@@ -1433,9 +1433,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (jetIsBJet(j, _jetSmearedPt_JECDown[j])) ++bjet_down_jec;    
 	if (jetIsBJet(j, _jetSmearedPt_JECUp[j]))   ++bjet_up_jec;     
 	if (jetIsBJet(j, _jetSmearedPt_JERDown[j])) ++bjet_down_jer;     
-	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;   
-	if(jetIsGood(j, _jetPt[j]) && _jetPt[j]<1000. && (_jetHadronFlavor[j] == 5 ||  _jetHadronFlavor[j] == 4 ||  _jetHadronFlavor[j] == 0)) {
+	if (jetIsBJet(j, _jetSmearedPt_JERUp[j]))   ++bjet_up_jer;
+	std::cout<<".   in the loop of the jets: "<< jetIsGood(j, _jetPt[j])<<". "<<_jetPt[j]<<". "<< _jetHadronFlavor[j]<<std::endl;
 
+	if(jetIsGood(j, _jetPt[j]) && _jetPt[j]<1000. && (_jetHadronFlavor[j] == 5 ||  _jetHadronFlavor[j] == 4 ||  _jetHadronFlavor[j] == 0)) {
+	  std::cout<<"in the loop"<<std::endl;
 	  double eff_cy = 0.;
 	  eff_cy = SF_btag_eff(*&sf_btag_eff, _jetEta[j], _jetPt[j], _jetHadronFlavor[j]);
 	  	  
@@ -1453,7 +1455,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    btag_weight_central *= (1. - eff_cy* reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
 	    btag_weight_down    *=  (1. - eff_cy* reader.eval_auto_bounds("down", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
 	    btag_weight_up      *=  (1. - eff_cy* reader.eval_auto_bounds("up", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
-	  }	  
+	  }
+
+	  std::cout<<btag_weight_central<<std::endl;
+	  std::cout<<btag_weight_down<<std::endl;
+	  std::cout<<btag_weight_up<<std::endl;
+			  
 	}	//bjet
       }    //njet
       for (int w_loop =0; w_loop < nCoupling; w_loop++){ 
