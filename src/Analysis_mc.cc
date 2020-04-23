@@ -741,6 +741,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   reader.load(calib,             // calibration instance
 	      BTagEntry::FLAV_B, // b-tag flavor
 	      "comb");           // measurement type
+reader.load(calib,             // calibration instance
+              BTagEntry::FLAV_C, // b-tag flavor
+              "comb");           // measurement type
+reader.load(calib,             // calibration instance
+              BTagEntry::FLAV_UDSG, // b-tag flavor
+              "incl");           // measurement type
+
+
+
+
 
   // // ------------   samples info -----------------------------------------------//
   // samples = readSampleList(list, directory);
@@ -1443,8 +1453,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 	  std::cout<<"eff-cy: "<< eff_cy<<std::endl;
 
-	  std::cout<<"from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])<<"  "<<eval_auto_bounds("central", BTagEntry::FLAV_C, std::abs(_jetEta[j]), _jetPt[j])<<"   "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<std::endl;
-	  
+std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<reader.eval_auto_bounds("down",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<". "<< reader.eval_auto_bounds("up",    BTagEntry::FLAV_B, std::abs(_jetEta[j]), _jetPt[j])<<std::endl;
+std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_C, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<std::endl;
+	  std::cout<<". values from histo: "<< reader.eval_auto_bounds("central", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])<<".  "<<std::endl;
 	  if (_jetHadronFlavor[j] == 0){	
 	    btag_weight_central *= (1. - eff_cy* reader.eval_auto_bounds("central", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
 	    btag_weight_down    *=  (1. - eff_cy* reader.eval_auto_bounds("down", BTagEntry::FLAV_UDSG, std::abs(_jetEta[j]), _jetPt[j])) / (1. - eff_cy);
