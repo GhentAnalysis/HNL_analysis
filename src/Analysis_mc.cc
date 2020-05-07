@@ -1563,7 +1563,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			     M_l2l3,
 			     M_l2l3_combined,
 			     M_l2l3_combined,
-			     M_ZPair,
+			     M_3L_combined,
 			     mT,
 			     _met,		    
 			     static_cast<double>( goodjet),
