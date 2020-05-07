@@ -20,7 +20,7 @@ M-6_V-0.00202484567313_e    HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_mas
 M-8_V-0.00151327459504_e    HeavyNeutrino_trilepton_M-8_V-0.00151327459504_e_massiveAndCKM_LO_2017.root    9.379e-03    5.45
 M-10_V-0.000756967634711_e  HeavyNeutrino_trilepton_M-10_V-0.000756967634711_e_massiveAndCKM_LO_2017.root  2.363e-03    6.89
 DY       DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v10_Fall17.root                             18610
-DY       DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root                                5765.4
+DY       DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root                                6077.22
 #ttbar    TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                                   87.31483776
 #ttbar    TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                            182.17540224
 #ttbar    TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                            182.17540224
@@ -43,7 +43,7 @@ multiboson    WZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root      
 multiboson    ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                                        0.01398
 multiboson    ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root                                     1.256
 Xgamma      WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v14_Fall17.root                                   489
-Xgamma      ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root                         117.864
+Xgamma      ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root                         50.2
 #TTX          TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_Summer16.root                                            3.697
 #TTX          TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_Summer16.root                                            0.2043
 #TTX          TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                            0.2728
