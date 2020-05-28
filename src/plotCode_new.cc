@@ -198,21 +198,64 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     signal[0]-> GetXaxis()->LabelsOption("vu");
     signal[0]-> GetXaxis()->SetBinLabel(1, "3 leptons");
     signal[0]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
-    signal[0]-> GetXaxis()->SetBinLabel(3, "bveto");
-    signal[0]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
-    signal[0]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
-    signal[0]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
-    signal[0]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
+    signal[0]-> GetXaxis()->SetBinLabel(3, "min  #Delta #phi");
+    signal[0]-> GetXaxis()->SetBinLabel(4, "bveto");
+    signal[0]-> GetXaxis()->SetBinLabel(5, "resonances");
+    signal[0]-> GetXaxis()->SetBinLabel(6, "M_{lll}");
+    signal[0]-> GetXaxis()->SetBinLabel(7, "P_{T} (l2-l3)");
+    signal[0]-> GetXaxis()->SetBinLabel(8, "cos(SV,HNL)");
+    signal[0]-> GetXaxis()->SetBinLabel(9, "SV prob");	
+    signal[0]-> GetXaxis()->SetBinLabel(10, "#sigma #Delta (PV-SV)");
+    signal[0]-> GetXaxis()->SetBinLabel(11, "M_{ll} (l2-l3)");
 
     signal[10]->SetStats(0);
     signal[10]-> GetXaxis()->LabelsOption("vu");
     signal[10]-> GetXaxis()->SetBinLabel(1, "3 leptons");
     signal[10]-> GetXaxis()->SetBinLabel(2, "#DeltaR (l2-l3)");
+    signal[10]-> GetXaxis()->SetBinLabel(3, "min  #Delta #phi");
+    signal[10]-> GetXaxis()->SetBinLabel(4, "bveto");
+    signal[10]-> GetXaxis()->SetBinLabel(5, "resonances");
+    signal[10]-> GetXaxis()->SetBinLabel(6, "M_{lll}");
+    signal[10]-> GetXaxis()->SetBinLabel(7, "P_{T} (l2-l3)");
+    signal[10]-> GetXaxis()->SetBinLabel(8, "cos(SV,HNL)");
+    signal[10]-> GetXaxis()->SetBinLabel(9, "SV prob");	
+    signal[10]-> GetXaxis()->SetBinLabel(10, "#sigma #Delta (PV-SV)");
+    signal[10]-> GetXaxis()->SetBinLabel(11, "M_{ll} (l2-l3)");
+
+    signal[0]-> GetXaxis()->SetLabelSize(0.045);
+    signal[0]-> GetXaxis()->SetLabelOffset(0.01);
+    signal[10]-> GetXaxis()->SetLabelSize(0.045);
+    signal[10]-> GetXaxis()->SetLabelOffset(0.01);
+  }
+  if (istogramma == 2 ){
+    signal[0]->SetStats(0);
+    signal[0]-> GetXaxis()->LabelsOption("vu");
+    signal[0]-> GetXaxis()->SetBinLabel(1, "#DeltaR (l2-l3)");
+    signal[0]-> GetXaxis()->SetBinLabel(2, "min  #Delta #phi");
+    signal[0]-> GetXaxis()->SetBinLabel(3, "bveto");
+    signal[0]-> GetXaxis()->SetBinLabel(4, "resonances");
+    signal[0]-> GetXaxis()->SetBinLabel(5, "M_{lll}");
+    signal[0]-> GetXaxis()->SetBinLabel(6, "P_{T} (l2-l3)");
+    signal[0]-> GetXaxis()->SetBinLabel(7, "cos(SV,HNL)");
+    signal[0]-> GetXaxis()->SetBinLabel(8, "SV prob");	
+    signal[0]-> GetXaxis()->SetBinLabel(9, "#sigma #Delta (PV-SV)");
+    signal[0]-> GetXaxis()->SetBinLabel(10, "M_{ll} (l2-l3)");
+    signal[0]-> GetXaxis()->SetBinLabel(11, "full sel");
+
+
+    signal[10]->SetStats(0);
+    signal[10]-> GetXaxis()->LabelsOption("vu");
+    signal[10]-> GetXaxis()->SetBinLabel(1, "#DeltaR (l2-l3)");
+    signal[10]-> GetXaxis()->SetBinLabel(2, "min  #Delta #phi");
     signal[10]-> GetXaxis()->SetBinLabel(3, "bveto");
-    signal[10]-> GetXaxis()->SetBinLabel(4, "M_{lll}");
-    signal[10]-> GetXaxis()->SetBinLabel(5, "min  #Delta #phi");
-    signal[10]-> GetXaxis()->SetBinLabel(6, "cos(SV,HNL)");
-    signal[10]-> GetXaxis()->SetBinLabel(7, "M_{ll} (l2-l3)");
+    signal[10]-> GetXaxis()->SetBinLabel(4, "resonances");
+    signal[10]-> GetXaxis()->SetBinLabel(5, "M_{lll}");
+    signal[10]-> GetXaxis()->SetBinLabel(6, "P_{T} (l2-l3)");
+    signal[10]-> GetXaxis()->SetBinLabel(7, "cos(SV,HNL)");
+    signal[10]-> GetXaxis()->SetBinLabel(8, "SV prob");	
+    signal[10]-> GetXaxis()->SetBinLabel(9, "#sigma #Delta (PV-SV)");
+    signal[10]-> GetXaxis()->SetBinLabel(10, "M_{ll} (l2-l3)");
+    signal[10]-> GetXaxis()->SetBinLabel(11, "full sel");
 
     signal[0]-> GetXaxis()->SetLabelSize(0.045);
     signal[0]-> GetXaxis()->SetLabelOffset(0.01);

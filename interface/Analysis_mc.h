@@ -60,7 +60,6 @@ class Analysis_mc : public TObject {
   UInt_t          _nPsWeights;
   Double_t        _psWeight[14];   //[_nPsWeights]
   UInt_t          _ttgEventType;
-  UInt_t          _zgEventType;
   Double_t        _gen_met;
   Double_t        _gen_metPhi;
   UInt_t          _gen_nPh;
@@ -345,7 +344,8 @@ class Analysis_mc : public TObject {
   Double_t        _metPhiUnclDown;
   Double_t        _metPhiUnclUp;
   Double_t        _metSignificance;
-
+UInt_t           _hasInternalConversion;
+UInt_t            _zgEventType;
 
 
   //list of branches
@@ -363,7 +363,6 @@ class Analysis_mc : public TObject {
   TBranch        *b__nPsWeights;   //!
   TBranch        *b__psWeight;   //!
   TBranch        *b__ttgEventType;   //!
-  TBranch        *b__zgEventType;   //!
   TBranch        *b__gen_met;   //!
   TBranch        *b__gen_metPhi;   //!
   TBranch        *b__gen_nPh;   //!
@@ -657,6 +656,8 @@ class Analysis_mc : public TObject {
   TBranch        *b__metPhiUnclDown;   //!
   TBranch        *b__metPhiUnclUp;   //!
   TBranch        *b__metSignificance;   //
+  TBranch        *b__hasInternalConversion;
+   TBranch        *b__zgEventType;
 
 
 
@@ -1084,7 +1085,7 @@ class Analysis_mc : public TObject {
 
   
   const TString Histnames_ossf[nDist] = {"SR","cutflow",
-					 "P_T_l1",
+					 "cutflow_n_1",
 					 "P_T_l2",
 					 "P_T_l3",
 					 "M_lll",
@@ -1121,7 +1122,7 @@ class Analysis_mc : public TObject {
 
 
   const TString Xaxes[nDist] = {""," ",
-				"P_{T} #left(l_{1} #right) (GeV)",
+				" ",
 				"P_{T} #left(l_{2} #right) (GeV)",
 				"P_{T} #left(l_{3} #right) (GeV)", 
 				"M_{lll} (GeV)",
@@ -1157,7 +1158,7 @@ class Analysis_mc : public TObject {
 
 
   const TString Units[nDist] = {" "," ",
-				"GeV",
+				" ",
 				"GeV",
 				"GeV",
 				"GeV",
@@ -1191,7 +1192,7 @@ class Analysis_mc : public TObject {
 				"GeV"};
 
   const double HistMin[nDist] = {0.5, 0.5,
-				 20,
+				 0.5,
 				 3,
 				 3,
 				 20,
@@ -1226,8 +1227,8 @@ class Analysis_mc : public TObject {
 
   
   
-  const double HistMax[nDist] = { 24.5 , 7.5,
-				  200,
+  const double HistMax[nDist] = { 24.5 , 11.5,
+				  11.5,
 				  99,
 				  99,
 				  150,
@@ -1261,8 +1262,8 @@ class Analysis_mc : public TObject {
 				  100
 					 
   };
-  const unsigned nBins[nDist] = { 24 , 7,
-				  45,
+  const unsigned nBins[nDist] = { 24 , 11,
+				  11,
 				  48,
 				  48,
 				  30,

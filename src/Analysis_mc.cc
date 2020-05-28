@@ -562,7 +562,11 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
     fChain->SetBranchAddress("_lMatchPhi", _lMatchPhi, &b__lMatchPhi);
     fChain->SetBranchAddress("_lMatchVertexX", _lMatchVertexX, &b__lMatchVertexX);
     fChain->SetBranchAddress("_lMatchVertexY", _lMatchVertexY, &b__lMatchVertexY);
-    fChain->SetBranchAddress("_lMatchVertexZ", _lMatchVertexZ, &b__lMatchVertexZ);       
+    fChain->SetBranchAddress("_lMatchVertexZ", _lMatchVertexZ, &b__lMatchVertexZ);
+
+    fChain->SetBranchAddress("_hasInternalConversion", &_hasInternalConversion, &b__hasInternalConversion);
+    fChain->SetBranchAddress("_zgEventType", &_zgEventType, &b__zgEventType);
+    
   }
 }
 
@@ -1215,12 +1219,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (_lIsPrompt[l2] && _lMatchPdgId[l2] ==22) photon_pt = _lMatchPt[l2];	    
       if (_lIsPrompt[l3] && _lMatchPdgId[l3] ==22) photon_pt = _lMatchPt[l3];	    
 
-     
+      /* old implementation 
       if ((samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") && internal_conv) continue;	    
       if ((year == 1 || year == 2) &&   external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 15) continue;	 
       if (year == 0 &&   external_conv && samples[sam].getProcessName() == "DY" && photon_pt > 10) continue;
       if ((samples[sam].getFileName()== "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"   || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root") && !external_conv) continue;
-
+      */
+      if (samples[sam].getProcessName() == "DY"    &&   _zgEventType>=3 ) continue;
+      if ((samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root" ||  samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root")   &&   _hasInternalConversion == 1 ) continue;
+   
+      
 	    
       //if (photonOverlap (samples[sam])) continue;
       // -----------------   function useful    --------------------------------//
@@ -1405,7 +1413,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			sum_vec_l2l3 > 15 &&
 			D2_delta_pv_svSig > 20 &&	
 			prob_vertex > 0.001 &&
-			//bjet == 0 &&
+			bjet == 0 &&
 			vetoes;
 	
 	
@@ -1422,6 +1430,35 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       _l =  v4l2.DeltaR(v4l3) < 1 &&M_3L_combined > 50 &&M_3L_combined < 80 &&min_delta_phi > 1 &&vtxRvtxPcosAlpha > 0.99  &&M_l2l3_combined < 12 &&(v4l2+v4l3).Pt() > 15 &&D2_delta_pv_svSig > 20 &&prob_vertex > 0.001 &&vetoes;
 
       if (SR_selection) selection_final = true;
+
+
+      bool _0,_1,_2,_3,_4,_5,_6,_7,_8,_9, _10=false;
+      bool sel_0,sel_1,sel_2,sel_3,sel_4,sel_5,sel_6,sel_7,sel_8,sel_9, sel_10=false;
+
+      sel_0 = selection_0;
+      sel_1 = selection_0 && v4l2.DeltaR(v4l3) < 1;
+      sel_2 = sel_1 && min_delta_phi > 1;
+      sel_3 = sel_2 && bjet == 0;
+      sel_4 = sel_3 && vetoes;
+      sel_5 = sel_4 && M_3L_combined > 50 && M_3L_combined < 80;
+      sel_6 = sel_5 && sum_vec_l2l3 > 15;
+      sel_7 = sel_6 && vtxRvtxPcosAlpha > 0.99;
+      sel_8 = sel_7 && prob_vertex > 0.001;
+      sel_9 = sel_8 && D2_delta_pv_svSig > 20;
+      sel_10= sel_9 && M_l2l3_combined < 12;
+
+      _0 = SR_selection;
+      _1 = M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
+      _2 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
+      _3 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&vetoes;
+      _4 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0;
+      _5 = v4l2.DeltaR(v4l3)<1 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
+      _6 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
+      _7 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && M_l2l3_combined<12 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
+      _8 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && bjet == 0 &&vetoes;
+      _9 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<12 && sum_vec_l2l3>15 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
+      _10= v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
+      				       
 	
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //if (!SR_selection)continue;
@@ -1555,7 +1592,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       double values[nDist] ={static_cast<double>(0) ,static_cast<double>(0) ,
-			     v4l1.Pt(),
+			     static_cast<double>(0) ,
 			     ptl2,
 			     ptl3,
 			     M_3L_combined,
@@ -1806,30 +1843,78 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       if (SR_channel <= 2){
 	//Histos[1][6][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
-	if (selection_0)      Histos[1][6][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_mu);
-	if (selection_1)      Histos[1][6][0][fill] -> Fill(static_cast<double>(2), scal*central_total_weight_mu);
-	if (selection_2)      Histos[1][6][0][fill] -> Fill(static_cast<double>(3), scal*central_total_weight_mu);
-	if (selection_3)      Histos[1][6][0][fill] -> Fill(static_cast<double>(4), scal*central_total_weight_mu);
-	if (selection_4)      Histos[1][6][0][fill] -> Fill(static_cast<double>(5), scal*central_total_weight_mu);
-	if (selection_5)      Histos[1][6][0][fill] -> Fill(static_cast<double>(6), scal*central_total_weight_mu);
-	if (selection_final)  Histos[1][6][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_mu);
+	if (sel_0)      Histos[1][6][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_mu);		
+	if (sel_1)      Histos[1][6][0][fill] -> Fill(static_cast<double>(2), scal*central_total_weight_mu);
+	if (sel_2)      Histos[1][6][0][fill] -> Fill(static_cast<double>(3), scal*central_total_weight_mu);
+	if (sel_3)      Histos[1][6][0][fill] -> Fill(static_cast<double>(4), scal*central_total_weight_mu);
+	if (sel_4)      Histos[1][6][0][fill] -> Fill(static_cast<double>(5), scal*central_total_weight_mu);
+	if (sel_5)      Histos[1][6][0][fill] -> Fill(static_cast<double>(6), scal*central_total_weight_mu);
+	if (sel_6)      Histos[1][6][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_mu);
+	if (sel_7)      Histos[1][6][0][fill] -> Fill(static_cast<double>(8), scal*central_total_weight_mu);
+	if (sel_8)      Histos[1][6][0][fill] -> Fill(static_cast<double>(9), scal*central_total_weight_mu);
+	if (sel_9)      Histos[1][6][0][fill] -> Fill(static_cast<double>(10), scal*central_total_weight_mu);
+	if (sel_10)      Histos[1][6][0][fill] -> Fill(static_cast<double>(11), scal*central_total_weight_mu);	
       }
       if (SR_channel > 2){
-	if (selection_0)      Histos[1][7][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_ele);
-	if (selection_1)      Histos[1][7][0][fill] -> Fill(static_cast<double>(2), scal*central_total_weight_ele);
-	if (selection_2)      Histos[1][7][0][fill] -> Fill(static_cast<double>(3), scal*central_total_weight_ele);
-	if (selection_3)      Histos[1][7][0][fill] -> Fill(static_cast<double>(4), scal*central_total_weight_ele);
-	if (selection_4)      Histos[1][7][0][fill] -> Fill(static_cast<double>(5), scal*central_total_weight_ele);
-	if (selection_5)      Histos[1][7][0][fill] -> Fill(static_cast<double>(6), scal*central_total_weight_ele);
-	if (selection_final)  Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_ele);
+	if (sel_0)      Histos[1][7][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_ele);		
+	if (sel_1)      Histos[1][7][0][fill] -> Fill(static_cast<double>(2), scal*central_total_weight_ele);
+	if (sel_2)      Histos[1][7][0][fill] -> Fill(static_cast<double>(3), scal*central_total_weight_ele);
+	if (sel_3)      Histos[1][7][0][fill] -> Fill(static_cast<double>(4), scal*central_total_weight_ele);
+	if (sel_4)      Histos[1][7][0][fill] -> Fill(static_cast<double>(5), scal*central_total_weight_ele);
+	if (sel_5)      Histos[1][7][0][fill] -> Fill(static_cast<double>(6), scal*central_total_weight_ele);
+	if (sel_6)      Histos[1][7][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_ele);
+	if (sel_7)      Histos[1][7][0][fill] -> Fill(static_cast<double>(8), scal*central_total_weight_ele);
+	if (sel_8)      Histos[1][7][0][fill] -> Fill(static_cast<double>(9), scal*central_total_weight_ele);
+	if (sel_9)      Histos[1][7][0][fill] -> Fill(static_cast<double>(10), scal*central_total_weight_ele);
+	if (sel_10)     Histos[1][7][0][fill] -> Fill(static_cast<double>(11), scal*central_total_weight_ele);
+      }
+
+       // ------------------- Histo cut flow  N-1 
+      if (selection_0)      Histos[2][SR_channel][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_ele);
+      if (selection_1)      Histos[2][SR_channel][0][fill] -> Fill(static_cast<double>(2), scal*central_total_weight_ele);
+      if (selection_2)      Histos[2][SR_channel][0][fill] -> Fill(static_cast<double>(3), scal*central_total_weight_ele);
+      if (selection_3)      Histos[2][SR_channel][0][fill] -> Fill(static_cast<double>(4), scal*central_total_weight_ele);
+      if (selection_4)      Histos[2][SR_channel][0][fill] -> Fill(static_cast<double>(5), scal*central_total_weight_ele);
+      if (selection_5)      Histos[2][SR_channel][0][fill] -> Fill(static_cast<double>(6), scal*central_total_weight_ele);
+      if (selection_final)  Histos[2][SR_channel][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_ele);
+      
+      if (SR_channel <= 2){
+	//Histos[1][6][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
+	if (_1)      Histos[2][6][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_mu);
+	if (_2)      Histos[2][6][0][fill] -> Fill(static_cast<double>(2), scal*central_total_weight_mu);
+	if (_3)      Histos[2][6][0][fill] -> Fill(static_cast<double>(3), scal*central_total_weight_mu);
+	if (_4)      Histos[2][6][0][fill] -> Fill(static_cast<double>(4), scal*central_total_weight_mu);
+	if (_5)      Histos[2][6][0][fill] -> Fill(static_cast<double>(5), scal*central_total_weight_mu);
+	if (_6)      Histos[2][6][0][fill] -> Fill(static_cast<double>(6), scal*central_total_weight_mu);
+	if (_7)      Histos[2][6][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_mu);
+	if (_8)      Histos[2][6][0][fill] -> Fill(static_cast<double>(8), scal*central_total_weight_mu);
+	if (_9)      Histos[2][6][0][fill] -> Fill(static_cast<double>(9), scal*central_total_weight_mu);
+	if (_10)     Histos[2][6][0][fill] -> Fill(static_cast<double>(10), scal*central_total_weight_mu);
+	if (_0)      Histos[2][6][0][fill] -> Fill(static_cast<double>(11), scal*central_total_weight_mu);
+      }
+      if (SR_channel > 2){
+	if (_1)      Histos[2][7][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_ele);
+	if (_2)      Histos[2][7][0][fill] -> Fill(static_cast<double>(2), scal*central_total_weight_ele);
+	if (_3)      Histos[2][7][0][fill] -> Fill(static_cast<double>(3), scal*central_total_weight_ele);
+	if (_4)      Histos[2][7][0][fill] -> Fill(static_cast<double>(4), scal*central_total_weight_ele);
+	if (_5)      Histos[2][7][0][fill] -> Fill(static_cast<double>(5), scal*central_total_weight_ele);
+	if (_6)      Histos[2][7][0][fill] -> Fill(static_cast<double>(6), scal*central_total_weight_ele);
+	if (_7)      Histos[2][7][0][fill] -> Fill(static_cast<double>(7), scal*central_total_weight_ele);
+	if (_8)      Histos[2][7][0][fill] -> Fill(static_cast<double>(8), scal*central_total_weight_ele);
+	if (_9)      Histos[2][7][0][fill] -> Fill(static_cast<double>(9), scal*central_total_weight_ele);
+	if (_10)     Histos[2][7][0][fill] -> Fill(static_cast<double>(10), scal*central_total_weight_ele);
+	if (_0)     Histos[2][7][0][fill] -> Fill(static_cast<double>(11), scal*central_total_weight_ele);
+
       }     
-      
-      
+
+     
       // ------------------- all the other histograms
       for(int numero_histo = 0; numero_histo < nDist; ++numero_histo){
 	//Histos[numero_histo][SR_channel][cut_bin][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if ( numero_histo == 0) continue;
 	if ( numero_histo == 1) continue;
+	if ( numero_histo == 2) continue;
+
 	if (selection_0) Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_1) Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);
 	if (selection_2) Histos[numero_histo][SR_channel][2][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal);

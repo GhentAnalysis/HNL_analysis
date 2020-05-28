@@ -246,7 +246,7 @@ bool Analysis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
   if( is2016() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2016) return false;
   if( is2017() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2017) return false;
   if( is2018() && isElectron(leptonIndex) && _lPt[leptonIndex] < ele_2018) return false;
-  if (!lepPromptTriggerMatching(leptonIndex)) return false;
+  //if (!lepPromptTriggerMatching(leptonIndex)) return false;
 
   return true;
 }
