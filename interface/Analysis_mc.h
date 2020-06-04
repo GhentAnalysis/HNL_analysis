@@ -1323,6 +1323,9 @@ UInt_t            _zgEventType;
   TH1D* signals_SR[nVariation];
   TH1D*	sum_expected_SR_plotting[nCoupling][nSystematic][nVariation];
 
+  double syst_error[24][nCoupling][max_nSamples_eff+1];
+  
+
   TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
   //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
 

@@ -372,6 +372,8 @@ if (istogramma == 0 ){
   bkgStack->SetMinimum(0.1);
   if(!ylog) data->SetMinimum(0.01);
   else if(ylog) p1->SetLogy();
+
+  if (istogramma == 2  || istogramma == 1) data->SetMinimum(1.);
     
   if(ylog) p1->SetLogy();
   HistLabelSizes(data,0.1,0.1,0.07,0.07);
