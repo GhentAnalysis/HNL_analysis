@@ -901,7 +901,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     //double progress = 0; 	//For printing progress bar 
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/20; ++it) {
+    for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);  
    
       if (samples[sam].isData()){
@@ -1438,9 +1438,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       _i =  bjet==0 && v4l2.DeltaR(v4l3) < 1 &&M_3L_combined > 50 &&M_3L_combined < 80 &&min_delta_phi > 1 &&vtxRvtxPcosAlpha > 0.99  &&M_l2l3_combined < 12 &&(v4l2+v4l3).Pt() > 15 &&D2_delta_pv_svSig > 20 &&prob_vertex > 0.001;
       _l =  v4l2.DeltaR(v4l3) < 1 &&M_3L_combined > 50 &&M_3L_combined < 80 &&min_delta_phi > 1 &&vtxRvtxPcosAlpha > 0.99  &&M_l2l3_combined < 12 &&(v4l2+v4l3).Pt() > 15 &&D2_delta_pv_svSig > 20 &&prob_vertex > 0.001 &&vetoes;
 
-
-      SR_selection = true;
-	    
+      //SR_selection = true;
+      //if (SR_channel != 0) continue;
+      //if (M_l2l3_combined > 4) continue;
       if (SR_selection) selection_final = true;
 
       bool _0,_1,_2,_3,_4,_5,_6,_7,_8,_9, _10=false;
@@ -1673,7 +1673,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  //if (isSignal && w_loop == pu_index && SR_channel > 2) central_total_weight_ele *= 1.;
 	} 	        	
       }
-
+      central_total_weight_mu = 1.;
+      central_total_weight_ele = 1.;
+      scal = 1.;
+      
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final fianl step 
 	// central distribution --> on_index ==> 0 and  "central" => 0    
@@ -2123,32 +2126,46 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
   
   
-  for(int cha = 0; cha < nCoupling; ++cha) {	
+  for(int cha = 0; cha < nCoupling; ++cha) {
+    //  std::cout<<"channel ----- "<<std::endl;
     if (cha == 2) continue; // no taus for the moment
-    for (int ibin = 0; ibin < 24 ; ++ibin){  
+    for (int ibin = 0; ibin < 24 ; ++ibin){
+      //if (ibin != 1) continue;
+      // std::cout<<"bin ==== "<<std::endl;
+
       for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
+	if (effsam1 != 2 && effsam1 != 3 &&effsam1 != 5 &&effsam1 != nSamples_eff ) continue;	
 	double var=0.;
+	//	std::cout<<"in side effsma: "<< effsam1<<std::endl;
 	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+	  if (iSystematics == 0) continue;
+	  //if (iSystematics == qcdNorm_index || iSystematics == pdfNorm_index) continue;
 	  double var_single_syst=0.;
 	 	    
-	  double nominalContent = plots_SR[cha][iSystematics][0][effsam1] -> GetBinContent(ibin+1);
+	  double nominalContent = plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1);
 	  double downContent =    plots_SR[cha][iSystematics][1][effsam1] -> GetBinContent(ibin+1);
 	  double upContent =      plots_SR[cha][iSystematics][2][effsam1] -> GetBinContent(ibin+1);
-
+	 
 	  double down = fabs(downContent - nominalContent);
 	  double up =   fabs(upContent - nominalContent);
 
 	  var_single_syst = std::max( down, up );
 	  var += var_single_syst*var_single_syst;
+
+	  // std::cout<< "syst: "<<iSystematics<<"   "<< nominalContent<<" nomdown: "<<downContent<<"  nomup: "<< upContent<<"   down: "<<down<<"  up: "<<up<<"   max: "<< var_single_syst<<std::endl;
+	  //  std::cout<<  "syst: "<<iSystematics<<"   var: "<< var<<std::endl;
 	}
 	if (effsam1 == nSamples_eff - 1   || effsam1 == nSamples_eff ) var =0.;
 	double nominalContent_SF =  plots_SR[cha][0][0][nSamples_eff - 1] -> GetBinContent(ibin+1);
 	double nominalContent_DF =  plots_SR[cha][0][0][nSamples_eff] -> GetBinContent(ibin+1);
 	double var_SF = nominalContent_SF * 0.4;
 	double var_DF = nominalContent_DF * 0.4;
-	if (effsam1 == nSamples_eff - 1) var =  var_SF*var_SF;
-	if (effsam1 == nSamples_eff )    var =  var_DF*var_DF;
-	syst_error[ibin][nCoupling][effsam1] += var;
+	
+	if (effsam1 != nSamples_eff - 1   && effsam1 != nSamples_eff ) syst_error[ibin][cha][effsam1] += var;
+	if (effsam1 == nSamples_eff - 1) syst_error[ibin][cha][effsam1] =  var_SF*var_SF;
+	if (effsam1 == nSamples_eff )    syst_error[ibin][cha][effsam1] =  var_DF*var_DF;
+	
+	//std::cout<<effsam1<<") "<< var<<"  "<< plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1)<<"   ±   "<< syst_error[ibin][cha][effsam1]<< "  ( "<<std::sqrt(syst_error[ibin][cha][effsam1])/plots_SR[cha][0][0][effsam1]-> GetBinContent(ibin+1)<<std::endl;
       }
     }
   }
@@ -2541,25 +2558,28 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
 	    tabletexL << " & $"   << left << std::setw(ntab/2) <<  plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)
 		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)
-	      	      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(syst_error[ibin][icoup][1+isign]) 
+	      // << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(syst_error[ibin][icoup][1+isign]) 
 		      << "$";
+	    if ((1+isign) == 2 && ibin == 1) {
+	      //  std::cout<< plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)<<  "  ±  "<<plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)<< "    ±    "<< std::sqrt(syst_error[ibin][icoup][1+isign])  <<"signal"<<std::endl;
+	    }
 	    // Group by final state
 	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
 	    size_t ibintmp = (ibin<8 ? 0 : (ibin<16 ? 1 : 2));
 	    binconts[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1);
 	    binstats[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1);
-	    binsytats[ibintmp] += syst_error[ibin][icoup][1+isign]; // they are already the sum of the ^2
+	    // binsytats[ibintmp] += syst_error[ibin][icoup][1+isign]; // they are already the sum of the ^2
 	  }
 	  //
 	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
 	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
 		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-	      	      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binsytats[ibintmp])
+	      //  << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binsytats[ibintmp])
 
 		      << "$";
 	    binconts[ibintmp] = 0.;
 	    binstats[ibintmp] = 0.;
-	    binsytats[ibintmp] = 0.;
+	    // binsytats[ibintmp] = 0.;
 
 	  }
 	  //
@@ -2575,37 +2595,45 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    for(size_t ibin=0; ibin<nsrbins; ++ibin) {
 	      tabletexL << " & $"   << left << std::setw(ntab/2)  << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
 			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)
-			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(syst_error[ibin][icoup][1+nSamples_signal+bkg]) 
-
+		//	<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(syst_error[ibin][icoup][1+nSamples_signal+bkg]) 
 			<< "$";
+	      
+	      if ((1+nSamples_signal+bkg) == 26 && ibin == 3) {
+		//	std::cout<< labelPerProc[bkgNames[bkg]]<<std::endl;
+		//	std::cout<< plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)<<  "  ±  "<<plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)<< "    ±    "<< std::sqrt(syst_error[ibin][icoup][1+nSamples_signal+bkg]) <<std::endl;
+	      }
+																																	
+	    
+	       
+	      
 	      // Add to total background
 	      totconts[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
 	      totstats[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	      totsytats[ibin] += syst_error[ibin][icoup][1+nSamples_signal+bkg];
+	      // totsytats[ibin] += syst_error[ibin][icoup][1+nSamples_signal+bkg];
 
 	      // Group by final state
 	      /// >>> WARNING: if bin numbering changes, this needs to be updated!
 	      size_t ibintmp = (ibin<8 ? 0 : (ibin<16 ? 1 : 2));
 	      binconts[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
 	      binstats[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	      binsytats[ibintmp] += syst_error[ibin][icoup][1+nSamples_signal+bkg]; // they are already the sum of the ^2
+	      //  binsytats[ibintmp] += syst_error[ibin][icoup][1+nSamples_signal+bkg]; // they are already the sum of the ^2
 
 	      // Add to total background!
 	      totconts[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
 	      totstats[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	      totsytats[nsrbins+ibintmp] += syst_error[ibin][icoup][1+nSamples_signal+bkg];
+	      // totsytats[nsrbins+ibintmp] += syst_error[ibin][icoup][1+nSamples_signal+bkg];
 
 	    }
 	    //
 	    for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
 	      tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
 			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binsytats[ibintmp])
+		//	<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binsytats[ibintmp])
 
 			<< "$";
 	      binconts[ibintmp] = 0.;
 	      binstats[ibintmp] = 0.;
-	      binsytats[ibintmp] = 0.;
+	      //  binsytats[ibintmp] = 0.;
 
 	    }
 	    //
@@ -2621,24 +2649,24 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
 	    tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
 		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totsytats[ibin])
+	      //   << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totsytats[ibin])
 
 		      << "$";
 	    totconts[ibin] = 0.;
 	    totstats[ibin] = 0.;
-	    totsytats[ibin] = 0.;
+	    //  totsytats[ibin] = 0.;
 
 	  }
 	  //
 	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
 	    tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
 		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totsytats[nsrbins+ibintmp])
+	      //  << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totsytats[nsrbins+ibintmp])
 
 		      << "$";
 	    totconts[nsrbins+ibintmp] = 0.;
 	    totstats[nsrbins+ibintmp] = 0.;
-	    totsytats[nsrbins+ibintmp] = 0.;
+	    // totsytats[nsrbins+ibintmp] = 0.;
 
 	  }
 	  //
@@ -2659,7 +2687,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    size_t ibintmp = (ibin<8 ? 0 : (ibin<16 ? 1 : 2));
 	    binconts[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
 	    binstats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
-	    binsytats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
+	    //  binsytats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
 
 	  }
 	  //
@@ -2669,7 +2697,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		      << "$";
 	    binconts[ibintmp] = 0.;
 	    binstats[ibintmp] = 0.;
-	    binsytats[ibintmp] = 0.;
+	    //  binsytats[ibintmp] = 0.;
 
 	  }
 	  //
