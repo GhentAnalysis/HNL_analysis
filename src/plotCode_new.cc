@@ -266,7 +266,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   // isotgramma delle SR --> linee e roba varia
 //TString labels_sr[18]={"0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10","0-2","2-10",">10"};	   
 //TString labels_sr[18]={"0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3","0-0.5","0.5-3",">3"};	
-TString labels_sr[24]={"0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4","0-0.5","0.5-1.5","1.5-4",">4"};	
+TString labels_sr[18]={"0-0.5","0.5-1.5","1.5-4",">4","0-0.5",">0.5","0-0.5","0.5-1.5","1.5-4",">4","0-0.5",">0.5","0-0.5","0.5-1.5","1.5-4",">4","0-0.5",">0.5"};	
 
 if (istogramma == 0 ){
     signal[0]->SetStats(0);
@@ -275,7 +275,7 @@ if (istogramma == 0 ){
     signal[0]->GetXaxis()->SetTitleSize(0.06);
     signal[0]->GetXaxis()->SetTitleOffset(1.1);
     signal[0]->GetXaxis() ->SetTitleFont(132);
-    for (int i =0; i<24; i++){	  
+    for (int i =0; i<18; i++){	  
     signal[0]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
  }					     
 						     
@@ -303,7 +303,7 @@ if (istogramma == 0 ){
     signal[10]->GetXaxis()->SetTitleSize(0.06);
     signal[10]->GetXaxis()->SetTitleOffset(1.1);
     signal[10]->GetXaxis() ->SetTitleFont(132);
-	  for (int i =0; i<24; i++){	  
+	  for (int i =0; i<18; i++){	  
     signal[10]-> GetXaxis()->SetBinLabel(i+1, labels_sr[i]);
  }
     /*signal[10]-> GetXaxis()->SetBinLabel(1, "0-2");
@@ -479,25 +479,25 @@ if (istogramma == 0 ){
     double left_mll=0.97;
 	      
 	  
-    TLine *line = new TLine(8.5,0.07,8.5, high_flav);
+    TLine *line = new TLine(6.5,0.07,6.5, high_flav);
     line->SetLineWidth(2);
     line->Draw();
-    line = new TLine(16.5,0.07,16.5, high_flav);
+    line = new TLine(12.5,0.07,12.5, high_flav);
     line->SetLineWidth(2);
     line->Draw();
     //100000
     
-    line = new TLine(4.5,high_mll,4.5,0.1);
+    line = new TLine(2.5,high_mll,2.5,0.1);
     //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(12.5,high_mll,12.5,0.1);
+    line = new TLine(10.5,high_mll,10.5,0.1);
     //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(20.5,high_mll,20.5,0.1);
+    line = new TLine(14.5,high_mll,14.5,0.1);
     //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
@@ -510,29 +510,29 @@ if (istogramma == 0 ){
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(left_mll+4,high_mll,"M_{ll} > 4 GeV");
+    tex = new TLatex(left_mll+3,high_mll,"M_{ll} > 4 GeV");
     tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
 
-    tex = new TLatex(left_mll+8,high_mll,"M_{ll} < 4 GeV");
+    tex = new TLatex(left_mll+6,high_mll,"M_{ll} < 4 GeV");
     tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(left_mll+12,high_mll,"M_{ll} > 4 GeV");
+    tex = new TLatex(left_mll+9,high_mll,"M_{ll} > 4 GeV");
     tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
 
-    tex = new TLatex(left_mll+16,high_mll,"M_{ll} < 4 GeV");
+    tex = new TLatex(left_mll+12,high_mll,"M_{ll} < 4 GeV");
     tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(left_mll+20,high_mll,"M_{ll} > 4 GeV");
+    tex = new TLatex(left_mll+15,high_mll,"M_{ll} > 4 GeV");
     tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
@@ -543,34 +543,34 @@ if (istogramma == 0 ){
     if (channel == 0 ||channel == 1 ||channel == 2 ||channel == 6 ){	
       //         tex = new TLatex(2.857013,signal[0]->GetBinContent(signal[0]->GetMaximumBin())* 8,"#mu#mu#mu");
 
-      tex = new TLatex(3.857013,high_flav/2,"#mu#mu#mu");
+      tex = new TLatex(2.857013,high_flav/2,"#mu#mu#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(10.857013,high_flav/2,"#mu^{#pm}#mu^{#mp}e");
+      tex = new TLatex(8.857013,high_flav/2,"#mu^{#pm}#mu^{#mp}e");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(17.857013,high_flav/2,"#mu^{#pm}#mu^{#pm}e");
+      tex = new TLatex(14.857013,high_flav/2,"#mu^{#pm}#mu^{#pm}e");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
     }	
     if (channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ){	
-      tex = new TLatex(3.857013,high_flav/2,"eee");
+      tex = new TLatex(2.857013,high_flav/2,"eee");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(10,high_flav/2,"e^{#pm}e^{#mp}#mu");
+      tex = new TLatex(8,high_flav/2,"e^{#pm}e^{#mp}#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);
       tex->Draw();
-      tex = new TLatex(17.857013,high_flav/2,"e^{#pm}e^{#pm}#mu");
+      tex = new TLatex(14.857013,high_flav/2,"e^{#pm}e^{#pm}#mu");
       tex->SetTextColor(1);
       tex->SetTextSize(0.06);
       tex->SetLineWidth(2);

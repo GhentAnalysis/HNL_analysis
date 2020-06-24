@@ -757,7 +757,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   
   // by tom
   double displEleVars[7] = {0.,0.,0.,0.,0.,0.,0.,}; // 2016
-  if (year == 1){
+  if (year == 0){
     displEleVars[0] = 0.986;
     displEleVars[1] = 1.058;
     displEleVars[2] = 1.027;
@@ -887,9 +887,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
     std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
 
-    if (isOnlyMC && samples[sam].isData()) continue; // only MC!!!
-    if (isOnlyMC && effsam == nSamples_eff) continue; // only MC!!! 
-    if (isOnlyMC && effsam == (nSamples_eff - 1)) continue; // only MC!!!    
+      
     bool isSignal = samples[sam].isNewPhysicsSignal();   
     if (eff_names[effsam] == "ttbar") continue;  
     if (eff_names[effsam] == "WJets") continue;  
@@ -941,9 +939,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       bwght = 1.;
       if (samples[sam].isData()) scal =1.;
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      std::vector<unsigned> ind;
-      double           _ptReal[_nL];
-      double           _EReal[_nL];      
+      std::vector<unsigned> ind; 
       unsigned         ind_new_leading=0;
       unsigned        l1,l2,l3=0;
       TLorentzVector  v4l1,v4l2,v4l3;
@@ -973,10 +969,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //------------------------------------------------------------ lepton selection for FO
-      for(unsigned i = 0; i < _nL; ++i){
-	_ptReal[i]=_lPt[i];
-	_EReal[i] =_lE[i];
-      }
       const unsigned lCount = selectLepConeCorr(ind);
       if (lCount < 3) continue;
       //------------------------------------------------------------ jet pt variation and nJet and bjet
@@ -1341,14 +1333,20 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
 	weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
       }
-      // ------------------------- leptons SF uncertainties ------------------------- //    
+      // ------------------------- leptons SF uncertainties ------------------------- //
+      //  std::cout<<"========================================================================================="<<std::endl;
+      //   std::cout<<_lElectronMissingHits[l2]<<" "<<_lElectronMissingHits[l3]<<"    ------> "<<displEleVars[_lElectronMissingHits[l2]]<<"   "<<displEleVars[_lElectronMissingHits[l3]] <<std::endl;
+      //std::cout<<flavors_3l[1]<<" "<<flavors_3l[2]<<std::endl;
+      
+      
       // Systematics on displaced signature
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	double central_displaced_signature = displaced_weight (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den );
+	double central_displaced_signature =   displaced_weight (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den );
 	double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den );
 	weight_SR[w_loop][npLeptons_index][0][effsam] =  central_displaced_signature;
 	weight_SR[w_loop][npLeptons_index][1][effsam] =  central_displaced_signature - variation_displaced_signature;
-	weight_SR[w_loop][npLeptons_index][2][effsam] =  central_displaced_signature + variation_displaced_signature;	
+	weight_SR[w_loop][npLeptons_index][2][effsam] =  central_displaced_signature + variation_displaced_signature;
+	//	std::cout<<"displaced: "<< central_displaced_signature<<"    ±   "<< variation_displaced_signature<<"  "<<weight_SR[w_loop][npLeptons_index][1][effsam]<<"  "<<weight_SR[w_loop][npLeptons_index][2][effsam]<<std::endl;
       }
       // ------------------------- DFR ------------------------- //    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
@@ -1409,10 +1407,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
+	  // std::cout<< w_loop<<"  / "<<nSystematic<<std::endl;
 	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
 	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];
-	} 	        	
+	  //if (SR_channel <= 2 && weight_SR[0][w_loop][0][effsam] == 0) std::cout<<"weight central == 0 "<<"  systNamesT[iSystematics] "<<w_loop<<" "<<systNamesT[w_loop]<<std::endl;
+	  // if (SR_channel > 2 && weight_SR[1][w_loop][0][effsam] == 0) std::cout<<"weight central == 0 "<<"  systNamesT[iSystematics] "<<w_loop<<" "<<systNamesT[w_loop]<<std::endl;
+
+  } 	        	
       } 
+      //if (SR_channel <= 2 ) std::cout<<central_total_weight_mu<<std::endl;
+      //if (SR_channel > 2 ) std::cout<<central_total_weight_ele<<std::endl;
 
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final final step 
@@ -1420,8 +1424,19 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);	
       	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
         // plots for systematics
+	//filling the shape histogram for DF background
+	if (isDataDrivenBgk && Double_fake){
+	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
+	    if (iSystematics != dfShape_index) continue;
+	     for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
+	       	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+	     }//end variation
+	  }//end syst
+	}
 	if (!samples[sam].isData()){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
+	    if (iSystematics == dfShape_index) continue;
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down	      
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
@@ -1502,15 +1517,15 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       // ------------------- Histo SR
       if (SR_channel <= 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
-	if (selection_final && bjet == 0)  Histos[0][SR_channel][6][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
+	if (selection_final && bjet == 0)  Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
 	if (selection_0)      Histos[0][6][0][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
-	if (selection_final && bjet == 0)  Histos[0][6][6][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
+	if (selection_final && bjet == 0)  Histos[0][6][1][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
       }	   	    
       if (SR_channel > 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (selection_final)  Histos[0][SR_channel][6][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (selection_final)  Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
 	if (selection_0)      Histos[0][7][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (selection_final)  Histos[0][7][6][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (selection_final)  Histos[0][7][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
       }
       // ------------------- Histo cut flow  
       if (SR_channel <= 2){
@@ -1575,8 +1590,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    Histos[numero_histo][6][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
 	  }
 	  if (selection_final) {
-	    Histos[numero_histo][SR_channel][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
-	    Histos[numero_histo][6][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
+	    Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
+	    Histos[numero_histo][6][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
 	  }
 	}
 	if (SR_channel > 2)  {
@@ -1585,8 +1600,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
 	  }
 	  if (selection_final) {
-	    Histos[numero_histo][7][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
-	    Histos[numero_histo][SR_channel][6][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
+	    Histos[numero_histo][7][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
+	    Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
 	  }
 	}
       }//<<<<<end histo
@@ -1691,8 +1706,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
-	  if (effsam1 == nSamples_eff) put_at_zero(cha, 1,*&plots_SR[cha][iSystematics][iVariation][effsam1]);
-	  if (effsam1 != nSamples_eff) put_at_zero(cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+	  if (effsam1 == nSamples_eff) put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	  if (effsam1 != nSamples_eff) put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
 	}
       }	    
     }
@@ -1772,8 +1787,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
-	  if (effsam1 == nSamples_eff) put_at_zero(cha, 1, *&Histos[dist][cha][cat][effsam1]);
-	  if (effsam1 != nSamples_eff) put_at_zero(cha, 0, *&Histos[dist][cha][cat][effsam1]);
+	  // std::cout<<"in plotting one "<<std::endl;
+	  if (effsam1 == nSamples_eff) put_at_zero(0,0,cha, 1, *&Histos[dist][cha][cat][effsam1]);
+	  if (effsam1 != nSamples_eff) put_at_zero(0,0,cha, 0, *&Histos[dist][cha][cat][effsam1]);
 
 	}
       }

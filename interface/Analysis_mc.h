@@ -795,13 +795,13 @@ UInt_t            _zgEventType;
   double SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const double pt, const int flav);
 
-  double displaced_weight (int  flavors_3l[3],int channel,unsigend _lElectronMissingHits_l2, unsigend _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
-  double displaced_weight_error (int  flavors_3l[3],int channel,unsigend _lElectronMissingHits_l2, unsigend _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
-
   
+  double displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
+  double displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
+
 		
   void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
-  void put_at_zero(int channel, int option, TH1D *histo);
+  void put_at_zero(int iSystematics,int iVariation,int channel, int option, TH1D *histo);
 
 
   
@@ -1345,7 +1345,7 @@ UInt_t            _zgEventType;
   const int jer_index      = 10;
   const int btag_index     = 11;
   const int trigger_index  = 12;
-  const int dfShape_index  = 13
+  const int dfShape_index  = 13;
 
   // const int on_index =    0;	// is the SR SR plot
   // const int pu_index =    1;
