@@ -784,6 +784,7 @@ UInt_t            _zgEventType;
   void from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, int number_point);
   void zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]);
   int channel(int  flavors_3l[3], int  charge_3l[3]);
+  bool resonanceVeto(int channel, double D2_delta_pv_sv, int  flavors_3l[3], int  charge_3l[3], double M_l2l3_combined ,double M_l1l2_combined, double M_l1l3_combined);
   int SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_combined );
   int SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_combined);
   double SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
@@ -794,20 +795,21 @@ UInt_t            _zgEventType;
   double SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const double pt, const int flav);
 
+  double displaced_weight (int  flavors_3l[3],int channel,unsigend _lElectronMissingHits_l2, unsigend _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
+  double displaced_weight_error (int  flavors_3l[3],int channel,unsigend _lElectronMissingHits_l2, unsigend _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
 
   
 		
   void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
-  void put_at_zero(TH1D *histo);
+  void put_at_zero(int channel, int option, TH1D *histo);
 
 
   
  private:
   unsigned year;
 
-  bool isCRRun=false;
-  bool isSRRun=true;
-  bool isOnlyMC=false;	
+
+  bool blinded=true;
 
   TTree* fChain;                                                          //current Tree
   std::shared_ptr<TFile> sampleFile;                                      //current sample
@@ -833,8 +835,6 @@ UInt_t            _zgEventType;
   bool is2018() const { return (year == 2); } 
 	
   std::shared_ptr<Reweighter> reweighter;                                 //instance of reweighter class used for reweighting functions
-
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMETERS AND CUTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   //pt displaced
   const double mu_pt=5.;
@@ -844,7 +844,7 @@ UInt_t            _zgEventType;
   const double mu_2017=25;
   const double mu_2018=25;
   const double ele_2016=30;
-  const double ele_2017=35;
+  const double ele_2017=32;
   const double ele_2018=32;
   //iso FO
   const double mu_iso_loose=2.;
@@ -1075,12 +1075,12 @@ UInt_t            _zgEventType;
     "M=10 V=0.0007 e"*/
 	
 
-  const static int nCat=17;
+  const static int nCat=2;
   const static int nChannel=8;
   const static int nDist = 45;  //Number of distributions to plo
 
 
-  const TString catNames[nCat]= {"_0", "_1", "_2", "_3", "_4", "_5", "_final","a","b","c","d","e","f","g","h","i","l"};
+  const TString catNames[nCat]= {"_0","_final"};
   const TString channelNames[nChannel]= {"mmm", "mmeOS", "mmeSS","eee", "eemOS", "eemSS","mu","e"};
 
   
@@ -1227,7 +1227,7 @@ UInt_t            _zgEventType;
 
   
   
-  const double HistMax[nDist] = { 24.5 , 11.5,
+  const double HistMax[nDist] = { 18.5 , 11.5,
 				  11.5,
 				  99,
 				  99,
@@ -1262,7 +1262,7 @@ UInt_t            _zgEventType;
 				  100
 					 
   };
-  const unsigned nBins[nDist] = { 24 , 11,
+  const unsigned nBins[nDist] = { 18 , 11,
 				  11,
 				  48,
 				  48,
@@ -1312,7 +1312,7 @@ UInt_t            _zgEventType;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
   //const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
-  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};
+  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
 
@@ -1323,11 +1323,10 @@ UInt_t            _zgEventType;
   TH1D* signals_SR[nVariation];
   TH1D*	sum_expected_SR_plotting[nCoupling][nSystematic][nVariation];
 
-  double syst_error[24][nCoupling][max_nSamples_eff+1];
-  
-
   TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
   //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
+  double syst_error[18][nCoupling][max_nSamples_eff+1];
+
 
   const int muon_case = 0;
   const int ele_case  = 1;
@@ -1341,12 +1340,12 @@ UInt_t            _zgEventType;
   const int pdfShape_index =  5;
   const int pEle_index     =  6;	
   const int pMuo_index     =  7;
-  const int npEle_index    =  8;
-  const int npMuo_index    =  9;
-  const int jec_index      = 10;
-  const int jer_index      = 11;
-  const int btag_index     = 12;
-  const int trigger_index  = 13;
+  const int npLeptons_index    =  8;
+  const int jec_index      = 9;
+  const int jer_index      = 10;
+  const int btag_index     = 11;
+  const int trigger_index  = 12;
+  const int dfShape_index  = 13
 
   // const int on_index =    0;	// is the SR SR plot
   // const int pu_index =    1;
@@ -1393,6 +1392,11 @@ UInt_t            _zgEventType;
    const TString names_btagging_eff_files[3] = {"bTagging/bTagEff_looseLeptonCleaned_2016.root",
 				         "bTagging/bTagEff_looseLeptonCleaned_2017.root",
 				         "bTagging/bTagEff_looseLeptonCleaned_2018.root"};
+
+
+   const TString names_SV_eff_files[3]={"SV_eff/SV_16.root",
+					      "SV_eff/SV_17.root",
+					      "SV_eff/SV_18.root"};
 
   
 };

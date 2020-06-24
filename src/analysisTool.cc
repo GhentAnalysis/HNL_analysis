@@ -20,9 +20,13 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
   mass_bool_less = M_l2l3_combined < value_mass_cut;
   mass_bool_more = M_l2l3_combined >= value_mass_cut;
   disp_bool_first =  D2_delta_pv_sv < 	value_displaced_first_cut;
-  disp_bool_second =  D2_delta_pv_sv > 	value_displaced_first_cut  && D2_delta_pv_sv < 	value_displaced_second_cut;
-  disp_bool_third =  D2_delta_pv_sv  > 	value_displaced_second_cut && D2_delta_pv_sv < 	value_displaced_third_cut ;
-  disp_bool_fourth =  D2_delta_pv_sv > 	value_displaced_third_cut;
+  //disp_bool_second =  D2_delta_pv_sv > 	value_displaced_first_cut  && D2_delta_pv_sv < 	value_displaced_second_cut;
+  // disp_bool_third =  D2_delta_pv_sv  > 	value_displaced_second_cut && D2_delta_pv_sv < 	value_displaced_third_cut ;
+  //disp_bool_fourth =  D2_delta_pv_sv > 	value_displaced_third_cut;
+  disp_bool_second =  D2_delta_pv_sv > 	value_displaced_first_cut ;
+
+
+  
 	
 		
   if (channel == 0 || channel == 1 || channel == 2  ){
@@ -33,37 +37,34 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
       if (mass_bool_less && disp_bool_fourth)   bin =4;
       if (mass_bool_more && disp_bool_first)    bin =5;
       if (mass_bool_more && disp_bool_second)   bin =6;
-      if (mass_bool_more && disp_bool_third)    bin =7;
-      if (mass_bool_more && disp_bool_fourth)   bin =8;
+      
+      //if (mass_bool_more && disp_bool_first)    bin =5;
+      //if (mass_bool_more && disp_bool_second)   bin =6;
+      //if (mass_bool_more && disp_bool_third)    bin =7;
+      //if (mass_bool_more && disp_bool_fourth)   bin =8;
 	    
-     /* if (less2 && less5)    bin =1;
-      if (less2 && more5)    bin =2;
-      if (more2_10 && less5) bin =3;
-      if (more2_10 && more5) bin =4;
-      if (more10 && less5)   bin =5;
-      if (more10 && more5)   bin =6;*/	    
-
     }
+    // numeration vould be different with 24 bins
     if (channel == 1){
-      if (mass_bool_less && disp_bool_first)    bin =9;
-      if (mass_bool_less && disp_bool_second)   bin =10;
-      if (mass_bool_less && disp_bool_third)    bin =11;
-      if (mass_bool_less && disp_bool_fourth)   bin =12;
-      if (mass_bool_more && disp_bool_first)    bin =13;
-      if (mass_bool_more && disp_bool_second)   bin =14;
-      if (mass_bool_more && disp_bool_third)    bin =15;
-      if (mass_bool_more && disp_bool_fourth)   bin =16;
+      if (mass_bool_less && disp_bool_first)    bin =7;
+      if (mass_bool_less && disp_bool_second)   bin =8;
+      if (mass_bool_less && disp_bool_third)    bin =9;
+      if (mass_bool_less && disp_bool_fourth)   bin =10;
+      if (mass_bool_more && disp_bool_first)    bin =11;
+      if (mass_bool_more && disp_bool_second)   bin =12;
+      //if (mass_bool_more && disp_bool_third)    bin =15;
+      //if (mass_bool_more && disp_bool_fourth)   bin =16;
 
     }
     if (channel == 2){
-      if (mass_bool_less && disp_bool_first)    bin =17;
-      if (mass_bool_less && disp_bool_second)   bin =18;
-      if (mass_bool_less && disp_bool_third)    bin =19;
-      if (mass_bool_less && disp_bool_fourth)   bin =20;
-      if (mass_bool_more && disp_bool_first)    bin =21;
-      if (mass_bool_more && disp_bool_second)   bin =22;
-      if (mass_bool_more && disp_bool_third)    bin =23;
-      if (mass_bool_more && disp_bool_fourth)   bin =24;
+      if (mass_bool_less && disp_bool_first)    bin =13;
+      if (mass_bool_less && disp_bool_second)   bin =14;
+      if (mass_bool_less && disp_bool_third)    bin =15;
+      if (mass_bool_less && disp_bool_fourth)   bin =16;
+      if (mass_bool_more && disp_bool_first)    bin =17;
+      if (mass_bool_more && disp_bool_second)   bin =18;
+      //if (mass_bool_more && disp_bool_third)    bin =23;
+      //if (mass_bool_more && disp_bool_fourth)   bin =24;
     }
   }
   return bin;
@@ -87,9 +88,9 @@ int Analysis_mc::SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_co
   mass_bool_less = M_l2l3_combined < value_mass_cut;
   mass_bool_more = M_l2l3_combined >= value_mass_cut;
   disp_bool_first =  D2_delta_pv_sv < 	value_displaced_first_cut;
-  disp_bool_second =  D2_delta_pv_sv > 	value_displaced_first_cut  && D2_delta_pv_sv < 	value_displaced_second_cut;
-  disp_bool_third =  D2_delta_pv_sv  > 	value_displaced_second_cut && D2_delta_pv_sv < 	value_displaced_third_cut ;
-  disp_bool_fourth =  D2_delta_pv_sv > 	value_displaced_third_cut;	
+  disp_bool_second =  D2_delta_pv_sv > 	value_displaced_first_cut ;
+  //disp_bool_third =  D2_delta_pv_sv  > 	value_displaced_second_cut && D2_delta_pv_sv < 	value_displaced_third_cut ;
+  //disp_bool_fourth =  D2_delta_pv_sv > 	value_displaced_third_cut;	
 	
   if (channel == 3 || channel == 4 || channel == 5  ){
     if (channel == 3){
@@ -99,29 +100,29 @@ int Analysis_mc::SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_co
       if (mass_bool_less && disp_bool_fourth)   bin =4;
       if (mass_bool_more && disp_bool_first)    bin =5;
       if (mass_bool_more && disp_bool_second)   bin =6;
-      if (mass_bool_more && disp_bool_third)    bin =7;
-      if (mass_bool_more && disp_bool_fourth)   bin =8;
+      //if (mass_bool_more && disp_bool_third)    bin =7;
+      //if (mass_bool_more && disp_bool_fourth)   bin =8;
     }
     if (channel == 4){
-      if (mass_bool_less && disp_bool_first)    bin =9;
-      if (mass_bool_less && disp_bool_second)   bin =10;
-      if (mass_bool_less && disp_bool_third)    bin =11;
-      if (mass_bool_less && disp_bool_fourth)   bin =12;
-      if (mass_bool_more && disp_bool_first)    bin =13;
-      if (mass_bool_more && disp_bool_second)   bin =14;
-      if (mass_bool_more && disp_bool_third)    bin =15;
-      if (mass_bool_more && disp_bool_fourth)   bin =16;
+      if (mass_bool_less && disp_bool_first)    bin =7;
+      if (mass_bool_less && disp_bool_second)   bin =8;
+      if (mass_bool_less && disp_bool_third)    bin =9;
+      if (mass_bool_less && disp_bool_fourth)   bin =10;
+      if (mass_bool_more && disp_bool_first)    bin =11;
+      if (mass_bool_more && disp_bool_second)   bin =12;
+      //if (mass_bool_more && disp_bool_third)    bin =15;
+      //if (mass_bool_more && disp_bool_fourth)   bin =16;
 
     }
     if (channel == 5){
-      if (mass_bool_less && disp_bool_first)    bin =17;
-      if (mass_bool_less && disp_bool_second)   bin =18;
-      if (mass_bool_less && disp_bool_third)    bin =19;
-      if (mass_bool_less && disp_bool_fourth)   bin =20;
-      if (mass_bool_more && disp_bool_first)    bin =21;
-      if (mass_bool_more && disp_bool_second)   bin =22;
-      if (mass_bool_more && disp_bool_third)    bin =23;
-      if (mass_bool_more && disp_bool_fourth)   bin =24;
+      if (mass_bool_less && disp_bool_first)    bin =13;
+      if (mass_bool_less && disp_bool_second)   bin =14;
+      if (mass_bool_less && disp_bool_third)    bin =15;
+      if (mass_bool_less && disp_bool_fourth)   bin =16;
+      if (mass_bool_more && disp_bool_first)    bin =17;
+      if (mass_bool_more && disp_bool_second)   bin =18;
+      //if (mass_bool_more && disp_bool_third)    bin =23;
+      //if (mass_bool_more && disp_bool_fourth)   bin =24;
 
     }
   }
@@ -165,6 +166,92 @@ int Analysis_mc::channel(int  flavors_3l[3], int  charge_3l[3]){
   return canale;
   
 }
+
+
+
+
+//______________________________________________
+bool Analysis_mc::resonanceVeto(int channel, double D2_delta_pv_sv, int  flavors_3l[3], int  charge_3l[3], double M_l2l3_combined ,double M_l1l2_combined, double M_l1l3_combined) const{
+  bool veto = false;
+  
+  //* veto for resonances!
+  bool j_psi_veto_l2l3 = true;
+  bool psi_2_veto_l2l3 = true;
+  bool omega_veto_l2l3 = true;
+  bool phi_veto_l2l3 = true;	
+  bool j_psi_veto_l1l2 = true;
+  bool psi_2_veto_l1l2 = true;
+  bool omega_veto_l1l2 = true;
+  bool phi_veto_l1l2 = true;
+  bool z_veto_l1l2 = true;
+  bool upsilon_veto_l1l2 = true;
+  bool upsilon2_veto_l1l2 = true;
+  bool upsilon3_veto_l1l2 = true;	
+  bool j_psi_veto_l1l3 = true;
+  bool psi_2_veto_l1l3 = true;
+  bool omega_veto_l1l3 = true;
+  bool phi_veto_l1l3 = true;
+  bool z_veto_l1l3 = true;
+  bool upsilon_veto_l1l3 = true;
+  bool upsilon2_veto_l1l3 = true;
+  bool upsilon3_veto_l1l3 = true;
+
+      
+  if (SR_channel == 0 || SR_channel == 3){
+    if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 3.0969) < 0.08 ) j_psi_veto_l2l3 = false;
+    if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 3.6861) < 0.08 ) psi_2_veto_l2l3 = false;
+    if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 0.7827) < 0.08 ) omega_veto_l2l3 = false;
+    if (D2_delta_pv_sv < 1.5 && fabs (M_l2l3_combined - 1.0190) < 0.08 ) phi_veto_l2l3 = false;
+		
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 0.7827) < 0.08 ) omega_veto_l1l2 = false;
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 1.0190) < 0.08 ) phi_veto_l1l2 = false;
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.0969) < 0.08 ) j_psi_veto_l1l2 = false;
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.6861) < 0.08 ) psi_2_veto_l1l2 = false;
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 9.4603) < 0.08 ) upsilon_veto_l1l2 = false;
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l2 = false;
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l2 = false;
+    if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 91.1876) < 10 )  z_veto_l1l2 = false;
+
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 0.7827) < 0.08 ) omega_veto_l1l3 = false;
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 1.0190) < 0.08 ) phi_veto_l1l3 = false;
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.0969) < 0.08 ) j_psi_veto_l1l3 = false;
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.6861) < 0.08 ) psi_2_veto_l1l3 = false;
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 9.4603) < 0.08 ) upsilon_veto_l1l3 = false;
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l3 = false;
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l3 = false;
+    if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 91.1876) < 10 )  z_veto_l1l3 = false;	
+  }
+  if (SR_channel == 1 || SR_channel == 4){
+    if (flavors_3l[0] == flavors_3l[1]){
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 0.7827) < 0.08 ) omega_veto_l1l2 = false;
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 1.0190) < 0.08 ) phi_veto_l1l2 = false;
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.0969) < 0.08 ) j_psi_veto_l1l2 = false;
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 3.6861) < 0.08 ) psi_2_veto_l1l2 = false;
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 9.4603) < 0.08 ) upsilon_veto_l1l2 = false;
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l2 = false;
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l2 = false;
+      if (charge_3l[0]== charge_3l[1] && fabs (M_l1l2_combined - 91.1876) < 10 )  z_veto_l1l2 = false;
+    }
+    if (flavors_3l[0] == flavors_3l[2]){
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 0.7827) < 0.08 ) omega_veto_l1l3 = false;
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 1.0190) < 0.08 ) phi_veto_l1l3 = false;
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.0969) < 0.08 ) j_psi_veto_l1l3 = false;
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 3.6861) < 0.08 ) psi_2_veto_l1l3 = false;
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 9.4603) < 0.08 ) upsilon_veto_l1l3 = false;
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.0233) < 0.08 ) upsilon2_veto_l1l3 = false;
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 10.3552) < 0.08 ) upsilon3_veto_l1l3 = false;
+      if (charge_3l[0]== charge_3l[2] && fabs (M_l1l3_combined - 91.1876) < 10 )  z_veto_l1l3 = false;
+    }
+  }
+
+  
+  veto=   j_psi_veto_l2l3  && psi_2_veto_l2l3  && omega_veto_l2l3  && phi_veto_l2l3 &&
+    j_psi_veto_l1l2  && psi_2_veto_l1l2  && omega_veto_l1l2  && phi_veto_l1l2  && z_veto_l1l2  && upsilon_veto_l1l2  && upsilon2_veto_l1l2  && upsilon3_veto_l1l2 
+    && j_psi_veto_l1l3  && psi_2_veto_l1l3  && omega_veto_l1l3  && phi_veto_l1l3  && z_veto_l1l3  && upsilon_veto_l1l3  && upsilon2_veto_l1l3  && upsilon3_veto_l1l3;
+
+  return veto;
+}
+
 
 //_____________________________________________ SF prompt ele
 double Analysis_mc::SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const double pt, const int flav){
@@ -272,7 +359,80 @@ double Analysis_mc::SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsi
    sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;			
 }
+//_____________________________________________ displaced mess
+double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigend _lElectronMissingHits_l2, unsigend _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
+  double weight =1.;
 
+  if (channel == 0 ){ // µµ —> take SV eff-cy as SF + 0.5SV as uncertainties
+    int binx_n,biny_n,binx_d,biny_d,  =0;
+    binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+    biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(sum_pt);
+    binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(sum_pt);
+    weight *=  (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)) ;
+  }
+  else if (channel == 3){ // ee —> take Zg (tom’s) as SF + 0.5SF as uncertainties 
+    size_t indElel2 = std::min((unsigned)6, _lElectronMissingHits_l2);   
+    weight *= displEleVars[indElel2];	
+    size_t indElel3 = std::min((unsigned)6, _lElectronMissingHits_l3);
+    weight *= displEleVars[indElel3];	
+  }
+  else { // µe —> take Zg (tom’s) for the electron TIMES √SV for µ + 0.5SV as uncertainties
+    if (flavors_3l[1] == 1 && flavors_3l[2] == 0){
+      int binx_n,biny_n,binx_d,biny_d,  =0;
+      binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+      biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(sum_pt);
+      binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+      biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(sum_pt);
+      weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+      size_t indElel3 = std::min((unsigned)6, _lElectronMissingHits_l3);
+      weight *= displEleVars[indElel3];
+    }
+    if (flavors_3l[1] == 0 && flavors_3l[2] == 1){
+      int binx_n,biny_n,binx_d,biny_d,  =0;
+      binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+      biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(sum_pt);
+      binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+      biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(sum_pt);
+      weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+      size_t indElel2 = std::min((unsigned)6, _lElectronMissingHits_l2);
+      weight *= displEleVars[indElel2];
+    }
+  }
+  return weight;
+}
+//_____________________________________________ displaced mess
+double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigend _lElectronMissingHits_l2, unsigend _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
+  double weight_error =1.;
+
+  if (channel == 0 ){ // µµ —> take SV eff-cy as SF + 0.5SV as uncertainties 
+    int binx_n,biny_n,binx_d,biny_d,  =0;
+    binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+    biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(sum_pt);
+    binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(sum_pt);
+    weight_error = 0.5* std::abs(1 -   ( (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) );    
+  }
+  else if (channel == 3){ // ee —> take Zg (tom’s) as SF + 0.5SF as uncertainties
+    double eleele=1;
+    size_t indElel2 = std::min((unsigned)6, _lElectronMissingHits_l2);   
+    eleele *= displEleVars[indElel2];	
+    size_t indElel3 = std::min((unsigned)6, _lElectronMissingHits_l3);
+    eleele *= displEleVars[indElel3];
+    weight_error = 0.5* std::abs(1 - eleele);
+    
+  }
+  else { // µe —> take Zg (tom’s) for the electron TIMES √SV for µ + 0.5SV as uncertainties
+     int binx_n,biny_n,binx_d,biny_d,  =0;
+    binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+    biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(sum_pt);
+    binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(D2_delta_pv_sv);
+    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(sum_pt);
+    weight_error = 0.5* std::abs(1 -   ( (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) );    
+  }
+  
+  return weight_error;
+}
 //_____________________________________________
 void Analysis_mc::zCandidate(TLorentzVector pair[2],TLorentzVector other[1], TLorentzVector leep1, TLorentzVector leep2,TLorentzVector leep3, int  flavors_3l[3], int  charge_3l[3]){
   int ch_lepton1=charge_3l[0];
@@ -694,6 +854,47 @@ void Analysis_mc::printDataCard(const double obsYield, const double sigYield, co
     card << "\n";
   }
   card.close();		
+}
+
+
+//_______________________________________________________ constructor_____
+void Analysis_mc::put_at_zero(int channel, int option, TH1D *histo){
+  //option 1 --> non prompt
+  //option 0 --> MC
+
+  if (option == 0){
+    for (int i =0; i < histo-> GetNbinsX(); i++){
+      if (std::isnan(histo->GetBinContent( i+1))) std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;	  
+      double error_original =0;
+      double error_to_add =0;
+      double error_final =0;
+      if (histo->GetBinContent( i+1)  < 0.0000  || std::isnan(histo->GetBinContent( i+1)) || histo->GetBinContent( i+1)  <0.000001) {
+	error_original = histo-> GetBinError(i+1);
+	error_to_add = histo-> GetBinContent(i+1);
+	error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
+	histo-> SetBinContent(i+1, 0.);
+	histo-> SetBinError(i+1, error_final);
+	//if (error_final == 0) histo-> SetBinError(i+1,  0.);
+	//if (error_final < 0.000001) histo-> SetBinError(i+1,  0.);
+      }
+    }
+  }//option 0
+
+  if (option == 1){
+    for (int i =0; i < histo-> GetNbinsX(); i++){
+      if (histo->GetBinContent( i+1)  == 0 || histo->GetBinContent( i+1)  < 0 ){
+	histo-> SetBinContent(i+1, 0.0);
+	histo->SetBinErrorOption(TH1::kPoisson2);
+	if (cha == 0 && i < 6) histo->SetBinError(1, 3.6888795*0.05); //mumu
+	if (cha == 0 && i >= 6) histo->SetBinError(1, 3.6888795*0.045); //mue
+	if (cha == 1 && i < 6) histo->SetBinError(1, 3.6888795*0.09); //ee
+	if (cha == 1 && i >= 6) histo->SetBinError(1, 3.6888795*0.045); //mue
+      }     
+    }
+  }//option 1
+
+
+  
 }
 
 

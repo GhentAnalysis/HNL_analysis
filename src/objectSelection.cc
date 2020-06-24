@@ -206,7 +206,7 @@ bool Analysis_mc::lepIsFOBase(const unsigned leptonIndex) const{
   if ( isElectron(leptonIndex) && _relIso[leptonIndex] > ele_iso_loose) return false;
   //mu
   if( isMu(leptonIndex) && !muOurMedium(leptonIndex)) return false;
-  if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
+  //if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
   if (isMu(leptonIndex) && _lPt[leptonIndex] < mu_pt) return false;
   if ( isMu(leptonIndex) && _relIso[leptonIndex] > mu_iso_loose) return false;
 
@@ -221,7 +221,7 @@ bool Analysis_mc::lepIsTightDisplaced(const unsigned leptonIndex) const{
   //ele
   if ( isElectron(leptonIndex) && _relIso[leptonIndex] > ele_iso_tight) return false;
   //mu
-  if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
+  //if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
   if (isMu(leptonIndex) && _relIso[leptonIndex] > mu_iso_tight) return false;
 
   return true;
@@ -237,7 +237,7 @@ bool Analysis_mc::lepIsTightPrompt(const unsigned leptonIndex) const{
   if (fabs(_dxy[leptonIndex]) > 0.05)  return false;
   //ID
   if (isMu(leptonIndex) && !_lPOGMedium[leptonIndex]) return false;
-  if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
+  //if( isMu(leptonIndex) && !muTimeVeto(leptonIndex)) return false;
   if (isElectron(leptonIndex) && !elePassMVA(leptonIndex)) return false;
   //pT
   if( is2016() && isMu(leptonIndex) && _lPt[leptonIndex] < mu_2016) return false;
