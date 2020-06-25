@@ -2171,7 +2171,7 @@ for(unsigned dist = 0; dist < nDist; ++dist){
 	    card << "\n";
 	  } // end systs
 
-	  card << "* autoMCStats 0\n";
+	  card << "* autoMCStats 0.5\n";
 	  card.close();
 	  rootfile->Close();
 	} // end if(skipLimits)
