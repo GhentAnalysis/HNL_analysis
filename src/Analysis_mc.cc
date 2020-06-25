@@ -909,7 +909,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     }
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries; ++it) {
+    for(ULong64_t it=0; it<nEntries/100; ++it) {
       GetEntry(samples[sam], it);  
    
       if (samples[sam].isData()){
@@ -1697,12 +1697,17 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
+	  std::cout<<"   nSamples_eff  "<<nSamples_eff<<"  "<<eff_names[nSamples_eff]<<std::endl;
 	  if (effsam1 == nSamples_eff) put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
 	  if (effsam1 != nSamples_eff) put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
 	}
       }	    
     }
-  }    
+  }
+   /*for (int i =0; i < 18; ++i){
+     cout<<"bin "<<i<<") "<< plots_SR[0][0][0][nSamples_eff]-> GetBinContent(i+1)<<"   ±  "<< plots_SR[0][0][0][nSamples_eff]-> GetBinError(i+1)<<"  "<<plots_SR[0][0][0][nSamples_eff]-> GetBinErrorUp(i+1)<<"   ---> low "<< plots_SR[0][0][0][nSamples_eff]-> GetBinErrorLow(i+1)<<std::endl;
+     }*/
+   
    
   for(int cha = 0; cha < nCoupling; ++cha) {
     if (cha == 2) continue; // no taus for the moment

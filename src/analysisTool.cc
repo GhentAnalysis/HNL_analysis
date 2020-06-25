@@ -920,13 +920,13 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
 
   if (option == 1){
     for (int i =0; i < histo-> GetNbinsX(); i++){
-      if (histo->GetBinContent( i+1)  == 0 || histo->GetBinContent( i+1)  < 0 ){
+      if (histo->GetBinContent( i+1)  <= 0 ){
 	histo-> SetBinContent(i+1, 0.0);
-	histo->SetBinErrorOption(TH1::kPoisson2);
-	if (channel == 0 && i < 6) histo->SetBinError(1, 3.6888795*0.05); //mumu
-	if (channel == 0 && i >= 6) histo->SetBinError(1, 3.6888795*0.045); //mue
-	if (channel == 1 && i < 6) histo->SetBinError(1, 3.6888795*0.09); //ee
-	if (channel == 1 && i >= 6) histo->SetBinError(1, 3.6888795*0.045); //mue
+	//histo->SetBinErrorOption(TH1::kPoisson2);
+	if (channel == 0 && i < 6) histo->SetBinError(i+1, 3.6888795*0.05); //mumu
+	if (channel == 0 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
+	if (channel == 1 && i < 6) histo->SetBinError(i+1, 3.6888795*0.09); //ee
+	if (channel == 1 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
       }     
     }
   }//option 1
