@@ -1692,16 +1692,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // all stack etc etc for the right plots to put in the data cards  
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	
-  for(int cha = 0; cha < nCoupling; ++cha) {
-    if (cha == 2) continue; // no taus for the moment
-    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-      for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
-	sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
-      }//end loop up-down
-    }// end loop on sys
-  }// coupling
-     
-  for(int cha = 0; cha < nCoupling; ++cha) {	
+   for(int cha = 0; cha < nCoupling; ++cha) {	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
@@ -1712,6 +1703,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }	    
     }
   }    
+   
+  for(int cha = 0; cha < nCoupling; ++cha) {
+    if (cha == 2) continue; // no taus for the moment
+    for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+      for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
+	sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+      }//end loop up-down
+    }// end loop on sys
+  }// coupling
+      
   for(int cha = 0; cha < nCoupling; ++cha) {//--
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -1775,15 +1776,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   int numer_plot_class =0;
   numer_plot_class = nSamples_eff -  nSamples_signal;
-	
-  for(unsigned dist = 0; dist < nDist; ++dist){
-    for(unsigned cat = 0; cat < nCat; ++cat){
-      for(int cha = 0; cha < nChannel; ++cha){               
-	 dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
-      }
-    }
-  }
-  for(unsigned dist = 0; dist < nDist; ++dist){
+for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
@@ -1795,6 +1788,15 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }
     }
   } 
+
+  for(unsigned dist = 0; dist < nDist; ++dist){
+    for(unsigned cat = 0; cat < nCat; ++cat){
+      for(int cha = 0; cha < nChannel; ++cha){               
+	 dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
+      }
+    }
+  }
+  
   for(unsigned dist = 0; dist < nDist; ++dist){//--
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){	
