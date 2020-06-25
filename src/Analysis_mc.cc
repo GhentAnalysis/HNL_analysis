@@ -2204,7 +2204,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
 
 	  
-	      for(unsigned bkg=0; bkg<nBkg-2; ++bkg) {
+	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      	if (bgk == nBgk -2) continue;
 		rootfile->cd(); 	
 		plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
 	      }
