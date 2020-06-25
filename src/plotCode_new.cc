@@ -487,7 +487,7 @@ if (istogramma == 0 ){
     line->Draw();
     //100000
     
-    line = new TLine(2.5,high_mll,2.5,0.1);
+    line = new TLine(4.5,high_mll,2.5,0.1);
     //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
@@ -497,7 +497,7 @@ if (istogramma == 0 ){
     line->SetLineStyle(2);
     line->SetLineWidth(1);
     line->Draw();
-    line = new TLine(14.5,high_mll,14.5,0.1);
+    line = new TLine(16.5,high_mll,14.5,0.1);
     //ci = TColor::GetColor("#ff6600");
     line->SetLineStyle(2);
     line->SetLineWidth(1);
@@ -506,33 +506,33 @@ if (istogramma == 0 ){
    
     TLatex *    tex = new TLatex(0.8748578,17546.74,"");
     tex = new TLatex(left_mll,high_mll,"M_{ll} < 4 GeV");
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(left_mll+3,high_mll,"M_{ll} > 4 GeV");
-    tex->SetTextSize(0.03);
+    tex = new TLatex(left_mll+4,high_mll,"M_{ll} > 4 GeV");
+    tex->SetTextSize(0.02);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
 
     tex = new TLatex(left_mll+6,high_mll,"M_{ll} < 4 GeV");
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(left_mll+9,high_mll,"M_{ll} > 4 GeV");
-    tex->SetTextSize(0.03);
+    tex = new TLatex(left_mll+10,high_mll,"M_{ll} > 4 GeV");
+    tex->SetTextSize(0.02);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
 
     tex = new TLatex(left_mll+12,high_mll,"M_{ll} < 4 GeV");
-    tex->SetTextSize(0.03);
+    tex->SetTextSize(0.02);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
     tex->Draw();
-    tex = new TLatex(left_mll+15,high_mll,"M_{ll} > 4 GeV");
+    tex = new TLatex(left_mll+16,high_mll,"M_{ll} > 4 GeV");
     tex->SetTextSize(0.03);
     tex->SetTextFont(42);
     tex->SetLineWidth(2);
