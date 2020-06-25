@@ -909,7 +909,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     }
     // ------------   run over entries -----------------------------------------------//  
    	  
-    for(ULong64_t it=0; it<nEntries/100; ++it) {
+    for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);  
    
       if (samples[sam].isData()){
