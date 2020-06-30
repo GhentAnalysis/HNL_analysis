@@ -758,31 +758,31 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   // by tom
   double displEleVars[7] = {0.,0.,0.,0.,0.,0.,0.,}; // 2016
   if (year == 0){
-    displEleVars[0] = 0.986;
-    displEleVars[1] = 1.058;
-    displEleVars[2] = 1.027;
-    displEleVars[3] = 1.038;
-    displEleVars[4] = 1.008;
-    displEleVars[5] = 1.026;
-    displEleVars[6] = 0.997;
+    displEleVars[0] = 1.025;
+    displEleVars[1] = 1.036;
+    displEleVars[2] = 0.861;
+    displEleVars[3] = 0.829;
+    displEleVars[4] = 0.795;
+    displEleVars[5] = 0.673;
+    displEleVars[6] = 0.512;
   }  
   if (year == 1){
-    displEleVars[0] = 0.959;
-    displEleVars[1] = 1.091;
-    displEleVars[2] = 1.106;
-    displEleVars[3] = 1.094;
-    displEleVars[4] = 1.107;
+    displEleVars[0] = 0.980;
+    displEleVars[1] = 1.044;
+    displEleVars[2] = 1.021;
+    displEleVars[3] = 1.119;
+    displEleVars[4] = 1.050;
     displEleVars[5] = 1.072;
-    displEleVars[6] = 1.069;
+    displEleVars[6] = 1.243;
   }
   if (year == 2){
-    displEleVars[0] = 0.952;
-    displEleVars[1] = 1.082;
-    displEleVars[2] = 1.081;
-    displEleVars[3] = 1.157;
-    displEleVars[4] = 1.128;
-    displEleVars[5] = 1.039;
-    displEleVars[6] = 1.168;
+    displEleVars[0] = 0.997;
+    displEleVars[1] = 1.038;
+    displEleVars[2] = 0.983;
+    displEleVars[3] = 0.964;
+    displEleVars[4] = 1.003;
+    displEleVars[5] = 1.020;
+    displEleVars[6] = 1.101;
   }
   // ------------ b tagging -----------------------------------------------//
   // b-tagging working points (DeepCsv_b + DeepCsv_bb)
