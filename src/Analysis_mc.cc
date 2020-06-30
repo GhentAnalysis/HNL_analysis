@@ -756,7 +756,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
   
   // by tom
-  double displEleVars[7] = {0.,0.,0.,0.,0.,0.,0.,}; // 2016
+  double displEleVars[8] = {0.,0.,0.,0.,0.,0.,0.,0.}; // 2016
   if (year == 0){
     displEleVars[0] = 1.025;
     displEleVars[1] = 1.036;
@@ -765,6 +765,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     displEleVars[4] = 0.795;
     displEleVars[5] = 0.673;
     displEleVars[6] = 0.512;
+    displEleVars[7] = 0.923;
+
   }  
   if (year == 1){
     displEleVars[0] = 0.980;
@@ -774,6 +776,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     displEleVars[4] = 1.050;
     displEleVars[5] = 1.072;
     displEleVars[6] = 1.243;
+    displEleVars[7] = 1.427;
+
   }
   if (year == 2){
     displEleVars[0] = 0.997;
@@ -783,6 +787,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     displEleVars[4] = 1.003;
     displEleVars[5] = 1.020;
     displEleVars[6] = 1.101;
+    displEleVars[7] = 1.299;
+
   }
   // ------------ b tagging -----------------------------------------------//
   // b-tagging working points (DeepCsv_b + DeepCsv_bb)
