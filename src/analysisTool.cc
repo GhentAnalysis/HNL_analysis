@@ -356,6 +356,29 @@ double Analysis_mc::SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsi
    return sfValue;			
 }
 
+//_____________________________________________ SF prompt muon trigger
+double Analysis_mc::SF_trigger_ele(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  
+   int binx =0;
+   int biny =0;	
+   binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEtaSC[leptonIndex]));
+   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+   else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 
+   sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);
+   return sfValue;	
+}
+//_____________________________________________ SF prompt muon trigger error
+double Analysis_mc::SF_trigger_ele_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
+     double sfValue = 1;  
+   int binx =0;
+   int biny =0;	
+   binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::abs(_lEtaSC[leptonIndex]));
+   if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+   else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 
+   sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+   return sfValue;			
+}
+
 //_____________________________________________ displaced mess
 double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
   double weight =1.;
