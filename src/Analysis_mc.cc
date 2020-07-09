@@ -697,7 +697,21 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_trigger_muon_files[2]) :  TFile::Open(names_trigger_muon_files[2]);
     hfile1_sf_2018->cd("IsoMu24_PtEtaBins");
     sf_trigger_muon[0] = (TH2F*)hfile1_sf_2018->Get("IsoMu24_PtEtaBins/abseta_pt_ratio");
-  }		
+  }
+
+  TH2F *sf_trigger_ele[1]; 
+  if (year == 0){
+    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_trigger_ele_files[0]) :  TFile::Open(names_trigger_ele_files[0]);
+    sf_trigger_ele[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
+  }	
+  if (year == 1){
+    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_trigger_ele_files[1]) :  TFile::Open(names_trigger_ele_files[1]);
+    sf_trigger_ele[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
+  }
+  if (year == 2 ){	
+    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_trigger_ele_files[2]) :  TFile::Open(names_trigger_ele_files[2]);
+    sf_trigger_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
+  }
 			
   TH2F *sf_prompt_ele[1];	
   if (year == 0){
@@ -1335,9 +1349,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }
       if(SR_channel > 2) {
 	weight_SR[ ele_case][pEle_index][0][effsam]  = SF_prompt_ele  (*&sf_prompt_ele, l1);
+	weight_SR[ele_case][trigger_index][0][effsam] = SF_trigger_ele(*&sf_trigger_ele, l1);
+
 	//
 	weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
-	weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);	    
+	weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);
+	weight_SR[ele_case][trigger_index][1][effsam] = SF_trigger_ele(*&sf_trigger_ele, l1)-SF_trigger_ele_error(*&sf_trigger_ele, l1);	  
+	weight_SR[ele_case][trigger_index][2][effsam] = SF_trigger_ele(*&sf_trigger_ele, l1)+SF_trigger_ele_error(*&sf_trigger_ele, l1);
       }
       // ------------------------- leptons SF uncertainties ------------------------- //
       //  std::cout<<"========================================================================================="<<std::endl;
