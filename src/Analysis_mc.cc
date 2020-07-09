@@ -161,7 +161,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   Double_t bin_2d_zoom[nBin_2d_zoom+1] = {0.,0.25,0.5,0.75,1.,1.50,2.,3.,4.};
 
   const int nBin_mass = 7;	
-  Double_t bin_mass[nBin_2d_zoomnBin_mass+1] = {0.,1.,2.,3.,4.,5.,8.,12.};
+  Double_t bin_mass[nBin_mass+1] = {0.,1.,2.,3.,4.,5.,8.,12.};
 
   
 	
@@ -2415,8 +2415,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  std::ofstream card2;
 
 	  // Add .txt to name if no file extension is given
-	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+"_datacard.txt";
-	  card2.open(cardName1 + ((cardName1.find(".txt") == std::string::npos) ? ".txt" : ""));
+	  std::string cardName2 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+"_datacard.txt";
+	  card2.open(cardName2 + ((cardName2.find(".txt") == std::string::npos) ? ".txt" : ""));
 	  // Define number of channels, background sources and systematics
 	  card2 << "imax 1 number of channels\n";
 	  card2 << "jmax " << nBkg  << " number of backgrounds\n";
