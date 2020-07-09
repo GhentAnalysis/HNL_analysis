@@ -2026,8 +2026,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	// ========================================================
 	//
 	if(skipLimits==false) {
+	  std::string appx1 = "";  
+	  if(year==0) appx1 += "_16";
+	  if(year==1) appx1 += "_17";
+	  if(year==2) appx1 += "_18";
+      	
+
+
+	  
 	  // ROOT file with shapes
-	  std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+	  std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+appx1+".root";
 	  TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
 	  rootfile->cd();
 	  sum_expected_SR[icoup][0][0]-> Write ("data_obs");
@@ -2041,7 +2049,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  std::ofstream card;
 
 	  // Add .txt to name if no file extension is given
-	  std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard.txt";
+	  std::string cardName = datacarddir+"/"+sgn+"_"+cpl+appx1+"_datacard.txt";
 	  card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
 	  // Define number of channels, background sources and systematics
 	  card << "imax 1 number of channels\n";
@@ -2148,7 +2156,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  //++++++++++++++++++++++++++++++++++++++++ for ml2l3
 
 	  // ROOT file with shapes
-	  std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+".root";
+	  std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+appx1+".root";
 	  TFile *rootfile1 = new TFile((datacarddir+"/"+rootfilename1).c_str(), "RECREATE");
 	  rootfile1->cd();
 	  sum_expected_SR2[0][icoup][0][0]-> Write ("data_obs");
@@ -2162,7 +2170,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  std::ofstream card1;
 
 	  // Add .txt to name if no file extension is given
-	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_mass"+"_datacard.txt";
+	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_mass"+appx1+"_datacard.txt";
 	  card1.open(cardName1 + ((cardName1.find(".txt") == std::string::npos) ? ".txt" : ""));
 	  // Define number of channels, background sources and systematics
 	  card1 << "imax 1 number of channels\n";
@@ -2268,7 +2276,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  //++++++++++++++++++++++++++++++++++++++++ for delta2d
 
 	  // ROOT file with shapes
-	  std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+".root";
+	  std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+appx1+".root";
 	  TFile *rootfile2 = new TFile((datacarddir+"/"+rootfilename2).c_str(), "RECREATE");
 	  rootfile2->cd();
 	  sum_expected_SR2[1][icoup][0][0]-> Write ("data_obs");
@@ -2282,7 +2290,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  std::ofstream card2;
 
 	  // Add .txt to name if no file extension is given
-	  std::string cardName2 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+"_datacard.txt";
+	  std::string cardName2 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+appx1+"_datacard.txt";
 	  card2.open(cardName2 + ((cardName2.find(".txt") == std::string::npos) ? ".txt" : ""));
 	  // Define number of channels, background sources and systematics
 	  card2 << "imax 1 number of channels\n";
@@ -2398,6 +2406,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
     //else { // if(systcat!=0)
     if(skipLimits==false) {
+      std::string appx1 = "";  
+      if(year==0) appx1 += "_16";
+      if(year==1) appx1 += "_17";
+      if(year==2) appx1 += "_18";
+      	
+
+      
       for(unsigned syst=1; syst<=nSyst; ++syst) {
 	if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
 	for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
@@ -2417,7 +2432,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      std::string cpl = couplings[icoup];
 
 	      // ROOT file with shapes
-	      std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+".root";
+	      std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+appx1+".root";
 	      TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
 	      rootfile->cd();	    
 	      plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
@@ -2456,7 +2471,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      std::string cpl = couplings[icoup];
                     
 	      // ROOT file with shapes
-	      std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+".root";
+	      std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+appx1+".root";
 	      TFile *rootfile1 = TFile::Open((datacarddir+"/"+rootfilename1).c_str(), "UPDATE");
 	      rootfile1->cd();
 	      plots_SR2[0][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
@@ -2493,7 +2508,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      std::string cpl = couplings[icoup];
                     
 	      // ROOT file with shapes
-	      std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+".root";
+	      std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+appx1+".root";
 	      TFile *rootfile2 = TFile::Open((datacarddir+"/"+rootfilename2).c_str(), "UPDATE");
 	      rootfile2->cd();
 	      plots_SR2[1][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
