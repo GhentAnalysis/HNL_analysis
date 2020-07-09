@@ -1245,17 +1245,18 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = 	v4l2.DeltaR(v4l3) < 1 &&   
-					    M_3L_combined > 50 && 
-	M_3L_combined < 80 && 
-			min_delta_phi > 1 &&
-	vtxRvtxPcosAlpha > 0.99  &&
-	M_l2l3_combined < 12 &&
-			  sum_vec_l2l3 > 15 &&
-	D2_delta_pv_svSig > 20 &&	
-	prob_vertex > 0.001 &&
+			 M_3L_combined > 50 && 
+	                 M_3L_combined < 80 && 
+	                 min_delta_phi > 1 &&
+	                 vtxRvtxPcosAlpha > 0.99  &&
+	                 M_l2l3_combined < 12 &&
+			 sum_vec_l2l3 > 15 &&
+	                 D2_delta_pv_svSig > 20 &&	
+	                 prob_vertex > 0.001 &&
 	//	bjet == 0 &&
-	vetoes;
+	                 vetoes;
       if (SR_selection && bjet == 0) selection_final = true; // then it would be == SR_plot[central]
+      if (SR_channel == 3 && M_l2l3_combined < 0.5) continue;
       //cut flow bools
       bool _0,_1,_2,_3,_4,_5,_6,_7,_8,_9, _10=false;
       bool sel_0,sel_1,sel_2,sel_3,sel_4,sel_5,sel_6,sel_7,sel_8,sel_9, sel_10=false;
@@ -2049,7 +2050,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  std::ofstream card;
 
 	  // Add .txt to name if no file extension is given
-	  std::string cardName = datacarddir+"/"+sgn+"_"+cpl+appx1+"_datacard.txt";
+	  std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard" +appx1+".txt";
 	  card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
 	  // Define number of channels, background sources and systematics
 	  card << "imax 1 number of channels\n";
@@ -2170,7 +2171,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  std::ofstream card1;
 
 	  // Add .txt to name if no file extension is given
-	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_mass"+appx1+"_datacard.txt";
+	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_mass"+"_datacard" +appx1+".txt";
 	  card1.open(cardName1 + ((cardName1.find(".txt") == std::string::npos) ? ".txt" : ""));
 	  // Define number of channels, background sources and systematics
 	  card1 << "imax 1 number of channels\n";
@@ -2290,7 +2291,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  std::ofstream card2;
 
 	  // Add .txt to name if no file extension is given
-	  std::string cardName2 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+appx1+"_datacard.txt";
+	  std::string cardName2 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+"_datacard" +appx1+".txt";
 	  card2.open(cardName2 + ((cardName2.find(".txt") == std::string::npos) ? ".txt" : ""));
 	  // Define number of channels, background sources and systematics
 	  card2 << "imax 1 number of channels\n";
