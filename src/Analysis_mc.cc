@@ -115,7 +115,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
 	++nSamples_signal_e;
       }
       else if(eff_names[nSamples_eff].EndsWith("_mu")) {
-      //else if(eff_names[nSamples_eff].Contains("_mu_")) {
+	//else if(eff_names[nSamples_eff].Contains("_mu_")) {
 	if(nSamples_signal_mu==max_nSamples_signal_mu) throw std::runtime_error("nSamples_signal_mu == max_nSamples_signal_mu");
 	sigNames_short[nSamples_signal].ReplaceAll("YY", "#mu");
 	sigNames_mu[nSamples_signal_mu] = eff_names[nSamples_eff];
@@ -148,7 +148,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     throw std::runtime_error("nSamples_signal != nSamples_signal_e + max_nSamples_signal_mu");
 
 
-const int nBin_probvertex = 18;	
+  const int nBin_probvertex = 18;	
   Double_t bin_probvertex[nBin_probvertex+1] = {0,0.0005,0.001,0.005,0.01,0.03,0.05,0.07,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.75,1.};
 	
   const int nBin_cos = 28;	
@@ -159,6 +159,9 @@ const int nBin_probvertex = 18;
 
   const int nBin_2d_zoom = 8;	
   Double_t bin_2d_zoom[nBin_2d_zoom+1] = {0.,0.25,0.5,0.75,1.,1.50,2.,3.,4.};
+
+  const int nBin_mass = 7;	
+  Double_t bin_mass[nBin_2d_zoomnBin_mass+1] = {0.,1.,2.,3.,4.,5.,8.,12.};
 
   
 	
@@ -176,9 +179,7 @@ const int nBin_probvertex = 18;
 	  if (i == 34) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_probvertex, bin_probvertex);  
 	  if (i == 37) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_cos, bin_cos);  
 	  if (i == 40) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d, bin_2d);
-	  if (i == 41) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d_zoom, bin_2d_zoom);  		
-
-	  
+	  if (i == 41) Histos[i][cha][cat][effsam] =  new TH1D(eff_names[effsam] +"_"+ channelNames[cha] +"_"+ catNames[cat] +"_"+ Histnames_ossf[i] , eff_names[effsam] + catNames[cat] + Histnames_ossf[i] + ";" + Xaxes[i] + ";events/" + Yaxis + Units[i], nBin_2d_zoom, bin_2d_zoom);  			  
 	  Histos[i][cha][cat][effsam]->Sumw2();	
 	}
       }
@@ -203,13 +204,22 @@ const int nBin_probvertex = 18;
     for(int var = 0; var < nVariation; ++var){
       for (int syst = 0; syst < nSystematic; ++syst)	{
 	for(int cha = 0; cha < nCoupling; ++cha){
-	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], 18, 0.5, 18.5);
-	  plots_SR[cha][syst][var][effsam]-> Sumw2();
+	  for (int nplo = 0; nplo < nPlots; ++nplo){
+	    if (nplo == 0) plots_SR2[nplo][cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+plots_names[nplo]+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], nBin_mass, bin_mass);
+	    if (nplo == 1) plots_SR2[nplo][cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+plots_names[nplo]+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], nBin_2d_zoom, bin_2d_zoom);	    
+	    plots_SR2[nplo][cha][syst][var][effsam]-> Sumw2();
+	  }
+	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], 18, 0.5, 18.5);	  	      plots_SR[cha][syst][var][effsam]-> Sumw2();
 	  weight_SR[cha][syst][var][effsam]=1.;
 	}
       }
     }
   }
+  for(int i = 0; i < nPlots; ++i){
+    maxBinC_dc[i] = plots_SR2[i][0][0][0][0]->GetBinCenter(plots_SR2[i][0][0][0][0]->GetNbinsX());
+  }
+
+
   for (int ibin =0; ibin<18; ++ibin){
     for(size_t effsam = 0; effsam < nSamples_eff + 1; ++effsam){
       for(int cha = 0; cha < nCoupling; ++cha){
@@ -1233,16 +1243,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = 	v4l2.DeltaR(v4l3) < 1 &&   
-			M_3L_combined > 50 && 
-			M_3L_combined < 80 && 
+					    M_3L_combined > 50 && 
+	M_3L_combined < 80 && 
 			min_delta_phi > 1 &&
-			vtxRvtxPcosAlpha > 0.99  &&
-			M_l2l3_combined < 12 &&
-			sum_vec_l2l3 > 15 &&
-			D2_delta_pv_svSig > 20 &&	
-			prob_vertex > 0.001 &&
+	vtxRvtxPcosAlpha > 0.99  &&
+	M_l2l3_combined < 12 &&
+			  sum_vec_l2l3 > 15 &&
+	D2_delta_pv_svSig > 20 &&	
+	prob_vertex > 0.001 &&
 	//	bjet == 0 &&
-			vetoes;
+	vetoes;
       if (SR_selection && bjet == 0) selection_final = true; // then it would be == SR_plot[central]
       //cut flow bools
       bool _0,_1,_2,_3,_4,_5,_6,_7,_8,_9, _10=false;
@@ -1437,7 +1447,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  //if (SR_channel <= 2 && weight_SR[0][w_loop][0][effsam] == 0) std::cout<<"weight central == 0 "<<"  systNamesT[iSystematics] "<<w_loop<<" "<<systNamesT[w_loop]<<std::endl;
 	  // if (SR_channel > 2 && weight_SR[1][w_loop][0][effsam] == 0) std::cout<<"weight central == 0 "<<"  systNamesT[iSystematics] "<<w_loop<<" "<<systNamesT[w_loop]<<std::endl;
 
-  } 	        	
+	} 	        	
       } 
       //if (SR_channel <= 2 ) std::cout<<central_total_weight_mu<<std::endl;
       //if (SR_channel > 2 ) std::cout<<central_total_weight_ele<<std::endl;
@@ -1445,17 +1455,33 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final final step 
 	// central distribution --> on_index ==> 0 and  "central" => 0
-	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);	
-      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (SR_channel <= 2 && bjet == 0)  {
+	  plots_SR[muon_case][on_index][0][fill] ->  Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu);
+	  plots_SR2[0][muon_case][on_index][0][fill] ->  Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), scal*central_total_weight_mu);
+	  plots_SR2[1][muon_case][on_index][0][fill] ->  Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), scal*central_total_weight_mu);
+	}
+      	if (SR_channel > 2  && bjet == 0) {
+	  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	  plots_SR2[0][ele_case][on_index][0][fill]  ->  Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), scal*central_total_weight_ele);
+	  plots_SR2[1][ele_case][on_index][0][fill]  ->  Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), scal*central_total_weight_ele);
+	}
         // plots for systematics
 	//filling the shape histogram for DF background
 	if (isDataDrivenBgk && Double_fake){
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
 	    if (iSystematics != dfShape_index) continue;
-	     for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
-	       	if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
-	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
-	     }//end variation
+	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
+	      if (SR_channel <= 2 && bjet == 0){
+		plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+	      }
+	      if (SR_channel > 2  && bjet == 0)  {
+		plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]),  weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]),  weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+	      }
+	    }//end variation
 	  }//end syst
 	}
 	if (!samples[sam].isData()){ // only for MC
@@ -1473,25 +1499,65 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      if (SR_channel > 2 && weight_SR[ele_case][iSystematics][0][effsam] == 0) std::cout<<" Warning!!!! divisione per zero ele ------  "<<systNamesT[iSystematics]<< " var: "<< iVariation<<std::endl;
 	      //!JEC and !JER
 	      if (iSystematics!=jec_index && iSystematics!=jer_index){
-		if (SR_channel <= 2 && bjet == 0)  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
-	      	if (SR_channel > 2  && bjet == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
+		if (SR_channel <= 2 && bjet == 0){
+		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		}
+	      	if (SR_channel > 2  && bjet == 0) {
+		  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		}
 	      }
 	      //JEC down
 	      if (iSystematics==jec_index && iVariation==1){
-		if (SR_channel > 2  && bjet_down_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);      	
-	      	if (SR_channel <= 2 && bjet_down_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);	   	     
+		if (SR_channel > 2  && bjet_down_jec == 0) {
+		  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		}
+	      	if (SR_channel <= 2 && bjet_down_jec == 0) {
+		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		}
 	      }	
 	      if (iSystematics==jec_index && iVariation==2){
-		if (SR_channel > 2  && bjet_up_jec == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);	
-	      	if (SR_channel <= 2 && bjet_up_jec == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);	   	     
+		if (SR_channel > 2  && bjet_up_jec == 0) {
+		  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		}
+	      	if (SR_channel <= 2 && bjet_up_jec == 0) {
+		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		}
 	      } 	    
 	      if (iSystematics==jer_index && iVariation==1){
-		if (SR_channel > 2  && bjet_down_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);		
-	      	if (SR_channel <= 2 && bjet_down_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);		   	  
+		if (SR_channel > 2  && bjet_down_jer == 0) {
+		  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		}
+	      	if (SR_channel <= 2 && bjet_down_jer == 0) {
+		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		}
 	      }	
 	      if (iSystematics==jer_index && iVariation==2){
-		if (SR_channel > 2  && bjet_up_jer == 0)  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling), central_divided_by_sys_ele*weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);		
-	      	if (SR_channel <= 2 && bjet_up_jer == 0)  plots_SR[muon_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);		   	  
+		if (SR_channel > 2  && bjet_up_jer == 0) {
+		  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
+		}
+	      	if (SR_channel <= 2 && bjet_up_jer == 0) {
+		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[2]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
+		}
 	      }    
 	    } //end loop up-down
 	  } // end loop on sys
@@ -1578,7 +1644,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (sel_9)      Histos[1][7][0][fill] -> Fill(static_cast<double>(10), scal*central_total_weight_ele);
 	if (sel_10)     Histos[1][7][0][fill] -> Fill(static_cast<double>(11), scal*central_total_weight_ele);
       }
-       // ------------------- Histo cut flow  N-1 
+      // ------------------- Histo cut flow  N-1 
       if (SR_channel <= 2){
 	//Histos[1][6][0][fill]->Fill(static_cast<double>(cut_bin+1), scal);
 	if (_1)      Histos[2][6][0][fill] -> Fill(static_cast<double>(1), scal*central_total_weight_mu);
@@ -1716,28 +1782,35 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   // all stack etc etc for the right plots to put in the data cards  
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	
-   for(int cha = 0; cha < nCoupling; ++cha) {	
+  for(int cha = 0; cha < nCoupling; ++cha) {	
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
 	  std::cout<<"   nSamples_eff  "<<nSamples_eff<<"  "<<eff_names[nSamples_eff]<<std::endl;
-	  if (effsam1 == nSamples_eff) put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
-	  if (effsam1 != nSamples_eff) put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);	  
+	  if (effsam1 == nSamples_eff){
+	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
+	  }
+	  if (effsam1 != nSamples_eff){
+	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
+	  }	  
 	}
       }	    
     }
   }
-   /*for (int i =0; i < 18; ++i){
-     cout<<"bin "<<i<<") "<< plots_SR[0][0][0][nSamples_eff]-> GetBinContent(i+1)<<"   ±  "<< plots_SR[0][0][0][nSamples_eff]-> GetBinError(i+1)<<"  "<<plots_SR[0][0][0][nSamples_eff]-> GetBinErrorUp(i+1)<<"   ---> low "<< plots_SR[0][0][0][nSamples_eff]-> GetBinErrorLow(i+1)<<std::endl;
-     }*/
-   
-   
+  
   for(int cha = 0; cha < nCoupling; ++cha) {
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+	sum_expected_SR2[0][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[0][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+	sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+
       }//end loop up-down
     }// end loop on sys
   }// coupling
@@ -1747,9 +1820,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();	  
+	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();
+	  bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[0][cha][iSystematics][iVariation][effsam1]->Clone();	  
+	  bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	    sum_expected_SR2[0][cha][iSystematics][iVariation]->Add(bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	    sum_expected_SR2[1][cha][iSystematics][iVariation]->Add(bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+
 	  }
 	}
       }	    
@@ -1758,54 +1836,54 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   /*  for(int cha = 0; cha < nCoupling; ++cha) {
-    //  std::cout<<"channel ----- "<<std::endl;
-    if (cha == 2) continue; // no taus for the moment
-    for (int ibin = 0; ibin < 24 ; ++ibin){
-      //if (ibin != 1) continue;
-      // std::cout<<"bin ==== "<<std::endl;
+  //  std::cout<<"channel ----- "<<std::endl;
+  if (cha == 2) continue; // no taus for the moment
+  for (int ibin = 0; ibin < 24 ; ++ibin){
+  //if (ibin != 1) continue;
+  // std::cout<<"bin ==== "<<std::endl;
 
-      for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
-	if (effsam1 != 2 && effsam1 != 3 &&effsam1 != 5 &&effsam1 != nSamples_eff ) continue;	
-	double var=0.;
-	//	std::cout<<"in side effsma: "<< effsam1<<std::endl;
-	for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-	  if (iSystematics == 0) continue;
-	  //if (iSystematics == qcdNorm_index || iSystematics == pdfNorm_index) continue;
-	  double var_single_syst=0.;
+  for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
+  if (effsam1 != 2 && effsam1 != 3 &&effsam1 != 5 &&effsam1 != nSamples_eff ) continue;	
+  double var=0.;
+  //	std::cout<<"in side effsma: "<< effsam1<<std::endl;
+  for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
+  if (iSystematics == 0) continue;
+  //if (iSystematics == qcdNorm_index || iSystematics == pdfNorm_index) continue;
+  double var_single_syst=0.;
 	 	    
-	  double nominalContent = plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1);
-	  double downContent =    plots_SR[cha][iSystematics][1][effsam1] -> GetBinContent(ibin+1);
-	  double upContent =      plots_SR[cha][iSystematics][2][effsam1] -> GetBinContent(ibin+1);
+  double nominalContent = plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1);
+  double downContent =    plots_SR[cha][iSystematics][1][effsam1] -> GetBinContent(ibin+1);
+  double upContent =      plots_SR[cha][iSystematics][2][effsam1] -> GetBinContent(ibin+1);
 	 
-	  double down = fabs(downContent - nominalContent);
-	  double up =   fabs(upContent - nominalContent);
+  double down = fabs(downContent - nominalContent);
+  double up =   fabs(upContent - nominalContent);
 
-	  var_single_syst = std::max( down, up );
-	  var += var_single_syst*var_single_syst;
+  var_single_syst = std::max( down, up );
+  var += var_single_syst*var_single_syst;
 
-	  // std::cout<< "syst: "<<iSystematics<<"   "<< nominalContent<<" nomdown: "<<downContent<<"  nomup: "<< upContent<<"   down: "<<down<<"  up: "<<up<<"   max: "<< var_single_syst<<std::endl;
-	  //  std::cout<<  "syst: "<<iSystematics<<"   var: "<< var<<std::endl;
-	}
-	if (effsam1 == nSamples_eff - 1   || effsam1 == nSamples_eff ) var =0.;
-	double nominalContent_SF =  plots_SR[cha][0][0][nSamples_eff - 1] -> GetBinContent(ibin+1);
-	double nominalContent_DF =  plots_SR[cha][0][0][nSamples_eff] -> GetBinContent(ibin+1);
-	double var_SF = nominalContent_SF * 0.4;
-	double var_DF = nominalContent_DF * 0.4;
+  // std::cout<< "syst: "<<iSystematics<<"   "<< nominalContent<<" nomdown: "<<downContent<<"  nomup: "<< upContent<<"   down: "<<down<<"  up: "<<up<<"   max: "<< var_single_syst<<std::endl;
+  //  std::cout<<  "syst: "<<iSystematics<<"   var: "<< var<<std::endl;
+  }
+  if (effsam1 == nSamples_eff - 1   || effsam1 == nSamples_eff ) var =0.;
+  double nominalContent_SF =  plots_SR[cha][0][0][nSamples_eff - 1] -> GetBinContent(ibin+1);
+  double nominalContent_DF =  plots_SR[cha][0][0][nSamples_eff] -> GetBinContent(ibin+1);
+  double var_SF = nominalContent_SF * 0.4;
+  double var_DF = nominalContent_DF * 0.4;
 	
-	if (effsam1 != nSamples_eff - 1   && effsam1 != nSamples_eff ) syst_error[ibin][cha][effsam1] += var;
-	if (effsam1 == nSamples_eff - 1) syst_error[ibin][cha][effsam1] =  var_SF*var_SF;
-	if (effsam1 == nSamples_eff )    syst_error[ibin][cha][effsam1] =  var_DF*var_DF;
+  if (effsam1 != nSamples_eff - 1   && effsam1 != nSamples_eff ) syst_error[ibin][cha][effsam1] += var;
+  if (effsam1 == nSamples_eff - 1) syst_error[ibin][cha][effsam1] =  var_SF*var_SF;
+  if (effsam1 == nSamples_eff )    syst_error[ibin][cha][effsam1] =  var_DF*var_DF;
 	
-	//std::cout<<effsam1<<") "<< var<<"  "<< plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1)<<"   ±   "<< syst_error[ibin][cha][effsam1]<< "  ( "<<std::sqrt(syst_error[ibin][cha][effsam1])/plots_SR[cha][0][0][effsam1]-> GetBinContent(ibin+1)<<std::endl;
-      }
-    }
+  //std::cout<<effsam1<<") "<< var<<"  "<< plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1)<<"   ±   "<< syst_error[ibin][cha][effsam1]<< "  ( "<<std::sqrt(syst_error[ibin][cha][effsam1])/plots_SR[cha][0][0][effsam1]-> GetBinContent(ibin+1)<<std::endl;
+  }
+  }
   }
   */
 	
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   int numer_plot_class =0;
   numer_plot_class = nSamples_eff -  nSamples_signal;
-for(unsigned dist = 0; dist < nDist; ++dist){
+  for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
@@ -1821,7 +1899,7 @@ for(unsigned dist = 0; dist < nDist; ++dist){
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
-	 dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
+	dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
       }
     }
   }
@@ -1898,7 +1976,7 @@ for(unsigned dist = 0; dist < nDist; ++dist){
     // List of systematics
     //const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
  
-  const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape","lumi", "npsfnorm"};
+    const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape","lumi", "npsfnorm"};
     const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
     // List of systematics applicable to each process (signal + backgrounds)
@@ -2198,6 +2276,249 @@ for(unsigned dist = 0; dist < nDist; ++dist){
 	  card << "* autoMCStats 0.5\n";
 	  card.close();
 	  rootfile->Close();
+
+
+	  //++++++++++++++++++++++++++++++++++++++++ for ml2l3
+
+	  // ROOT file with shapes
+	  std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+".root";
+	  TFile *rootfile1 = new TFile((datacarddir+"/"+rootfilename1).c_str(), "RECREATE");
+	  rootfile1->cd();
+	  sum_expected_SR2[0][icoup][0][0]-> Write ("data_obs");
+	  //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
+	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
+
+	  plots_SR2[0][icoup][0][0][1+isign] ->Write("signal");
+	  //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
+
+	  // Stream for writing card1 and tables
+	  std::ofstream card1;
+
+	  // Add .txt to name if no file extension is given
+	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_mass"+"_datacard.txt";
+	  card1.open(cardName1 + ((cardName1.find(".txt") == std::string::npos) ? ".txt" : ""));
+	  // Define number of channels, background sources and systematics
+	  card1 << "imax 1 number of channels\n";
+	  card1 << "jmax " << nBkg  << " number of backgrounds\n";
+	  card1 << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
+	  card1 << "----------------------------------------------------------------------------------------\n";
+
+	  // Shape file
+	  card1 << "shapes * * " << rootfilename1.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
+	  card1 << "----------------------------------------------------------------------------------------\n";
+
+	  // Define the channels and the number of observed events
+	  card1 << "bin bin1\n";
+	  // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
+	  card1 << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR2[0][icoup][0][0]->Integral(0, -1) << "\n";
+	  // Define all backgrounds and their yields
+	  card1 << left << std::setw(2*ntab) << "bin";
+	  for(unsigned proc=0; proc<nBkg+1; ++proc) {
+	    card1 << left << std::setw(ntab) << "bin1";
+	  }
+	  card1 << "\n";
+	  card1 << left << std::setw(2*ntab) << "process";
+	  card1 << left << std::setw(ntab)   << "signal";
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    card1 << left << std::setw(ntab) << bkgNames[bkg];
+	  }
+	  card1 << "\n";
+	  card1 << left << std::setw(2*ntab) << "process";
+	  for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
+	    card1 << left << std::setw(ntab) << bkg;
+	  }
+	  card1 << "\n";
+	  card1 << left << std::setw(2*ntab) << "rate";
+	  card1 << left << std::setw(ntab)   << std::setprecision(5) << plots_SR2[0][icoup][0][0][1+isign]->Integral(0, -1);
+
+
+	  std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
+	  std::cout<<"sum: "<< sum_expected_SR2[0][icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR2[0][icoup][0][0]->GetNbinsX()<<std::endl;
+
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    rootfile1->cd();
+	    plots_SR2[0][icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	    float iyield = plots_SR2[0][icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+    
+	    if(iyield<=0) card1 << left << std::setw(ntab) << "0.0000000";
+	    else          card1 << left << std::setw(ntab) << std::setprecision(7) << iyield;
+	  }
+	  card1 << "\n";
+	  card1 << "----------------------------------------------------------------------------------------\n";
+
+	  // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
+	  for(unsigned syst=1; syst<=nSyst; ++syst) {
+	    std::string asyst = systNames[syst];
+	    if(procPerSyst.count(asyst)==0) {
+	      std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
+	      continue;
+	    }
+	    // Correlated or uncorrelated
+	    if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+	      asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
+	    }
+    
+	    card1 << left << std::setw(ntab) << asyst;
+	    // If shape error, set it to 1.000
+	    std::string errStr = "1.000";
+	    // If normalization error, change it accordingly
+	    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
+	      if(normSystsPerYear.count(systNames[syst])==0) {
+		std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
+		errStr = "2.000";
+	      }
+	      else {
+		errStr = normSystsPerYear[systNames[syst]][year];
+	      }
+	      card1 << left << std::setw(ntab) << "lnN";
+	    }
+	    else { // all the other systematics: shapeN
+	      card1 << left << std::setw(ntab) << "shapeN";
+	    }
+	    //
+	    // Fill in systs for all processes:
+	    //
+	    //  - signal
+	    if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
+	      card1 << left << std::setw(ntab) << "-";
+	    else
+	      card1 << left << std::setw(ntab) << errStr.c_str();
+	    //
+	    //  - backgrounds
+	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
+		card1 << left << std::setw(ntab) << "-";
+	      else
+		card1 << left << std::setw(ntab) << errStr;
+	    }
+	    card1 << "\n";
+	  } // end systs
+
+	  card1 << "* autoMCStats 0.5\n";
+	  card1.close();
+	  rootfile1->Close();
+
+	  //++++++++++++++++++++++++++++++++++++++++ for delta2d
+
+	  // ROOT file with shapes
+	  std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+".root";
+	  TFile *rootfile2 = new TFile((datacarddir+"/"+rootfilename2).c_str(), "RECREATE");
+	  rootfile2->cd();
+	  sum_expected_SR2[1][icoup][0][0]-> Write ("data_obs");
+	  //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
+	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
+
+	  plots_SR2[1][icoup][0][0][1+isign] ->Write("signal");
+	  //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
+
+	  // Stream for writing card2 and tables
+	  std::ofstream card2;
+
+	  // Add .txt to name if no file extension is given
+	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+"_datacard.txt";
+	  card2.open(cardName1 + ((cardName1.find(".txt") == std::string::npos) ? ".txt" : ""));
+	  // Define number of channels, background sources and systematics
+	  card2 << "imax 1 number of channels\n";
+	  card2 << "jmax " << nBkg  << " number of backgrounds\n";
+	  card2 << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
+	  card2 << "----------------------------------------------------------------------------------------\n";
+
+	  // Shape file
+	  card2 << "shapes * * " << rootfilename2.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
+	  card2 << "----------------------------------------------------------------------------------------\n";
+
+	  // Define the channels and the number of observed events
+	  card2 << "bin bin1\n";
+	  // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
+	  card2 << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR2[1][icoup][0][0]->Integral(0, -1) << "\n";
+	  // Define all backgrounds and their yields
+	  card2 << left << std::setw(2*ntab) << "bin";
+	  for(unsigned proc=0; proc<nBkg+1; ++proc) {
+	    card2 << left << std::setw(ntab) << "bin1";
+	  }
+	  card2 << "\n";
+	  card2 << left << std::setw(2*ntab) << "process";
+	  card2 << left << std::setw(ntab)   << "signal";
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    card2 << left << std::setw(ntab) << bkgNames[bkg];
+	  }
+	  card2 << "\n";
+	  card2 << left << std::setw(2*ntab) << "process";
+	  for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
+	    card2 << left << std::setw(ntab) << bkg;
+	  }
+	  card2 << "\n";
+	  card2 << left << std::setw(2*ntab) << "rate";
+	  card2 << left << std::setw(ntab)   << std::setprecision(5) << plots_SR2[1][icoup][0][0][1+isign]->Integral(0, -1);
+
+
+	  std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
+	  std::cout<<"sum: "<< sum_expected_SR2[1][icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR2[1][icoup][0][0]->GetNbinsX()<<std::endl;
+
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    rootfile2->cd();
+	    plots_SR2[1][icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	    float iyield = plots_SR2[1][icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+    
+	    if(iyield<=0) card2 << left << std::setw(ntab) << "0.0000000";
+	    else          card2 << left << std::setw(ntab) << std::setprecision(7) << iyield;
+	  }
+	  card2 << "\n";
+	  card2 << "----------------------------------------------------------------------------------------\n";
+
+	  // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
+	  for(unsigned syst=1; syst<=nSyst; ++syst) {
+	    std::string asyst = systNames[syst];
+	    if(procPerSyst.count(asyst)==0) {
+	      std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
+	      continue;
+	    }
+	    // Correlated or uncorrelated
+	    if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+	      asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
+	    }
+    
+	    card2 << left << std::setw(ntab) << asyst;
+	    // If shape error, set it to 1.000
+	    std::string errStr = "1.000";
+	    // If normalization error, change it accordingly
+	    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
+	      if(normSystsPerYear.count(systNames[syst])==0) {
+		std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
+		errStr = "2.000";
+	      }
+	      else {
+		errStr = normSystsPerYear[systNames[syst]][year];
+	      }
+	      card2 << left << std::setw(ntab) << "lnN";
+	    }
+	    else { // all the other systematics: shapeN
+	      card2 << left << std::setw(ntab) << "shapeN";
+	    }
+	    //
+	    // Fill in systs for all processes:
+	    //
+	    //  - signal
+	    if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
+	      card2 << left << std::setw(ntab) << "-";
+	    else
+	      card2 << left << std::setw(ntab) << errStr.c_str();
+	    //
+	    //  - backgrounds
+	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
+		card2 << left << std::setw(ntab) << "-";
+	      else
+		card2 << left << std::setw(ntab) << errStr;
+	    }
+	    card2 << "\n";
+	  } // end systs
+
+	  card2 << "* autoMCStats 0.5\n";
+	  card2.close();
+	  rootfile2->Close();
+
+	  
 	} // end if(skipLimits)
 
 	// if(skipTables==false) {
@@ -2245,6 +2566,85 @@ for(unsigned dist = 0; dist < nDist; ++dist){
 	  } // end signal samples
 	} // variation up down
       } // loop sty
+
+
+      //++++++++++++++++++++++++++++++++++++++++ for ml2l3
+
+      for(unsigned syst=1; syst<=nSyst; ++syst) {
+        if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
+        for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
+	  std::string appx = "_" + systNames[syst];
+	  if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
+	    if(year==0) appx += "_16";
+	    if(year==1) appx += "_17";
+	    if(year==2) appx += "_18";
+	  }
+	  appx += (iVariation==1 ? "Down" : "Up");
+            
+	  for(size_t isign=0; isign<nSamples_signal; ++isign) {
+	    std::string sgn = sigNames[isign].Data();
+	    for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+	      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+	      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+	      std::string cpl = couplings[icoup];
+                    
+	      // ROOT file with shapes
+	      std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+".root";
+	      TFile *rootfile1 = TFile::Open((datacarddir+"/"+rootfilename1).c_str(), "UPDATE");
+	      rootfile1->cd();
+	      plots_SR2[0][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+                    
+                    
+	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		if (bkg == nBkg -2) continue;
+		rootfile1->cd();
+		plots_SR2[0][icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+	      }
+	      rootfile1->Close();
+	    } // end couplings
+	  } // end signal samples
+        } // variation up down
+      } // loop sty
+
+      //++++++++++++++++++++++++++++++++++++++++ for delta2d
+      for(unsigned syst=1; syst<=nSyst; ++syst) {
+        if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
+        for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
+	  std::string appx = "_" + systNames[syst];
+	  if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
+	    if(year==0) appx += "_16";
+	    if(year==1) appx += "_17";
+	    if(year==2) appx += "_18";
+	  }
+	  appx += (iVariation==1 ? "Down" : "Up");
+            
+	  for(size_t isign=0; isign<nSamples_signal; ++isign) {
+	    std::string sgn = sigNames[isign].Data();
+	    for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+	      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+	      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+	      std::string cpl = couplings[icoup];
+                    
+	      // ROOT file with shapes
+	      std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+".root";
+	      TFile *rootfile2 = TFile::Open((datacarddir+"/"+rootfilename2).c_str(), "UPDATE");
+	      rootfile2->cd();
+	      plots_SR2[1][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+                    
+                    
+	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		if (bkg == nBkg -2) continue;
+		rootfile2->cd();
+		plots_SR2[1][icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+	      }
+	      rootfile2->Close();
+	    } // end couplings
+	  } // end signal samples
+        } // variation up down
+      } // loop sty
+
+
+ 
     } // end if(skipLimits==false)
     // } // end if(systcat!=0)
 

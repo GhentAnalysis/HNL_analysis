@@ -1311,6 +1311,7 @@ UInt_t            _zgEventType;
   double maxBinC[nDist];
 
 
+  const static int nPlots= 2;
   const static int nSystematic = 14;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
@@ -1318,15 +1319,23 @@ UInt_t            _zgEventType;
   const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
+  const TString plots_names [nPlots] = {"mass","displ"};
+  double maxBinC_dc[nPlots];
 
 	
   TH1D*	plots_SR[nCoupling][nSystematic][nVariation][max_nSamples_eff+1];
+  TH1D*	plots_SR2[nPlots][nCoupling][nSystematic][nVariation][max_nSamples_eff+1];
+
   double weight_SR[nCoupling][nSystematic][nVariation][max_nSamples_eff+1];
   TH1D* bkgYields_SR[nCoupling][nSystematic][nVariation][max_nSamples_eff - max_nSamples_signal]; //change to max_nSamples_eff if sig is removed
+  TH1D* bkgYields_SR2[nPlots][nCoupling][nSystematic][nVariation][max_nSamples_eff - max_nSamples_signal]; //change to max_nSamples_eff if sig is removed
+  
   TH1D* signals_SR[nVariation];
   TH1D*	sum_expected_SR_plotting[nCoupling][nSystematic][nVariation];
 
+  TH1D*	sum_expected_SR2[nPlots][nCoupling][nSystematic][nVariation];
   TH1D*	sum_expected_SR[nCoupling][nSystematic][nVariation];
+
   //TH1D*	sum_observed_SR[channel][nSystematic][nVariation];
   double syst_error[18][nCoupling][max_nSamples_eff+1];
 
