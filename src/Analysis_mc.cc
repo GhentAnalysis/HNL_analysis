@@ -2020,141 +2020,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if(icoup==0 && sgn.find("_mu")==std::string::npos) continue;
 	if(icoup==1 && sgn.find("_e" )==std::string::npos) continue;
 	std::string cpl = couplings[icoup];
-
-	//
-	// ========================================================
-	//   Write tables (NEED TO CHECK AFTER LAST CHANGES!!!!)
-	// ========================================================
-	//
-	if(skipTables==false) {
-	  std::ofstream tabletexS, tabletexL;
-	  tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
-	  tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
-	  size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
-	  std::vector<double> totconts(nsrbins+3, 0.0);
-	  std::vector<double> totstats(nsrbins+3, 0.0);
-	  std::vector<double> binconts(3, 0.0);
-	  std::vector<double> binstats(3, 0.0);
-	  //
-	  // Write table: signal
-	  // Row header
-	  tabletexL << left << std::setw(2*ntab) << "  signal";
-	  tabletexS << left << std::setw(2*ntab) << "  signal";
-	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & $"   << left << std::setw(ntab/2) <<  plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)
-		      << "$";
-	    // Group by final state
-	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-	    binconts[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1);
-	    binstats[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1);
-	  }
-	  //
-	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-		      << "$";
-	    binconts[ibintmp] = 0.;
-	    binstats[ibintmp] = 0.;
-	  }
-	  //
-	  tabletexL << " \\\\\n  \\hline\n";
-	  tabletexS << " \\\\\n  \\hline\n";
- 
-	  //
-	  // Write table: backgrounds
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    // Row header
-	    tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-	    tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-	    for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	      tabletexL << " & $"   << left << std::setw(ntab/2)  << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
-			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)
-			<< "$";
-	      // Add to total background
-	      totconts[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-	      totstats[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	      // Group by final state
-	      /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	      size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-	      binconts[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-	      binstats[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	      // Add to total background!
-	      totconts[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-	      totstats[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	    }
-	    //
-	    for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	      tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
-			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-			<< "$";
-	      binconts[ibintmp] = 0.;
-	      binstats[ibintmp] = 0.;
-	    }
-	    //
-	    tabletexL << " \\\\\n  \\hline\n";
-	    tabletexS << " \\\\\n  \\hline\n";
-	  }
-
-	  //
-	  // Write table: total background
-	  // Row header
-	  tabletexL << left << std::setw(2*ntab) << "  Total background";
-	  tabletexS << left << std::setw(2*ntab) << "  Total background";
-	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
-		      << "$";
-	    totconts[ibin] = 0.;
-	    totstats[ibin] = 0.;
-	  }
-	  //
-	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
-		      << "$";
-	    totconts[nsrbins+ibintmp] = 0.;
-	    totstats[nsrbins+ibintmp] = 0.;
-	  }
-	  //
-	  tabletexL << " \\\\\n  \\hline\n";
-	  tabletexS << " \\\\\n  \\hline\n";
-
-	  //
-	  // Write table: data
-	  // Row header
-	  tabletexL << left << std::setw(2*ntab) << "  Observed";
-	  tabletexS << left << std::setw(2*ntab) << "  Observed";
-	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & $"   << left << std::setw(ntab/2)  << 0 //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << 0 //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
-		      << "$";
-	    // Group by final state
-	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-	    binconts[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
-	    binstats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
-	  }
-	  //
-	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-		      << "$";
-	    binconts[ibintmp] = 0.;
-	    binstats[ibintmp] = 0.;
-	  }
-	  //
-	  tabletexL << " \\\\\n  \\hline\n";
-	  tabletexS << " \\\\\n  \\hline\n";
-
-	  tabletexS.close();
-	  tabletexL.close();
-	  //
-	  // ========================================================
-	  //
-	} // end if(skipTables==false)
-
 	//
 	// ========================================================
 	//   Write shape ROOT files and data cards (NEED TO CHECK AFTER LAST CHANGES!!!!)
@@ -2591,7 +2456,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      std::string cpl = couplings[icoup];
                     
 	      // ROOT file with shapes
-	      std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+".root";
+	      std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+".root";
 	      TFile *rootfile1 = TFile::Open((datacarddir+"/"+rootfilename1).c_str(), "UPDATE");
 	      rootfile1->cd();
 	      plots_SR2[0][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
@@ -2628,7 +2493,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      std::string cpl = couplings[icoup];
                     
 	      // ROOT file with shapes
-	      std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+".root";
+	      std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+".root";
 	      TFile *rootfile2 = TFile::Open((datacarddir+"/"+rootfilename2).c_str(), "UPDATE");
 	      rootfile2->cd();
 	      plots_SR2[1][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
@@ -2753,3 +2618,143 @@ double Analysis_mc::displMuoVars(double idispl, double ipt) {
 
   return ieff;
 }
+
+
+
+
+
+/*
+//
+	// ========================================================
+	//   Write tables (NEED TO CHECK AFTER LAST CHANGES!!!!)
+	// ========================================================
+	//
+	if(skipTables==false) {
+	  std::ofstream tabletexS, tabletexL;
+	  tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
+	  tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
+	  size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
+	  std::vector<double> totconts(nsrbins+3, 0.0);
+	  std::vector<double> totstats(nsrbins+3, 0.0);
+	  std::vector<double> binconts(3, 0.0);
+	  std::vector<double> binstats(3, 0.0);
+	  //
+	  // Write table: signal
+	  // Row header
+	  tabletexL << left << std::setw(2*ntab) << "  signal";
+	  tabletexS << left << std::setw(2*ntab) << "  signal";
+	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	    tabletexL << " & $"   << left << std::setw(ntab/2) <<  plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)
+		      << "$";
+	    // Group by final state
+	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+	    binconts[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1);
+	    binstats[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1);
+	  }
+	  //
+	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+		      << "$";
+	    binconts[ibintmp] = 0.;
+	    binstats[ibintmp] = 0.;
+	  }
+	  //
+	  tabletexL << " \\\\\n  \\hline\n";
+	  tabletexS << " \\\\\n  \\hline\n";
+ 
+	  //
+	  // Write table: backgrounds
+	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    // Row header
+	    tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
+	    tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
+	    for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	      tabletexL << " & $"   << left << std::setw(ntab/2)  << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
+			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)
+			<< "$";
+	      // Add to total background
+	      totconts[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	      totstats[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	      // Group by final state
+	      /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	      size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+	      binconts[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	      binstats[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	      // Add to total background!
+	      totconts[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+	      totstats[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+	    }
+	    //
+	    for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	      tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
+			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+			<< "$";
+	      binconts[ibintmp] = 0.;
+	      binstats[ibintmp] = 0.;
+	    }
+	    //
+	    tabletexL << " \\\\\n  \\hline\n";
+	    tabletexS << " \\\\\n  \\hline\n";
+	  }
+
+	  //
+	  // Write table: total background
+	  // Row header
+	  tabletexL << left << std::setw(2*ntab) << "  Total background";
+	  tabletexS << left << std::setw(2*ntab) << "  Total background";
+	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	    tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
+		      << "$";
+	    totconts[ibin] = 0.;
+	    totstats[ibin] = 0.;
+	  }
+	  //
+	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	    tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
+		      << "$";
+	    totconts[nsrbins+ibintmp] = 0.;
+	    totstats[nsrbins+ibintmp] = 0.;
+	  }
+	  //
+	  tabletexL << " \\\\\n  \\hline\n";
+	  tabletexS << " \\\\\n  \\hline\n";
+
+	  //
+	  // Write table: data
+	  // Row header
+	  tabletexL << left << std::setw(2*ntab) << "  Observed";
+	  tabletexS << left << std::setw(2*ntab) << "  Observed";
+	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+	    tabletexL << " & $"   << left << std::setw(ntab/2)  << 0 //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << 0 //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
+		      << "$";
+	    // Group by final state
+	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
+	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+	    binconts[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
+	    binstats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
+	  }
+	  //
+	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
+		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+		      << "$";
+	    binconts[ibintmp] = 0.;
+	    binstats[ibintmp] = 0.;
+	  }
+	  //
+	  tabletexL << " \\\\\n  \\hline\n";
+	  tabletexS << " \\\\\n  \\hline\n";
+
+	  tabletexS.close();
+	  tabletexL.close();
+	  //
+	  // ========================================================
+	  //
+	} // end if(skipTables==false)
+*/
