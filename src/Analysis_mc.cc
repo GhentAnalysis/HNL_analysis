@@ -1086,9 +1086,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       _vertex_X=_vertices[index_l2l3][1];
       _vertex_Y=_vertices[index_l2l3][2];
       _vertex_Z=_vertices[index_l2l3][3];
-      _vertex_errX=_vertices[index_l2l3][4];
-      _vertex_errY=_vertices[index_l2l3][5];
-      _vertex_errZ=_vertices[index_l2l3][6];
+      _vertex_errX=TMath::Sqrt(_vertices[index_l2l3][4]);
+      _vertex_errY=TMath::Sqrt(_vertices[index_l2l3][5]);
+      _vertex_errZ=TMath::Sqrt(_vertices[index_l2l3][6]);
       _vertex_chi2=_vertices[index_l2l3][11];
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
       _vertex_ndf =_vertices[index_l2l3][10];
@@ -1192,11 +1192,19 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       double D2_delta_pv_sv= sqrt(  (primary_vertex[0].X()-secondary_vertex[0].X())*(primary_vertex[0].X()-secondary_vertex[0].X())   +    (primary_vertex[0].Y()-secondary_vertex[0].Y())*(primary_vertex[0].Y()-secondary_vertex[0].Y()) );
       double prob_vertex= TMath::Prob(_vertex_chi2,_vertex_ndf);
       TVector3 l2plusl3=  (v4l2 + v4l3).Vect().Unit();
+      //l2plusl3.SetXYZ(l2plusl3.X(), l2plusl3.Y(), 0);
       TVector3 svMpv =secondary_vertex[0]- primary_vertex[0];
+      // svMpv.SetXYZ(svMpv.X(), svMpv.Y(), 0);
       double vtxR     = svMpv.Mag();
-      double vtxRvtxPcosAlpha = svMpv.Dot(l2plusl3)/vtxR;	    
+      //double vtxRvtxPcosAlpha = svMpv.Dot(l2plusl3)/vtxR;	// previous UGent definition    
       double D2_delta_pv_svSig= D2_delta_pv_sv*D2_delta_pv_sv/(TMath::Sqrt(_vertex_X*_vertex_X*_vertex_errX*_vertex_errX  +   _vertex_Y*_vertex_Y*_vertex_errY*_vertex_errY));
-      double D3_delta_pv_svSig= D3_delta_pv_sv*D3_delta_pv_sv/(TMath::Sqrt(_vertex_X*_vertex_X*_vertex_errX*_vertex_errX  +   _vertex_Y*_vertex_Y*_vertex_errY*_vertex_errY +   _vertex_Z*_vertex_Z*_vertex_errZ*_vertex_errZ));    
+      double D3_delta_pv_svSig= D3_delta_pv_sv*D3_delta_pv_sv/(TMath::Sqrt(_vertex_X*_vertex_X*_vertex_errX*_vertex_errX  +   _vertex_Y*_vertex_Y*_vertex_errY*_vertex_errY +   _vertex_Z*_vertex_Z*_vertex_errZ*_vertex_errZ));
+      TVector3 perp;
+      perp.SetXYZ(   (v4l2+v4l3).X(),   (v4l2+v4l3).Y(),   0.);
+      TVector3 vperp;
+      vperp.SetXYZ(   svMpv.X(),   svMpv.Y(),   0.);
+      double vtxRvtxPcosAlpha = vperp.Dot(perp)/(vperp.Mag()*perp.Mag());    // new ETH definition -> going 2D
+      
       // -----------------   masses, mT and pT
       double M_ZPair = (pair[0]+pair[1]).M();
       double M_l2l3 = (v4l2 + v4l3).M();
@@ -1236,7 +1244,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       int bin_SR_eleCoupling =0; 
       bin_SR_muonCoupling = SR_bin_muon( SR_channel, D2_delta_pv_sv,  M_l2l3_combined );
       bin_SR_eleCoupling =  SR_bin_ele( SR_channel, D2_delta_pv_sv,  M_l2l3_combined  );
-
+      
+      //----------- trigger checks according to the channel -->
+      if (SR_channel <= 2 && !(_HLT_IsoMu27 || _HLT_IsoMu24 || _HLT_IsoTkMu24)) continue;
+      if (SR_channel > 2 && !(_HLT_Ele27_WPTight_Gsf || _HLT_Ele32_WPTight_Gsf || _HLT_Ele35_WPTight_Gsf  || _HLT_Ele32_WPTight_Gsf_L1DoubleEG)) continue;
+      //-----------
       if (charge_3l[2] == charge_3l[1]) continue;     
       bool selection_0 = true;
       bool selection_final = false;
