@@ -380,7 +380,7 @@ double Analysis_mc::SF_trigger_ele_error(TH2F *muon_sf_histogram[1], const unsig
 }
 
 //_____________________________________________ displaced mess
-double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
+double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
   double weight =1.;
   //  std::cout<<"-------------------"<<std::endl;
   //  std::cout<<"channel: "<< channel<<"  "<< flavors_3l[1]<<"  -  "<< flavors_3l[2]<<std::endl;
@@ -401,9 +401,9 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
     weight *=  (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)) ;
   }
   else if (channel == 3){ // ee —> take Zg (tom’s) as SF + 0.5SF as uncertainties
-    size_t indElel2 = std::min((unsigned)7, _lElectronMissingHits_l2);   
+    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
     weight *= displEleVars[indElel2];	
-    size_t indElel3 = std::min((unsigned)7, _lElectronMissingHits_l3);
+    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
     weight *= displEleVars[indElel3];
     // std::cout<<"missing hits "<<_lElectronMissingHits_l2<< "  "<< _lElectronMissingHits_l3<<std::endl;
     // std::cout<<"  displEleVars[indElel2] "<< displEleVars[indElel2]<<" displEleVars[indElel3] "<<displEleVars[indElel3]<<std::endl;
@@ -422,7 +422,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
-      size_t indElel3 = std::min((unsigned)7, _lElectronMissingHits_l3);
+      size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
       weight *= displEleVars[indElel3];
       // std::cout<<"missing hits "<< "  "<< _lElectronMissingHits_l3<<std::endl;
       // std::cout<<"  displEleVars[indElel3] "<< displEleVars[indElel3]<<" bin x-y: "<< binx_n<<" -- "<< biny_n<<"     /    "<< binx_d<<" -- "<< biny_d<<"  "<<sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n)<<"     /    "<< sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)<<std::endl;
@@ -440,7 +440,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
-      size_t indElel2 = std::min((unsigned)7, _lElectronMissingHits_l2);
+      size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
       weight *= displEleVars[indElel2];
       // std::cout<<"missing hits "<< "  "<< _lElectronMissingHits_l2<<std::endl;	    
       // std::cout<<"  displEleVars[indElel2] "<< displEleVars[indElel2]<<" bin x-y: "<< binx_n<<" -- "<< biny_n<<"     /    "<< binx_d<<" -- "<< biny_d<<"  "<<sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n)<<"     /    "<< sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)<<std::endl;
@@ -450,7 +450,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
   return weight;
 }
 //_____________________________________________ displaced mess
-double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[7], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
+double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
   double weight_error =1.;
 
   if (channel == 0 ){ // µµ —> take SV eff-cy as SF + 0.5SV as uncertainties 
@@ -468,9 +468,9 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
   }
   else if (channel == 3){ // ee —> take Zg (tom’s) as SF + 0.5SF as uncertainties
     double eleele=1;
-    size_t indElel2 = std::min((unsigned)7, _lElectronMissingHits_l2);   
+    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
     eleele *= displEleVars[indElel2];	
-    size_t indElel3 = std::min((unsigned)7, _lElectronMissingHits_l3);
+    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
     eleele *= displEleVars[indElel3];
     weight_error = 0.5* std::abs(1 - eleele);
     
