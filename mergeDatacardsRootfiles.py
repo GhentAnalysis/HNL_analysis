@@ -9,8 +9,8 @@ inbkgdir = 'dataCards_shapeRoot/'
 
 if not os.path.exists(outdir): os.mkdir(outdir)
 
-inbkgdata_e = open(inbkgdir+'M-4_V-0.00290516780927_e_ele_datacard.txt' , 'r')
-inbkgdata_m = open(inbkgdir+'M-4_V-0.00290516780927_mu_muo_datacard.txt', 'r')
+inbkgdata_e = open(inbkgdir+'M-4_V-0.00290516780927_e_ele_datacard_16.txt' , 'r')
+inbkgdata_m = open(inbkgdir+'M-4_V-0.00290516780927_mu_muo_datacard_16.txt', 'r')
 
 obs_e = ''
 bkg_e = ''
@@ -74,9 +74,9 @@ for f in inrootfiles:
     inf.Close()
     inbkgroot = r.TFile()
     if '_e_ele' in f:
-        inbkgroot = r.TFile(inbkgdir+'shape_file_M-4_V-0.00290516780927_e_ele.root' , 'read')
+        inbkgroot = r.TFile(inbkgdir+'shape_file_M-4_V-0.00290516780927_e_ele_16.root' , 'read')
     else:
-        inbkgroot = r.TFile(inbkgdir+'shape_file_M-4_V-0.00290516780927_mu_muo.root', 'read')
+        inbkgroot = r.TFile(inbkgdir+'shape_file_M-4_V-0.00290516780927_mu_muo_16.root', 'read')
     for key in inbkgroot.GetListOfKeys():
         if 'signal' in key.GetName(): continue
         hist = inbkgroot.Get(key.GetName())
