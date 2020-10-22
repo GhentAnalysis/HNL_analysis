@@ -995,7 +995,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
 
-    if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root") continue;
+    //if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root") continue;
     
     //if (samples[sam].isData()) continue; 
     std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
@@ -1744,7 +1744,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  w_pileupSF= weight_SR[0][pu_index][0][effsam];
 
 	  
-	  if (	SR_channel == 0 && SR_selection  && bjet == 0)  tree[0]->Fill();
+	  //if (	SR_channel == 0 && SR_selection  && bjet == 0)  tree[0]->Fill();
 
 
 
@@ -1885,8 +1885,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<end loop over the entries
     delete hLheCounter;
   }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< loop over samples
-  tree[0]->Write("",  BIT(2));
-  outputFile->Close(); 
+  //tree[0]->Write("",  BIT(2));
+  //outputFile->Close(); 
   // Theory uncertainties
   //
   for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
