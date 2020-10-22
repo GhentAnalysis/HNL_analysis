@@ -241,7 +241,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     tree[i]->Branch("_lumiBlock",                    &_lumiBlock,                    "_lumiBlock/l");
     tree[i]->Branch("_eventNb",                      &_eventNb,                      "_eventNb/l");
     tree[i]->Branch("_HLT_IsoMu24", &_HLT_IsoMu24, "_HLT_IsoMu24/O");
-    tree[i]utputTree->Branch("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, "_HLT_IsoTkMu24/O");
+    tree[i]->Branch("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, "_HLT_IsoTkMu24/O");
     tree[i]->Branch("_HLT_IsoMu27", &_HLT_IsoMu27, "_HLT_IsoMu27/O");
     tree[i]->Branch("_met",                          &_met,                          "_met/D");
     tree[i]->Branch("l1_pt",                          &l1_pt,                          "l1_pt/D");
