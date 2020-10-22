@@ -231,79 +231,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   }
   
 
-  tree[0] = new TTree("tree_signal","tree_xcheck");
-  tree[1] = new TTree("tree_bkg","tree_xcheck");
-  tree[2] = new TTree("tree_data","tree_xcheck");
 
-
-  for (int i = 0; i < 3; i++){
-    tree[i]->Branch("_runNb",                        &_runNb,                        "_runNb/l");
-    tree[i]->Branch("_lumiBlock",                    &_lumiBlock,                    "_lumiBlock/l");
-    tree[i]->Branch("_eventNb",                      &_eventNb,                      "_eventNb/l");
-    tree[i]->Branch("_HLT_IsoMu24", &_HLT_IsoMu24, "_HLT_IsoMu24/O");
-    tree[i]->Branch("_HLT_IsoTkMu24", &_HLT_IsoTkMu24, "_HLT_IsoTkMu24/O");
-    tree[i]->Branch("_HLT_IsoMu27", &_HLT_IsoMu27, "_HLT_IsoMu27/O");
-    tree[i]->Branch("_met",                          &_met,                          "_met/D");
-    tree[i]->Branch("l1_pt",                          &l1_pt,                          "l1_pt/D");
-    tree[i]->Branch("l1_eta",                          &l1_eta,                          "l1_eta/D");
-    tree[i]->Branch("l1_phi",                          &l1_phi,                          "l1_phi/D");
-    tree[i]->Branch("l1_e",                          &l1_e,                          "l1_e/D");
-    tree[i]->Branch("l1_dxy",                          &l1_dxy,                          "l1_dxy/D");
-    tree[i]->Branch("l1_dz",                          &l1_dz,                          "l1_dz/D");
-    tree[i]->Branch("l1_3dSip",                          &l1_3dSip,                          "l1_3dSip/D");
-    tree[i]->Branch("l1_2dSip",                          &l1_2dSip,                          "l1_2dSip/D");
-    tree[i]->Branch("l1_relIso",                          &l1_relIso,                          "l1_relIso/D");
-    tree[i]->Branch("l1_flav",                          &l1_flav,                          "l1_flav/I");
-    tree[i]->Branch("l1_q",                          &l1_q,                          "l1_q/I");
-    tree[i]->Branch("l2_pt",                          &l2_pt,                          "l2_pt/D");
-    tree[i]->Branch("l2_eta",                          &l2_eta,                          "l2_eta/D");
-    tree[i]->Branch("l2_phi",                          &l2_phi,                          "l2_phi/D");
-    tree[i]->Branch("l2_e",                          &l2_e,                          "l2_e/D");
-    tree[i]->Branch("l2_dxy",                          &l2_dxy,                          "l2_dxy/D");
-    tree[i]->Branch("l2_dz",                          &l2_dz,                          "l2_dz/D");
-    tree[i]->Branch("l2_3dSip",                          &l2_3dSip,                          "l2_3dSip/D");
-    tree[i]->Branch("l2_2dSip",                          &l2_2dSip,                          "l2_2dSip/D");
-    tree[i]->Branch("l2_relIso",                          &l2_relIso,                          "l2_relIso/D");
-    tree[i]->Branch("l2_flav",                          &l2_flav,                          "l2_flav/I");
-    tree[i]->Branch("l2_q",                          &l2_q,                          "l2_q/I");
-    tree[i]->Branch("l3_pt",                          &l3_pt,                          "l3_pt/D");
-    tree[i]->Branch("l3_eta",                          &l3_eta,                          "l3_eta/D");
-    tree[i]->Branch("l3_phi",                          &l3_phi,                          "l3_phi/D");
-    tree[i]->Branch("l3_e",                          &l3_e,                          "l3_e/D");
-    tree[i]->Branch("l3_dxy",                          &l3_dxy,                          "l3_dxy/D");
-    tree[i]->Branch("l3_dz",                          &l3_dz,                          "l3_dz/D");
-    tree[i]->Branch("l3_3dSip",                          &l3_3dSip,                          "l3_3dSip/D");
-    tree[i]->Branch("l3_2dSip",                          &l3_2dSip,                          "l3_2dSip/D");
-    tree[i]->Branch("l3_relIso",                          &l3_relIso,                          "l3_relIso/D");
-    tree[i]->Branch("l3_flav",                          &l3_flav,                          "l3_flav/I");
-    tree[i]->Branch("l3_q",                          &l3_q,                          "l3_q/I");
-    tree[i]->Branch("numjet",                          &numjet,                          "numjet/I");
-    tree[i]->Branch("veto",                          &veto,                          "veto/O");
-    tree[i]->Branch("sumPtl2l3",                          &sumPtl2l3,                          "sumPtl2l3/D");
-    tree[i]->Branch("Ml2l3",                          &Ml2l3,                          "Ml2l3/D");
-    tree[i]->Branch("Mlll",                          &Mlll,                          "Mlll/D");
-    tree[i]->Branch("deltaRl1l2",                          &deltaRl1l2,                          "deltaRl1l2/D");
-    tree[i]->Branch("deltaRl1l3",                          &deltaRl1l3,                          "deltaRl1l3/D");
-    tree[i]->Branch("deltaRl2l3",                          &deltaRl2l3,                          "deltaRl2l3/D");
-    tree[i]->Branch("deltaFl1l2",                          &deltaFl1l2,                          "deltaFl1l2/D");
-    tree[i]->Branch("deltaFl1l3",                          &deltaFl1l3,                          "deltaFl1l3/D");
-    tree[i]->Branch("deltaFl2l3",                          &deltaFl2l3,                          "deltaFl2l3/D");
-    tree[i]->Branch("minDeltaPhi",                          &minDeltaPhi,                          "minDeltaPhi/D");
-    tree[i]->Branch("vertex_prob",                          &vertex_prob,                          "vertex_prob/D");
-    tree[i]->Branch("vertex_chi2",                          &vertex_chi2,                          "vertex_chi2/D");
-    tree[i]->Branch("vertex_x",                          &vertex_x,                          "vertex_x/D");
-    tree[i]->Branch("vertex_y",                          &vertex_y,                          "vertex_y/D");
-    tree[i]->Branch("vertex_z",                          &vertex_z,                          "vertex_z/D");
-    tree[i]->Branch("displ_2D",                          &displ_2D,                          "displ_2D/D");
-    tree[i]->Branch("displ_3D",                          &displ_3D,                          "displ_3D/D");
-    tree[i]->Branch("sign_displ_2D",                          &sign_displ_2D,                          "sign_displ_2D/D");
-    tree[i]->Branch("costheta",                          &costheta,                          "costheta/D");
-    tree[i]->Branch("w_lxh",                          &w_lxh,                          "w_lxh/D");
-    tree[i]->Branch("w_totSF",                          &w_totSF,                          "w_totSF/D");
-    tree[i]->Branch("w_promptSF",                          &w_promptSF,                          "w_promptSF/D");
-    tree[i]->Branch("w_displacedSF",                          &w_displacedSF,                          "w_displacedSF/D");
-    tree[i]->Branch("w_pileupSF",                          &w_pileupSF,                          "w_pileupSF/D");
-  }
 
   
 
@@ -682,7 +610,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   std::ofstream yields_check("yields_check.txt");
 
 
-  std::shared_ptr<TFile> outputFile = std::make_shared<TFile>("tree_xcheck.root" ,"RECREATE");
 
 
   cout<<"in analisi"<<endl;
@@ -1414,12 +1341,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
      
 
-       double l1_pt, l1_eta, l1_phi, l1_e, l1_dxy, l1_dz, l1_3dSip, l1_2dSip, l1_relIso, l2_pt, l2_eta, l2_phi, l2_e, l2_dxy, l2_dz, l2_3dSip, l2_2dSip, l2_relIso, l3_pt, l3_eta, l3_phi, l3_e, l3_dxy, l3_dz, l3_3dSip, l3_2dSip, l3_relIso = 0.0;
-   int   l1_flav, l1_q, l2_flav, l2_q, l3_flav, l3_q, numjet = 0;
-   bool veto= false;
-   double sumPtl2l3, Ml2l3, Mlll, deltaRl1l2, deltaRl1l3, deltaRl2l3, deltaFl1l2, deltaFl1l3, deltaFl2l3,minDeltaPhi, vertex_prob, vertex_chi2, vertex_x, vertex_y, vertex_z,displ_2D, displ_3D, sign_displ_2D, costheta = 0.0;
-   double w_lxh, w_totSF, w_bjetSF, w_promptSF, w_displacedSF, w_pileupSF=0;
-
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       bool isDataDrivenBgk= false;
@@ -1682,66 +1603,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 
 
-	  l1_pt = v4l1.Pt();
-	  l1_eta = v4l1.Eta();
-	  l1_phi = v4l1.Phi();
-	  l1_e = v4l1.E();
-	  l1_dxy =  fabs(_dxy[l1]);
-	  l1_dz =  fabs(_dz[l1]);
-	  l1_3dSip = fabs(_3dIPSig[l1]);
-	  l1_2dSip = fabs(_2dIPSig[l1]);
-	  l1_relIso = _relIso[l1];
-	  l1_flav = _lFlavor[l1];
-	  l1_q = _lCharge[l1];
-	  l2_pt = v4l2.Pt();
-	  l2_eta = v4l2.Eta();
-	  l2_phi = v4l2.Phi();
-	  l2_e = v4l2.E();
-	  l2_dxy =  fabs(_dxy[l2]);
-	  l2_dz =  fabs(_dz[l2]);
-	  l2_3dSip = fabs(_3dIPSig[l2]);
-	  l2_2dSip = fabs(_2dIPSig[l2]);
-	  l2_relIso = _relIso[l2];
-	  l2_flav = _lFlavor[l2];
-	  l2_q = _lCharge[l2];
-	  l3_pt = v4l3.Pt();
-	  l3_eta = v4l3.Eta();
-	  l3_phi = v4l3.Phi();
-	  l3_e = v4l3.E();
-	  l3_dxy =  fabs(_dxy[l3]);
-	  l3_dz =  fabs(_dz[l3]);
-	  l3_3dSip = fabs(_3dIPSig[l3]);
-	  l3_2dSip = fabs(_2dIPSig[l3]);
-	  l3_relIso = _relIso[l3];
-	  l3_flav = _lFlavor[l3];
-	  l3_q = _lCharge[l3];
-	  numjet = goodjet;
-	  veto = vetoes;
-	  sumPtl2l3 = sum_vec_l2l3;
-	  Ml2l3 =  M_l2l3_combined ;
-	  Mlll =  M_3L_combined ;
-	  deltaRl1l2 = v4l1.DeltaR(v4l2);
-	  deltaRl1l3 = v4l1.DeltaR(v4l3);
-	  deltaRl2l3 = v4l2.DeltaR(v4l3);
-	  deltaFl1l2 = v4l1.DeltaPhi(v4l2);
-	  deltaFl1l3 = v4l1.DeltaPhi(v4l3);
-	  deltaFl2l3 = v4l2.DeltaPhi(v4l3);
-	  minDeltaPhi =  min_delta_phi;
-	  vertex_prob =  prob_vertex;
-	  vertex_chi2 = _vertex_chi2;
-	  vertex_x = _vertex_X;
-	  vertex_y = _vertex_Y;
-	  vertex_z = _vertex_Z;
-	  displ_2D = D2_delta_pv_sv;
-	  displ_3D = D2_delta_pv_sv;
-	  sign_displ_2D = D2_delta_pv_svSig;
-	  costheta = vtxRvtxPcosAlpha;
-	  w_lxh = scal;
-	  w_totSF = central_total_weight_mu;
-	  w_bjetSF = weight_SR[0][ btag_index][0][effsam];
-	  w_promptSF = weight_SR[0][ pMuo_index][0][effsam];
-	  w_displacedSF= weight_SR[0][npLeptons_index][0][effsam];
-	  w_pileupSF= weight_SR[0][pu_index][0][effsam];
 
 	  
 	  //if (	SR_channel == 0 && SR_selection  && bjet == 0)  tree[0]->Fill();
