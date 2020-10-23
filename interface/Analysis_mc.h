@@ -661,19 +661,6 @@ UInt_t            _zgEventType;
 
 
 
-
-
-
-
-
-   //def output tree
-   double l1_pt, l1_eta, l1_phi, l1_e, l1_dxy, l1_dz, l1_3dSip, l1_2dSip, l1_relIso, l2_pt, l2_eta, l2_phi, l2_e, l2_dxy, l2_dz, l2_3dSip, l2_2dSip, l2_relIso, l3_pt, l3_eta, l3_phi, l3_e, l3_dxy, l3_dz, l3_3dSip, l3_2dSip, l3_relIso = 0.0;
-   int   l1_flav, l1_q, l2_flav, l2_q, l3_flav, l3_q, numjet = 0;
-   bool veto= false;
-   double sumPtl2l3, Ml2l3, Mlll, deltaRl1l2, deltaRl1l3, deltaRl2l3, deltaFl1l2, deltaFl1l3, deltaFl2l3,minDeltaPhi, vertex_prob, vertex_chi2, vertex_x, vertex_y, vertex_z,displ_2D, displ_3D, sign_displ_2D, costheta = 0.0;
-   double w_lxh, w_totSF, w_bjetSF, w_promptSF, w_displacedSF, w_pileupSF=0;
-
-
   Analysis_mc();
   Analysis_mc(unsigned jaar, const std::string& list, const std::string& directory);
   virtual ~Analysis_mc();
@@ -920,10 +907,7 @@ UInt_t            _zgEventType;
 
   
 
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-  
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<            
  //******************* HISTO **********************
   //
   // Constant size, x2 than expected (could be done better...)
@@ -1316,7 +1300,6 @@ UInt_t            _zgEventType;
 				  25};
 
 
-  TTree *tree[3];
 
  
   TH1D*	Histos[nDist][nChannel][nCat][max_nSamples_eff+1];
@@ -1376,7 +1359,6 @@ UInt_t            _zgEventType;
   const int trigger_index  = 12;
   const int dfShape_index  = 13;
   const int dfLowStat_index  = 14;
-
   // const int on_index =    0;	// is the SR SR plot
   // const int pu_index =    1;
   // const int qcd_index =   2;

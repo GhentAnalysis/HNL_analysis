@@ -232,9 +232,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   
 
 
-
   
-
 }
 //________________________________________________________________distruttore_____
 Analysis_mc::~Analysis_mc()	 {
@@ -607,10 +605,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   // std::ofstream three("three.txt"); 
   // std::ofstream four("four.txt"); 
   std::ofstream ratios_n_1("ratios_n_1.txt"); 
-  std::ofstream yields_check("yields_check.txt");
-
-
-
+  std::ofstream yields_check("yields_check.txt"); 
 
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
@@ -903,7 +898,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     if(skipSignal     && sam>0 && sam<=nSamples_signal) continue;
     if(skipBackground && sam>nSamples_signal) continue;
 
-    
 
     initSample(samples[sam]);
     TH1D *hLheCounter = nullptr;
@@ -921,9 +915,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     if(sam != 0){
       if(samples[sam].getProcessName() == samples[sam-1].getProcessName()) --effsam;     
     }
-
-    //if (samples[sam].getFileName() != "HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root") continue;
-    
     //if (samples[sam].isData()) continue; 
     std::cout<<	"sam.is2018() "<< samples[sam].is2018()  <<std::endl;
     std::cout<<	"sam.is2017() "<< samples[sam].is2017()  <<std::endl;
@@ -1338,9 +1329,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			     D2_delta_pv_sv,
 			     D2_delta_pv_svSig,
 			     momentum_jet, sum_vec_l2l3};
-
-     
-
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  filling   histogramm   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       unsigned fill = effsam;
       bool isDataDrivenBgk= false;
@@ -1410,7 +1398,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	//	std::cout<<"displaced: "<< central_displaced_signature<<"    ±   "<< variation_displaced_signature<<"  "<<weight_SR[w_loop][npLeptons_index][1][effsam]<<"  "<<weight_SR[w_loop][npLeptons_index][2][effsam]<<std::endl;
       }
       // ------------------------- DFR ------------------------- //    
-      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	weight_SR[w_loop][dfShape_index][0][effsam] = 1.;
 	weight_SR[w_loop][dfShape_index][1][effsam] = 0.7;
 	weight_SR[w_loop][dfShape_index][2][effsam] = 1.3;
@@ -1428,6 +1416,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  weight_SR[w_loop][dfLowStat_index][2][effsam] = 1.5;
 	}
       }   
+
+
       // ------------------------- bjet SF + JEC/JER number of jets ------------------------- //        
       double btag_weight_central=1;
       double btag_weight_down=1; 	    
@@ -1503,9 +1493,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	//filling the shape histogram for DF background
 	if (isDataDrivenBgk && Double_fake){
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
-	    if (iSystematics != dfShape_index) continue;
-	    if (iSystematics != dfLowStat_index) continue;
-
+	    if (iSystematics != dfShape_index && iSystematics != dfLowStat_index) continue;
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      if (SR_channel <= 2 && bjet == 0){
 		plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
@@ -1523,8 +1511,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (!samples[sam].isData()){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
 	    if (iSystematics == dfShape_index) continue;
-	    if (iSystematics != dfLowStat_index) continue;
-
+            if (iSystematics == dfLowStat_index) continue;
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down	      
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
@@ -1600,17 +1587,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    } //end loop up-down
 	  } // end loop on sys
 	  //
-
-
-
-
-	  
-	  //if (	SR_channel == 0 && SR_selection  && bjet == 0)  tree[0]->Fill();
-
-
-
-
-	  
+		
 	  // For QCD scale uncertainties
 	  if(bjet == 0) {
 	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
@@ -1746,8 +1723,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<end loop over the entries
     delete hLheCounter;
   }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< loop over samples
-  //tree[0]->Write("",  BIT(2));
-  //outputFile->Close(); 
+
   // Theory uncertainties
   //
   for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
