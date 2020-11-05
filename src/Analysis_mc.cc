@@ -627,9 +627,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
   const TString names_FR_files[5]= {"FR/" +std::to_string(year)+ "/fake_rate_mu.root",
 				    "FR/" +std::to_string(year)+ "/fake_rate_e.root",
-				    "FR/" +std::to_string(year)+ "/fake_rate_mumu.root",
-				    "FR/" +std::to_string(year)+ "/fake_rate_ee.root",
-				    "FR/" +std::to_string(year)+ "/fake_rate_emu.root"};
+				    "FR/" +std::to_string(year)+ "/fake_rate_mumu_1eta.root",
+				    "FR/" +std::to_string(year)+ "/fake_rate_ee_1eta.root",
+				    "FR/" +std::to_string(year)+ "/fake_rate_emu_1eta.root"};
 	
 	
 	
@@ -651,16 +651,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   fakeRate_e[2] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta3");
   TFile *hfile_dfr1= ist2b ? TFile::Open(names_FR_files[2]) : TFile::Open(names_FR_files_daniele[3]);
   fakeRate_mumu[0]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
-  fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta2");
-  fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta3");
+  fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
+  fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
   TFile *hfile_dfr2 = ist2b ? TFile::Open(names_FR_files[3]) : TFile::Open(names_FR_files_daniele[3]);
   fakeRate_ee[0]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
-  fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta2");
-  fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta3");
+  fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
+  fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
   TFile *hfile_dfr3 = ist2b ? TFile::Open(names_FR_files[4]) : TFile::Open(names_FR_files_daniele[4]);
   fakeRate_mue[0]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
-  fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta2");
-  fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta3");
+  fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
+  fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
  
 	
 	
@@ -815,6 +815,23 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     displEleVars[6] = 1.101;
     displEleVars[7] = 1.299;
 
+  }
+
+  double stat_DF_factors[3]= {0.,0.,0.};
+  if (year == 0){
+    stat_DF_factors[0]= 0.17;
+    stat_DF_factors[1]= 0.2;
+    stat_DF_factors[2]= 0.4;
+  }
+  if (year == 1){
+    stat_DF_factors[0]= 0.14;
+    stat_DF_factors[1]= 0.14;
+    stat_DF_factors[2]= 0.33;
+  }
+  if (year == 2){
+    stat_DF_factors[0]= 0.1;
+    stat_DF_factors[1]= 0.11;
+    stat_DF_factors[2]= 0.25;
   }
   // ------------ b tagging -----------------------------------------------//
   // b-tagging working points (DeepCsv_b + DeepCsv_bb)
@@ -1105,73 +1122,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (lepIsTightDisplaced(l3)) _isT[l3] = true;
       if (_isT[l2]) tightC++;
       if (_isT[l3]) tightC++;
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // -----------------------------------------------------------//
       if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
       if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 7) continue;
       if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 7) continue;
-      // ------------ closest jet info --------------------------------------//
-      TLorentzVector  l1Jet[1] ;
-      float JEC       ;
-      TLorentzVector  lepAwareJet[1] ;
-      l1Jet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
-      JEC             = _closestJEC[l2];
-      lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
-      double momentum_jet=0.;
-      momentum_jet = lepAwareJet[0].Pt();
-      if (momentum_jet<10) momentum_jet=12;
-      // ------------ closest jet info --------------------------------------//
-      int flav_dRF = -1;
-      if (_lFlavor[l2]==1 && _lFlavor[l3]==1) flav_dRF=1;
-      if (_lFlavor[l2]==0 && _lFlavor[l3]==0) flav_dRF=0;
-      if ((_lFlavor[l2]==1 && _lFlavor[l3]==0) || (_lFlavor[l2]==0 && _lFlavor[l3]==1))  flav_dRF=2;
-      int index_eta = 0;
-      if(TMath::Abs(lepAwareJet[0].Eta()) < 0.8 ) index_eta = 1;
-      else if(TMath::Abs(lepAwareJet[0].Eta()) < 1.479 )index_eta = 2;
-      else index_eta = 3;
-      // -----------------    variables for sFR and dFR    --------------------------------//
-      bool tight_lepton_dFR = false;
-      bool loose_lepton_dFR = false;
-      if (_isT[l2] && _isT[l3]) tight_lepton_dFR = true;
-      if (!tight_lepton_dFR) loose_lepton_dFR = true;
-      bool tightFail_sFR=false;
-      tightFail_sFR = (tightC < 2);
-      //where the FR has to be applied
-      bool sideBandRegion= false;
-      if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
-      if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
-      // ------------------ prompt check for MC ------------------------//
-      promptC=0;
-      if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
-      if (_lIsPrompt[l2] || _lProvenanceCompressed[l2]==0) promptC++;
-      if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
-      if (!samples[sam].isData() && promptC!=3) continue;
-      // -----------------    applying the FRs    --------------------------------//
-      if (sideBandRegion){
-	if ( samples[sam].isData() )   scal *= -1;
-	if (!samples[sam].isData() )   scal  = 1 * scal;
-	if (single_fake){
-	  if (!_isT[l2]) {
-	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
-				   _lEta[l2], _lFlavor[l2], _lPt[l2], index_eta,flav_dRF, momentum_jet);
-	    scal *= -fr/(1-fr);
-	  }
-	  if (!_isT[l3]) {
-	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
-				   _lEta[l3], _lFlavor[l3], _lPt[l3], index_eta,flav_dRF, momentum_jet);
-	    scal *= -fr/(1-fr);
-	  }	  
-	}//sFR
-	if (loose_lepton_dFR &&  Double_fake) {
-	  double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
-				 _lEta[l2], _lFlavor[l2], _lPt[l2], index_eta,flav_dRF, momentum_jet);
-	  scal *= -fr/(1-fr);
-	}
-      }//FR  
-      if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
-      if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;  
+     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // ----------------- conversion overlap removal    --------------------------------//
@@ -1248,6 +1204,87 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //----------- trigger checks according to the channel -->
       if (SR_channel <= 2 && !(_HLT_IsoMu27 || _HLT_IsoMu24 || _HLT_IsoTkMu24)) continue;
       if (SR_channel > 2 && !(_HLT_Ele27_WPTight_Gsf || _HLT_Ele32_WPTight_Gsf || _HLT_Ele35_WPTight_Gsf  || _HLT_Ele32_WPTight_Gsf_L1DoubleEG)) continue;
+
+       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    
+      // ------------ closest jet info --------------------------------------//
+      TLorentzVector  l1Jet[1] ;
+      float JEC       ;
+      TLorentzVector  lepAwareJet[1] ;
+      l1Jet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
+      JEC             = _closestJEC[l2];
+      lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
+      double momentum_jet=0.;
+      momentum_jet = lepAwareJet[0].Pt();
+      if (momentum_jet<10) momentum_jet=12;
+      // ------------ closest jet info --------------------------------------//
+      int flav_dRF = -1;
+      if (_lFlavor[l2]==1 && _lFlavor[l3]==1) flav_dRF=1;
+      if (_lFlavor[l2]==0 && _lFlavor[l3]==0) flav_dRF=0;
+      if ((_lFlavor[l2]==1 && _lFlavor[l3]==0) || (_lFlavor[l2]==0 && _lFlavor[l3]==1))  flav_dRF=2;
+      int index_eta = 0;
+      if(TMath::Abs(lepAwareJet[0].Eta()) < 0.8 ) index_eta = 1;
+      else if(TMath::Abs(lepAwareJet[0].Eta()) < 1.479 )index_eta = 2;
+      else index_eta = 3;
+      // -----------------    variables for sFR and dFR    --------------------------------//
+      bool tight_lepton_dFR = false;
+      bool loose_lepton_dFR = false;
+      if (_isT[l2] && _isT[l3]) tight_lepton_dFR = true;
+      if (!tight_lepton_dFR) loose_lepton_dFR = true;
+      bool tightFail_sFR=false;
+      tightFail_sFR = (tightC < 2);
+      //where the FR has to be applied
+      bool sideBandRegion= false;
+      if ( tightFail_sFR     && single_fake)     sideBandRegion= true;
+      if ( loose_lepton_dFR  && Double_fake)     sideBandRegion= true;
+      // ------------------ prompt check for MC ------------------------//
+      promptC=0;
+      if (_lIsPrompt[l1] || _lProvenanceCompressed[l1]==0) promptC++;
+      if (_lIsPrompt[l2] || _lProvenanceCompressed[l2]==0) promptC++;
+      if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
+      if (!samples[sam].isData() && promptC!=3) continue;
+      // -----------------    applying the FRs    --------------------------------//
+      if (sideBandRegion){
+	if ( samples[sam].isData() )   scal *= -1;
+	if (!samples[sam].isData() )   scal  = 1 * scal;
+	if (single_fake){
+	  if (!_isT[l2]) {
+	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+				   _lEta[l2], _lFlavor[l2], _lPt[l2], index_eta,flav_dRF, momentum_jet);
+	    scal *= -fr/(1-fr);
+	  }
+	  if (!_isT[l3]) {
+	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+				   _lEta[l3], _lFlavor[l3], _lPt[l3], index_eta,flav_dRF, momentum_jet);
+	    scal *= -fr/(1-fr);
+	  }	  
+	}//sFR
+	if (loose_lepton_dFR &&  Double_fake) {
+	  double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+				 _lEta[l2], _lFlavor[l2], _lPt[l2], index_eta,flav_dRF, momentum_jet);
+	  scal *= -fr/(1-fr);
+	  if (SR_channel == 0) weight_SR[0][dfmm_index][1][effsam] = ((fr*(1+stat_DF_factors[0]))/(1-fr*(1+stat_DF_factors[0])))/scal;
+	  if (SR_channel == 0) weight_SR[0][dfmm_index][2][effsam] = ((fr*(1-stat_DF_factors[0]))/(1-fr*(1-stat_DF_factors[0])))/scal;
+	  if (SR_channel == 1 || SR_channel == 2 ) weight_SR[0][dfem_index][1][effsam] = ((fr*(1+stat_DF_factors[1]))/(1-fr*(1+stat_DF_factors[1])))/scal;
+	  if (SR_channel == 1 || SR_channel == 2 ) weight_SR[0][dfem_index][2][effsam] = ((fr*(1-stat_DF_factors[1]))/(1-fr*(1-stat_DF_factors[1])))/scal;
+	  if (SR_channel == 4 || SR_channel == 5 ) weight_SR[1][dfem_index][1][effsam] = ((fr*(1+stat_DF_factors[1]))/(1-fr*(1+stat_DF_factors[1])))/scal;
+	  if (SR_channel == 4 || SR_channel == 5 ) weight_SR[1][dfem_index][2][effsam] =( (fr*(1-stat_DF_factors[1]))/(1-fr*(1-stat_DF_factors[1])))/scal;
+	  if (SR_channel == 3) weight_SR[1][dfee_index][1][effsam] = ((fr*(1+stat_DF_factors[2]))/(1-fr*(1+stat_DF_factors[2])))/scal;
+	  if (SR_channel == 3) weight_SR[1][dfee_index][2][effsam] = ((fr*(1-stat_DF_factors[2]))/(1-fr*(1-stat_DF_factors[2])))/scal;
+	}
+      }//FR
+
+      if (single_fake && tightFail_sFR && !_isT[l2] && _relIso[l2] < isolation_tight) continue;
+      if (single_fake && tightFail_sFR && !_isT[l3] && _relIso[l3] < isolation_tight) continue;  
+      // 0 = mmm
+      // 1 = mme OS
+      // 2 = mme SS
+      // 3 = eee
+      // 4 = eem OS
+      // 5 = eem SS   
+
+
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<      ANALYSIS SELECTIONS     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //-----------
       if (charge_3l[2] == charge_3l[1]) continue;     
       bool selection_0 = true;
@@ -1398,7 +1435,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	//	std::cout<<"displaced: "<< central_displaced_signature<<"    ±   "<< variation_displaced_signature<<"  "<<weight_SR[w_loop][npLeptons_index][1][effsam]<<"  "<<weight_SR[w_loop][npLeptons_index][2][effsam]<<std::endl;
       }
       // ------------------------- DFR ------------------------- //    
-for (int w_loop =0; w_loop < nCoupling; w_loop++){
+      for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	weight_SR[w_loop][dfmm_index][0][effsam] = 1.;
+	weight_SR[w_loop][dfee_index][0][effsam] = 1.;
+	weight_SR[w_loop][dfem_index][0][effsam] = 1.;
+	
 	weight_SR[w_loop][dfShape_index][0][effsam] = 1.;
 	weight_SR[w_loop][dfShape_index][1][effsam] = 0.7;
 	weight_SR[w_loop][dfShape_index][2][effsam] = 1.3;
@@ -1493,7 +1534,7 @@ for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	//filling the shape histogram for DF background
 	if (isDataDrivenBgk && Double_fake){
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
-	    if (iSystematics != dfShape_index && iSystematics != dfLowStat_index) continue;
+	    if (iSystematics != dfShape_index && iSystematics != dfLowStat_index && iSystematics != dfmm_index && iSystematics != dfem_index && iSystematics != dfee_index) continue;
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down
 	      if (SR_channel <= 2 && bjet == 0){
 		plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
@@ -1512,6 +1553,9 @@ for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
 	    if (iSystematics == dfShape_index) continue;
             if (iSystematics == dfLowStat_index) continue;
+	    if (iSystematics == dfmm_index) continue;
+	    if (iSystematics == dfem_index) continue;
+	    if (iSystematics == dfee_index) continue;
 	    for (int iVariation = 1; iVariation < nVariation; iVariation++){//loop on up-down	      
 	      double central_divided_by_sys_ele= 1.;
 	      double central_divided_by_sys_muon= 1.;
@@ -2001,7 +2045,7 @@ for (int w_loop =0; w_loop < nCoupling; w_loop++){
     // List of systematics
     //const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
  
-    const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape","dfLowStat","lumi", "npsfnorm"};
+    const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape","dfLowStat","dfmm","dfem","dfee","lumi", "npsfnorm"};
     const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
     // List of systematics applicable to each process (signal + backgrounds)
@@ -2023,6 +2067,9 @@ for (int w_loop =0; w_loop < nCoupling; w_loop++){
     procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["dfShape" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
     procPerSyst["dfLowStat" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
+    procPerSyst["dfmm" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+    procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+    procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
     procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
 
@@ -2797,3 +2844,4 @@ double Analysis_mc::displMuoVars(double idispl, double ipt) {
 	  //
 	} // end if(skipTables==false)
 */
+

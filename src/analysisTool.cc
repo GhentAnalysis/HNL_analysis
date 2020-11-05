@@ -384,7 +384,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
   double weight =1.;
   //  std::cout<<"-------------------"<<std::endl;
   //  std::cout<<"channel: "<< channel<<"  "<< flavors_3l[1]<<"  -  "<< flavors_3l[2]<<std::endl;
-  if (channel == 0 ){ // µµ —> take SV eff-cy as SF + 0.5SV as uncertainties
+  if (channel == 0 ){ // 
     int binx_n,biny_n,binx_d,biny_d  =0;
     double xvariable, yvariable = 0.;
     xvariable = D2_delta_pv_sv;
@@ -395,21 +395,17 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
     biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
     binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
     biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
-    //std::cout<<" bin x-y: "<< binx_n<<" -- "<< biny_n<<"     /    "<< binx_d<<" -- "<< biny_d<<"  "<<std::endl;
-    //std::cout<<" x-y: "<<sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n)<<"     /    "<< sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)<<std::endl;
-
+    
     weight *=  (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)) ;
   }
-  else if (channel == 3){ // ee —> take Zg (tom’s) as SF + 0.5SF as uncertainties
+  else if (channel == 3){ // s
     size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
     weight *= displEleVars[indElel2];	
     size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
     weight *= displEleVars[indElel3];
-    // std::cout<<"missing hits "<<_lElectronMissingHits_l2<< "  "<< _lElectronMissingHits_l3<<std::endl;
-    // std::cout<<"  displEleVars[indElel2] "<< displEleVars[indElel2]<<" displEleVars[indElel3] "<<displEleVars[indElel3]<<std::endl;
-
+   
   }
-  else { // µe —> take Zg (tom’s) for the electron TIMES √SV for µ + 0.5SV as uncertainties
+  else { // 
     if (flavors_3l[1] == 1 && flavors_3l[2] == 0){
       int binx_n,biny_n,binx_d,biny_d  =0;
       double xvariable, yvariable = 0.;
@@ -424,9 +420,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
       size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
       weight *= displEleVars[indElel3];
-      // std::cout<<"missing hits "<< "  "<< _lElectronMissingHits_l3<<std::endl;
-      // std::cout<<"  displEleVars[indElel3] "<< displEleVars[indElel3]<<" bin x-y: "<< binx_n<<" -- "<< biny_n<<"     /    "<< binx_d<<" -- "<< biny_d<<"  "<<sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n)<<"     /    "<< sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)<<std::endl;
-
+     
     }
     if (flavors_3l[1] == 0 && flavors_3l[2] == 1){
       int binx_n,biny_n,binx_d,biny_d  =0;
@@ -442,8 +436,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
       size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
       weight *= displEleVars[indElel2];
-      // std::cout<<"missing hits "<< "  "<< _lElectronMissingHits_l2<<std::endl;	    
-      // std::cout<<"  displEleVars[indElel2] "<< displEleVars[indElel2]<<" bin x-y: "<< binx_n<<" -- "<< biny_n<<"     /    "<< binx_d<<" -- "<< biny_d<<"  "<<sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n)<<"     /    "<< sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)<<std::endl;
+      
     }
   }
   //std::cout<<"weight at the end: "<<weight<<std::endl;
@@ -453,7 +446,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
 double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
   double weight_error =1.;
 
-  if (channel == 0 ){ // µµ —> take SV eff-cy as SF + 0.5SV as uncertainties 
+  if (channel == 0 ){ // 
     int binx_n,biny_n,binx_d,biny_d  =0;
      double xvariable, yvariable = 0.;
     xvariable = D2_delta_pv_sv;
@@ -466,7 +459,7 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
     biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
     weight_error = 0.5* std::abs(1 -   ( (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) );    
   }
-  else if (channel == 3){ // ee —> take Zg (tom’s) as SF + 0.5SF as uncertainties
+  else if (channel == 3){ //
     double eleele=1;
     size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
     eleele *= displEleVars[indElel2];	
@@ -475,7 +468,7 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
     weight_error = 0.5* std::abs(1 - eleele);
     
   }
-  else { // µe —> take Zg (tom’s) for the electron TIMES √SV for µ + 0.5SV as uncertainties
+  else { // 
      int binx_n,biny_n,binx_d,biny_d  =0;
      double xvariable, yvariable = 0.;
     xvariable = D2_delta_pv_sv;
@@ -612,11 +605,11 @@ double Analysis_mc::dFR_factor_ee(TGraphAsymmErrors *fakeRate_e[3],
 				  double lptcone
 				  ){
     
-  const int nBinMu=5;
+  const int nBinMu=4;
   const int nBinMu3=4;
     
-  Double_t newBins_e1[nBinMu+1] = {10,25,40,55,70, 100};
-  Double_t newBins_e3[nBinMu3+1] ={10,30,50,70, 100};
+  Double_t newBins_e1[nBinMu+1] = {10,25,35,55, 80};
+  Double_t newBins_e3[nBinMu3+1] ={10,25,35,55, 80};
 
   //std::cout<<"                             it is ee: eta and pt  "<<eta<< "   "<<lptcone<< std::endl;
    
@@ -632,15 +625,15 @@ double Analysis_mc::dFR_factor_ee(TGraphAsymmErrors *fakeRate_e[3],
 
   double momentum = lptcone;
   double factore=0;
-  if (momentum < 100){
+  if (momentum < 80){
     if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(momentum));
     if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(momentum));
     if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(momentum));
   }//eta1
   else {
-    if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(90));
-    if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(90));
-    if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(90));
+    if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(70));
+    if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(70));
+    if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(70));
   }  
   delete fakeRate_e_histo[0];
   delete fakeRate_e_histo[1];
@@ -656,11 +649,11 @@ double Analysis_mc::dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],
 				   double lptcone
 				   ){
     
-  const int nBinMu=5;
+  const int nBinMu=4;
   const int nBinMu3=4;
     
-  Double_t newBins_e1[nBinMu+1] = {10,25,35,55,70, 100};
-  Double_t newBins_e3[nBinMu3+1] = {10,20,45,70, 100};
+  Double_t newBins_e1[nBinMu+1] = {10,25,35,55, 80};
+  Double_t newBins_e3[nBinMu3+1] = {10,25,35,55, 80};
   // std::cout<<"                             it is emu: eta and pt  "<<eta<< "   "<<lptcone<< std::endl;
 
   TH1D *fakeRate_e_histo[3]; 
@@ -675,15 +668,15 @@ double Analysis_mc::dFR_factor_emu(TGraphAsymmErrors *fakeRate_e[3],
 
   double momentum = lptcone;
   double factore=0;
-  if (momentum < 100){
+  if (momentum < 80){
     if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(momentum));
     if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(momentum));
     if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(momentum));
   }//eta1
   else {
-    if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(90));
-    if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(90));
-    if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(90));
+    if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(70));
+    if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(70));
+    if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(70));
   }  
   delete fakeRate_e_histo[0];
   delete fakeRate_e_histo[1];
@@ -699,9 +692,9 @@ double Analysis_mc::dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],
 				    double lptcone
 				    ){
     
-  const int nBinMu=5;
+  const int nBinMu=4;
   //const int nBinMu3=4;
-  Double_t newBins_e1[nBinMu+1] = {10,25,35,55,70, 100};
+  Double_t newBins_e1[nBinMu+1] = {10,25,35,55, 80};
   //  std::cout<<"                             it is mumu: eta and pt  "<<eta<< "   "<<lptcone<< std::endl;
 
   TH1D *fakeRate_e_histo[3];  
@@ -716,15 +709,15 @@ double Analysis_mc::dFR_factor_mumu(TGraphAsymmErrors *fakeRate_e[3],
   
   double momentum = lptcone;
   double factore=0;
-  if (momentum < 100){
+  if (momentum < 80){
     if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(momentum));
     if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(momentum));
     if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(momentum));
   }//eta1
   else {
-    if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(90));
-    if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(90));
-    if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(90));
+    if (eta == 1)  factore = fakeRate_e_histo[0]->GetBinContent(fakeRate_e_histo[0]->FindBin(70));
+    if (eta == 2)  factore = fakeRate_e_histo[1]->GetBinContent(fakeRate_e_histo[1]->FindBin(70));
+    if (eta == 3)  factore = fakeRate_e_histo[2]->GetBinContent(fakeRate_e_histo[2]->FindBin(70));
   }  
   delete fakeRate_e_histo[0];
   delete fakeRate_e_histo[1];
@@ -825,7 +818,6 @@ double Analysis_mc::sFR_factor_mu (TGraphAsymmErrors *fakeRate[3],
   delete fakeRate_histo[2];
   return factore;
 }
-
 //___________________________________________________________________
 
 void Analysis_mc::from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, int number_point){
@@ -957,6 +949,7 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
 
   
 }
+
 
 
 

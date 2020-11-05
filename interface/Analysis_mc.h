@@ -1312,11 +1312,11 @@ UInt_t            _zgEventType;
 
 
   const static int nPlots= 2;
-  const static int nSystematic = 15;
+  const static int nSystematic = 18;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
   //const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
-  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat"};
+  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
   const TString plots_names [nPlots] = {"mass","displ"};
@@ -1359,6 +1359,11 @@ UInt_t            _zgEventType;
   const int trigger_index  = 12;
   const int dfShape_index  = 13;
   const int dfLowStat_index  = 14;
+  const int dfmm_index  = 15;
+  const int dfem_index  = 16;
+  const int dfee_index  = 17;
+
+  
   // const int on_index =    0;	// is the SR SR plot
   // const int pu_index =    1;
   // const int qcd_index =   2;
@@ -1418,3 +1423,4 @@ UInt_t            _zgEventType;
   
 };
 #endif
+
