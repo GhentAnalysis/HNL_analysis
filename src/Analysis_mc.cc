@@ -1862,7 +1862,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
 	  }
-	  if (effsam1 != nSamples_eff){
+	  else if (effsam1 == nSamples_eff-1){
+	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
+	  }
+	  else {
 	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
