@@ -921,12 +921,12 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
       double error_original =0;
       double error_to_add =0;
       double error_final =0;
-      if (histo->GetBinContent( i+1)  < 0.0000  || std::isnan(histo->GetBinContent( i+1)) || histo->GetBinContent( i+1)  <0.000001) {
+      if (histo->GetBinContent( i+1)  < 0.  || std::isnan(histo->GetBinContent( i+1)) || histo->GetBinContent( i+1)  <0.) {
 	error_original = histo-> GetBinError(i+1);
 	error_to_add = histo-> GetBinContent(i+1);
 	error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
 	histo-> SetBinContent(i+1, 0.0);
-	histo-> SetBinError(i+1, 0.0);
+	histo-> SetBinError(i+1, 0.005);
 	//if (error_final == 0) histo-> SetBinError(i+1,  0.);
 	//if (error_final < 0.000001) histo-> SetBinError(i+1,  0.);
       }
