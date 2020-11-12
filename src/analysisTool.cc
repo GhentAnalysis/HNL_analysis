@@ -946,7 +946,18 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
     }
   }//option 1
 
-
+if (option == 2){
+    for (int i =0; i < histo-> GetNbinsX(); i++){
+      if (std::isnan(histo->GetBinContent( i+1))) {
+	std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;
+	std::cout<<" iSystematics: "<<iSystematics<<"  iVariation: "<<iVariation<<" channel "<<channel<<" bin: "<<i+1<<std::endl;
+      }
+      if (histo->GetBinContent( i+1)  <= 0 ){
+	histo-> SetBinContent(i+1, 0.0);
+	 histo->SetBinError(i+1, 3.6888795*0.1); //mumu
+      }  
+    }
+  }//option 2
   
 }
 
