@@ -926,7 +926,7 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
 	error_to_add = histo-> GetBinContent(i+1);
 	error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
 	histo-> SetBinContent(i+1, 0.0);
-	histo-> SetBinError(i+1, 0.005);
+	histo-> SetBinError(i+1, 0.0005);
 	//if (error_final == 0) histo-> SetBinError(i+1,  0.);
 	//if (error_final < 0.000001) histo-> SetBinError(i+1,  0.);
       }
@@ -938,15 +938,20 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
       if (histo->GetBinContent( i+1)  <= 0 ){
 	histo-> SetBinContent(i+1, 0.0);
 	//histo->SetBinErrorOption(TH1::kPoisson2);
-	if (channel == 0 && i < 6) histo->SetBinError(i+1, 3.6888795*0.05); //mumu
-	if (channel == 0 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
-	if (channel == 1 && i < 6) histo->SetBinError(i+1, 3.6888795*0.09); //ee
-	if (channel == 1 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
+	if (channel == 0 && i < 6) histo->SetBinError(i+1, 3.6888795*0.15); //mumu
+	if (channel == 0 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.12); //mue
+	if (channel == 1 && i < 6) histo->SetBinError(i+1, 3.6888795*0.15); //ee
+	if (channel == 1 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.12); //mue
+	/* obtained with the fit --> if (channel == 0 && i < 6) histo->SetBinError(i+1, 3.6888795*0.05); //mumu
+	   if (channel == 0 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
+	   if (channel == 1 && i < 6) histo->SetBinError(i+1, 3.6888795*0.09); //ee
+	   if (channel == 1 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
+	*/
       }     
     }
   }//option 1
 
-if (option == 2){
+  if (option == 2){
     for (int i =0; i < histo-> GetNbinsX(); i++){
       if (std::isnan(histo->GetBinContent( i+1))) {
 	std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;
@@ -954,11 +959,15 @@ if (option == 2){
       }
       if (histo->GetBinContent( i+1)  <= 0 ){
 	histo-> SetBinContent(i+1, 0.0);
-	 histo->SetBinError(i+1, 3.6888795*0.1); //mumu
+	histo->SetBinError(i+1, 3.6888795*0.1); //mumu
       }  
     }
   }//option 2
-  
+
+  for (int i =0; i < histo-> GetNbinsX(); i++){
+    if (histo->GetBinContent( i+1) < 0.000001 || histo->GetBinContent( i+1) == 0.0) continue; 
+    if (histo->GetBinContent( i+1) < histo-> GetBinError(i+1))  histo-> SetBinError(i+1, histo->GetBinContent( i+1) ); // 100% uncertaintains 
+  }
 }
 
 

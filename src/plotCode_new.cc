@@ -187,14 +187,15 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
   for(int effsam = nHist - 1; effsam > -1; --effsam){
     legend->SetTextFont(42);
-    if (  names[histI[effsam] + 1 + nSig] != "TTX"  && names[histI[effsam] + 1 + nSig] != "Xgamma"  && names[histI[effsam] + 1 + nSig] != "nonprompt SF"  && names[histI[effsam] + 1 + nSig] != "nonprompt DF" ) continue;
-    if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
-    else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "Other");
-    else if (names[histI[effsam] + 1 + nSig] == "nonprompt SF") legend->AddEntry(bkg[effsam], "nonprompt SF");
-    else if (names[histI[effsam] + 1 + nSig] == "nonprompt DF") legend->AddEntry(bkg[effsam], "nonprompt DF");
+    //if ( names[histI[effsam] + 1 + nSig] != "TTX"  && names[histI[effsam] + 1 + nSig] != "Xgamma"  && names[histI[effsam] + 1 + nSig] != "nonprompt SF"  && names[histI[effsam] + 1 + nSig] != "nonprompt DF" ) continue;
+    //if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
+    //else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "Other");
+    if (effsam == 21 && (names[histI[effsam] + 1 + nSig] != "nonprompt SF" && names[histI[effsam] + 1 + nSig] != "nonprompt DF")) legend->AddEntry(bkg[effsam], "Conversions");  
+    if (names[histI[effsam] + 1 + nSig] == "nonprompt SF") legend->AddEntry(bkg[effsam], "nonprompt SF");
+    if (names[histI[effsam] + 1 + nSig] == "nonprompt DF") legend->AddEntry(bkg[effsam], "nonprompt DF");
     //else if (names[histI[effsam] + 1 + nSig] == "DY") legend->AddEntry(bkg[effsam], "Z#gamma^{*}"); 
     //else 
-    else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
+    //else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
     legend->     SetNColumns(4);
   }
 

@@ -1131,8 +1131,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // ----------------- conversion overlap removal    --------------------------------//
-      if (samples[sam].getProcessName() == "DY"    &&   _zgEventType>=3 ) continue;
+      if ((samples[sam].getFileName() == "DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"  || samples[sam].getFileName() == "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root"  ||
+	   samples[sam].getFileName() == "DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v10_Fall17.root"  || samples[sam].getFileName() == "DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root"  ||
+	   samples[sam].getFileName() == "DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root"  || samples[sam].getFileName() == "DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root") &&   _zgEventType>=3 ) continue;
+      
       if ((samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root" || samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root" ||  samples[sam].getFileName()== "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root")   &&   _hasInternalConversion == 1 ) continue;
+
+      
       // -----------------   function useful    --------------------------------//
       zCandidate( pair,other, v4l1, v4l2, v4l3, flavors_3l, charge_3l);
       // -----------------   variables useful    --------------------------------//
@@ -2028,8 +2033,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
     // List of backgrounds
     //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+    //const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
 
-    const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+    const std::string bkgNames[] = {"Xgamma", "nonpromptSF", "nonpromptDF"};
     const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
     // Output directory for datacards and shape ROOT files
@@ -2038,12 +2044,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     // List of signal and background labels (for tables)
     std::map<std::string, std::string> labelPerProc;
     labelPerProc["signal"     ] = "signal"; // to be changed...
-    labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
+    //labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
     //labelPerProc["ttbar"      ] = "Top";
     // labelPerProc["WJets"      ] = "$\\PW +$ jets";
-    labelPerProc["multiboson" ] = "Multiboson";
+    //labelPerProc["multiboson" ] = "Multiboson";
     labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
-    labelPerProc["TTTX"       ] = "Top $+$ X";
+    //labelPerProc["TTTX"       ] = "Top $+$ X";
     labelPerProc["nonpromptSF"] = "Nonprompt SF";
     labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
@@ -2058,7 +2064,27 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     std::map<std::string, std::string> procPerSyst;
     //                       Type     Correl.   Processes
     //                       -------  --------  -------------------------------------------------------------
-    procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+    procPerSyst["pu"      ] = "shapeN; not_corr; signal,  Xgamma                           ";
+    procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["qcdShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["pdfShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["pEle"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["npLeptons"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["jec"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["jer"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["btag"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["trigger" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["dfShape" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
+    procPerSyst["dfLowStat" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
+    procPerSyst["dfmm" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+    procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+    procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+    procPerSyst["lumi"    ] = "lnN   ; not_corr; signal,  Xgamma                          ";
+    procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
+
+    /* procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
@@ -2077,8 +2103,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
     procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
     procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
-
-
+    */
 
 
     std::map<std::string, std::vector<std::string> > normSystsPerYear;
