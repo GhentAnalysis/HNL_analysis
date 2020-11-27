@@ -1389,36 +1389,53 @@ UInt_t            _zgEventType;
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_ee.root",
 				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_emu.root"};	
-  const TString names_SF_ele_files[3] = {"SF_leptons_trigger/2016LegacyReReco_ElectronMVA90noiso_Fall17V2.root",
-				         "SF_leptons_trigger/2017_ElectronMVA90noiso.root",
-				         "SF_leptons_trigger/2018_ElectronMVA90noiso.root"};
-  const TString names_SF_muon_files[3] = {"SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
-				         "SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
-				         "SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	 
-  const TString names_SFSY_muon_files[3] = {"SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SYS_ID.root",
-				         "SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
-				         "SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};	
+ 
+  
+  // prompt muon SF: for trigger and ID
+ //ID + syst ID
+ const TString names_SF_muon_files[3] = {      "SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
+					       "SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
+					       "SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};
+ const TString names_SFSY_muon_files[3] = {    "SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SYS_ID.root",
+					       "SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
+					       "SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};
+ //ISO + IP
+ const TString names_SF_isoIP_muon_files[3] = {"SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_16.root",
+					       "SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_17.root",
+					       "SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_18.root"}; // from kirill 
+ 
+ //trigger
+ const TString names_trigger_muon_files[3] = {"SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
+					      "SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
+					      "SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"}; //from muon POG page (not really the same id.... but ok)
+  
+ // prompt electron SF: for trigger and ID
+ const TString names_trigger_ele_files[3] = {"SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_16.root",
+					       "SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_17.root",
+					       "SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_18.root"}; // made by tom just before leaving: https://homepage.iihe.ac.be/~tomc/leptonSF/trigger_HNL/
+
+ const TString names_SF_ele_files[3] = {"SF_leptons_trigger/ID_egammaEffi.txt_EGM2D_16.root",
+				         "SF_leptons_trigger/ID_egammaEffi.txt_EGM2D_17.root",
+				         "SF_leptons_trigger/ID_egammaEffi.txt_EGM2D_18.root"};// made by tom just before leaving: https://homepage.iihe.ac.be/~tomc/leptonSF/HNLprompt/
 
 
-  const TString names_trigger_muon_files[3] = {"SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
-				         "SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
-				         "SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"};
+ //SV vertex from luka's study
+ const TString names_SV_eff_files[3]={"SV_eff/SV_16.root",
+				      "SV_eff/SV_17.root",
+				      "SV_eff/SV_18.root"};
 
+ //non prompt muon ID and ISO
+ const TString names_SF_iso_nPMuon_files[3]={"SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_16.root",
+					     "SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_17.root",
+					     "SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_18.root" }; // from kirill
+ const TString names_SF_ID_nPMuon_files[3]={"","",""};
+  
 
-   const TString names_trigger_ele_files[3] = {"SF_leptons_trigger/egammaEffi.txt_EGM2D_16.root",
-				         "SF_leptons_trigger/egammaEffi.txt_EGM2D_17.root",
-				         "SF_leptons_trigger/egammaEffi.txt_EGM2D_18.root"};
-
-
-
+ //btagging
    const TString names_btagging_eff_files[3] = {"bTagging/bTagEff_looseLeptonCleaned_2016.root",
-				         "bTagging/bTagEff_looseLeptonCleaned_2017.root",
-				         "bTagging/bTagEff_looseLeptonCleaned_2018.root"};
+						"bTagging/bTagEff_looseLeptonCleaned_2017.root",
+						"bTagging/bTagEff_looseLeptonCleaned_2018.root"};
 
-
-   const TString names_SV_eff_files[3]={"SV_eff/SV_16.root",
-					      "SV_eff/SV_17.root",
-					      "SV_eff/SV_18.root"};
 
   
 };
