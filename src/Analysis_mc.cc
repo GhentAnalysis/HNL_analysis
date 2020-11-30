@@ -666,14 +666,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   //   SF leptons histograms	
   TH2D *sf_prompt_muon[1];
   TH2D *sf_prompt_muon_syst[1];
-  TH2D *sf_iso_ip_prompt_muon[1];
-  TH2D *sf_iso_ip_prompt_muon_syst[1];
+  TH2F *sf_iso_ip_prompt_muon[1];
+  TH2F *sf_iso_ip_prompt_muon_syst[1];
   TH2F *sf_trigger_muon[1];
   TH2F *sf_trigger_ele[1]; 
   TH2F *sf_prompt_ele[1];
   //non prompt
   TH2F *sf_isoID_nPMuon[1];
-
+  TH2F *sf_isoID_nPMuon_syst[1];
   TH2F *sf_btag_eff[3];	//0 uds, 1 charm, 2 b
 
    //by luka
@@ -710,14 +710,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     }
     //ISO prompt muon
     TFile *hfile1_names_SF_isoIP_muon_files = TFile::Open(names_SF_isoIP_muon_files[i]);
-    sf_iso_ip_prompt_muon[0]      = (TH2D*)hfile1_names_SF_isoIP_muon_files->Get("NUM_displacedIsoIP_DEN_displaced_abseta_pt");
-    sf_iso_ip_prompt_muon_syst[0] = (TH2D*)hfile1_names_SF_isoIP_muon_files->Get("NUM_displacedIsoIP_DEN_displaced_abseta_pt_combined_syst");
+    sf_iso_ip_prompt_muon[0]      = (TH2F*)hfile1_names_SF_isoIP_muon_files->Get("NUM_displacedIsoIP_DEN_displaced_abseta_pt");
+    sf_iso_ip_prompt_muon_syst[0] = (TH2F*)hfile1_names_SF_isoIP_muon_files->Get("NUM_displacedIsoIP_DEN_displaced_abseta_pt_combined_syst");
     //trigger electron
     TFile *hfile1_names_trigger_ele_files = TFile::Open(names_trigger_ele_files[i]);
-    sf_trigger_ele[0] = (TH2F*)names_trigger_ele_files->Get("EGamma_SF2D");
+    sf_trigger_ele[0] = (TH2F*)hfile1_names_trigger_ele_files->Get("EGamma_SF2D");
     //ID prompt electron 
     TFile *hfile1_names_SF_ele_files = TFile::Open(names_SF_ele_files[i]);
-    sf_prompt_ele[0] = (TH2F*)names_SF_ele_files->Get("EGamma_SF2D");
+    sf_prompt_ele[0] = (TH2F*)hfile1_names_SF_ele_files->Get("EGamma_SF2D");
     //ISO displaced muons
     TFile *hfile1_names_SF_isoID_nPMuon_files = TFile::Open(names_SF_isoID_nPMuon_files[i]);
     sf_isoID_nPMuon[0]      = (TH2D*)hfile1_names_SF_isoID_nPMuon_files->Get("NUM_displacedIso_DEN_trackerMuons_abseta_pt");
@@ -1368,8 +1368,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	//trigger
 	weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);	
 	//
-	weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1) - SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&f_iso_ip_prompt_muon_syst, l1);
-	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1) + SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&f_iso_ip_prompt_muon_syst, l1);	
+	weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1) - SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&f_iso_ip_prompt_muon_syst, l1);
+	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1) + SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&f_iso_ip_prompt_muon_syst, l1);	
 	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
 	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
       }
