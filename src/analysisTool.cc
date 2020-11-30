@@ -274,7 +274,7 @@ double Analysis_mc::SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const do
 //=============================================================================================================================================================================
 //===================================================================          SF leptons          ============================================================================
 //_____________________________________________ SF prompt muon ID
-double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1],TH2D *muon_sf_isoIP_histogram[1], const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1],TH2F *muon_sf_isoIP_histogram[1], const unsigned leptonIndex){
   double sfValue = 1;
   double sfValue_ID = 1;
   double sfValue_IsoIP = 1;
@@ -306,7 +306,7 @@ double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1],TH2D *muon_sf_isoI
   return sfValue;	
 }
 //_____________________________________________ SF prompt muon error
-double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram_syst[1],TH2D *muon_sf_histogram[1],TH2D *muon_sf_isoIP_histogram[1],TH2D *muon_sf_isoIP_histogram_syst[1],  const unsigned leptonIndex){
+double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram_syst[1],TH2D *muon_sf_histogram[1],TH2F *muon_sf_isoIP_histogram[1],TH2F *muon_sf_isoIP_histogram_syst[1],  const unsigned leptonIndex)tonIndex){
   double sfValue = 1;
   double sfValue_ID_1 = 1;
   double sfValue_ID_2 = 1;
