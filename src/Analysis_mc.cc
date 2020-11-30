@@ -2038,7 +2038,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 
     std::map<std::string, std::vector<std::string> > normSystsPerYear;
-    normSystsPerYear["lumi"    ] = {"1.025", "1.027", "1.025"};
+    normSystsPerYear["lumi"    ] = {"1.025", "1.023", "1.025"};
     normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
     //normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
 
