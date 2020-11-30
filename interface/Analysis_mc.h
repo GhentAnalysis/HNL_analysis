@@ -789,8 +789,8 @@ UInt_t            _zgEventType;
   int SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_combined);
   double SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
   double SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex);
-  double SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned leptonIndex);
-  double SF_prompt_muon_error(TH2D *muon_sf_histogram[1], const unsigned leptonIndex);
+  double SF_prompt_muon(TH2D *muon_sf_histogram[1],TH2D *muon_sf_isoIP_histogram[1], const unsigned leptonIndex);
+  double SF_prompt_muon_error(TH2D *muon_sf_histogram_syst[1],TH2D *muon_sf_histogram[1],TH2D *muon_sf_isoIP_histogram[1],TH2D *muon_sf_isoIP_histogram_syst[1],  const unsigned leptonIndex);
   double SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_trigger_ele(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
@@ -799,8 +799,8 @@ UInt_t            _zgEventType;
   double SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const double pt, const int flav);
 
   
-  double displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
-  double displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] );
+  double displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3);
+  double displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] , TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3);
 
 		
   void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
@@ -1312,11 +1312,11 @@ UInt_t            _zgEventType;
 
 
   const static int nPlots= 2;
-  const static int nSystematic = 18;
+  const static int nSystematic = 20;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
   //const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
-  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
+  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
   const TString plots_names [nPlots] = {"mass","displ"};
@@ -1352,16 +1352,18 @@ UInt_t            _zgEventType;
   const int pdfShape_index =  5;
   const int pEle_index     =  6;	
   const int pMuo_index     =  7;
-  const int npLeptons_index    =  8;
-  const int jec_index      = 9;
-  const int jer_index      = 10;
-  const int btag_index     = 11;
-  const int trigger_index  = 12;
-  const int dfShape_index  = 13;
-  const int dfLowStat_index  = 14;
-  const int dfmm_index  = 15;
-  const int dfem_index  = 16;
-  const int dfee_index  = 17;
+  const int npLeptons_mm_index    =  8;
+  const int npLeptons_em_index    =  9;
+  const int npLeptons_ee_index    =  10;
+  const int jec_index      = 11;
+  const int jer_index      = 12;
+  const int btag_index     = 13;
+  const int trigger_index  = 14;
+  const int dfShape_index  = 15;
+  const int dfLowStat_index  = 16;
+  const int dfmm_index  = 17;
+  const int dfem_index  = 18;
+  const int dfee_index  = 19;
 
   
   // const int on_index =    0;	// is the SR SR plot
@@ -1378,63 +1380,53 @@ UInt_t            _zgEventType;
   // const int trigger_index =  11;
 	
 
- 
-	
-	
-	
-	
-	
- const TString names_FR_files_daniele[5] = {"/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mu.root",
-				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_e.root",
-				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_mumu.root",
-				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_ee.root",
-				           "/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/FR/fake_rate_emu.root"};	
- 
   
   // prompt muon SF: for trigger and ID
- //ID + syst ID
- const TString names_SF_muon_files[3] = {      "SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
-					       "SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
-					       "SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};
- const TString names_SFSY_muon_files[3] = {    "SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SYS_ID.root",
-					       "SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
-					       "SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};
- //ISO + IP
- const TString names_SF_isoIP_muon_files[3] = {"SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_16.root",
-					       "SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_17.root",
-					       "SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_18.root"}; // from kirill 
+  //ID + syst ID
+  const TString names_SF_muon_files[3] = {      "SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
+						"SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
+						"SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};
+  const TString names_SFSY_muon_files[3] = {    "SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SYS_ID.root",
+						"SF_leptons_trigger/RunBCDEF_SF_ID_syst.root",
+						"SF_leptons_trigger/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root"};
+  //ISO + IP
+  const TString names_SF_isoIP_muon_files[3] = {"SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_16.root",
+						"SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_17.root",
+						"SF_leptons_trigger/Iso_ip_NUM_displacedIsoIP_DEN_displaced_abseta_pt_18.root"}; // from kirill 
  
- //trigger
- const TString names_trigger_muon_files[3] = {"SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
-					      "SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
-					      "SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"}; //from muon POG page (not really the same id.... but ok)
+  //trigger
+  const TString names_trigger_muon_files[3] = {"SF_leptons_trigger/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root",
+					       "SF_leptons_trigger/EfficienciesStudies_2017_trigger_EfficienciesAndSF_RunBtoF_Nov17Nov2017.root",
+					       "SF_leptons_trigger/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root"}; //from muon POG page (not really the same id.... but ok)
   
- // prompt electron SF: for trigger and ID
- const TString names_trigger_ele_files[3] = {"SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_16.root",
-					       "SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_17.root",
-					       "SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_18.root"}; // made by tom just before leaving: https://homepage.iihe.ac.be/~tomc/leptonSF/trigger_HNL/
+  // prompt electron SF: for trigger and ID
+  const TString names_trigger_ele_files[3] = {"SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_16.root",
+					      "SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_17.root",
+					      "SF_leptons_trigger/trigger_egammaEffi.txt_EGM2D_18.root"}; // made by tom just before leaving: https://homepage.iihe.ac.be/~tomc/leptonSF/trigger_HNL/
 
- const TString names_SF_ele_files[3] = {"SF_leptons_trigger/ID_egammaEffi.txt_EGM2D_16.root",
+  const TString names_SF_ele_files[3] = {"SF_leptons_trigger/ID_egammaEffi.txt_EGM2D_16.root",
 				         "SF_leptons_trigger/ID_egammaEffi.txt_EGM2D_17.root",
 				         "SF_leptons_trigger/ID_egammaEffi.txt_EGM2D_18.root"};// made by tom just before leaving: https://homepage.iihe.ac.be/~tomc/leptonSF/HNLprompt/
 
 
- //SV vertex from luka's study
- const TString names_SV_eff_files[3]={"SV_eff/SV_16.root",
-				      "SV_eff/SV_17.root",
-				      "SV_eff/SV_18.root"};
+  //SV vertex from luka's study
+  const TString names_SV_eff_files[3]={"SV_eff/SV_16.root",
+				       "SV_eff/SV_17.root",
+				       "SV_eff/SV_18.root"};
 
- //non prompt muon ID and ISO
- const TString names_SF_iso_nPMuon_files[3]={"SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_16.root",
-					     "SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_17.root",
-					     "SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_18.root" }; // from kirill
- const TString names_SF_ID_nPMuon_files[3]={"","",""};
+  //non prompt muon ID and ISO
+  const TString names_SF_iso_nPMuon_files[3]={"SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_16.root",
+					      "SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_17.root",
+					      "SV_eff/NUM_displacedIso_DEN_displaced_abseta_pt_18.root" }; // from kirill
+  const TString names_SF_isoID_nPMuon_files[3]={"SV_eff/NUM_displacedIso_DEN_trackerMuons_abseta_pt_16.root",
+						"SV_eff/NUM_displacedIso_DEN_trackerMuons_abseta_pt_17.root",
+						"SV_eff/NUM_displacedIso_DEN_trackerMuons_abseta_pt_18.root",};
   
 
- //btagging
-   const TString names_btagging_eff_files[3] = {"bTagging/bTagEff_looseLeptonCleaned_2016.root",
-						"bTagging/bTagEff_looseLeptonCleaned_2017.root",
-						"bTagging/bTagEff_looseLeptonCleaned_2018.root"};
+  //btagging
+  const TString names_btagging_eff_files[3] = {"bTagging/bTagEff_looseLeptonCleaned_2016.root",
+					       "bTagging/bTagEff_looseLeptonCleaned_2017.root",
+					       "bTagging/bTagEff_looseLeptonCleaned_2018.root"};
 
 
   

@@ -271,68 +271,97 @@ double Analysis_mc::SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const do
    return sfValue;	
 }
 
+//=============================================================================================================================================================================
+//===================================================================          SF leptons          ============================================================================
+//_____________________________________________ SF prompt muon ID
+double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1],TH2D *muon_sf_isoIP_histogram[1], const unsigned leptonIndex){
+  double sfValue = 1;
+  double sfValue_ID = 1;
+  double sfValue_IsoIP = 1;
+ 
+  int binx_ID =0;
+  int biny_ID =0;
+  if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
+    biny_ID = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
+    if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins()) )   binx_ID =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+    else binx_ID = muon_sf_histogram[0]->GetXaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetXaxis()->GetBinLowEdge(1)));  
+  }
+  else { // it means that xaxis has eta so y axis has pt
+    binx_ID = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
+    if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )   biny_ID =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+    else biny_ID = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1)));   
+  }
+  sfValue_ID = muon_sf_histogram[0]->GetBinContent(binx_ID,biny_ID);
+
+  //made by kirill has x absolute eta, while y pt
+  int binx_IsoIP =0;
+  int biny_IsoIP =0;
+  binx_IsoIP = muon_sf_isoIP_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
+  if (_lPt[leptonIndex] > muon_sf_isoIP_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_isoIP_histogram[0]->GetYaxis()->GetNbins()))       biny_IsoIP =  muon_sf_isoIP_histogram[0]->GetYaxis()->GetNbins(); 
+  else biny_IsoIP = muon_sf_isoIP_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_isoIP_histogram[0]->GetYaxis()->GetBinLowEdge(1)));
+  sfValue_IsoIP = muon_sf_isoIP_histogram[0]->GetBinContent(binx_IsoIP,biny_IsoIP);
+
+  sfValue = sfValue_IsoIP*sfValue_ID;
+  if (sfValue == 0) std::cout<<" -------------------  WARNING the SF (ID+ISO+IP) for prompt muon is ZERO  ---------------"<<std::endl;
+  return sfValue;	
+}
+//_____________________________________________ SF prompt muon error
+double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram_syst[1],TH2D *muon_sf_histogram[1],TH2D *muon_sf_isoIP_histogram[1],TH2D *muon_sf_isoIP_histogram_syst[1],  const unsigned leptonIndex){
+  double sfValue = 1;
+  double sfValue_ID_1 = 1;
+  double sfValue_ID_2 = 1;
+  double sfValue_ID = 1;
+  double sfValue_IsoIP_1 = 1;
+  double sfValue_IsoIP_2 = 1;
+  double sfValue_IsoIP = 1;
+
+  int binx_ID_1 =0;
+  int biny_ID_1 =0;
+  if (muon_sf_histogram_syst[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
+    biny_ID_1 = muon_sf_histogram_syst[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
+    if (_lPt[leptonIndex] > muon_sf_histogram_syst[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram_syst[0]->GetXaxis()->GetNbins()) )binx_ID_1 =  muon_sf_histogram_syst[0]->GetYaxis()->GetNbins(); 
+    else binx_ID_1 = muon_sf_histogram_syst[0]->GetXaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram_syst[0]->GetXaxis()->GetBinLowEdge(1)));  
+  }
+  else { // it means that xaxis has eta so y axis has pt
+    binx_ID_1 = muon_sf_histogram_syst[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
+    if (_lPt[leptonIndex] > muon_sf_histogram_syst[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram_syst[0]->GetYaxis()->GetNbins()) )biny_ID_1 =  muon_sf_histogram_syst[0]->GetYaxis()->GetNbins(); 
+    else biny_ID_1 = muon_sf_histogram_syst[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram_syst[0]->GetYaxis()->GetBinLowEdge(1)));   
+  }			
+  sfValue_ID_1 = muon_sf_histogram_syst[0]->GetBinErrorLow(binx_ID_1,biny_ID_1);
+  int binx_ID_2 =0;
+  int biny_ID_2 =0;
+  if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
+    biny_ID_2 = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
+    if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins()) )binx_ID_2 =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+    else binx_ID_2 = muon_sf_histogram[0]->GetXaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetXaxis()->GetBinLowEdge(1)));  
+  }
+  else { // it means that xaxis has eta so y axis has pt
+    binx_ID_2 = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
+    if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny_ID_2 =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
+    else biny_ID_2 = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1)));   
+  }			
+  sfValue_ID_2 = muon_sf_histogram[0]->GetBinErrorLow(binx_ID_2,biny_ID_2);
+  sfValue_ID= std::max(sfValue_ID_1,sfValue_ID_2);
 
 
+  int binx_IsoIP_1 =0;
+  int biny_IsoIP_1 =0;
+  binx_IsoIP_1 = muon_sf_isoIP_histogram[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
+  if (_lPt[leptonIndex] > muon_sf_isoIP_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_isoIP_histogram[0]->GetYaxis()->GetNbins()))       biny_IsoIP_1 =  muon_sf_isoIP_histogram[0]->GetYaxis()->GetNbins(); 
+  else biny_IsoIP_1 = muon_sf_isoIP_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_isoIP_histogram[0]->GetYaxis()->GetBinLowEdge(1)));
+  sfValue_IsoIP_1 = muon_sf_isoIP_histogram[0]->GetBinErrorLow(binx_IsoIP_1,biny_IsoIP_1);
+  int binx_IsoIP_2 =0;
+  int biny_IsoIP_2 =0;
+  binx_IsoIP_2 = muon_sf_isoIP_histogram_syst[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
+  if (_lPt[leptonIndex] > muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetBinUpEdge(muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetNbins()))       biny_IsoIP_2 =  muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetNbins(); 
+  else biny_IsoIP_2 = muon_sf_isoIP_histogram_syst[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetBinLowEdge(1)));
+  sfValue_IsoIP_2 = muon_sf_isoIP_histogram[0]->GetBinContent(binx_IsoIP_2,biny_IsoIP_2);
+  sfValue_IsoIP= std::max(sfValue_IsoIP_1,sfValue_IsoIP_2);
 
-//_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
-   double sfValue = 1;  	
-   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
-   int biny = 0.;
-  if (_lPt[leptonIndex] > ele_sf_histogram[0]->GetYaxis()->GetBinUpEdge(ele_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  ele_sf_histogram[0]->GetYaxis()->GetNbins(); 
-  else biny = ele_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], ele_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 	
-	
-	
-   sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
-   return sfValue;	
+  sfValue = TMath::Sqrt(sfValue_IsoIP*sfValue_IsoIP + sfValue_ID*sfValue_ID);
+  
+  return sfValue;		
 }
-//_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon(TH2D *muon_sf_histogram[1], const unsigned leptonIndex){
-   double sfValue = 1;
-   int binx =0;
-   int biny =0;	
-   if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
-	  biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins()) )binx =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
-          else binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetXaxis()->GetBinLowEdge(1)));  
-   }
-   else { // it means that xaxis has eta so y axis has pt
-	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
-	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
-          else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1)));   
-   }
-   sfValue = muon_sf_histogram[0]->GetBinContent(binx,biny);	
-   return sfValue;	
-}
-//_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
-   double sfValue = 1;  	
-   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
-   int biny=0.;	
-     if (_lPt[leptonIndex] > ele_sf_histogram[0]->GetYaxis()->GetBinUpEdge(ele_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  ele_sf_histogram[0]->GetYaxis()->GetNbins(); 
-  else biny = ele_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], ele_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 	
-   sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
-   return sfValue;	
-}
-//_____________________________________________ SF prompt ele
-double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram[1], const unsigned leptonIndex){
-   double sfValue = 1;  		
-   int binx =0;
-   int biny =0;	
-   if (muon_sf_histogram[0]->GetXaxis()->GetXmax() > 4) { // it means that xaxis has pt so y axis has |eta|
-	  biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::abs(_lEta[leptonIndex]));
-          if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetXaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetXaxis()->GetNbins()) )binx =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
-          else binx = muon_sf_histogram[0]->GetXaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetXaxis()->GetBinLowEdge(1)));  
-   }
-   else { // it means that xaxis has eta so y axis has pt
-	  binx = muon_sf_histogram[0]->GetXaxis()->FindBin(_lEta[leptonIndex]);
-	  if (_lPt[leptonIndex] > muon_sf_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  muon_sf_histogram[0]->GetYaxis()->GetNbins(); 
-          else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1)));   
-   }			
-   sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
-   return sfValue;		
-}
-
 //_____________________________________________ SF prompt muon trigger
 double Analysis_mc::SF_trigger_muon(TH2F *muon_sf_histogram[1], const unsigned leptonIndex){
    double sfValue = 1;  
@@ -354,6 +383,27 @@ double Analysis_mc::SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsi
    else biny = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 
    sfValue = muon_sf_histogram[0]->GetBinErrorLow(binx,biny);	
    return sfValue;			
+}
+//_____________________________________________ SF prompt ele
+double Analysis_mc::SF_prompt_ele(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  	
+   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
+   int biny = 0.;
+  if (_lPt[leptonIndex] > ele_sf_histogram[0]->GetYaxis()->GetBinUpEdge(ele_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  ele_sf_histogram[0]->GetYaxis()->GetNbins(); 
+  else biny = ele_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], ele_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 		
+   sfValue = ele_sf_histogram[0]->GetBinContent(binx,biny);	
+   return sfValue;	
+}
+
+//_____________________________________________ SF prompt ele
+double Analysis_mc::SF_prompt_ele_error(TH2F *ele_sf_histogram[1], const unsigned leptonIndex){
+   double sfValue = 1;  	
+   int binx = ele_sf_histogram[0]->GetXaxis()->FindBin(_lEtaSC[leptonIndex]);
+   int biny=0.;	
+   if (_lPt[leptonIndex] > ele_sf_histogram[0]->GetYaxis()->GetBinUpEdge(ele_sf_histogram[0]->GetYaxis()->GetNbins()) )biny =  ele_sf_histogram[0]->GetYaxis()->GetNbins(); 
+   else biny = ele_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], ele_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1))); 	
+   sfValue = ele_sf_histogram[0]->GetBinErrorLow(binx,biny);	
+   return sfValue;	
 }
 
 //_____________________________________________ SF prompt muon trigger
@@ -379,12 +429,22 @@ double Analysis_mc::SF_trigger_ele_error(TH2F *muon_sf_histogram[1], const unsig
    return sfValue;			
 }
 
+
+
+
 //_____________________________________________ displaced mess
-double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
+double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3){
+  
   double weight =1.;
-  //  std::cout<<"-------------------"<<std::endl;
-  //  std::cout<<"channel: "<< channel<<"  "<< flavors_3l[1]<<"  -  "<< flavors_3l[2]<<std::endl;
-  if (channel == 0 ){ // 
+
+  if (channel == 3){// ee case, conversion studies as SF 
+    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
+    weight *= displEleVars[indElel2];	
+    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
+    weight *= displEleVars[indElel3];
+  }//end ee
+ 
+  if (channel == 0 ){ // mm case, luka's studies on the SV AND per-muon SF(ID and ISO) measured in Zevents by kirill
     int binx_n,biny_n,binx_d,biny_d  =0;
     double xvariable, yvariable = 0.;
     xvariable = D2_delta_pv_sv;
@@ -394,19 +454,30 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
     binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(xvariable);
     biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
     binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
-    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
-    
-    weight *=  (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)) ;
+    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable); 
+    weight *=  (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)) ; //only from luka study
+
+    double sfValue_IsoID_l2 =1.;
+    int binx_IsoID_l2 =0;
+    int biny_IsoID_l2 =0;
+    binx_IsoID_l2 = sf_isoID_nPMuon[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl2]));
+    if (_lPt[leptonIndexl2] > sf_isoID_nPMuon[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon[0]->GetYaxis()->GetNbins()))       biny_IsoID_l2 =  sf_isoID_nPMuon[0]->GetYaxis()->GetNbins(); 
+    else biny_IsoID_l2 = sf_isoID_nPMuon[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl2], sf_isoID_nPMuon[0]->GetYaxis()->GetBinLowEdge(1)));
+    sfValue_IsoID_l2 = sf_isoID_nPMuon[0]->GetBinContent(binx_IsoID_l2,biny_IsoID_l2); // SF l2
+
+    double sfValue_IsoID_l3 =1.;
+    int binx_IsoID_l3 =0;
+    int biny_IsoID_l3 =0;
+    binx_IsoID_l3 = sf_isoID_nPMuon[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl3]));
+    if (_lPt[leptonIndexl3] > sf_isoID_nPMuon[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon[0]->GetYaxis()->GetNbins()))       biny_IsoID_l3 =  sf_isoID_nPMuon[0]->GetYaxis()->GetNbins();
+    else biny_IsoID_l3 = sf_isoID_nPMuon[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl3], sf_isoID_nPMuon[0]->GetYaxis()->GetBinLowEdge(1)));
+    sfValue_IsoID_l3 = sf_isoID_nPMuon[0]->GetBinContent(binx_IsoID_l3,biny_IsoID_l3); // SF l3
+
+    weight *=sfValue_IsoID_l2 * sfValue_IsoID_l3; // all the SF for the mm case 
   }
-  else if (channel == 3){ // s
-    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
-    weight *= displEleVars[indElel2];	
-    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
-    weight *= displEleVars[indElel3];
-   
-  }
-  else { // 
-    if (flavors_3l[1] == 1 && flavors_3l[2] == 0){
+
+  if (channel == 1 || channel==2 || channel == 4 || channel ==5 ){ // em case, electron SF from conversion, sqrt SV from luka, single muon SF from kirill
+    if (flavors_3l[1] == 1 && flavors_3l[2] == 0){ // me
       int binx_n,biny_n,binx_d,biny_d  =0;
       double xvariable, yvariable = 0.;
       xvariable = D2_delta_pv_sv;
@@ -420,9 +491,137 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
       size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
       weight *= displEleVars[indElel3];
-     
+
+      double sfValue_IsoID_l2 =1.;
+      int binx_IsoID_l2 =0;
+      int biny_IsoID_l2 =0;
+      binx_IsoID_l2 = sf_isoID_nPMuon[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl2]));
+      if (_lPt[leptonIndexl2] > sf_isoID_nPMuon[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon[0]->GetYaxis()->GetNbins()))       biny_IsoID_l2 =  sf_isoID_nPMuon[0]->GetYaxis()->GetNbins(); 
+      else biny_IsoID_l2 = sf_isoID_nPMuon[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl2], sf_isoID_nPMuon[0]->GetYaxis()->GetBinLowEdge(1)));
+      sfValue_IsoID_l2 = sf_isoID_nPMuon[0]->GetBinContent(binx_IsoID_l2,biny_IsoID_l2); // SF l2
+      weight *=  sfValue_IsoID_l2;
     }
-    if (flavors_3l[1] == 0 && flavors_3l[2] == 1){
+    if (flavors_3l[1] == 0 && flavors_3l[2] == 1){ // em
+      int binx_n,biny_n,binx_d,biny_d  =0;
+      double xvariable, yvariable = 0.;
+      xvariable = D2_delta_pv_sv;
+      yvariable = sum_pt;
+      if (xvariable > 20) xvariable = 7.;
+      if (yvariable > 20) yvariable = 10.;    
+      binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(xvariable);
+      biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
+      binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
+      biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
+      weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+      size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
+      weight *= displEleVars[indElel2];
+
+      double sfValue_IsoID_l3 =1.;
+      int binx_IsoID_l3 =0;
+      int biny_IsoID_l3 =0;
+      binx_IsoID_l3 = sf_isoID_nPMuon[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl3]));
+      if (_lPt[leptonIndexl3] > sf_isoID_nPMuon[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon[0]->GetYaxis()->GetNbins()))       biny_IsoID_l3 =  sf_isoID_nPMuon[0]->GetYaxis()->GetNbins();
+      else biny_IsoID_l3 = sf_isoID_nPMuon[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl3], sf_isoID_nPMuon[0]->GetYaxis()->GetBinLowEdge(1)));
+      sfValue_IsoID_l3 = sf_isoID_nPMuon[0]->GetBinContent(binx_IsoID_l3,biny_IsoID_l3); // SF l3
+      weight *=  sfValue_IsoID_l3;
+    }
+  }
+  //std::cout<<"weight at the end: "<<weight<<std::endl;
+  return weight;
+}
+//_____________________________________________ displaced mess
+double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3 ){
+  double weight_error =1.;
+
+  if (channel == 3){ // ee case, error
+    double eleele=1;
+    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
+    eleele *= displEleVars[indElel2];	
+    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
+    eleele *= displEleVars[indElel3];
+    weight_error = 0.5* std::abs(1 - eleele);  
+  }
+  
+  if (channel == 0 ){ // mm is the mess
+    int binx_n,biny_n,binx_d,biny_d  =0;
+    double xvariable, yvariable = 0.;
+    xvariable = D2_delta_pv_sv;
+    yvariable = sum_pt;
+    if (xvariable > 20) xvariable = 7.;
+    if (yvariable > 20) yvariable = 10.;
+    binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(xvariable);
+    biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
+    binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
+    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
+
+    double error_sv =  0.5* std::abs(1 -   ( (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) );
+
+    double sfValue_IsoID_l2 =1.;
+    int binx_IsoID_l2 =0;
+    int biny_IsoID_l2 =0;
+    binx_IsoID_l2 = sf_isoID_nPMuon[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl2]));
+    if (_lPt[leptonIndexl2] > sf_isoID_nPMuon[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon[0]->GetYaxis()->GetNbins()))       biny_IsoID_l2 =  sf_isoID_nPMuon[0]->GetYaxis()->GetNbins(); 
+    else biny_IsoID_l2 = sf_isoID_nPMuon[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl2], sf_isoID_nPMuon[0]->GetYaxis()->GetBinLowEdge(1)));
+    sfValue_IsoID_l2 = sf_isoID_nPMuon[0]->GetBinContent(binx_IsoID_l2,biny_IsoID_l2); // SF l2
+    double sfValue_IsoID_l3 =1.;
+    int binx_IsoID_l3 =0;
+    int biny_IsoID_l3 =0;
+    binx_IsoID_l3 = sf_isoID_nPMuon[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl3]));
+    if (_lPt[leptonIndexl3] > sf_isoID_nPMuon[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon[0]->GetYaxis()->GetNbins()))       biny_IsoID_l3 =  sf_isoID_nPMuon[0]->GetYaxis()->GetNbins();
+    else biny_IsoID_l3 = sf_isoID_nPMuon[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl3], sf_isoID_nPMuon[0]->GetYaxis()->GetBinLowEdge(1)));
+    sfValue_IsoID_l3 = sf_isoID_nPMuon[0]->GetBinContent(binx_IsoID_l3,biny_IsoID_l3); // SF l3
+
+    double sfValue_IsoID_l2_error =1.;
+    int binx_IsoID_l2_error =0;
+    int biny_IsoID_l2_error =0;
+    binx_IsoID_l2_error = sf_isoID_nPMuon_syst[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl2]));
+    if (_lPt[leptonIndexl2] > sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins()))       biny_IsoID_l2_error =  sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins(); 
+    else biny_IsoID_l2_error = sf_isoID_nPMuon_syst[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl2], sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinLowEdge(1)));
+    sfValue_IsoID_l2_error = sf_isoID_nPMuon_syst[0]->GetBinContent(binx_IsoID_l2_error,biny_IsoID_l2_error); // SF l2
+    double sfValue_IsoID_l3_error =1.;
+    int binx_IsoID_l3_error =0;
+    int biny_IsoID_l3_error =0;
+    binx_IsoID_l3_error = sf_isoID_nPMuon_syst[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl3]));
+    if (_lPt[leptonIndexl3] > sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins()))       biny_IsoID_l3_error =  sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins();
+    else biny_IsoID_l3_error = sf_isoID_nPMuon_syst[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl3], sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinLowEdge(1)));
+    sfValue_IsoID_l3_error = sf_isoID_nPMuon_syst[0]->GetBinContent(binx_IsoID_l3_error,biny_IsoID_l3_error); // SF l3
+    
+    double error_idsf = sfValue_IsoID_l2*sfValue_IsoID_l3_error +  sfValue_IsoID_l3*sfValue_IsoID_l2_error + sfValue_IsoID_l2_error*sfValue_IsoID_l3_error;
+   
+    weight_error = TMath::Sqrt (error_sv*error_sv + error_idsf*error_idsf);    
+  }
+
+  
+  if (channel == 1 || channel==2 || channel == 4 || channel ==5 ){ // em case, electron SF from conversion, sqrt SV from luka, single muon SF from kirill
+    if (flavors_3l[1] == 1 && flavors_3l[2] == 0){ // me
+      int binx_n,biny_n,binx_d,biny_d  =0;
+      double xvariable, yvariable = 0.;
+      xvariable = D2_delta_pv_sv;
+      yvariable = sum_pt;
+      if (xvariable > 20) xvariable = 7.;
+      if (yvariable > 20) yvariable = 10.;
+      binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(xvariable);
+      biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
+      binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
+      biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
+      weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+      size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
+      weight *= displEleVars[indElel3];
+
+      double error_sv = 0.5* std::abs(1 - weight);
+
+      double sfValue_IsoID_l2_error =1.;
+      int binx_IsoID_l2_error =0;
+      int biny_IsoID_l2_error =0;
+      binx_IsoID_l2_error = sf_isoID_nPMuon_syst[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl2]));
+      if (_lPt[leptonIndexl2] > sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins()))       biny_IsoID_l2_error =  sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins(); 
+      else biny_IsoID_l2_error = sf_isoID_nPMuon_syst[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl2], sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinLowEdge(1)));
+      sfValue_IsoID_l2_error = sf_isoID_nPMuon_syst[0]->GetBinContent(binx_IsoID_l2_error,biny_IsoID_l2_error); // SF l2
+
+      weight_error = TMath::Sqrt (error_sv*error_sv + sfValue_IsoID_l2_error*sfValue_IsoID_l2_error);
+      
+    }
+    if (flavors_3l[1] == 0 && flavors_3l[2] == 1){ // em
       int binx_n,biny_n,binx_d,biny_d  =0;
       double xvariable, yvariable = 0.;
       xvariable = D2_delta_pv_sv;
@@ -437,49 +636,19 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
       weight *= displEleVars[indElel2];
       
-    }
-  }
-  //std::cout<<"weight at the end: "<<weight<<std::endl;
-  return weight;
-}
-//_____________________________________________ displaced mess
-double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] ){
-  double weight_error =1.;
+      double error_sv = 0.5* std::abs(1 - weight);
 
-  if (channel == 0 ){ // 
-    int binx_n,biny_n,binx_d,biny_d  =0;
-     double xvariable, yvariable = 0.;
-    xvariable = D2_delta_pv_sv;
-    yvariable = sum_pt;
-    if (xvariable > 20) xvariable = 7.;
-    if (yvariable > 20) yvariable = 10.;
-    binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(xvariable);
-    biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
-    binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
-    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
-    weight_error = 0.5* std::abs(1 -   ( (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) );    
-  }
-  else if (channel == 3){ //
-    double eleele=1;
-    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
-    eleele *= displEleVars[indElel2];	
-    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
-    eleele *= displEleVars[indElel3];
-    weight_error = 0.5* std::abs(1 - eleele);
-    
-  }
-  else { // 
-     int binx_n,biny_n,binx_d,biny_d  =0;
-     double xvariable, yvariable = 0.;
-    xvariable = D2_delta_pv_sv;
-    yvariable = sum_pt;
-    if (xvariable > 20) xvariable = 7.;
-    if (yvariable > 20) yvariable = 10.;
-    binx_n = sf_sv_effcy_num[0] ->GetXaxis()->FindBin(xvariable);
-    biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
-    binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
-    biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
-    weight_error = 0.5* std::abs(1 -   ( (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) );    
+      double sfValue_IsoID_l3_error =1.;
+      int binx_IsoID_l3_error =0;
+      int biny_IsoID_l3_error =0;
+      binx_IsoID_l3_error = sf_isoID_nPMuon_syst[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndexl3]));
+      if (_lPt[leptonIndexl3] > sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinUpEdge(sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins()))       biny_IsoID_l3_error =  sf_isoID_nPMuon_syst[0]->GetYaxis()->GetNbins();
+      else biny_IsoID_l3_error = sf_isoID_nPMuon_syst[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndexl3], sf_isoID_nPMuon_syst[0]->GetYaxis()->GetBinLowEdge(1)));
+      sfValue_IsoID_l3_error = sf_isoID_nPMuon_syst[0]->GetBinContent(binx_IsoID_l3_error,biny_IsoID_l3_error); // SF l3
+
+      weight_error = TMath::Sqrt (error_sv*error_sv + sfValue_IsoID_l3_error*sfValue_IsoID_l3_error);
+
+    }
   }
   
   return weight_error;

@@ -307,7 +307,7 @@ void Analysis_mc::initializeWeights(){
   bool changedEra = ( weightsAre2016 != is2016() );
   if( firstTime || changedEra){
     weightsAre2016 = is2016();
-    //automatically use b-tag reshaping for now
+    //automatically use b-tag reshaping for nows
     reweighter.reset(new Reweighter(samples /*, is2016()*/) );
   } 
 }
@@ -641,145 +641,102 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   TGraphAsymmErrors *fakeRate_mumu[3];
   TGraphAsymmErrors *fakeRate_ee[3];
   TGraphAsymmErrors *fakeRate_mue[3];
-  TFile *hfile1 = ist2b ? TFile::Open(names_FR_files[0]) : TFile::Open(names_FR_files_daniele[0]);
+  TFile *hfile1 =  TFile::Open(names_FR_files[0]) ;
   fakeRate_mu[0] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta1");
   fakeRate_mu[1] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta2");
   fakeRate_mu[2] = (TGraphAsymmErrors*)hfile1->Get("fakeRate_mu_eta3");
-  TFile *hfile2 = ist2b ? TFile::Open(names_FR_files[1]) : TFile::Open(names_FR_files_daniele[1]);
+  TFile *hfile2 =  TFile::Open(names_FR_files[1]) ;
   fakeRate_e[0] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta1");
   fakeRate_e[1] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta2");
   fakeRate_e[2] = (TGraphAsymmErrors*)hfile2->Get("fakeRate_e_eta3");
-  TFile *hfile_dfr1= ist2b ? TFile::Open(names_FR_files[2]) : TFile::Open(names_FR_files_daniele[3]);
+  TFile *hfile_dfr1=  TFile::Open(names_FR_files[2]) ;
   fakeRate_mumu[0]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
   fakeRate_mumu[1]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
   fakeRate_mumu[2]= (TGraphAsymmErrors*)hfile_dfr1->Get("fakeRate_mu_eta1");
-  TFile *hfile_dfr2 = ist2b ? TFile::Open(names_FR_files[3]) : TFile::Open(names_FR_files_daniele[3]);
+  TFile *hfile_dfr2 = TFile::Open(names_FR_files[3]) ;
   fakeRate_ee[0]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
   fakeRate_ee[1]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
   fakeRate_ee[2]= (TGraphAsymmErrors*)hfile_dfr2->Get("fakeRate_e_eta1");
-  TFile *hfile_dfr3 = ist2b ? TFile::Open(names_FR_files[4]) : TFile::Open(names_FR_files_daniele[4]);
+  TFile *hfile_dfr3 =  TFile::Open(names_FR_files[4]) ;
   fakeRate_mue[0]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
   fakeRate_mue[1]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
   fakeRate_mue[2]= (TGraphAsymmErrors*)hfile_dfr3->Get("fakeRate_emu_eta1");
  
 	
-	
   //   SF leptons histograms	
-  TH2D *sf_prompt_muon[1]; 
-  if (year == 0){
-    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SF_muon_files[0]) :  TFile::Open(names_SF_muon_files[0]);
-    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
-  }	
-  if (year == 1){
-    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_muon_files[1]) :  TFile::Open(names_SF_muon_files[1]);
-    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_genTracks_pt_abseta");
-  }
-  if (year == 2 ){	
-    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_muon_files[2]) :  TFile::Open(names_SF_muon_files[2]);
-    sf_prompt_muon[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
-  }	
-	
-	
-  TH2D *sf_prompt_muon_syst[1]; 
-  if (year == 0){
-    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SFSY_muon_files[0]) :  TFile::Open(names_SFSY_muon_files[0]);
-    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2016->Get("NUM_MediumID_DEN_genTracks_eta_pt");
-  }	
-  if (year == 1){
-    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SFSY_muon_files[1]) :  TFile::Open(names_SFSY_muon_files[1]);
-    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2017->Get("NUM_MediumID_DEN_genTracks_pt_abseta_syst");
-  }
-  if (year == 2 ){	
-    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SFSY_muon_files[2]) :  TFile::Open(names_SFSY_muon_files[2]);
-    sf_prompt_muon_syst[0] = (TH2D*)hfile1_sf_2018->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
-  }	
-	
-  TH2F *sf_trigger_muon[1]; 
-  if (year == 0){
-    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_trigger_muon_files[0]) :  TFile::Open(names_trigger_muon_files[0]);
-    hfile1_sf_2016->cd("IsoMu24_OR_IsoTkMu24_PtEtaBins");
-    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2016->Get("IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio");
-  }	
-  if (year == 1){
-    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_trigger_muon_files[1]) :  TFile::Open(names_trigger_muon_files[1]);
-    hfile1_sf_2017->cd("IsoMu27_PtEtaBins");
-    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2017->Get("IsoMu27_PtEtaBins/abseta_pt_ratio");
-  }
-  if (year == 2 ){	
-    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_trigger_muon_files[2]) :  TFile::Open(names_trigger_muon_files[2]);
-    hfile1_sf_2018->cd("IsoMu24_PtEtaBins");
-    sf_trigger_muon[0] = (TH2F*)hfile1_sf_2018->Get("IsoMu24_PtEtaBins/abseta_pt_ratio");
-  }
-
+  TH2D *sf_prompt_muon[1];
+  TH2D *sf_prompt_muon_syst[1];
+  TH2D *sf_iso_ip_prompt_muon[1];
+  TH2D *sf_iso_ip_prompt_muon_syst[1];
+  TH2F *sf_trigger_muon[1];
   TH2F *sf_trigger_ele[1]; 
-  if (year == 0){
-    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_trigger_ele_files[0]) :  TFile::Open(names_trigger_ele_files[0]);
-    sf_trigger_ele[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
-  }	
-  if (year == 1){
-    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_trigger_ele_files[1]) :  TFile::Open(names_trigger_ele_files[1]);
-    sf_trigger_ele[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
-  }
-  if (year == 2 ){	
-    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_trigger_ele_files[2]) :  TFile::Open(names_trigger_ele_files[2]);
-    sf_trigger_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
-  }
-			
-  TH2F *sf_prompt_ele[1];	
-  if (year == 0){
-    TFile *hfile1_sf_2016 = ist2b ?   TFile::Open(names_SF_ele_files[0]) :  TFile::Open(names_SF_ele_files[0]);
-    sf_prompt_ele[0] = (TH2F*)hfile1_sf_2016->Get("EGamma_SF2D");
-  }	
-  if (year == 1){
-    TFile *hfile1_sf_2017 = ist2b ?   TFile::Open(names_SF_ele_files[1]) :  TFile::Open(names_SF_ele_files[1]);
-    sf_prompt_ele[0] = (TH2F*)hfile1_sf_2017->Get("EGamma_SF2D");
-  }
-  if (year == 2 ){	
-    TFile *hfile1_sf_2018 = ist2b ?   TFile::Open(names_SF_ele_files[2]) :  TFile::Open(names_SF_ele_files[2]);
-    sf_prompt_ele[0] = (TH2F*)hfile1_sf_2018->Get("EGamma_SF2D");
-  }
-
-  
-  
+  TH2F *sf_prompt_ele[1];
+  //non prompt
+  TH2F *sf_isoID_nPMuon[1];
 
   TH2F *sf_btag_eff[3];	//0 uds, 1 charm, 2 b
-  if (year == 0){
-    TFile *hfile1_btag_2016 = ist2b ?   TFile::Open(names_btagging_eff_files[0]) :  TFile::Open(names_btagging_eff_files[0]);
-    sf_btag_eff[0] = (TH2F*)hfile1_btag_2016->Get("bTagEff_loose_udsg");
-    sf_btag_eff[1] = (TH2F*)hfile1_btag_2016->Get("bTagEff_loose_charm");
-    sf_btag_eff[2] = (TH2F*)hfile1_btag_2016->Get("bTagEff_loose_beauty");
-  }	
-  if (year == 1){
-    TFile *hfile1_btag_2017 = ist2b ?   TFile::Open(names_btagging_eff_files[1]) :  TFile::Open(names_btagging_eff_files[1]);
-    sf_btag_eff[0] = (TH2F*)hfile1_btag_2017->Get("bTagEff_loose_udsg");
-    sf_btag_eff[1] = (TH2F*)hfile1_btag_2017->Get("bTagEff_loose_charm");
-    sf_btag_eff[2] = (TH2F*)hfile1_btag_2017->Get("bTagEff_loose_beauty");
-  }
-  if (year == 2 ){	
-    TFile *hfile1_btag_2018 = ist2b ?   TFile::Open(names_btagging_eff_files[2]) :  TFile::Open(names_btagging_eff_files[2]);
-    sf_btag_eff[0] = (TH2F*)hfile1_btag_2018->Get("bTagEff_loose_udsg");
-    sf_btag_eff[1] = (TH2F*)hfile1_btag_2018->Get("bTagEff_loose_charm");
-    sf_btag_eff[2] = (TH2F*)hfile1_btag_2018->Get("bTagEff_loose_beauty");
-  }
-  //by luka
+
+   //by luka
   TH2F *sf_sv_effcy_num[1];
   TH2F *sf_sv_effcy_den[1];
-  if (year == 0){
-    TFile *hfile1_sv_2016 = TFile::Open(names_SV_eff_files[0]);
-    sf_sv_effcy_num[0] =  (TH2F*)hfile1_sv_2016->Get("datahistn0");
-    sf_sv_effcy_den[0] =  (TH2F*)hfile1_sv_2016->Get("mchistn0");
-  }
-  if (year == 1){
-    TFile *hfile1_sv_2017 = TFile::Open(names_SV_eff_files[1]);
-    sf_sv_effcy_num[0] =  (TH2F*)hfile1_sv_2017->Get("datahistn0");
-    sf_sv_effcy_den[0] =  (TH2F*)hfile1_sv_2017->Get("mchistn0");
-  }
-  if (year == 2){
-    TFile *hfile1_sv_2018 = TFile::Open(names_SV_eff_files[2]);
-    sf_sv_effcy_num[0] =  (TH2F*)hfile1_sv_2018->Get("datahistn0");
-    sf_sv_effcy_den[0] =  (TH2F*)hfile1_sv_2018->Get("mchistn0");
-  }
+  
+  for (int i = 0; i < 3; i++){   
+    if (year == 0 && i!= 0) continue;
+    if (year == 1 && i!= 1) continue;
+    if (year == 2 && i!= 2) continue;
 
+    //ID prompt muon
+    TFile *hfile1_names_SF_muon_files = TFile::Open(names_SF_muon_files[i]);
+    if (i == 0 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SF_muon_files->Get("NUM_MediumID_DEN_genTracks_eta_pt");
+    if (i == 1 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SF_muon_files->Get("NUM_MediumID_DEN_genTracks_pt_abseta");
+    if (i == 2 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SF_muon_files->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
+    TFile *hfile1_names_SFSY_muon_files = TFile::Open(names_SFSY_muon_files[i]);
+    if (i == 0 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_genTracks_eta_pt");
+    if (i == 1 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_genTracks_pt_abseta_syst");
+    if (i == 2 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
+    //trigger muon
+    TFile *hfile1_names_trigger_muon_files = TFile::Open(names_trigger_muon_files[i]);
+    if (i == 0){
+      hfile1_names_trigger_muon_files->cd("IsoMu24_OR_IsoTkMu24_PtEtaBins");
+      sf_trigger_muon[0] = (TH2F*)hfile1_names_trigger_muon_files->Get("IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio");
+    }
+    if (i == 1){
+      hfile1_names_trigger_muon_files->cd("IsoMu27_PtEtaBins");
+      sf_trigger_muon[0] = (TH2F*)hfile1_names_trigger_muon_files->Get("IsoMu27_PtEtaBins/abseta_pt_ratio");
+    }
+    if (i == 2){
+      hfile1_names_trigger_muon_files->cd("IsoMu24_PtEtaBins");
+      sf_trigger_muon[0] = (TH2F*)hfile1_names_trigger_muon_files->Get("IsoMu24_PtEtaBins/abseta_pt_ratio");
+    }
+    //ISO prompt muon
+    TFile *hfile1_names_SF_isoIP_muon_files = TFile::Open(names_SF_isoIP_muon_files[i]);
+    sf_iso_ip_prompt_muon[0]      = (TH2D*)hfile1_names_SF_isoIP_muon_files->Get("NUM_displacedIsoIP_DEN_displaced_abseta_pt");
+    sf_iso_ip_prompt_muon_syst[0] = (TH2D*)hfile1_names_SF_isoIP_muon_files->Get("NUM_displacedIsoIP_DEN_displaced_abseta_pt_combined_syst");
+    //trigger electron
+    TFile *hfile1_names_trigger_ele_files = TFile::Open(names_trigger_ele_files[i]);
+    sf_trigger_ele[0] = (TH2F*)names_trigger_ele_files->Get("EGamma_SF2D");
+    //ID prompt electron 
+    TFile *hfile1_names_SF_ele_files = TFile::Open(names_SF_ele_files[i]);
+    sf_prompt_ele[0] = (TH2F*)names_SF_ele_files->Get("EGamma_SF2D");
+    //ISO displaced muons
+    TFile *hfile1_names_SF_isoID_nPMuon_files = TFile::Open(names_SF_isoID_nPMuon_files[i]);
+    sf_isoID_nPMuon[0]      = (TH2D*)hfile1_names_SF_isoID_nPMuon_files->Get("NUM_displacedIso_DEN_trackerMuons_abseta_pt");
+    sf_isoID_nPMuon_syst[0] = (TH2D*)hfile1_names_SF_isoID_nPMuon_files->Get("NUM_displacedIso_DEN_trackerMuons_abseta_pt_combined_syst");
+    //ID displaced muons missing
+
+    //--------------- btagging
+    TFile *hfile1_names_btagging_eff_files = TFile::Open(names_btagging_eff_files[i]);
+    sf_btag_eff[0] = (TH2F*)hfile1_names_btagging_eff_files->Get("bTagEff_loose_udsg");
+    sf_btag_eff[1] = (TH2F*)hfile1_names_btagging_eff_files->Get("bTagEff_loose_charm");
+    sf_btag_eff[2] = (TH2F*)hfile1_names_btagging_eff_files->Get("bTagEff_loose_beauty");
+    //--------------- SV study
+    TFile *hfile1_names_SV_eff_files = TFile::Open(names_SV_eff_files[i]);
+    sf_sv_effcy_num[0] =  (TH2F*)hfile1_names_SV_eff_files->Get("datahistn0");
+    sf_sv_effcy_den[0] =  (TH2F*)hfile1_names_SV_eff_files->Get("mchistn0");
+  }//end loop
+  
+ 
+ 
   
   // by tom
   double displEleVars[8] = {0.,0.,0.,0.,0.,0.,0.,0.}; // 2016
@@ -1090,7 +1047,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (single_fake)  v4l2.SetPtEtaPhiE(_lPt[l2]*(1+std::max(_relIso[l2]-0.2,0.)),_lEta[l2], _lPhi[l2], _lE[l2]*(1+std::max(_relIso[l2]-0.2,0.)));
       if (Double_fake)  v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
       if (single_fake)  v4l3.SetPtEtaPhiE(_lPt[l3]*(1+std::max(_relIso[l3]-0.2,0.)),_lEta[l3], _lPhi[l3], _lE[l3]*(1+std::max(_relIso[l3]-0.2,0.)));
-      if (Double_fake)  v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);
+      if (Double_fake)  v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);     
       flavors_3l[0]=_lFlavor[l1];
       flavors_3l[1]=_lFlavor[l2];
       flavors_3l[2]=_lFlavor[l3];
@@ -1255,12 +1212,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (single_fake){
 	  if (!_isT[l2]) {
 	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
-				   _lEta[l2], _lFlavor[l2], _lPt[l2], index_eta,flav_dRF, momentum_jet);
+				   _lEta[l2], _lFlavor[l2], v4l2.Pt(), index_eta,flav_dRF, momentum_jet);
 	    scal *= -fr/(1-fr);
 	  }
 	  if (!_isT[l3]) {
 	    double fr = FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
-				   _lEta[l3], _lFlavor[l3], _lPt[l3], index_eta,flav_dRF, momentum_jet);
+				   _lEta[l3], _lFlavor[l3], v4l3.Pt(), index_eta,flav_dRF, momentum_jet);
 	    scal *= -fr/(1-fr);
 	  }	  
 	}//sFR
@@ -1403,48 +1360,60 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }
       //-------------------- central values SF calculations and systematics -------------------------
       // l1   
+      
       // Systematics on prompt muons
       if(SR_channel <= 2) {
-        weight_SR[ muon_case][pMuo_index][0][effsam] = SF_prompt_muon (*&sf_prompt_muon, l1);
-	weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);
-	//eta??? boh... desapparessidos
+	//ID MULTIPLIED with ISO and IP 
+	weight_SR[muon_case][pMuo_index][0][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1);	
+	//trigger
+	weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);	
 	//
-	weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)-std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
-	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1)+std::max(SF_prompt_muon_error(*&sf_prompt_muon_syst, l1),SF_prompt_muon_error(*&sf_prompt_muon, l1) );	  
+	weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1) - SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&f_iso_ip_prompt_muon_syst, l1);
+	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon(*&sf_prompt_muon, l1) + SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&f_iso_ip_prompt_muon_syst, l1);	
 	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
 	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
       }
+      // Systematics on prompt ele
       if(SR_channel > 2) {
-	weight_SR[ ele_case][pEle_index][0][effsam]  = SF_prompt_ele  (*&sf_prompt_ele, l1);
+	weight_SR[ele_case][pEle_index][0][effsam]  = SF_prompt_ele  (*&sf_prompt_ele, l1);
 	weight_SR[ele_case][trigger_index][0][effsam] = SF_trigger_ele(*&sf_trigger_ele, l1);
-
 	//
 	weight_SR[ele_case][pEle_index][1][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)-SF_prompt_ele_error(*&sf_prompt_ele, l1);	  
 	weight_SR[ele_case][pEle_index][2][effsam] = SF_prompt_ele(*&sf_prompt_ele, l1)+SF_prompt_ele_error(*&sf_prompt_ele, l1);
 	weight_SR[ele_case][trigger_index][1][effsam] = SF_trigger_ele(*&sf_trigger_ele, l1)-SF_trigger_ele_error(*&sf_trigger_ele, l1);	  
 	weight_SR[ele_case][trigger_index][2][effsam] = SF_trigger_ele(*&sf_trigger_ele, l1)+SF_trigger_ele_error(*&sf_trigger_ele, l1);
       }
-      // ------------------------- leptons SF uncertainties ------------------------- //
-      //  std::cout<<"========================================================================================="<<std::endl;
-      //   std::cout<<_lElectronMissingHits[l2]<<" "<<_lElectronMissingHits[l3]<<"    ------> "<<displEleVars[_lElectronMissingHits[l2]]<<"   "<<displEleVars[_lElectronMissingHits[l3]] <<std::endl;
-      //std::cout<<flavors_3l[1]<<" "<<flavors_3l[2]<<std::endl;
-      
-      
-      // Systematics on displaced signature
-      for (int w_loop =0; w_loop < nCoupling; w_loop++){
-	double central_displaced_signature =   displaced_weight (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den );
-	double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den );
-	weight_SR[w_loop][npLeptons_index][0][effsam] =  central_displaced_signature;
-	weight_SR[w_loop][npLeptons_index][1][effsam] =  central_displaced_signature - variation_displaced_signature;
-	weight_SR[w_loop][npLeptons_index][2][effsam] =  central_displaced_signature + variation_displaced_signature;
-	//	std::cout<<"displaced: "<< central_displaced_signature<<"    ±   "<< variation_displaced_signature<<"  "<<weight_SR[w_loop][npLeptons_index][1][effsam]<<"  "<<weight_SR[w_loop][npLeptons_index][2][effsam]<<std::endl;
+      // Systematics on DISPALCED SIGNATURE
+      double central_displaced_signature =   displaced_weight (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den, *&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3);
+      double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den,*&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3 );
+      std::cout<<central_displaced_signature<<"  "<<variation_displaced_signature<<"  "<< central_displaced_signature + variation_displaced_signature/central_displaced_signature<<std::endl;
+      if (SR_channel== 0){
+	weight_SR[muon_case][npLeptons_mm_index][0][effsam] =  central_displaced_signature;
+	weight_SR[muon_case][npLeptons_mm_index][1][effsam] =  central_displaced_signature - variation_displaced_signature;
+	weight_SR[muon_case][npLeptons_mm_index][2][effsam] =  central_displaced_signature + variation_displaced_signature;
       }
+      if (SR_channel == 1 || SR_channel == 2){
+	weight_SR[muon_case][npLeptons_em_index][0][effsam] =  central_displaced_signature;
+	weight_SR[muon_case][npLeptons_em_index][1][effsam] =  central_displaced_signature - variation_displaced_signature;
+	weight_SR[muon_case][npLeptons_em_index][2][effsam] =  central_displaced_signature + variation_displaced_signature;
+      }
+      if (SR_channel== 3){
+	weight_SR[ele_case][npLeptons_ee_index][0][effsam] =  central_displaced_signature;
+	weight_SR[ele_case][npLeptons_ee_index][1][effsam] =  central_displaced_signature - variation_displaced_signature;
+	weight_SR[ele_case][npLeptons_ee_index][2][effsam] =  central_displaced_signature + variation_displaced_signature;
+      }
+      if (SR_channel == 4 || SR_channel == 5){
+	weight_SR[ele_case][npLeptons_em_index][0][effsam] =  central_displaced_signature;
+	weight_SR[ele_case][npLeptons_em_index][1][effsam] =  central_displaced_signature - variation_displaced_signature;
+	weight_SR[ele_case][npLeptons_em_index][2][effsam] =  central_displaced_signature + variation_displaced_signature;
+      }
+	
       // ------------------------- DFR ------------------------- //    
       for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	weight_SR[w_loop][dfmm_index][0][effsam] = 1.;
 	weight_SR[w_loop][dfee_index][0][effsam] = 1.;
 	weight_SR[w_loop][dfem_index][0][effsam] = 1.;
-	
+	//flat 30perct on everything 
 	weight_SR[w_loop][dfShape_index][0][effsam] = 1.;
 	weight_SR[w_loop][dfShape_index][1][effsam] = 0.7;
 	weight_SR[w_loop][dfShape_index][2][effsam] = 1.3;
@@ -1462,8 +1431,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  weight_SR[w_loop][dfLowStat_index][2][effsam] = 1.5;
 	}
       }   
-
-
       // ------------------------- bjet SF + JEC/JER number of jets ------------------------- //        
       double btag_weight_central=1;
       double btag_weight_down=1; 	    
@@ -1511,7 +1478,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
-	  // std::cout<< w_loop<<"  / "<<nSystematic<<std::endl;
 	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
 	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];
 	  //if (SR_channel <= 2 && weight_SR[0][w_loop][0][effsam] == 0) std::cout<<"weight central == 0 "<<"  systNamesT[iSystematics] "<<w_loop<<" "<<systNamesT[w_loop]<<std::endl;
