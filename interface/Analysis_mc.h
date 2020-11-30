@@ -1312,11 +1312,13 @@ UInt_t            _zgEventType;
 
 
   const static int nPlots= 2;
-  const static int nSystematic = 20;
+  const static int nSystematic = 17;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
   //const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
-  const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
+  const TString systNamesT[nSystematic] 	= { "on", "pu", "xsecNorm", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
+  // const TString systNamesT[nSystematic] 	= { "on", "pu", "xsecNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
+
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
   const TString plots_names [nPlots] = {"mass","displ"};
@@ -1346,24 +1348,24 @@ UInt_t            _zgEventType;
 
   const int on_index       =  0; // is the SR SR plot
   const int pu_index       =  1;
-  const int qcdNorm_index  =  2;
-  const int qcdShape_index =  3;
-  const int pdfNorm_index  =  4;
-  const int pdfShape_index =  5;
-  const int pEle_index     =  6;	
-  const int pMuo_index     =  7;
-  const int npLeptons_mm_index    =  8;
-  const int npLeptons_em_index    =  9;
-  const int npLeptons_ee_index    =  10;
-  const int jec_index      = 11;
-  const int jer_index      = 12;
-  const int btag_index     = 13;
-  const int trigger_index  = 14;
-  const int dfShape_index  = 15;
-  const int dfLowStat_index  = 16;
-  const int dfmm_index  = 17;
-  const int dfem_index  = 18;
-  const int dfee_index  = 19;
+  const int xsecNorm_index  =  2;
+  //const int qcdShape_index =  3;
+  // const int pdfNorm_index  =  4;
+  // const int pdfShape_index =  5;
+  const int pEle_index     =  3;	
+  const int pMuo_index     =  4;
+  const int npLeptons_mm_index    =  5;
+  const int npLeptons_em_index    =  6;
+  const int npLeptons_ee_index    =  7;
+  const int jec_index      = 8;
+  const int jer_index      = 9;
+  const int btag_index     = 10;
+  const int trigger_index  = 11;
+  const int dfShape_index  = 12;
+  const int dfLowStat_index  = 13;
+  const int dfmm_index  = 14;
+  const int dfem_index  = 15;
+  const int dfee_index  = 16;
 
   
   // const int on_index =    0;	// is the SR SR plot

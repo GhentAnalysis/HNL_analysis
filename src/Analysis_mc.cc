@@ -691,9 +691,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     if (i == 1 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SF_muon_files->Get("NUM_MediumID_DEN_genTracks_pt_abseta");
     if (i == 2 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SF_muon_files->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
     TFile *hfile1_names_SFSY_muon_files = TFile::Open(names_SFSY_muon_files[i]);
-    if (i == 0 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_genTracks_eta_pt");
-    if (i == 1 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_genTracks_pt_abseta_syst");
-    if (i == 2 ) sf_prompt_muon[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
+    if (i == 0 ) sf_prompt_muon_syst[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_genTracks_eta_pt");
+    if (i == 1 ) sf_prompt_muon_syst[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_genTracks_pt_abseta_syst");
+    if (i == 2 ) sf_prompt_muon_syst[0] = (TH2D*)hfile1_names_SFSY_muon_files->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta_syst");
     //trigger muon
     TFile *hfile1_names_trigger_muon_files = TFile::Open(names_trigger_muon_files[i]);
     if (i == 0){
@@ -736,7 +736,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   }//end loop
   
  
- 
+  std::cout<<"after all histo"<<std::endl;
   
   // by tom
   double displEleVars[8] = {0.,0.,0.,0.,0.,0.,0.,0.}; // 2016
@@ -917,7 +917,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
    	  
     for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);  
-   
+
       if (samples[sam].isData()){
 	auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
 	if(event != usedEvents.end()) continue;
@@ -1082,8 +1082,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       // -----------------------------------------------------------//
       if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
       if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
-      if (single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 7) continue;
-      if (single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 7) continue;
+      if (!isSignal && single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
+      if (!isSignal &&single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
      
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1358,20 +1358,28 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (PUWeight() == 0) std::cout<<"-----------> pileup e' zero"<<std::endl;	
 	}     
       }
+      //<<<<<<<<<<<<<<<<<<<<<<<< signal xsection
+      if (isSignal){
+	for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	  weight_SR[w_loop][xsecNorm_index][0][effsam] = 1.089;
+	  weight_SR[w_loop][xsecNorm_index][1][effsam] = 1.089-0.041;	
+	  weight_SR[w_loop][xsecNorm_index][2][effsam] = 1.089+0.042;	
+	}
+      }
+      
       //-------------------- central values SF calculations and systematics -------------------------
       // l1   
-      
       // Systematics on prompt muons
       if(SR_channel <= 2) {
 	//ID MULTIPLIED with ISO and IP 
-	weight_SR[muon_case][pMuo_index][0][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1);	
+	weight_SR[muon_case][pMuo_index][0][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1);
 	//trigger
-	weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);	
+	weight_SR[muon_case][trigger_index][0][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1);		
 	//
 	weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1) - SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&sf_iso_ip_prompt_muon_syst, l1);
-	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1) + SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&sf_iso_ip_prompt_muon_syst, l1);	
-	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
-	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);	  
+	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1) + SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&sf_iso_ip_prompt_muon_syst, l1);
+	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);
+	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);
       }
       // Systematics on prompt ele
       if(SR_channel > 2) {
@@ -1384,8 +1392,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	weight_SR[ele_case][trigger_index][2][effsam] = SF_trigger_ele(*&sf_trigger_ele, l1)+SF_trigger_ele_error(*&sf_trigger_ele, l1);
       }
       // Systematics on DISPALCED SIGNATURE
+
       double central_displaced_signature =   displaced_weight (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den, *&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3);
+
       double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den,*&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3 );
+
       std::cout<<central_displaced_signature<<"  "<<variation_displaced_signature<<"  "<< central_displaced_signature + variation_displaced_signature/central_displaced_signature<<std::endl;
       if (SR_channel== 0){
 	weight_SR[muon_case][npLeptons_mm_index][0][effsam] =  central_displaced_signature;
@@ -1478,16 +1489,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       if (!isDataDrivenBgk && !isDataYield){
 	for (int w_loop =0; w_loop < nSystematic; w_loop++){
-	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[0][w_loop][0][effsam];	 
-	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[1][w_loop][0][effsam];
-	  //if (SR_channel <= 2 && weight_SR[0][w_loop][0][effsam] == 0) std::cout<<"weight central == 0 "<<"  systNamesT[iSystematics] "<<w_loop<<" "<<systNamesT[w_loop]<<std::endl;
-	  // if (SR_channel > 2 && weight_SR[1][w_loop][0][effsam] == 0) std::cout<<"weight central == 0 "<<"  systNamesT[iSystematics] "<<w_loop<<" "<<systNamesT[w_loop]<<std::endl;
-
+	  if (SR_channel <= 2 ) central_total_weight_mu *= weight_SR[muon_case][w_loop][0][effsam];	 
+	  if (SR_channel > 2 ) central_total_weight_ele *= weight_SR[ele_case][w_loop][0][effsam];
 	} 	        	
       } 
-      //if (SR_channel <= 2 ) std::cout<<central_total_weight_mu<<std::endl;
-      //if (SR_channel > 2 ) std::cout<<central_total_weight_ele<<std::endl;
-
       // electron case --> eee eeµ eeµ	  
       if (SR_selection){ // only final final step 
 	// central distribution --> on_index ==> 0 and  "central" => 0
@@ -1519,7 +1524,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      }
 	    }//end variation
 	  }//end syst
-	}
+	}// end isDataDrivenBgk && Double_fake
 	if (!samples[sam].isData()){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
 	    if (iSystematics == dfShape_index) continue;
@@ -1604,7 +1609,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  //
 		
 	  // For QCD scale uncertainties
-	  if(bjet == 0) {
+	  /*if(bjet == 0) {
 	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
 	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
 	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]-1];
@@ -1632,6 +1637,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      }
 	    }
 	  } // end if(bjet == 0)
+	  */
 	} // end MC
       } // end SR_selection
 
@@ -1736,12 +1742,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	}
       }//<<<<<end histo
     }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<end loop over the entries
+    std::cout<<"after end loop all entries"<<std::endl;
+
     delete hLheCounter;
   }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< loop over samples
 
   // Theory uncertainties
   //
-  for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
+  /*for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
     // QCD uncertainties
     for(size_t ib=0; ib<nBins[0]; ++ib) {
       //for(size_t ic=0; ic<nCoupling; ++ic) {
@@ -1749,7 +1757,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	double errorByBin = 0.;
 	double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
 	double errorNorm  = 0.;
-	//double iniNorm  = plots_SR[ic][on_index][0][ss]->Integral(1, plots_SR[ic][on_index][0][ss]->GetNbinsX());
 	double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
 	for(size_t is=0; is<nQcdVars; ++is) {
 	  double deltabin = iniCont>0. ? std::abs(qcdHistos[is][ic][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
@@ -1773,7 +1780,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     }
     //
     // PDF uncertainties
-    for(size_t ib=0; ib<nBins[0]; ++ib) {
+     for(size_t ib=0; ib<nBins[0]; ++ib) {
       //for(size_t ic=0; ic<nCoupling; ++ic) {
       for(size_t ic=0; ic<2; ++ic) { // skip tau for now
 	double meanByBin  = 0.;
@@ -1811,7 +1818,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	}
       } // end for(size_t ic=0; ic<nCoupl; ++ic)
     } // end for(size_t ib=0; ib<nBins[0]; ++ib)
-  } // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
+    
+  }*/ // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
 
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
   //                |                         |
@@ -1880,51 +1888,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   }//--
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  /*  for(int cha = 0; cha < nCoupling; ++cha) {
-  //  std::cout<<"channel ----- "<<std::endl;
-  if (cha == 2) continue; // no taus for the moment
-  for (int ibin = 0; ibin < 24 ; ++ibin){
-  //if (ibin != 1) continue;
-  // std::cout<<"bin ==== "<<std::endl;
-
-  for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
-  if (effsam1 != 2 && effsam1 != 3 &&effsam1 != 5 &&effsam1 != nSamples_eff ) continue;	
-  double var=0.;
-  //	std::cout<<"in side effsma: "<< effsam1<<std::endl;
-  for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
-  if (iSystematics == 0) continue;
-  //if (iSystematics == qcdNorm_index || iSystematics == pdfNorm_index) continue;
-  double var_single_syst=0.;
-	 	    
-  double nominalContent = plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1);
-  double downContent =    plots_SR[cha][iSystematics][1][effsam1] -> GetBinContent(ibin+1);
-  double upContent =      plots_SR[cha][iSystematics][2][effsam1] -> GetBinContent(ibin+1);
-	 
-  double down = fabs(downContent - nominalContent);
-  double up =   fabs(upContent - nominalContent);
-
-  var_single_syst = std::max( down, up );
-  var += var_single_syst*var_single_syst;
-
-  // std::cout<< "syst: "<<iSystematics<<"   "<< nominalContent<<" nomdown: "<<downContent<<"  nomup: "<< upContent<<"   down: "<<down<<"  up: "<<up<<"   max: "<< var_single_syst<<std::endl;
-  //  std::cout<<  "syst: "<<iSystematics<<"   var: "<< var<<std::endl;
-  }
-  if (effsam1 == nSamples_eff - 1   || effsam1 == nSamples_eff ) var =0.;
-  double nominalContent_SF =  plots_SR[cha][0][0][nSamples_eff - 1] -> GetBinContent(ibin+1);
-  double nominalContent_DF =  plots_SR[cha][0][0][nSamples_eff] -> GetBinContent(ibin+1);
-  double var_SF = nominalContent_SF * 0.4;
-  double var_DF = nominalContent_DF * 0.4;
-	
-  if (effsam1 != nSamples_eff - 1   && effsam1 != nSamples_eff ) syst_error[ibin][cha][effsam1] += var;
-  if (effsam1 == nSamples_eff - 1) syst_error[ibin][cha][effsam1] =  var_SF*var_SF;
-  if (effsam1 == nSamples_eff )    syst_error[ibin][cha][effsam1] =  var_DF*var_DF;
-	
-  //std::cout<<effsam1<<") "<< var<<"  "<< plots_SR[cha][0][0][effsam1] -> GetBinContent(ibin+1)<<"   ±   "<< syst_error[ibin][cha][effsam1]<< "  ( "<<std::sqrt(syst_error[ibin][cha][effsam1])/plots_SR[cha][0][0][effsam1]-> GetBinContent(ibin+1)<<std::endl;
-  }
-  }
-  }
-  */
-	
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   int numer_plot_class =0;
   numer_plot_class = nSamples_eff -  nSamples_signal;
@@ -2022,7 +1985,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     // List of systematics
     //const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
  
-    const std::string systNames[] = {"n", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape","dfLowStat","dfmm","dfem","dfee","lumi", "npsfnorm"};
+    const std::string systNames[] = {"n", "pu", "xsecNorm", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape","dfLowStat","dfmm","dfem","dfee","lumi", "npsfnorm"};
     const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
     // List of systematics applicable to each process (signal + backgrounds)
@@ -2031,13 +1994,15 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     //                       Type     Correl.   Processes
     //                       -------  --------  -------------------------------------------------------------
     procPerSyst["pu"      ] = "shapeN; not_corr; signal,  Xgamma                           ";
-    procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["qcdShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["pdfShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["xsecNorm" ] = "shapeN;  is_corr; signal                           ";
+    // procPerSyst["qcdShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    //procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    // procPerSyst["pdfShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
     procPerSyst["pEle"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
     procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["npLeptons"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["npLeptons_mm"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["npLeptons_em"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+    procPerSyst["npLeptons_ee"] = "shapeN;  is_corr; signal,  Xgamma                           ";
     procPerSyst["jec"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
     procPerSyst["jer"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
     procPerSyst["btag"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
