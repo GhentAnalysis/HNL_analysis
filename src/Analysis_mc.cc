@@ -720,8 +720,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     sf_prompt_ele[0] = (TH2F*)hfile1_names_SF_ele_files->Get("EGamma_SF2D");
     //ISO displaced muons
     TFile *hfile1_names_SF_isoID_nPMuon_files = TFile::Open(names_SF_isoID_nPMuon_files[i]);
-    sf_isoID_nPMuon[0]      = (TH2D*)hfile1_names_SF_isoID_nPMuon_files->Get("NUM_displacedIso_DEN_trackerMuons_abseta_pt");
-    sf_isoID_nPMuon_syst[0] = (TH2D*)hfile1_names_SF_isoID_nPMuon_files->Get("NUM_displacedIso_DEN_trackerMuons_abseta_pt_combined_syst");
+    sf_isoID_nPMuon[0]      = (TH2F*)hfile1_names_SF_isoID_nPMuon_files->Get("NUM_displacedIso_DEN_trackerMuons_abseta_pt");
+    sf_isoID_nPMuon_syst[0] = (TH2F*)hfile1_names_SF_isoID_nPMuon_files->Get("NUM_displacedIso_DEN_trackerMuons_abseta_pt_combined_syst");
     //ID displaced muons missing
 
     //--------------- btagging
