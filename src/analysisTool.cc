@@ -492,6 +492,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+      
       size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
       weight *= displEleVars[indElel3];
 
@@ -516,6 +517,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+          
       size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
       weight *= displEleVars[indElel2];
 
@@ -533,7 +535,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
   return weight;
 }
 //_____________________________________________ displaced mess
-double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3 ){
+double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3){
   double weight_error =1.;
 
   if (channel == 3){ // ee case, error
@@ -597,7 +599,8 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
   
   if (channel == 1 || channel==2 || channel == 4 || channel ==5 ){ // em case, electron SF from conversion, sqrt SV from luka, single muon SF from kirill
     if (flavors_3l[1] == 1 && flavors_3l[2] == 0){ // me
-      int binx_n,biny_n,binx_d,biny_d  =0;
+      double weight_firstpart = 1.;
+     int binx_n,biny_n,binx_d,biny_d  =0;
       double xvariable, yvariable = 0.;
       xvariable = D2_delta_pv_sv;
       yvariable = sum_pt;
@@ -607,11 +610,14 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
       biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
       binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
-      weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
-      size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
-      weight *= displEleVars[indElel3];
+      weight_firstpart *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
 
-      double error_sv = 0.5* std::abs(1 - weight);
+      
+      
+      size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
+      weight_firstpart *= displEleVars[indElel3];
+
+      double error_sv = 0.5* std::abs(1 - weight_firstpart);
 
       double sfValue_IsoID_l2_error =1.;
       int binx_IsoID_l2_error =0;
@@ -622,9 +628,9 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
       sfValue_IsoID_l2_error = sf_isoID_nPMuon_syst[0]->GetBinContent(binx_IsoID_l2_error,biny_IsoID_l2_error); // SF l2
 
       weight_error = TMath::Sqrt (error_sv*error_sv + sfValue_IsoID_l2_error*sfValue_IsoID_l2_error);
-      
     }
     if (flavors_3l[1] == 0 && flavors_3l[2] == 1){ // em
+      double weight_firstpart = 1.;
       int binx_n,biny_n,binx_d,biny_d  =0;
       double xvariable, yvariable = 0.;
       xvariable = D2_delta_pv_sv;
@@ -635,11 +641,13 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
       biny_n = sf_sv_effcy_num[0] ->GetYaxis()->FindBin(yvariable);
       binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
-      weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+      weight_firstpart *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
+
+
       size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
-      weight *= displEleVars[indElel2];
-      
-      double error_sv = 0.5* std::abs(1 - weight);
+      weight_firstpart *= displEleVars[indElel2];
+
+      double error_sv = 0.5* std::abs(1 - weight_firstpart);
 
       double sfValue_IsoID_l3_error =1.;
       int binx_IsoID_l3_error =0;

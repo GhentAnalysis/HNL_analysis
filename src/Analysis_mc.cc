@@ -1393,11 +1393,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }
       // Systematics on DISPALCED SIGNATURE
 
-      double central_displaced_signature =   displaced_weight (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den, *&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3);
+      double central_displaced_signature =   displaced_weight       (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den, *&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3);
 
       double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den,*&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3 );
 
-      std::cout<<central_displaced_signature<<"  "<<variation_displaced_signature<<"  "<< central_displaced_signature + variation_displaced_signature/central_displaced_signature<<std::endl;
+
       if (SR_channel== 0){
 	weight_SR[muon_case][npLeptons_mm_index][0][effsam] =  central_displaced_signature;
 	weight_SR[muon_case][npLeptons_mm_index][1][effsam] =  central_displaced_signature - variation_displaced_signature;
