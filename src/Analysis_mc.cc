@@ -1396,6 +1396,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }
       // Systematics on DISPALCED SIGNATURE
 
+      //std::cout<<"===========  before calling    "<<D2_delta_pv_sv<<"   "<< (v4l2+v4l3).Pt()<<std::endl;
+
       double central_displaced_signature =   displaced_weight       (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den, *&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3);
 
       double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den,*&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3 );

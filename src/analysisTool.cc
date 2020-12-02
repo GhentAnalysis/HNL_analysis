@@ -459,6 +459,8 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
     binx_d = sf_sv_effcy_den[0] ->GetXaxis()->FindBin(xvariable);
     biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable); 
     weight *=  (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)) ; //only from luka study
+    //std::cout<<"SF function ----> weight   "<<weight<< "   which is "<< sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n)<<"  /  "<<sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)<<std::endl;
+    // std::cout<<"   "<<D2_delta_pv_sv<<"   "<< sum_pt<<std::endl;
 
     double sfValue_IsoID_l2 =1.;
     int binx_IsoID_l2 =0;
@@ -548,6 +550,7 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
   }
   
   if (channel == 0 ){ // mm is the mess
+    weight_error = 1.;
     int binx_n,biny_n,binx_d,biny_d  =0;
     double xvariable, yvariable = 0.;
     xvariable = D2_delta_pv_sv;
@@ -560,7 +563,10 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
     biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
 
     double error_sv =  0.5* std::abs(1 -   ( (sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) );
-
+    //std::cout<<"   "<<D2_delta_pv_sv<<"   "<< sum_pt<<std::endl;
+    //std::cout<<"xvariable "<< xvariable<< "   bin: "<< binx_n<<"     yvariable: "<<yvariable<<"  "<< biny_n<<std::endl;
+    //std::cout<<"error_sv   "<<error_sv<< "   which is "<< sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n)<<"  /  "<<sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d)<<std::endl;
+    
     double sfValue_IsoID_l2 =1.;
     int binx_IsoID_l2 =0;
     int biny_IsoID_l2 =0;
@@ -592,8 +598,13 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
     sfValue_IsoID_l3_error = sf_isoID_nPMuon_syst[0]->GetBinContent(binx_IsoID_l3_error,biny_IsoID_l3_error); // SF l3
     
     double error_idsf = sfValue_IsoID_l2*sfValue_IsoID_l3_error +  sfValue_IsoID_l3*sfValue_IsoID_l2_error + sfValue_IsoID_l2_error*sfValue_IsoID_l3_error;
-   
-    weight_error = TMath::Sqrt (error_sv*error_sv + error_idsf*error_idsf);    
+    //std::cout<<"error_idsf   "<<error_idsf<<std::endl;
+
+
+    
+    weight_error = TMath::Sqrt (error_sv*error_sv + error_idsf*error_idsf);
+    //std::cout<<"total error: "<< weight_error <<std::endl;
+    
   }
 
   
