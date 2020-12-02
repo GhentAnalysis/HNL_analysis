@@ -342,7 +342,6 @@ double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram_syst[1],TH2D *m
     else biny_ID_2 = muon_sf_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_histogram[0]->GetYaxis()->GetBinLowEdge(1)));   
   }			
   sfValue_ID_2 = muon_sf_histogram[0]->GetBinErrorLow(binx_ID_2,biny_ID_2);
-
   sfValue_ID= std::max(sfValue_ID_1,sfValue_ID_2);
 
 
@@ -352,17 +351,18 @@ double Analysis_mc::SF_prompt_muon_error(TH2D *muon_sf_histogram_syst[1],TH2D *m
   if (_lPt[leptonIndex] > muon_sf_isoIP_histogram[0]->GetYaxis()->GetBinUpEdge(muon_sf_isoIP_histogram[0]->GetYaxis()->GetNbins()))       biny_IsoIP_1 =  muon_sf_isoIP_histogram[0]->GetYaxis()->GetNbins(); 
   else biny_IsoIP_1 = muon_sf_isoIP_histogram[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_isoIP_histogram[0]->GetYaxis()->GetBinLowEdge(1)));
   sfValue_IsoIP_1 = muon_sf_isoIP_histogram[0]->GetBinErrorLow(binx_IsoIP_1,biny_IsoIP_1);
-
+  
   int binx_IsoIP_2 =0;
   int biny_IsoIP_2 =0;
   binx_IsoIP_2 = muon_sf_isoIP_histogram_syst[0]->GetXaxis()->FindBin(std::abs(_lEta[leptonIndex]));
   if (_lPt[leptonIndex] > muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetBinUpEdge(muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetNbins()))       biny_IsoIP_2 =  muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetNbins(); 
   else biny_IsoIP_2 = muon_sf_isoIP_histogram_syst[0]->GetYaxis()->FindBin(std::max(_lPt[leptonIndex], muon_sf_isoIP_histogram_syst[0]->GetYaxis()->GetBinLowEdge(1)));
-  sfValue_IsoIP_2 = muon_sf_isoIP_histogram[0]->GetBinContent(binx_IsoIP_2,biny_IsoIP_2);
+  sfValue_IsoIP_2 =muon_sf_isoIP_histogram_syst[0]->GetBinContent(binx_IsoIP_2,biny_IsoIP_2);
   sfValue_IsoIP= std::max(sfValue_IsoIP_1,sfValue_IsoIP_2);
 
+
   sfValue = TMath::Sqrt(sfValue_IsoIP*sfValue_IsoIP + sfValue_ID*sfValue_ID);
-  
+
   return sfValue;		
 }
 //_____________________________________________ SF prompt muon trigger
