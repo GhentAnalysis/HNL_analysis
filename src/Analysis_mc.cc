@@ -1378,8 +1378,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	//
 	weight_SR[muon_case][pMuo_index][1][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1) - SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&sf_iso_ip_prompt_muon_syst, l1);
 	weight_SR[muon_case][pMuo_index][2][effsam] = SF_prompt_muon (*&sf_prompt_muon,*&sf_iso_ip_prompt_muon, l1) + SF_prompt_muon_error(*&sf_prompt_muon_syst, *&sf_prompt_muon,*&sf_iso_ip_prompt_muon,*&sf_iso_ip_prompt_muon_syst, l1);
+
+	
 	weight_SR[muon_case][trigger_index][1][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)-SF_trigger_muon_error(*&sf_trigger_muon, l1);
 	weight_SR[muon_case][trigger_index][2][effsam] = SF_trigger_muon(*&sf_trigger_muon, l1)+SF_trigger_muon_error(*&sf_trigger_muon, l1);
+
       }
       // Systematics on prompt ele
       if(SR_channel > 2) {
