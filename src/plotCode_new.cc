@@ -132,7 +132,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     
   legend->SetFillStyle(0);
   const int signal_out= 14;	 
-  unsigned list_signal_out[signal_out] = {1,3,4,5,6,7,9,11,13,14,15,16,17,19};	
+  unsigned list_signal_out[signal_out] = {1,3,4,5,6,7,8,11,13,14,15,16,17,18};	
 	
   //Add signal to the legenD
   if(plotsig){
@@ -156,9 +156,9 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       legend->SetTextFont(42);
       //legend->AddEntry(signal[sig], signames[sig]);
 
-	if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "M = 1GeV, |V|^{2} = 9x10^{-3}");   
-	if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "M = 2GeV, |V|^{2} = 1.2x10^{-4}");  
-	if (sig == 18 || sig == 8 ) legend->AddEntry(signal[sig], "M = 8GeV, |V|^{2} = 2.3x10^{-6}");    
+	if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "M = 1GeV, |V|^{2} = 5x10^{-4}");   
+	if (sig == 2 ||sig == 12 ) legend->AddEntry(signal[sig], "M = 2GeV, |V|^{2} = 2.4x10^{-4}");  
+	if (sig == 19 || sig == 9 ) legend->AddEntry(signal[sig], "M = 10GeV, |V|^{2} = 1x10^{-5}");    
 	    
 	    
       //if (sig == 0 ||sig == 10 ) legend->AddEntry(signal[sig], "M_{1} c#tau=74mm");
