@@ -107,6 +107,7 @@ bool Analysis_mc::eleIsLoose2016(const unsigned leptonIndex) const{
   double _y = _lEleIsEB[leptonIndex] ? 0.0368       : 0.201 ;
   elehadronicOverEm = 	_lElehadronicOverEm[leptonIndex] - (_x + _y*rho)/_lEleEcalEnergy[leptonIndex];
 	
+	
   if(_lElefull5x5SigmaIetaIeta[leptonIndex]                  >= (_lEleIsEB[leptonIndex] ? 0.11       : 0.0314 ))       return false;
   if(_lEleDEtaInSeed  [leptonIndex]                          >= (_lEleIsEB[leptonIndex] ? 0.00477    : 0.00868))       return false;
   if(_lEleDeltaPhiSuperClusterTrackAtVtx [leptonIndex]       >= (_lEleIsEB[leptonIndex] ? 0.222      : 0.213  ))       return false;
