@@ -1264,6 +1264,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			 sum_vec_l2l3 > 15 &&
 	                 D2_delta_pv_svSig > 20 &&	
 	                 prob_vertex > 0.001 &&
+			 goodjet == 0 &&
 	//	bjet == 0 &&
 	                 vetoes;
       if (SR_selection && bjet == 0) selection_final = true; // then it would be == SR_plot[central]
