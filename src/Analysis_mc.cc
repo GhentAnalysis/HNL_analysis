@@ -106,16 +106,16 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
       sigNames_short[nSamples_signal] += samples[is].getHNLmass();
       sigNames_short[nSamples_signal] += "GeV, |V_{NYY}|^{2} = ";
       sigNames_short[nSamples_signal] += (samples[is].getHNLV2New()>0. ? samples[is].getHNLV2New() : samples[is].getHNLV2());
-      if(eff_names[nSamples_eff].EndsWith("_e")) {
-	//if(eff_names[nSamples_eff].Contains("_e_")) {
+      //if(eff_names[nSamples_eff].EndsWith("_e")) {
+      if(eff_names[nSamples_eff].Contains("_e")) {
 	if(nSamples_signal_e==max_nSamples_signal_e) throw std::runtime_error("nSamples_signal_e == max_nSamples_signal_e");
 	sigNames_short[nSamples_signal].ReplaceAll("YY", "e");
 	sigNames_e[nSamples_signal_e] = eff_names[nSamples_eff];
 	string_sigNames_e[nSamples_signal_e] = samples[is].getProcessName();
 	++nSamples_signal_e;
       }
-      else if(eff_names[nSamples_eff].EndsWith("_mu")) {
-	//else if(eff_names[nSamples_eff].Contains("_mu_")) {
+      //else if(eff_names[nSamples_eff].EndsWith("_mu")) {
+      else if(eff_names[nSamples_eff].Contains("_mu")) {
 	if(nSamples_signal_mu==max_nSamples_signal_mu) throw std::runtime_error("nSamples_signal_mu == max_nSamples_signal_mu");
 	sigNames_short[nSamples_signal].ReplaceAll("YY", "#mu");
 	sigNames_mu[nSamples_signal_mu] = eff_names[nSamples_eff];
@@ -298,6 +298,11 @@ void Analysis_mc::initSample(const Sample& samp){
     std::cout<<"''''''''''''''''''''' lumi ''''''''''"<<dataLumi<<std::endl;	  
     // N.B.: getXSec() returns the cross section, or the *re-weighted* cross section in case of V^2 (or ctau) re-weighting
     scale = samp.getXSec()*dataLumi*1000/sumSimulatedEventWeights;       //xSec*lumi divided by total sum of simulated event weights
+    //
+    // Add a factor 2 if it's a Majorana sample used to simulate a Dirac one, and
+    // we are only using LNC events (i.e. half the statistics in the Majorana sample)
+    //if(samp.isNewPhysicsSignal() && samp.isMajoranaToDiracSimul() && samp.useLNCeventsOnly()) scale *= 2;
+    if(samp.isNewPhysicsSignal() && samp.useLNCeventsOnly()) scale *= 2;
   }
 }
 //_______________________________________________________ initialize weight for PU ____
@@ -364,8 +369,10 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
   if (year==0) fChain->SetBranchAddress("_HLT_Ele27_WPTight_Gsf", &_HLT_Ele27_WPTight_Gsf, &b__HLT_Ele27_WPTight_Gsf);   
   if (year!=0)fChain->SetBranchAddress("_HLT_IsoMu27", &_HLT_IsoMu27, &b__HLT_IsoMu27);  
   if (year!=0)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf", &_HLT_Ele32_WPTight_Gsf, &b__HLT_Ele32_WPTight_Gsf);
-  if (year!=0)fChain->SetBranchAddress("_HLT_Ele35_WPTight_Gsf", &_HLT_Ele35_WPTight_Gsf, &b__HLT_Ele35_WPTight_Gsf);
-  if (year!=0)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf_L1DoubleEG", &_HLT_Ele32_WPTight_Gsf_L1DoubleEG, &b__HLT_Ele32_WPTight_Gsf_L1DoubleEG);   
+  // if (year!=0)fChain->SetBranchAddress("_HLT_Ele35_WPTight_Gsf", &_HLT_Ele35_WPTight_Gsf, &b__HLT_Ele35_WPTight_Gsf);
+  // if (year!=0)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf_L1DoubleEG", &_HLT_Ele32_WPTight_Gsf_L1DoubleEG, &b__HLT_Ele32_WPTight_Gsf_L1DoubleEG);   
+  if (year==1)fChain->SetBranchAddress("_HLT_Ele35_WPTight_Gsf", &_HLT_Ele35_WPTight_Gsf, &b__HLT_Ele35_WPTight_Gsf);
+  if (year==1)fChain->SetBranchAddress("_HLT_Ele32_WPTight_Gsf_L1DoubleEG", &_HLT_Ele32_WPTight_Gsf_L1DoubleEG, &b__HLT_Ele32_WPTight_Gsf_L1DoubleEG);   
   fChain->SetBranchAddress("_nL", &_nL, &b__nL);
   fChain->SetBranchAddress("_nMu", &_nMu, &b__nMu);
   fChain->SetBranchAddress("_nEle", &_nEle, &b__nEle);
@@ -518,7 +525,7 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
   fChain->SetBranchAddress("_jetDeepCsv_c", _jetDeepCsv_c, &b__jetDeepCsv_c);
   fChain->SetBranchAddress("_jetDeepCsv_bb", _jetDeepCsv_bb, &b__jetDeepCsv_bb);
   fChain->SetBranchAddress("_jetHadronFlavor", _jetHadronFlavor, &b__jetHadronFlavor);
-  fChain->SetBranchAddress("_jetIsLoose", _jetIsLoose, &b__jetIsLoose);
+  //fChain->SetBranchAddress("_jetIsLoose", _jetIsLoose, &b__jetIsLoose);
   fChain->SetBranchAddress("_jetIsTight", _jetIsTight, &b__jetIsTight);
   fChain->SetBranchAddress("_jetIsTightLepVeto", _jetIsTightLepVeto, &b__jetIsTightLepVeto);
   fChain->SetBranchAddress("_jetNeutralHadronFraction", _jetNeutralHadronFraction, &b__jetNeutralHadronFraction);
@@ -551,6 +558,7 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
     fChain->SetBranchAddress("_lheWeight", _lheWeight, &b__lheWeight);
     // fChain->SetBranchAddress("_nPsWeights", &_nPsWeights, &b__nPsWeights);
     // fChain->SetBranchAddress("_psWeight", _psWeight, &b__psWeight);
+    fChain->SetBranchAddress("_leptonNumber", &_leptonNumber, &b__leptonNumber);
     fChain->SetBranchAddress("_gen_nL", &_gen_nL, &b__gen_nL);
     // fChain->SetBranchAddress("_gen_pdgID", _gen_pdgID, &b__gen_pdgID);
     fChain->SetBranchAddress("_gen_lPt", _gen_lPt, &b__gen_lPt);
@@ -585,7 +593,6 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
 
     fChain->SetBranchAddress("_hasInternalConversion", &_hasInternalConversion, &b__hasInternalConversion);
     fChain->SetBranchAddress("_zgEventType", &_zgEventType, &b__zgEventType);
-    
   }
 }
 
@@ -604,12 +611,15 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   // std::ofstream two("two.txt"); 
   // std::ofstream three("three.txt"); 
   // std::ofstream four("four.txt"); 
-  std::ofstream ratios_n_1("ratios_n_1.txt"); 
-  std::ofstream yields_check("yields_check.txt"); 
+  // std::ofstream ratios_n_1("ratios_n_1.txt"); 
+  // std::ofstream yields_check("yields_check.txt"); 
 
   cout<<"in analisi"<<endl;
   cout<<"---------------------------"<<endl;   
   setTDRStyle();
+
+  // TEMPORARY --> this code SUCKS!!!!!!
+  TString signProcName;
 
   // Are we running in local or on T2B?
   TString cwd(gSystem->pwd());
@@ -896,13 +906,24 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
     bool isSignal = samples[sam].isNewPhysicsSignal();   
     if (eff_names[effsam] == "ttbar") continue;  
-    if (eff_names[effsam] == "WJets") continue;  
+    if (eff_names[effsam] == "WJets") continue;
+
+    // TEMPORARY ---> this code SUCKS!!!!!!!!!!!!
+    if(signProcName.Length()==0) signProcName = samples[sam].getProcessName();
+
+    bool transformCtau = false;
+    bool skipSignalLNV = false;
+    bool useAllMajEvts = false;
 
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.); //, ctWeight(1.);
     if(isSignal) {
       std::cout << " is signal" << std::endl;
-      if(samples[sam].getHNLV2New()>0.) {
+      //if(samples[sam].getHNLV2New()>0.) {
+      if(samples[sam].getHNLctauNew()>0.) {
+	transformCtau = true;
+	skipSignalLNV = samples[sam].useLNCeventsOnly();
+	useAllMajEvts = samples[sam].isMajoranaToDiracSimul() && !skipSignalLNV;
 	ctauOld = samples[sam].getHNLctau();
 	ctauNew = samples[sam].getHNLctauNew();
 	std::cout << "  ==> HNL lifetime re-weighting: " << std::endl;
@@ -916,7 +937,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     // ------------   run over entries -----------------------------------------------//  
    	  
     for(ULong64_t it=0; it<nEntries; ++it) {
-      GetEntry(samples[sam], it);  
+      GetEntry(samples[sam], it);
+
+      // Skip event if
+      //  (1) it's a Majorana sample used to simulate a Dirac one,
+      //  (2) it's a LNV event, and
+      //  (3) we only want to use LNC events (half statistics)
+      if(skipSignalLNV && _leptonNumber!=0) continue;
 
       if (samples[sam].isData()){
 	auto event = usedEvents.find(std::make_tuple(_eventNb, _lumiBlock, _runNb));
@@ -933,7 +960,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }	    
 
       double ctWeight(1.);
-      if(isSignal && samples[sam].getHNLV2New()>0.) {
+      //if(isSignal && samples[sam].getHNLV2New()>0.) {
+      if(transformCtau) {
 	ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
       }
 
@@ -1054,6 +1082,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       charge_3l[0]=_lCharge[l1];
       charge_3l[1]=_lCharge[l2];
       charge_3l[2]=_lCharge[l3];
+      // Flip l1 charge if (1) Majorana-->Dirac signal and (2) it's a LNV event
+      if(useAllMajEvts && _leptonNumber!=0)
+	charge_3l[0] *= (-1);
 
       //vertex l2l3 info
       int index_l2l3= l2l3_vertex_variable (l2,l3);      
@@ -1264,7 +1295,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 			 sum_vec_l2l3 > 15 &&
 	                 D2_delta_pv_svSig > 20 &&	
 	                 prob_vertex > 0.001 &&
-			 goodjet == 0 &&
 	//	bjet == 0 &&
 	                 vetoes;
       if (SR_selection && bjet == 0) selection_final = true; // then it would be == SR_plot[central]
@@ -1942,7 +1972,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  plotDataVSMC(cat,cha,dist,
 		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 		       eff_names,numer_plot_class ,
-		       catNames[cat], channelNames[cha], channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+		       catNames[cat], channelNames[cha], signProcName+"_"+channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		       true,
 		       2, true, signals,  sigNames_short, nSamples_signal, false, year);
 	}//end cha

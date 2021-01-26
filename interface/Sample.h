@@ -49,6 +49,10 @@ class Sample{
 
         bool isHNLdirac() const { return isDiracHnl; }
 
+        bool isMajoranaToDiracSimul() const { return convMajToDir; }
+
+        bool useLNCeventsOnly() const { return useLNConly; }
+
         bool isData() const { return isDataSample; }
 
         bool isMC() const { return !isDataSample; }
@@ -90,6 +94,8 @@ class Sample{
         // HNL parameters
         std::string couplHnl;
         bool isDiracHnl;
+        bool convMajToDir;
+        bool useLNConly;
         double massHnl;
         double v2Hnl;
         double ctauHnl;

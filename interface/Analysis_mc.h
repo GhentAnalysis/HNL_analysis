@@ -59,6 +59,7 @@ class Analysis_mc : public TObject {
   Double_t        _lheWeight[110];   //[_nLheWeights]
   UInt_t          _nPsWeights;
   Double_t        _psWeight[14];   //[_nPsWeights]
+  Int_t           _leptonNumber;
   UInt_t          _ttgEventType;
   Double_t        _gen_met;
   Double_t        _gen_metPhi;
@@ -322,7 +323,7 @@ class Analysis_mc : public TObject {
   Double_t        _jetDeepCsv_c[nJets_max];  //[_nJets]
   Double_t        _jetDeepCsv_bb[nJets_max];  //[_nJets]
   UInt_t          _jetHadronFlavor[nJets_max];  //[_nJets]
-  Bool_t          _jetIsLoose[nJets_max];  //[_nJets]
+  //Bool_t          _jetIsLoose[nJets_max];  //[_nJets]
   Bool_t          _jetIsTight[nJets_max];  //[_nJets]
   Bool_t          _jetIsTightLepVeto[nJets_max];  //[_nJets]
   Double_t        _jetNeutralHadronFraction[nJets_max];  //[_nJets]
@@ -362,6 +363,7 @@ UInt_t            _zgEventType;
   TBranch        *b__lheWeight;   //!
   TBranch        *b__nPsWeights;   //!
   TBranch        *b__psWeight;   //!
+  TBranch        *b__leptonNumber;   //!
   TBranch        *b__ttgEventType;   //!
   TBranch        *b__gen_met;   //!
   TBranch        *b__gen_metPhi;   //!
@@ -634,7 +636,7 @@ UInt_t            _zgEventType;
   TBranch        *b__jetDeepCsv_c;   //!
   TBranch        *b__jetDeepCsv_bb;   //!
   TBranch        *b__jetHadronFlavor;   //!
-  TBranch        *b__jetIsLoose;   //!
+  //TBranch        *b__jetIsLoose;   //!
   TBranch        *b__jetIsTight;   //!
   TBranch        *b__jetIsTightLepVeto;   //!
   TBranch        *b__jetNeutralHadronFraction;   //!
