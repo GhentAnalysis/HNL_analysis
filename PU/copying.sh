@@ -1,0 +1,79 @@
+
+
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-10_V-0.00316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-10_V-0.01_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-11_V-0.00316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-11_V-0.01_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-12_V-0.00316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-12_V-0.01_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-15_V-3.02158898595e-05_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-15_V-6.76017751246e-05_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.022360679775_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.13416407865_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.300333148354_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.707106781187_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-20_V-0.01_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-20_V-1.22474487139e-05_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-20_V-2.73495886624e-05_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-2_V-0.0157162336455_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-2_V-0.22360679775_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-2_V-0.707106781187_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.00443846820423_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.0140356688476_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.22360679775_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.707106781187_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-4_V-0.0707106781187_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-4_V-0.22360679775_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-5_V-0.0707106781187_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-5_V-0.22360679775_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-6_V-0.0316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-6_V-0.1_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-7_V-0.0022361_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-7_V-0.0316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-7_V-0.1_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-8_V-0.0022360679775_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-8_V-0.0316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-8_V-0.1_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-9_V-0.00316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+ cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_mu_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-9_V-0.0316227766017_mu_Dirac_massiveAndCKM_LO_2018.root
+
+
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-10_V-0.00316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-10_V-0.01_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-11_V-0.00316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-11_V-0.01_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-12_V-0.00316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-12_V-0.01_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-15_V-3.02158898595e-05_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-15_V-6.76017751246e-05_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.022360679775_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.13416407865_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.300333148354_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-1_V-0.707106781187_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-20_V-0.01_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-20_V-1.22474487139e-05_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-20_V-2.73495886624e-05_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-2_V-0.0157162336455_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-2_V-0.22360679775_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-2_V-0.707106781187_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.00443846820423_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.0140356688476_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.22360679775_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-3_V-0.707106781187_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-4_V-0.0707106781187_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-4_V-0.22360679775_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-5_V-0.0707106781187_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-5_V-0.22360679775_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-6_V-0.0316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-6_V-0.1_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-7_V-0.0022361_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-7_V-0.0316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-7_V-0.1_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-8_V-0.0022360679775_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-8_V-0.0316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-8_V-0.1_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-9_V-0.00316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+cp puWeights_HeavyNeutrino_trilepton_M-6_V-0.00202484567313_e_massiveAndCKM_LO_2018.root           puWeights_HeavyNeutrino_trilepton_M-9_V-0.0316227766017_e_Dirac_massiveAndCKM_LO_2018.root
+
+
+
