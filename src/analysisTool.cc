@@ -450,7 +450,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
     else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
     else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
     else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
-    else    (displ2 > 50  ) indElel2 =7;
+    else  indElel2 =7;
     if (displ3 <= 8 ) indElel3 =0;
     else if (displ3 > 8  && displ3 <= 15)  indElel3 =1;
     else if (displ3 > 15  && displ3 <= 20) indElel3 =2;
@@ -458,7 +458,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
     else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
     else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
     else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
-    else    (displ3 > 50  ) indElel3 =7; 
+    else   indElel3 =7; 
     weight *= displEleVars[indElel2];	
     weight *= displEleVars[indElel3];
   }//end ee
@@ -520,7 +520,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
       else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
       else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
-      else    (displ3 > 50  ) indElel3 =7; 
+      else    indElel3 =7; 
       weight *= displEleVars[indElel3];
 
       double sfValue_IsoID_l2 =1.;
@@ -553,7 +553,7 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
       else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
       else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
-      else    (displ2 > 50  ) indElel2 =7;
+      else    indElel2 =7;
       weight *= displEleVars[indElel2];
 
       double sfValue_IsoID_l3 =1.;
@@ -584,7 +584,7 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
     else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
     else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
     else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
-    else    (displ2 > 50  ) indElel2 =7;
+    else   indElel2 =7;
     if (displ3 <= 8 ) indElel3 =0;
     else if (displ3 > 8  && displ3 <= 15)  indElel3 =1;
     else if (displ3 > 15  && displ3 <= 20) indElel3 =2;
@@ -592,7 +592,7 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
     else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
     else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
     else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
-    else    (displ3 > 50  ) indElel3 =7; 
+    else  indElel3 =7; 
     eleele *= displEleVars[indElel2];	
     eleele *= displEleVars[indElel3];
     weight_error = 0.5* std::abs(1 - eleele);
@@ -686,7 +686,7 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
       else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
       else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
       else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
-      else    (displ3 > 50  ) indElel3 =7; 
+      else   indElel3 =7; 
       weight_firstpart *= displEleVars[indElel3];
       double error_sv = 0.5* std::abs(1 - weight_firstpart);
 
@@ -723,7 +723,7 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
       else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
       else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
       else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
-      else    (displ2 > 50  ) indElel2 =7;
+      else  indElel2 =7;
       weight_firstpart *= displEleVars[indElel2];
       double error_sv = 0.5* std::abs(1 - weight_firstpart);
 
