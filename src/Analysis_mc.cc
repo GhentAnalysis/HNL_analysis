@@ -749,40 +749,41 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   std::cout<<"after all histo"<<std::endl;
   
   // by tom
-  double displEleVars[8] = {0.,0.,0.,0.,0.,0.,0.,0.}; // 2016
+  double displEleVars[8] = {0.,0.,0.,0.,0.,0.,0.}; // 2016
   if (year == 0){
-    displEleVars[0] = 1.025;
-    displEleVars[1] = 1.036;
-    displEleVars[2] = 0.861;
-    displEleVars[3] = 0.829;
-    displEleVars[4] = 0.795;
-    displEleVars[5] = 0.673;
-    displEleVars[6] = 0.512;
-    displEleVars[7] = 0.923;
+    displEleVars[0] = 1.0124869154860976;
+    displEleVars[1] = 0.9663328195490085;
+    displEleVars[2] = 0.8775724113625718;
+    displEleVars[3] = 0.8849044007496563;
+    displEleVars[4] = 0.87900667647424;
+    displEleVars[5] = 0.8826087597277812;
+    displEleVars[6] = 0.9181381563802627;
+    displEleVars[7] = 1.049691544994153;
 
   }  
   if (year == 1){
-    displEleVars[0] = 0.980;
-    displEleVars[1] = 1.044;
-    displEleVars[2] = 1.021;
-    displEleVars[3] = 1.119;
-    displEleVars[4] = 1.050;
-    displEleVars[5] = 1.072;
-    displEleVars[6] = 1.243;
-    displEleVars[7] = 1.427;
+    displEleVars[0] = 1.1278756580420497;
+    displEleVars[1] = 1.043668938242718;
+    displEleVars[2] = 0.9777185186569067;
+    displEleVars[3] = 0.9874760079682131;
+    displEleVars[4] = 0.9517916002237199;
+    displEleVars[5] = 0.9863389679172274;
+    displEleVars[6] = 0.9797529808714778;
+    displEleVars[7] = 0.9842090048414325;
 
   }
   if (year == 2){
-    displEleVars[0] = 0.997;
-    displEleVars[1] = 1.038;
-    displEleVars[2] = 0.983;
-    displEleVars[3] = 0.964;
-    displEleVars[4] = 1.003;
-    displEleVars[5] = 1.020;
-    displEleVars[6] = 1.101;
-    displEleVars[7] = 1.299;
-
+    displEleVars[0] = 1.1190865037865663;
+    displEleVars[1] = 1.0166429650926398;
+    displEleVars[2] = 0.92393001102722;
+    displEleVars[3] = 0.8820411147655539;
+    displEleVars[4] = 0.8824176687641517;
+    displEleVars[5] = 0.9403542112673093;
+    displEleVars[6] = 1.0016620225340234;
+    displEleVars[7] = 0.9688345234979848;
   }
+
+  
 
   double stat_DF_factors[3]= {0.,0.,0.};
   if (year == 0){
@@ -1153,6 +1154,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       TVector3 vperp;
       vperp.SetXYZ(   svMpv.X(),   svMpv.Y(),   0.);
       double vtxRvtxPcosAlpha = vperp.Dot(perp)/(vperp.Mag()*perp.Mag());    // new ETH definition -> going 2D
+
+
+      //conversion variable
+      double R1_l2 = v4l2.Pt()/(0.3*3.8)*100.0; //cm
+      double displ2 = TMath::Sqrt(2.*fabs(_dxy[l2])*R1_l2+_dxy[l2]*_dxy[l2]);
+      double R1_l3 = v4l3.Pt()/(0.3*3.8)*100.0; //cm
+      double displ3 = TMath::Sqrt(2.*fabs(_dxy[l3])*R1_l3+_dxy[l3]*_dxy[l3]);
+
       
       // -----------------   masses, mT and pT
       double M_ZPair = (pair[0]+pair[1]).M();
@@ -1429,9 +1438,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       //std::cout<<"===========  before calling    "<<D2_delta_pv_sv<<"   "<< (v4l2+v4l3).Pt()<<std::endl;
 
-      double central_displaced_signature =   displaced_weight       (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den, *&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3);
+      double central_displaced_signature =   displaced_weight       (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3],displ2,displ3, (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den, *&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3);
 
-      double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3], (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den,*&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3 );
+      double variation_displaced_signature = displaced_weight_error (flavors_3l,SR_channel,_lElectronMissingHits[l2], _lElectronMissingHits[l3],displ2,displ3,  (v4l2+v4l3).Pt(), D2_delta_pv_sv, displEleVars, *&sf_sv_effcy_num, *&sf_sv_effcy_den,*&sf_isoID_nPMuon, *&sf_isoID_nPMuon_syst,l2,l3 );
 
 
       if (SR_channel== 0){

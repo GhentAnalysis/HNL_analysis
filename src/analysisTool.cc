@@ -436,14 +436,30 @@ double Analysis_mc::SF_trigger_ele_error(TH2F *muon_sf_histogram[1], const unsig
 
 
 //_____________________________________________ displaced mess
-double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3){
+double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double displ2, double displ3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3){
   
   double weight =1.;
 
   if (channel == 3){// ee case, conversion studies as SF 
-    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
+    int indElel2 = -1;
+    int indElel3 = -1;
+    if (displ2 <= 8 ) indElel2 =0;
+    else if (displ2 > 8  && displ2 <= 15)  indElel2 =1;
+    else if (displ2 > 15  && displ2 <= 20) indElel2 =2;
+    else if (displ2 > 20  && displ2 <= 25) indElel2 =3;
+    else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
+    else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
+    else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
+    else    (displ2 > 50  ) indElel2 =7;
+    if (displ3 <= 8 ) indElel3 =0;
+    else if (displ3 > 8  && displ3 <= 15)  indElel3 =1;
+    else if (displ3 > 15  && displ3 <= 20) indElel3 =2;
+    else if (displ3 > 20  && displ3 <= 25) indElel3 =3;
+    else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
+    else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
+    else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
+    else    (displ3 > 50  ) indElel3 =7; 
     weight *= displEleVars[indElel2];	
-    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
     weight *= displEleVars[indElel3];
   }//end ee
  
@@ -495,7 +511,16 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
       
-      size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
+      
+      int indElel3 = -1;
+      if (displ3 <= 8 ) indElel3 =0;
+      else if (displ3 > 8  && displ3 <= 15)  indElel3 =1;
+      else if (displ3 > 15  && displ3 <= 20) indElel3 =2;
+      else if (displ3 > 20  && displ3 <= 25) indElel3 =3;
+      else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
+      else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
+      else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
+      else    (displ3 > 50  ) indElel3 =7; 
       weight *= displEleVars[indElel3];
 
       double sfValue_IsoID_l2 =1.;
@@ -520,7 +545,15 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
       biny_d = sf_sv_effcy_den[0] ->GetYaxis()->FindBin(yvariable);
       weight *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
           
-      size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
+      int indElel2 = -1;
+      if (displ2 <= 8 ) indElel2 =0;
+      else if (displ2 > 8  && displ2 <= 15)  indElel2 =1;
+      else if (displ2 > 15  && displ2 <= 20) indElel2 =2;
+      else if (displ2 > 20  && displ2 <= 25) indElel2 =3;
+      else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
+      else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
+      else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
+      else    (displ2 > 50  ) indElel2 =7;
       weight *= displEleVars[indElel2];
 
       double sfValue_IsoID_l3 =1.;
@@ -537,16 +570,36 @@ double Analysis_mc::displaced_weight (int  flavors_3l[3],int channel,unsigned _l
   return weight;
 }
 //_____________________________________________ displaced mess
-double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3, double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3){
+double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3,double displ2, double displ3,  double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3){
   double weight_error =1.;
 
   if (channel == 3){ // ee case, error
     double eleele=1;
-    size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);   
+    int indElel2 = -1;
+    int indElel3 = -1;
+    if (displ2 <= 8 ) indElel2 =0;
+    else if (displ2 > 8  && displ2 <= 15)  indElel2 =1;
+    else if (displ2 > 15  && displ2 <= 20) indElel2 =2;
+    else if (displ2 > 20  && displ2 <= 25) indElel2 =3;
+    else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
+    else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
+    else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
+    else    (displ2 > 50  ) indElel2 =7;
+    if (displ3 <= 8 ) indElel3 =0;
+    else if (displ3 > 8  && displ3 <= 15)  indElel3 =1;
+    else if (displ3 > 15  && displ3 <= 20) indElel3 =2;
+    else if (displ3 > 20  && displ3 <= 25) indElel3 =3;
+    else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
+    else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
+    else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
+    else    (displ3 > 50  ) indElel3 =7; 
     eleele *= displEleVars[indElel2];	
-    size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
     eleele *= displEleVars[indElel3];
-    weight_error = 0.5* std::abs(1 - eleele);  
+    weight_error = 0.5* std::abs(1 - eleele);
+
+
+
+    
   }
   
   if (channel == 0 ){ // mm is the mess
@@ -625,9 +678,16 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
 
       
       
-      size_t indElel3 = std::min((unsigned)8, _lElectronMissingHits_l3);
+      int indElel3 = -1;
+      if (displ3 <= 8 ) indElel3 =0;
+      else if (displ3 > 8  && displ3 <= 15)  indElel3 =1;
+      else if (displ3 > 15  && displ3 <= 20) indElel3 =2;
+      else if (displ3 > 20  && displ3 <= 25) indElel3 =3;
+      else if (displ3 > 25  && displ3 <= 30) indElel3 =4;
+      else if (displ3 > 30  && displ3 <= 37) indElel3 =5;
+      else if (displ3 > 37  && displ3 <= 50) indElel3 =6;
+      else    (displ3 > 50  ) indElel3 =7; 
       weight_firstpart *= displEleVars[indElel3];
-
       double error_sv = 0.5* std::abs(1 - weight_firstpart);
 
       double sfValue_IsoID_l2_error =1.;
@@ -655,9 +715,16 @@ double Analysis_mc::displaced_weight_error (int  flavors_3l[3],int channel,unsig
       weight_firstpart *=  TMath::Sqrt((sf_sv_effcy_num[0]->GetBinContent(binx_n,biny_n))    /    (sf_sv_effcy_den[0]->GetBinContent(binx_d,biny_d))) ;
 
 
-      size_t indElel2 = std::min((unsigned)8, _lElectronMissingHits_l2);
+      int indElel2 = -1;
+      if (displ2 <= 8 ) indElel2 =0;
+      else if (displ2 > 8  && displ2 <= 15)  indElel2 =1;
+      else if (displ2 > 15  && displ2 <= 20) indElel2 =2;
+      else if (displ2 > 20  && displ2 <= 25) indElel2 =3;
+      else if (displ2 > 25  && displ2 <= 30) indElel2 =4;
+      else if (displ2 > 30  && displ2 <= 37) indElel2 =5;
+      else if (displ2 > 37  && displ2 <= 50) indElel2 =6;
+      else    (displ2 > 50  ) indElel2 =7;
       weight_firstpart *= displEleVars[indElel2];
-
       double error_sv = 0.5* std::abs(1 - weight_firstpart);
 
       double sfValue_IsoID_l3_error =1.;
