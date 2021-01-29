@@ -1384,7 +1384,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (isDataYield)     fill = 0;
       if (isDataYield)     scal = 1;
       // it is blinded 
-      if (blinded && isDataYield)     continue;
+      //if (blinded && isDataYield)     continue;
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<
       //<<<<<<<<
@@ -1905,9 +1905,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
-	sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+	sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][0]->Clone();
+	sum_expected_SR2[0][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[0][cha][iSystematics][iVariation][0]->Clone();
+	sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][0]->Clone();
+
+
+	/*sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
 	sum_expected_SR2[0][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[0][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
-	sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+	sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();*/
+
+	
 
       }//end loop up-down
     }// end loop on sys
@@ -1921,12 +1928,19 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();
 	  bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[0][cha][iSystematics][iVariation][effsam1]->Clone();	  
 	  bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
-	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
-	    sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
-	    sum_expected_SR2[0][cha][iSystematics][iVariation]->Add(bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
-	    sum_expected_SR2[1][cha][iSystematics][iVariation]->Add(bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	 
 
-	  }
+	    /*bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();
+	      bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[0][cha][iSystematics][iVariation][effsam1]->Clone();	  
+	      bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
+	      if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
+	      sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	      sum_expected_SR2[0][cha][iSystematics][iVariation]->Add(bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	      sum_expected_SR2[1][cha][iSystematics][iVariation]->Add(bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+
+	  }*/
+
+	  
 	}
       }	    
     }
@@ -1952,7 +1966,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   for(unsigned dist = 0; dist < nDist; ++dist){
     for(unsigned cat = 0; cat < nCat; ++cat){
       for(int cha = 0; cha < nChannel; ++cha){               
-	dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
+	dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
+	//	dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
+
       }
     }
   }
@@ -1962,9 +1978,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       for(int cha = 0; cha < nChannel; ++cha){	
 	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
 	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
+	  /*bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
 	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
 	    dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
-	  }	  
+	    }*/
+	  
 	}
       }
     }

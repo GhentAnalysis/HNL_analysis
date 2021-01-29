@@ -10,7 +10,7 @@
 #include "THStack.h"
 #include "TH2D.h"
  //kGreen+3
-const double xPad = 0.05;
+const double xPad =0.25;
 //const Color_t colors[9] ={ 91,  91,91, kRed-10,51, kRed-10, kGreen+3, kGreen, kGreen  };
 //const Color_t colors[9] ={ 91,91,91,  2,kViolet+1, kRed-10,kGreen+3, kGreen, 7 };
 const Color_t colors[9] ={ kViolet+1,  2,kViolet+1, kRed-10,kGreen+3, kGreen, 7, 8, kViolet+1  };
