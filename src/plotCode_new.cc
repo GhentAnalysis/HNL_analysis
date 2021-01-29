@@ -375,7 +375,7 @@ if (istogramma == 0 ){
   TCanvas *c =  new TCanvas(name_histo,"",width*(1-xPad),height);   //1000/500
   c->cd();
 
-  TPad *p1; //, *p2;
+  TPad *p1, *p2;
   //Plot data and MC yields in first pad
   p1 = new TPad(name_histo,"",0,xPad,1,1);
   p1->Draw();
