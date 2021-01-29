@@ -121,7 +121,11 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
   bkgStack = new THStack("bkgStack", "bkgStack");
   for(int effsam = nHist -1; effsam > -1 ; --effsam){
     StackCol(bkg[effsam], colors[effsam]);
-    //if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetFillStyle(3020); 
+    if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetFillColor(kGreen); 
+    if (names[histI[effsam] + 1 + nSig] == "nonprompt DF" ) bkg[effsam]->SetLineColor(kGreen);
+    if (names[histI[effsam] + 1 + nSig] == "nonprompt SF" ) bkg[effsam]->SetFillColor(kGreen+3); 
+    if (names[histI[effsam] + 1 + nSig] == "nonprompt SF" ) bkg[effsam]->SetLineColor(kGreen+3); 
+
     bkgStack->Add(bkg[effsam], "f");
   }
     
@@ -146,13 +150,16 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       if ((channel == 3 ||channel == 4 ||channel == 5 ||channel == 7 ) && sig < 10) continue; 
       signal[sig]->SetLineColor(sigCols[sig]);
       signal[sig]->SetMarkerColor(sigCols[sig]);
+      if (sig == 0 ||sig == 10 ) signal[sig]->SetLineColor(kBlack);
+      if (sig == 0 ||sig == 10 ) signal[sig]->SetMarkerColor(kBlack);
+      if (sig == 0 ||sig == 10 ) signal[sig]->SetLineColor(kBlue);
+      if (sig == 0 ||sig == 10 ) signal[sig]->SetMarkerColor(kBlue);
+      if (sig == 0 ||sig == 10 ) signal[sig]->SetLineColor(kMagenta);
+      if (sig == 0 ||sig == 10 ) signal[sig]->SetMarkerColor(kMagenta);
+
+      
       signal[sig]->SetLineWidth(4);
 	
-      if (sig >= 10) {
-	signal[sig]->SetLineColor(sigCols[sig-10]);
-	signal[sig]->SetMarkerColor(sigCols[sig-10]);
-	signal[sig]->SetLineWidth(4);
-      }
       legend->SetTextFont(42);
       //legend->AddEntry(signal[sig], signames[sig]);
 
@@ -190,13 +197,18 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     //if ( names[histI[effsam] + 1 + nSig] != "TTX"  && names[histI[effsam] + 1 + nSig] != "Xgamma"  && names[histI[effsam] + 1 + nSig] != "nonprompt SF"  && names[histI[effsam] + 1 + nSig] != "nonprompt DF" ) continue;
     //if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
     //else if (names[histI[effsam] + 1 + nSig] == "TTX") legend->AddEntry(bkg[effsam], "Other");
-    if (effsam == 21 && (names[histI[effsam] + 1 + nSig] != "nonprompt SF" && names[histI[effsam] + 1 + nSig] != "nonprompt DF")) legend->AddEntry(bkg[effsam], "Conversions");  
+    //if (effsam == 21 && (names[histI[effsam] + 1 + nSig] != "nonprompt SF" && names[histI[effsam] + 1 + nSig] != "nonprompt DF")) legend->AddEntry(bkg[effsam], "Conversions");  
     if (names[histI[effsam] + 1 + nSig] == "nonprompt SF") legend->AddEntry(bkg[effsam], "nonprompt SF");
+    if (names[histI[effsam] + 1 + nSig] == "Xgamma") legend->AddEntry(bkg[effsam], "Conversions");
     if (names[histI[effsam] + 1 + nSig] == "nonprompt DF") legend->AddEntry(bkg[effsam], "nonprompt DF");
     //else if (names[histI[effsam] + 1 + nSig] == "DY") legend->AddEntry(bkg[effsam], "Z#gamma^{*}"); 
     //else 
     //else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
     legend->     SetNColumns(4);
+
+
+
+    
   }
 
   if (istogramma == 1 ){
@@ -369,7 +381,9 @@ if (istogramma == 0 ){
   p1->Draw();
   p1->cd();
   p1->SetTopMargin(0.1);//0.1*(width*(1-xPad)/650)  CHANGE THIS BACK
-  p1->SetBottomMargin(0.15);
+  //p1->SetBottomMargin(0.15);
+  p1->SetBottomMargin(0.0);
+
   bkgTot->SetFillStyle(3005);
   bkgTot->SetFillColor(kGray+2);
   bkgTot->SetMarkerStyle(1);
@@ -450,12 +464,15 @@ if (istogramma == 0 ){
       }
     }
   }
-    
+  data -> SetMarkerStyle(20);
+  data -> SetMarkerColor(1);
+  data -> SetLineColor(1); 
+  data->Draw("pe same");	//The range used is now that of the data histogra  
   bkgStack->Draw("hist same ");
+  data->Draw("pe same");	//The range used is now that of the data histogra  
+  legend->AddEntry(data, "data");
   legend->Draw("same");
 
-  // gPad->Modified();
-// gPad->Update();	
 	
   bkgTot->Draw("e2same");
   if(plotsig){
@@ -594,6 +611,75 @@ if (istogramma == 0 ){
   //CMS_lumi(c,"Preliminary", true);
   if (channel == 3 || channel == 4 ||channel == 5 ||channel == 7)drawLumi(p1,1, lumi_year);	 
   if (channel == 0 || channel == 1 ||channel == 2 ||channel == 6 )drawLumi(p1,0, lumi_year);
+
+
+
+
+  c->cd();
+  
+  p2 = new TPad(name_histo + "2","",0,0.0,1,xPad);
+  p2->Draw();
+  p2->cd();
+  p2->SetTopMargin(0);
+  p2->SetBottomMargin(0.4);
+  // p2->SetLeftMargin(0.1);
+	
+  TH1D* dataC = (TH1D*) data->Clone();
+  TH1D* bkgTotC = (TH1D*) bkgTot->Clone();
+
+  dataC->Divide(bkgTotC);
+  dataC->SetMarkerColor(1);
+  dataC->SetLineColor(1);
+  dataC->GetYaxis()->SetRangeUser(0.,1.999);
+  dataC->GetYaxis()->SetTitle("obs/pred");
+  dataC->GetYaxis()->SetTitleOffset(0.9/((1.-xPad)/xPad));
+  
+  dataC->GetYaxis()->SetNdivisions(505);
+  
+  dataC->GetYaxis()->SetTitleSize((1.-xPad)/xPad*0.06); //originally 0.06
+  dataC->GetXaxis()->SetTitleSize((1.-xPad)/xPad*0.06); //originally 0.09
+  
+  dataC->GetYaxis()->SetLabelSize((1.-xPad)/xPad*0.05); //originally 0.05
+  dataC->GetXaxis()->SetLabelSize((1.-xPad)/xPad*0.05); //originally 0.075
+
+  if (istogramma == 0 && categoria == 6 && channel == 6){
+    std::cout<<"----------------     muon coupling: "<<std::endl;
+    for (int i =0; i <dataC->GetNbinsX(); i++ ){
+      std::cout<<i<<") "<< dataC->GetBinContent(i+1) << "  ±  "<<dataC->GetBinError(i+1) <<std::endl;
+    }
+  }
+  if (istogramma == 0 && categoria == 6 && channel == 7){
+    std::cout<<"----------------    electron coupling: "<<std::endl;
+    for (int i =0; i <dataC->GetNbinsX(); i++ ){
+      std::cout<<i<<") "<< dataC->GetBinContent(i+1)<<  "  ±  "<<dataC->GetBinError(i+1) <<std::endl;
+    }
+  }
+  dataC->Draw("pe");
+  //Draw line at 1 on ratio plot
+  double xmax = dataC->GetBinCenter(dataC->GetNbinsX()) + dataC->GetBinWidth(dataC->GetNbinsX())/2;
+  double xmin = dataC->GetBinCenter(0) + dataC->GetBinWidth(0)/2;
+  TLine *line = new TLine(xmin, 1, xmax, 1);
+  line->SetLineStyle(2);
+  line->Draw("same");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   if (channel == 3){
     c->SaveAs("plots_pdf/eee/"+ name_cut + "/"+ name_histo + ".pdf");
     c->SaveAs("plots_root/eee/"+ name_cut + "/"+ name_histo + ".root");

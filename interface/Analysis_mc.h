@@ -814,7 +814,7 @@ UInt_t            _zgEventType;
   unsigned year;
 
 
-  bool blinded=true;
+   bool blinded=false;
 
   TTree* fChain;                                                          //current Tree
   std::shared_ptr<TFile> sampleFile;                                      //current sample
