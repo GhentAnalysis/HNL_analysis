@@ -204,7 +204,7 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
     //else if (names[histI[effsam] + 1 + nSig] == "DY") legend->AddEntry(bkg[effsam], "Z#gamma^{*}"); 
     //else 
     //else legend->AddEntry(bkg[effsam], names[histI[effsam] + 1 + nSig]);
-    legend->     SetNColumns(4);
+    legend->     SetNColumns(3);
 
 
 
