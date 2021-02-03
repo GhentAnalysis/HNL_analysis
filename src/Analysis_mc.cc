@@ -190,6 +190,18 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
   }
 
+for(int i = 0; i < nhist2d; ++i){
+    for(size_t effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+      for(int cat = 0; cat < nCat2D; ++cat){
+	for(int flav = 0; flav < nFlavor; ++flav){
+	  Histos2d[i][cat][flav][effsam] =  new TH2D(eff_names[effsam] +"_"+ catNames2D[cat] +"_"+ flavorNames[flav]+ "_"+ Hist2d_ossf[i] ,eff_names[effsam] +"_"+ catNames2D[cat] +"_"+ flavorNames[flav] +"_"+ Hist2d_ossf[i], XnBins2d[i], XHistMin2d[i], XHistMax2d[i], YnBins2d[i], YHistMin2d[i], YHistMax2d[i]);
+	  std::cout<<i<<"  2d  "<<effsam<<"  "<<cat<<"  "<<flav<<"    --> "<< eff_names[effsam] +"_"+ catNames2D[cat] +"_"+ flavorNames[flav]+ "_"+ Hist2d_ossf[i] <<std::endl;
+	  Histos2d[i][cat][flav][effsam] ->Sumw2();
+	}
+      }
+    }
+  }
+
 
 
   
@@ -746,7 +758,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   }//end loop
   
  
-  std::cout<<"after all histo"<<std::endl;
   
   // by tom
   double displEleVars[8] = {0.,0.,0.,0.,0.,0.,0.}; // 2016
@@ -910,12 +921,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     if (eff_names[effsam] == "WJets") continue;
 
     // TEMPORARY ---> this code SUCKS!!!!!!!!!!!!
-    //if(signProcName.Length()==0) signProcName = samples[sam].getProcessName();
+    if(signProcName.Length()==0) signProcName = samples[sam].getProcessName();
 
     bool transformCtau = false;
     bool skipSignalLNV = false;
     bool useAllMajEvts = false;
 
+    
     // For lifetime re-weighting (hip hip hip hurray)
     double ctauOld(0.), ctauNew(0.); //, ctWeight(1.);
     if(isSignal) {
@@ -939,7 +951,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
    	  
     for(ULong64_t it=0; it<nEntries; ++it) {
       GetEntry(samples[sam], it);
-
       // Skip event if
       //  (1) it's a Majorana sample used to simulate a Dirac one,
       //  (2) it's a LNV event, and
@@ -1688,7 +1699,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 
       //D2_delta_pv_sv
-
       if (SR_channel <= 2) {
 	if (selection_0){
 	  if (SR_channel == 0 ) Histos2d[0][0][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
@@ -1727,7 +1737,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	}
       }
 
-      
+
 
 
       // Fin.state  SR_channel
