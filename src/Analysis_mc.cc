@@ -910,7 +910,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     if (eff_names[effsam] == "WJets") continue;
 
     // TEMPORARY ---> this code SUCKS!!!!!!!!!!!!
-    if(signProcName.Length()==0) signProcName = samples[sam].getProcessName();
+    //if(signProcName.Length()==0) signProcName = samples[sam].getProcessName();
 
     bool transformCtau = false;
     bool skipSignalLNV = false;
@@ -1687,6 +1687,49 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       } // end SR_selection
 
 
+      //D2_delta_pv_sv
+
+      if (SR_channel <= 2) {
+	if (selection_0){
+	  if (SR_channel == 0 ) Histos2d[0][0][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[1][0][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[0][0][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[1][0][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[0][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[1][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	}
+	if (SR_selection){
+	  if (SR_channel == 0 ) Histos2d[0][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[1][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[0][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[1][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[0][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[1][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	}
+      }
+
+      if (SR_channel > 2) {
+	if (selection_0){
+	  if (SR_channel == 3 ) Histos2d[0][0][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[1][0][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);	  
+	  if (SR_channel == 4 ) Histos2d[0][0][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[1][0][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[0][0][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[1][0][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	}
+	if (SR_selection){
+	  if (SR_channel == 3 ) Histos2d[0][1][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[1][1][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);	  
+	  if (SR_channel == 4 ) Histos2d[0][1][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[1][1][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[0][1][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[1][1][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	}
+      }
+
+      
+
+
       // Fin.state  SR_channel
       // ---------------------
       // mmm        0
@@ -1947,6 +1990,26 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   }//--
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  TCanvas *c_2dhisto[nhist2d][nCat][nFlavor][nSamples_eff];
+  for(unsigned dist = 0; dist < nhist2d; ++dist){
+    for(int cat = 0; cat < nCat; ++cat){
+      for (int flav = 0; flav < nFlavor; ++flav){
+	for(unsigned effsam1 = 0; effsam1 < nSamples_eff+1; ++effsam1){
+
+	  c_2dhisto[dist][cat][flav][effsam1] = new TCanvas("c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ "_"+ catNames2D[cat],eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ "_"+ catNames[cat], 10,10,600,600);
+	  c_2dhisto[dist][cat][flav][effsam1]->cd();
+	  Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#Delta (PV-SV)_{2D}");
+	  if (dist == 0) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("M_{ll}#left(l_{2}+l_{3} #right) (GeV)");
+	  if (dist == 1) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("M_{ll}#left(l_{2}+l_{3} #right) (GeV)");
+	  //Histos2d[dist][cat][flav][effsam1] -> SetMinimum (0.);
+	  Histos2d[dist][cat][flav][effsam1] -> Draw("COLZ");
+	  //correlation << eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+ "   ----->   "<< Histos2d[dist][cat][flav][effsam1] -> GetCorrelationFactor()<< std::endl;
+	  c_2dhisto[dist][cat][flav][effsam1]->Print("plot/c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+".pdf");
+	  c_2dhisto[dist][cat][flav][effsam1]->Print("plotroot/c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+".root");
+	}
+      }
+    }
+  }
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   int numer_plot_class =0;
   numer_plot_class = nSamples_eff -  nSamples_signal;
@@ -1999,7 +2062,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  plotDataVSMC(cat,cha,dist,
 		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
 		       eff_names,numer_plot_class ,
-		       catNames[cat], channelNames[cha], signProcName+"_"+channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+		       catNames[cat], channelNames[cha],  channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
 		       true,
 		       2, true, signals,  sigNames_short, nSamples_signal, false, year);
 	}//end cha

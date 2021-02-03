@@ -1313,6 +1313,35 @@ UInt_t            _zgEventType;
   double maxBinC[nDist];
 
 
+
+  
+  const static int nCat2D=2;
+  const static  int nFlavor=6;  
+  const TString flavorNames[nFlavor]= {"mmm","mmeOS","mmeSS","eee", "eemOS","eemSS"};
+  const TString catNames2D[nCat2D]= {"_0","_final"};
+  const static int nhist2d=2;  
+  TH2D* Histos2d[nhist2d][nCat2D][nFlavor][max_nSamples_eff+1];
+  const TString Hist2d_ossf[nhist2d] = {"2D_mass", "2D_masszoom"};
+  const TString Xaxes2d[nhist2d] = {"#Delta (PV-SV)_{2D}","#Delta (PV-SV)_{2D}"};
+  const TString Yaxes2d[nhist2d] = {"M_{ll}#left(l_{2}+l_{3} #right) (GeV)","M_{ll}#left(l_{2}+l_{3} #right) (GeV)"};
+  const TString XUnits2d[nhist2d] = {"",""};
+  const TString YUnits2d[nhist2d] = {"",""};				
+ const double XHistMin2d[nhist2d] = {0,0};
+  const double XHistMax2d[nhist2d] = {10,4};
+  const double YHistMin2d[nhist2d] = {0,0};
+  const double YHistMax2d[nhist2d] = {12,4};		
+  const int XnBins2d[nhist2d] =      {100,100};    
+  const int YnBins2d[nhist2d] =      {120,80}; 
+
+
+
+
+
+
+
+  
+
+
   const static int nPlots= 2;
   const static int nSystematic = 17;
   const static int nCoupling  = 3;  
