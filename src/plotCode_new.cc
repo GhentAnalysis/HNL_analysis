@@ -152,10 +152,10 @@ void plotDataVSMC(int categoria,int channel,int istogramma,
       signal[sig]->SetMarkerColor(sigCols[sig]);
       if (sig == 0 ||sig == 10 ) signal[sig]->SetLineColor(kBlack);
       if (sig == 0 ||sig == 10 ) signal[sig]->SetMarkerColor(kBlack);
-      if (sig == 0 ||sig == 10 ) signal[sig]->SetLineColor(kBlue);
-      if (sig == 0 ||sig == 10 ) signal[sig]->SetMarkerColor(kBlue);
-      if (sig == 0 ||sig == 10 ) signal[sig]->SetLineColor(kMagenta);
-      if (sig == 0 ||sig == 10 ) signal[sig]->SetMarkerColor(kMagenta);
+      if (sig == 2 ||sig == 12 ) signal[sig]->SetLineColor(kBlue);
+      if (sig == 2 ||sig == 12 ) signal[sig]->SetMarkerColor(kBlue);
+      if (sig == 9 ||sig == 19 ) signal[sig]->SetLineColor(kMagenta);
+      if (sig == 9 ||sig == 19 ) signal[sig]->SetMarkerColor(kMagenta);
 
       
       signal[sig]->SetLineWidth(4);
