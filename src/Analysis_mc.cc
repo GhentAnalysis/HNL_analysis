@@ -1697,6 +1697,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	} // end MC
       } // end SR_selection
 
+      if (isDataYield) central_total_weight_mu = 1.;
+      if (isDataYield) central_total_weight_ele = 1.;
 
       //D2_delta_pv_sv
       if (SR_channel <= 2) {
@@ -1708,7 +1710,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (SR_channel == 2 ) Histos2d[0][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 2 ) Histos2d[1][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	}
-	if (SR_selection){
+	if (SR_selection  && bjet == 0 ){
 	  if (SR_channel == 0 ) Histos2d[0][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 0 ) Histos2d[1][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 1 ) Histos2d[0][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
@@ -1727,7 +1729,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (SR_channel == 5 ) Histos2d[0][0][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
 	  if (SR_channel == 5 ) Histos2d[1][0][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
 	}
-	if (SR_selection){
+	if (SR_selection   && bjet == 0 ){
 	  if (SR_channel == 3 ) Histos2d[0][1][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
 	  if (SR_channel == 3 ) Histos2d[1][1][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);	  
 	  if (SR_channel == 4 ) Histos2d[0][1][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
@@ -1757,9 +1759,9 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }	   	    
       if (SR_channel > 2) {
 	if (selection_0)      Histos[0][SR_channel][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (selection_final)  Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (selection_final  && bjet == 0)  Histos[0][SR_channel][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
 	if (selection_0)      Histos[0][7][0][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
-	if (selection_final)  Histos[0][7][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
+	if (selection_final  && bjet == 0)  Histos[0][7][1][fill] -> Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
       }
       // ------------------- Histo cut flow  
       if (SR_channel <= 2){
@@ -1823,7 +1825,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
 	    Histos[numero_histo][6][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
 	  }
-	  if (selection_final) {
+	  if (selection_final  && bjet == 0) {
 	    Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
 	    Histos[numero_histo][6][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_mu);
 	  }
@@ -1833,7 +1835,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    Histos[numero_histo][7][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
 	    Histos[numero_histo][SR_channel][0][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
 	  }
-	  if (selection_final) {
+	  if (selection_final  && bjet == 0) {
 	    Histos[numero_histo][7][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
 	    Histos[numero_histo][SR_channel][1][fill]->Fill(TMath::Min(values[numero_histo], maxBinC[numero_histo]), scal*central_total_weight_ele);
 	  }
