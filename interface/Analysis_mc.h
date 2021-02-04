@@ -1327,11 +1327,11 @@ UInt_t            _zgEventType;
   const TString XUnits2d[nhist2d] = {"",""};
   const TString YUnits2d[nhist2d] = {"",""};				
  const double XHistMin2d[nhist2d] = {0,0};
-  const double XHistMax2d[nhist2d] = {10,4};
+  const double XHistMax2d[nhist2d] = {15,4};
   const double YHistMin2d[nhist2d] = {0,0};
-  const double YHistMax2d[nhist2d] = {12,4};		
-  const int XnBins2d[nhist2d] =      {100,100};    
-  const int YnBins2d[nhist2d] =      {120,80}; 
+  const double YHistMax2d[nhist2d] = {100,5};		
+  const int XnBins2d[nhist2d] =      {285,100};    
+  const int YnBins2d[nhist2d] =      {300,80}; 
 
 
 
