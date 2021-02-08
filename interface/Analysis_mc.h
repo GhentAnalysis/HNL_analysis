@@ -1347,7 +1347,7 @@ UInt_t            _zgEventType;
 				      -50,-50,
 				      -3,-3,
 				      -4,-4,
-				      -3.14,-3.14};
+				      0,0};
   const double XHistMax2d[nhist2d] = {100,5,
 				      50,50,
 				      3,3,
