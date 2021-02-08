@@ -2173,10 +2173,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");
 
 	  if (dist == 6 || dist == 7 || dist == 8 || dist == 9 ) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y (cm)");
+	  if ( dist == 8 || dist == 9 ) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y-z (cm)");
 	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#eta");
 	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#theta (rad)");
 	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.01 x 0.1 mm)");
-	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");	  
+	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.004 rad x 0.1 mm)");	  
 	  Histos2d[dist][cat][flav][effsam1]->SetStats(0);
 	  //Histos2d[dist][cat][flav][effsam1] -> SetMinimum (0.);
 	  gStyle->SetPalette(kCool);
