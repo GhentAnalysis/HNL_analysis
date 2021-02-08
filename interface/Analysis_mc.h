@@ -1344,35 +1344,35 @@ UInt_t            _zgEventType;
   const TString XUnits2d[nhist2d] = {"","", "","", "","","","", "",""};
   const TString YUnits2d[nhist2d] = {"","","","", "","","","", "",""};				
   const double XHistMin2d[nhist2d] = {0,0,
-				      -25,-25,
+				      -50,-50,
 				      -3,-3,
 				      -4,-4,
 				      -3.14,-3.14};
   const double XHistMax2d[nhist2d] = {100,5,
-				      25,25,
+				      50,50,
 				      3,3,
 				      4,4,
 				      3.14,3.14};
   const double YHistMin2d[nhist2d] = {0,0,
-				     -25,-25,
+				     -50,-50,
 				      0,0,
 				      0,0,
 				      0,0};
   const double YHistMax2d[nhist2d] = {15,5,
-				      25,25,
-				      25,25,
-				      25,25,
-				      25,25};		
+				      50,50,
+				      50,50,
+				      50,50,
+				      50,50};		
   const int XnBins2d[nhist2d] =      {200,100,
-				      2500,2500,
+				      5000,5000,
 				      750,750,
 				      750,750,
 				      750,750 };    
   const int YnBins2d[nhist2d] =      {300,200,
-				      2500,2500,
-				      2500,2500,
-				      2500,2500,
-				      2500,2500,}; 
+				      5000,5000,
+				      5000,5000,
+				      5000,5000,
+				      5000,5000}; 
 
 
 
