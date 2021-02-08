@@ -1733,34 +1733,34 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (SR_channel == 0 ) Histos2d[2][0][0][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	  if (SR_channel == 0 ) Histos2d[4][0][0][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	  if (SR_channel == 0 ) Histos2d[6][0][0][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 0 ) Histos2d[8][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	  if (SR_channel == 0 ) Histos2d[8][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  //
 	  if (SR_channel == 1 ) Histos2d[0][0][1][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 1 ) Histos2d[1][0][1][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 1 ) Histos2d[2][0][1][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	  if (SR_channel == 1 ) Histos2d[4][0][1][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	  if (SR_channel == 1 ) Histos2d[6][0][1][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[8][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	  if (SR_channel == 1 ) Histos2d[8][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  //
 	  if (SR_channel == 2 ) Histos2d[0][0][2][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 2 ) Histos2d[1][0][2][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 2 ) Histos2d[2][0][2][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	  if (SR_channel == 2 ) Histos2d[4][0][2][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	  if (SR_channel == 2 ) Histos2d[6][0][2][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[8][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	  if (SR_channel == 2 ) Histos2d[8][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  if (D2_delta_pv_sv > 3.5) {
 	    if (SR_channel == 0 ) Histos2d[3][0][0][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	    if (SR_channel == 0 ) Histos2d[5][0][0][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	    if (SR_channel == 0 ) Histos2d[7][0][0][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 0 ) Histos2d[9][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	    if (SR_channel == 0 ) Histos2d[9][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	    if (SR_channel == 1 ) Histos2d[3][0][1][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	    if (SR_channel == 1 ) Histos2d[5][0][1][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	    if (SR_channel == 1 ) Histos2d[7][0][1][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 1 ) Histos2d[9][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	    if (SR_channel == 1 ) Histos2d[9][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	    if (SR_channel == 2 ) Histos2d[3][0][2][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	    if (SR_channel == 2 ) Histos2d[5][0][2][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	    if (SR_channel == 2 ) Histos2d[7][0][2][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 2 ) Histos2d[9][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	    if (SR_channel == 2 ) Histos2d[9][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  }
 	}
     
@@ -1810,34 +1810,34 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (SR_channel == 3 ) Histos2d[2][0][3][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	  if (SR_channel == 3 ) Histos2d[4][0][3][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	  if (SR_channel == 3 ) Histos2d[6][0][3][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 3 ) Histos2d[8][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	  if (SR_channel == 3 ) Histos2d[8][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  //
 	  if (SR_channel == 4 ) Histos2d[0][0][4][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 4 ) Histos2d[1][0][4][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 4 ) Histos2d[2][0][4][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	  if (SR_channel == 4 ) Histos2d[4][0][4][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	  if (SR_channel == 4 ) Histos2d[6][0][4][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 4 ) Histos2d[8][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	  if (SR_channel == 4 ) Histos2d[8][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_v,1);
 	  //
 	  if (SR_channel == 5 ) Histos2d[0][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 5 ) Histos2d[1][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 5 ) Histos2d[2][0][5][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	  if (SR_channel == 5 ) Histos2d[4][0][5][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	  if (SR_channel == 5 ) Histos2d[6][0][5][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 5 ) Histos2d[8][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	  if (SR_channel == 5 ) Histos2d[8][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  if (D2_delta_pv_sv > 3.5) {
 	    if (SR_channel == 3 ) Histos2d[3][0][3][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	    if (SR_channel == 3 ) Histos2d[5][0][3][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	    if (SR_channel == 3 ) Histos2d[7][0][3][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 3 ) Histos2d[9][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	    if (SR_channel == 3 ) Histos2d[9][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	    if (SR_channel == 4 ) Histos2d[3][0][4][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	    if (SR_channel == 4 ) Histos2d[5][0][4][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	    if (SR_channel == 4 ) Histos2d[7][0][4][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 4 ) Histos2d[9][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	    if (SR_channel == 4 ) Histos2d[9][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	    if (SR_channel == 5 ) Histos2d[3][0][5][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	    if (SR_channel == 5 ) Histos2d[5][0][5][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
 	    if (SR_channel == 5 ) Histos2d[7][0][5][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 5 ) Histos2d[9][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_r,1);
+	    if (SR_channel == 5 ) Histos2d[9][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  }
         }
 	/* if (SR_selection   && bjet == 0 ){
