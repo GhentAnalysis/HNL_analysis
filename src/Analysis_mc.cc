@@ -20,7 +20,6 @@
 #include "TFile.h"
 #include "TCanvas.h"
 #include "TLegend.h"
-#include "TColor.h"
 #include "TPad.h"
 #include "TF1.h"
 #include "TF2.h"
@@ -191,12 +190,15 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
   }
 
-for(int i = 0; i < nhist2d; ++i){
-    for(size_t effsam = 0; effsam < nSamples_eff + 1; ++effsam){
+  for(int i = 0; i < nhist2d; ++i){
+    for(size_t effsam = 0; effsam < number_2d; ++effsam){
       for(int cat = 0; cat < nCat2D; ++cat){
 	for(int flav = 0; flav < nFlavor; ++flav){
-	  Histos2d[i][cat][flav][effsam] =  new TH2D(eff_names[effsam] +"_"+ catNames2D[cat] +"_"+ flavorNames[flav]+ "_"+ Hist2d_ossf[i] ,eff_names[effsam] +"_"+ catNames2D[cat] +"_"+ flavorNames[flav] +"_"+ Hist2d_ossf[i], XnBins2d[i], XHistMin2d[i], XHistMax2d[i], YnBins2d[i], YHistMin2d[i], YHistMax2d[i]);
-	  std::cout<<i<<"  2d  "<<effsam<<"  "<<cat<<"  "<<flav<<"    --> "<< eff_names[effsam] +"_"+ catNames2D[cat] +"_"+ flavorNames[flav]+ "_"+ Hist2d_ossf[i] <<std::endl;
+
+	  Histos2d[i][cat][flav][effsam] =  new TH2D(names2d[effsam]+"_"+ catNames2D[cat] +"_"+ flavorNames[flav]+ "_"+ Hist2d_ossf[i] ,names2d[effsam]+"_"+ catNames2D[cat] +"_"+ flavorNames[flav] +"_"+ Hist2d_ossf[i], XnBins2d[i], XHistMin2d[i], XHistMax2d[i], YnBins2d[i], YHistMin2d[i], YHistMax2d[i]);
+	
+	 
+	  std::cout<<"dist: "<<i<<"  2d  "<<effsam<<"  "<<cat<<"  "<<flav<<"    --> "<< names2d[effsam]+"_"+ catNames2D[cat] +"_"+ flavorNames[flav]+ "_"+ Hist2d_ossf[i] <<std::endl;
 	  Histos2d[i][cat][flav][effsam] ->Sumw2();
 	}
       }
@@ -224,7 +226,8 @@ for(int i = 0; i < nhist2d; ++i){
 	    plots_SR2[nplo][cha][syst][var][effsam]-> Sumw2();
 	  }
 	  
-	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], 18, 0.5, 18.5);	  	      plots_SR[cha][syst][var][effsam]-> Sumw2();
+	  plots_SR[cha][syst][var][effsam] = new TH1D(std::to_string(jaar)+"_"+eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], eff_names[effsam]+"_"+ chaNames[cha] +"_"+systNamesT[syst]+"_"+varNames[var], 18, 0.5, 18.5);
+	  plots_SR[cha][syst][var][effsam]-> Sumw2();
 	  weight_SR[cha][syst][var][effsam]=1.;
 	}
       }
@@ -699,7 +702,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   TH2F *sf_isoID_nPMuon_syst[1];
   TH2F *sf_btag_eff[3];	//0 uds, 1 charm, 2 b
 
-   //by luka
+  //by luka
   TH2F *sf_sv_effcy_num[1];
   TH2F *sf_sv_effcy_den[1];
   
@@ -827,11 +830,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      BTagEntry::FLAV_B, // b-tag flavor
 	      "comb");           // measurement type
   reader.load(calib,             // calibration instance
-              BTagEntry::FLAV_C, // b-tag flavor
-              "comb");           // measurement type
+	      BTagEntry::FLAV_C, // b-tag flavor
+	      "comb");           // measurement type
   reader.load(calib,             // calibration instance
-              BTagEntry::FLAV_UDSG, // b-tag flavor
-              "incl");           // measurement type
+	      BTagEntry::FLAV_UDSG, // b-tag flavor
+	      "incl");           // measurement type
 
 
 
@@ -856,31 +859,31 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   const unsigned nQcdVars = qcdSystVars.size();
   const unsigned nPdfVars = pdfSystVars.size();
 
-  TH1D* qcdHistos[nQcdVars][nCoupling][nSamples_eff+1];
-  TH1D* qcdHistosNorm[nQcdVars][nCoupling][nSamples_eff+1];
-  TH1D* pdfHistos[nPdfVars][nCoupling][nSamples_eff+1];
-  TH1D* pdfHistosNorm[nPdfVars][nCoupling][nSamples_eff+1];
-  //if(runtheosyst) {
-  float binWidth = (HistMax[0] - HistMin[0])/nBins[0];
-  std::ostringstream strs; strs << binWidth; std::string Yaxis = strs.str();
-  for(size_t effsam=0; effsam<nSamples_eff+1; ++effsam) {
+  /*TH1D* qcdHistos[nQcdVars][nCoupling][nSamples_eff+1];
+    TH1D* qcdHistosNorm[nQcdVars][nCoupling][nSamples_eff+1];
+    TH1D* pdfHistos[nPdfVars][nCoupling][nSamples_eff+1];
+    TH1D* pdfHistosNorm[nPdfVars][nCoupling][nSamples_eff+1];
+    //if(runtheosyst) {
+    float binWidth = (HistMax[0] - HistMin[0])/nBins[0];
+    std::ostringstream strs; strs << binWidth; std::string Yaxis = strs.str();
+    for(size_t effsam=0; effsam<nSamples_eff+1; ++effsam) {
     for(int cha=0; cha<nCoupling; ++cha) {
-      //if(cha!=6 && cha!=7) continue;
-      // Only for theory systs
-      for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
-	qcdHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-	qcdHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
-	qcdHistos    [sidx][cha][effsam]->Sumw2();
-	qcdHistosNorm[sidx][cha][effsam]->Sumw2();
-      }
-      for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
-	pdfHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-	pdfHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
-	pdfHistos    [sidx][cha][effsam]->Sumw2();
-	pdfHistosNorm[sidx][cha][effsam]->Sumw2();
-      }
+    //if(cha!=6 && cha!=7) continue;
+    // Only for theory systs
+    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
+    qcdHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
+    qcdHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
+    qcdHistos    [sidx][cha][effsam]->Sumw2();
+    qcdHistosNorm[sidx][cha][effsam]->Sumw2();
     }
-  }
+    for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
+    pdfHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
+    pdfHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
+    pdfHistos    [sidx][cha][effsam]->Sumw2();
+    pdfHistosNorm[sidx][cha][effsam]->Sumw2();
+    }
+    }
+    }*/
   //}
 	
   // ------------   run over samples -----------------------------------------------//
@@ -1060,7 +1063,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      index_to_use_for_l2_l3[1] = ind[l];
 	    }	    
 	  }
-      	}//end loop2
+	}//end loop2
       }//end loop1
 
       if (displacedC < 1) continue;     
@@ -1231,7 +1234,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (SR_channel <= 2 && !(_HLT_IsoMu27 || _HLT_IsoMu24 || _HLT_IsoTkMu24)) continue;
       if (SR_channel > 2 && !(_HLT_Ele27_WPTight_Gsf || _HLT_Ele32_WPTight_Gsf || _HLT_Ele35_WPTight_Gsf  || _HLT_Ele32_WPTight_Gsf_L1DoubleEG)) continue;
 
-       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    
       // ------------ closest jet info --------------------------------------//
       TLorentzVector  l1Jet[1] ;
@@ -1320,16 +1323,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       
       bool SR_selection = false;  // bveto is not there because we want btagging SF  
       SR_selection = 	v4l2.DeltaR(v4l3) < 1 &&   
-			 M_3L_combined > 50 && 
-	                 M_3L_combined < 80 && 
-	                 min_delta_phi > 1 &&
-	                 vtxRvtxPcosAlpha > 0.99  &&
-	                 M_l2l3_combined < 20 &&
-			 sum_vec_l2l3 > 15 &&
-	                 D2_delta_pv_svSig > 20 &&	
-	                 prob_vertex > 0.001 &&
+					    M_3L_combined > 50 && 
+	M_3L_combined < 80 && 
+			min_delta_phi > 1 &&
+	vtxRvtxPcosAlpha > 0.99  &&
+	M_l2l3_combined < 20 &&
+			  sum_vec_l2l3 > 15 &&
+	D2_delta_pv_svSig > 20 &&	
+	prob_vertex > 0.001 &&
 	//	bjet == 0 &&
-	                 vetoes;
+	vetoes;
       if (SR_selection && bjet == 0) selection_final = true; // then it would be == SR_plot[central]
       if (SR_channel == 3 && M_l2l3_combined < 0.5) continue;
       //cut flow bools
@@ -1415,7 +1418,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // Pile UP!
       if (!samples[sam].isData()){	    
-      	for (int w_loop =0; w_loop < nCoupling; w_loop++){
+	for (int w_loop =0; w_loop < nCoupling; w_loop++){
 	  weight_SR[w_loop][pu_index][0][effsam] = PUWeight();
 	  weight_SR[w_loop][pu_index][1][effsam] = puWeight(1);	
 	  weight_SR[w_loop][pu_index][2][effsam] = puWeight(2);	
@@ -1570,12 +1573,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  plots_SR2[0][muon_case][on_index][0][fill] ->  Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]), scal*central_total_weight_mu);
 	  plots_SR2[1][muon_case][on_index][0][fill] ->  Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]), scal*central_total_weight_mu);
 	}
-      	if (SR_channel > 2  && bjet == 0) {
+	if (SR_channel > 2  && bjet == 0) {
 	  plots_SR[ele_case][on_index][0][fill]  ->  Fill(static_cast<double>(bin_SR_eleCoupling), scal*central_total_weight_ele);
 	  plots_SR2[0][ele_case][on_index][0][fill]  ->  Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]), scal*central_total_weight_ele);
 	  plots_SR2[1][ele_case][on_index][0][fill]  ->  Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]), scal*central_total_weight_ele);
 	}
-        // plots for systematics
+	// plots for systematics
 	//filling the shape histogram for DF background
 	if (isDataDrivenBgk && Double_fake){
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
@@ -1597,7 +1600,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (!samples[sam].isData()){ // only for MC
 	  for (int iSystematics = 1; iSystematics <  nSystematic; iSystematics++) { // loop on sys
 	    if (iSystematics == dfShape_index) continue;
-            if (iSystematics == dfLowStat_index) continue;
+	    if (iSystematics == dfLowStat_index) continue;
 	    if (iSystematics == dfmm_index) continue;
 	    if (iSystematics == dfem_index) continue;
 	    if (iSystematics == dfee_index) continue;
@@ -1618,7 +1621,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		}
-	      	if (SR_channel > 2  && bjet == 0) {
+		if (SR_channel > 2  && bjet == 0) {
 		  plots_SR[ele_case][iSystematics][iVariation][fill]  -> Fill(static_cast<double>(bin_SR_eleCoupling),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
@@ -1631,7 +1634,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		}
-	      	if (SR_channel <= 2 && bjet_down_jec == 0) {
+		if (SR_channel <= 2 && bjet_down_jec == 0) {
 		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
@@ -1643,7 +1646,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		}
-	      	if (SR_channel <= 2 && bjet_up_jec == 0) {
+		if (SR_channel <= 2 && bjet_up_jec == 0) {
 		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
@@ -1655,7 +1658,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		}
-	      	if (SR_channel <= 2 && bjet_down_jer == 0) {
+		if (SR_channel <= 2 && bjet_down_jer == 0) {
 		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
@@ -1667,7 +1670,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 		  plots_SR2[0][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][ele_case][iSystematics][iVariation][fill]  -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]),  central_divided_by_sys_ele* weight_SR[ele_case][iSystematics][iVariation][effsam]*scal);
 		}
-	      	if (SR_channel <= 2 && bjet_up_jer == 0) {
+		if (SR_channel <= 2 && bjet_up_jer == 0) {
 		  plots_SR[muon_case][iSystematics][iVariation][fill] -> Fill(static_cast<double>(bin_SR_muonCoupling), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[0][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(M_l2l3_combined, maxBinC_dc[0]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
 		  plots_SR2[1][muon_case][iSystematics][iVariation][fill] -> Fill(TMath::Min(D2_delta_pv_sv,  maxBinC_dc[1]), central_divided_by_sys_muon*weight_SR[muon_case][iSystematics][iVariation][effsam]*scal);
@@ -1675,38 +1678,38 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	      }    
 	    } //end loop up-down
 	  } // end loop on sys
-	  //
+	    //
 		
-	  // For QCD scale uncertainties
-	  /*if(bjet == 0) {
-	    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
+	    // For QCD scale uncertainties
+	    /*if(bjet == 0) {
+	      for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
 	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
 	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]-1];
 	      if(SR_channel> 2) {
-		qcdHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
-		qcdHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
+	      qcdHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
+	      qcdHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
 	      }
 	      if(SR_channel<=2) {
-		qcdHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
-		qcdHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
+	      qcdHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
+	      qcdHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
 	      }
-	    }
-	    //
-	    // For PDF uncertainties
-	    for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
+	      }
+	      //
+	      // For PDF uncertainties
+	      for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
 	      double wghtCorr     = _lheWeight[pdfSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(pdfSystVars[sidx]));
 	      double wghtCorrNorm = _lheWeight[pdfSystVars[sidx]-1];
 	      if(SR_channel> 2) {
-		pdfHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
-		pdfHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
+	      pdfHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
+	      pdfHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
 	      }
 	      if(SR_channel<=2) {
-		pdfHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
-		pdfHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
+	      pdfHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
+	      pdfHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
 	      }
-	    }
-	  } // end if(bjet == 0)
-	  */
+	      }
+	      } // end if(bjet == 0)
+	    */
 	} // end MC
       } // end SR_selection
 
@@ -1716,165 +1719,169 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (isDataYield && SR_selection  && bjet == 0){
 	std::cout<<"event: "<<"SR_channel: "<< SR_channel<<"   --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<"               deltaR: "<<v4l2.DeltaR(v4l3)<<"   displaced: "<<D2_delta_pv_sv<<"   mass: "<< M_l2l3_combined<<"   sumPT: "<<v4l2.Pt()+v4l3.Pt()<<std::endl;
       }
+      unsigned fill_2d = effsam;
+
+      if (isDataYield) fill_2d = 0;
+      if (isSignal) fill_2d = 1;
+      if (isDataDrivenBgk) fill_2d=2;
+      
+      //D2_delta_pv_sv
+      if (SR_channel <= 2) {
+	if (SR_selection   && bjet == 0){
+	  if (SR_channel == 0 ) Histos2d[0][0][0][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 0 ) Histos2d[1][0][0][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 0 ) Histos2d[2][0][0][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 0 ) Histos2d[4][0][0][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 0 ) Histos2d[6][0][0][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 0 ) Histos2d[8][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  //
+	  if (SR_channel == 1 ) Histos2d[0][0][1][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 1 ) Histos2d[1][0][1][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 1 ) Histos2d[2][0][1][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 1 ) Histos2d[4][0][1][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 1 ) Histos2d[6][0][1][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 1 ) Histos2d[8][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  //
+	  if (SR_channel == 2 ) Histos2d[0][0][2][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 2 ) Histos2d[1][0][2][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 2 ) Histos2d[2][0][2][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 2 ) Histos2d[4][0][2][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 2 ) Histos2d[6][0][2][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 2 ) Histos2d[8][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  if (D2_delta_pv_sv > 3.5) {
+            if (SR_channel == 0 ) Histos2d[3][0][0][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+            if (SR_channel == 0 ) Histos2d[5][0][0][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+            if (SR_channel == 0 ) Histos2d[7][0][0][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+            if (SR_channel == 0 ) Histos2d[9][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+            if (SR_channel == 1 ) Histos2d[3][0][1][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+            if (SR_channel == 1 ) Histos2d[5][0][1][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+            if (SR_channel == 1 ) Histos2d[7][0][1][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+            if (SR_channel == 1 ) Histos2d[9][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+            if (SR_channel == 2 ) Histos2d[3][0][2][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+            if (SR_channel == 2 ) Histos2d[5][0][2][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+            if (SR_channel == 2 ) Histos2d[7][0][2][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+            if (SR_channel == 2 ) Histos2d[9][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  }
+	}
+    
+	/*if (SR_selection  && bjet == 0 ){
+	  if (SR_channel == 0 ) Histos2d[0][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 0 ) Histos2d[1][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 0 ) Histos2d[2][1][0][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 0 ) Histos2d[4][1][0][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 0 ) Histos2d[6][1][0][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 0 ) Histos2d[8][1][0][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	  //
+	  if (SR_channel == 1 ) Histos2d[0][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 1 ) Histos2d[1][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 1 ) Histos2d[2][1][1][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 1 ) Histos2d[4][1][1][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 1 ) Histos2d[6][1][1][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 1 ) Histos2d[8][1][1][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	  //
+	  if (SR_channel == 2 ) Histos2d[0][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 2 ) Histos2d[1][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 2 ) Histos2d[2][1][2][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 2 ) Histos2d[4][1][2][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 2 ) Histos2d[6][1][2][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 2 ) Histos2d[8][1][2][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	  if (D2_delta_pv_sv > 3.5) {
+	  if (SR_channel == 0 ) Histos2d[3][1][0][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 0 ) Histos2d[5][1][0][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 0 ) Histos2d[7][1][0][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 0 ) Histos2d[9][1][0][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	  if (SR_channel == 1 ) Histos2d[3][1][1][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 1 ) Histos2d[5][1][1][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 1 ) Histos2d[7][1][1][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 1 ) Histos2d[9][1][1][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	  if (SR_channel == 2 ) Histos2d[3][1][2][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 2 ) Histos2d[5][1][2][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 2 ) Histos2d[7][1][2][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 2 ) Histos2d[9][1][2][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	  }
+	  }*/
+      }
+
+
+      if (SR_channel > 2) {
+	if (SR_selection   && bjet == 0){
+	  if (SR_channel == 3 ) Histos2d[0][0][3][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 3 ) Histos2d[1][0][3][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 3 ) Histos2d[2][0][3][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 3 ) Histos2d[4][0][3][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 3 ) Histos2d[6][0][3][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 3 ) Histos2d[8][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  //
+	  if (SR_channel == 4 ) Histos2d[0][0][4][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 4 ) Histos2d[1][0][4][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 4 ) Histos2d[2][0][4][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 4 ) Histos2d[4][0][4][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 4 ) Histos2d[6][0][4][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 4 ) Histos2d[8][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  //
+	  if (SR_channel == 5 ) Histos2d[0][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 5 ) Histos2d[1][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 5 ) Histos2d[2][0][5][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+	  if (SR_channel == 5 ) Histos2d[4][0][5][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+	  if (SR_channel == 5 ) Histos2d[6][0][5][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+	  if (SR_channel == 5 ) Histos2d[8][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  if (D2_delta_pv_sv > 3.5) {
+            if (SR_channel == 3 ) Histos2d[3][0][3][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+            if (SR_channel == 3 ) Histos2d[5][0][3][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+            if (SR_channel == 3 ) Histos2d[7][0][3][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+            if (SR_channel == 3 ) Histos2d[9][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+            if (SR_channel == 4 ) Histos2d[3][0][4][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+            if (SR_channel == 4 ) Histos2d[5][0][4][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+            if (SR_channel == 4 ) Histos2d[7][0][4][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+            if (SR_channel == 4 ) Histos2d[9][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+            if (SR_channel == 5 ) Histos2d[3][0][5][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
+            if (SR_channel == 5 ) Histos2d[5][0][5][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
+            if (SR_channel == 5 ) Histos2d[7][0][5][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
+            if (SR_channel == 5 ) Histos2d[9][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
+	  }
+	}
+	/* if (SR_selection   && bjet == 0 ){
+	   if (SR_channel == 3 ) Histos2d[0][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	   if (SR_channel == 3 ) Histos2d[1][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	   if (SR_channel == 3 ) Histos2d[2][1][3][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	   if (SR_channel == 3 ) Histos2d[4][1][3][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	   if (SR_channel == 3 ) Histos2d[6][1][3][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	   if (SR_channel == 3 ) Histos2d[8][1][3][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	   //
+	   if (SR_channel == 4 ) Histos2d[0][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	   if (SR_channel == 4 ) Histos2d[1][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	   if (SR_channel == 4 ) Histos2d[2][1][4][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	   if (SR_channel == 4 ) Histos2d[4][1][4][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	   if (SR_channel == 4 ) Histos2d[6][1][4][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	   if (SR_channel == 4 ) Histos2d[8][1][4][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	   //
+	   if (SR_channel == 5 ) Histos2d[0][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	   if (SR_channel == 5 ) Histos2d[1][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	   if (SR_channel == 5 ) Histos2d[2][1][5][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	   if (SR_channel == 5 ) Histos2d[4][1][5][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	   if (SR_channel == 5 ) Histos2d[6][1][5][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	   if (SR_channel == 5 ) Histos2d[8][1][5][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	   if (D2_delta_pv_sv > 3.5) {
+	   if (SR_channel == 3 ) Histos2d[3][1][3][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	   if (SR_channel == 3 ) Histos2d[5][1][3][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	   if (SR_channel == 3 ) Histos2d[7][1][3][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	   if (SR_channel == 3 ) Histos2d[9][1][3][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	   if (SR_channel == 4 ) Histos2d[3][1][4][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	   if (SR_channel == 4 ) Histos2d[5][1][4][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	   if (SR_channel == 4 ) Histos2d[7][1][4][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	   if (SR_channel == 4 ) Histos2d[9][1][4][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	   if (SR_channel == 5 ) Histos2d[3][1][5][fill] -> Fill(_vertex_X, _vertex_Y,1);
+	   if (SR_channel == 5 ) Histos2d[5][1][5][fill] -> Fill(_vertex_phi, _vertex_r,1);
+	   if (SR_channel == 5 ) Histos2d[7][1][5][fill] -> Fill(_vertex_eta, _vertex_R,1);
+	   if (SR_channel == 5 ) Histos2d[9][1][5][fill] -> Fill(_vertex_theta, _vertex_R,1);
+	   }
+     
+	   }*/
+      }
 
 
 
       
-      //D2_delta_pv_sv
-      if (SR_channel <= 2) {
-	if (selection_0){
-	  if (SR_channel == 0 ) Histos2d[0][0][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[1][0][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[2][0][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[4][0][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[6][0][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[8][0][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  //
-	  if (SR_channel == 1 ) Histos2d[0][0][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[1][0][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[2][0][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[4][0][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[6][0][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[8][0][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  //
-	  if (SR_channel == 2 ) Histos2d[0][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[1][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[2][0][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[4][0][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[6][0][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[8][0][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  if (D2_delta_pv_sv > 3.5) {
-	    if (SR_channel == 0 ) Histos2d[3][0][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	    if (SR_channel == 0 ) Histos2d[5][0][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	    if (SR_channel == 0 ) Histos2d[7][0][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 0 ) Histos2d[9][0][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[3][0][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[5][0][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[7][0][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[9][0][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[3][0][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[5][0][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[7][0][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[9][0][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  }	  
-	}
-	
-	if (SR_selection  && bjet == 0 ){
-	  if (SR_channel == 0 ) Histos2d[0][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[1][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[2][1][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[4][1][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[6][1][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	  if (SR_channel == 0 ) Histos2d[8][1][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  //
-	  if (SR_channel == 1 ) Histos2d[0][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[1][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[2][1][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[4][1][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[6][1][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	  if (SR_channel == 1 ) Histos2d[8][1][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  //
-	  if (SR_channel == 2 ) Histos2d[0][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[1][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[2][1][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[4][1][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[6][1][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	  if (SR_channel == 2 ) Histos2d[8][1][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  if (D2_delta_pv_sv > 3.5) {
-	    if (SR_channel == 0 ) Histos2d[3][1][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	    if (SR_channel == 0 ) Histos2d[5][1][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	    if (SR_channel == 0 ) Histos2d[7][1][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 0 ) Histos2d[9][1][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[3][1][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[5][1][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[7][1][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 1 ) Histos2d[9][1][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[3][1][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[5][1][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[7][1][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
-	    if (SR_channel == 2 ) Histos2d[9][1][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
-	  }	  
-	}
-      }
-
-      if (SR_channel > 2) {
-	if (selection_0){
-	  if (SR_channel == 3 ) Histos2d[0][0][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[1][0][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[2][0][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[4][0][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[6][0][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[8][0][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  //
-	  if (SR_channel == 4 ) Histos2d[0][0][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[1][0][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[2][0][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[4][0][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[6][0][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[8][0][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  //
-	  if (SR_channel == 5 ) Histos2d[0][0][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[1][0][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[2][0][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[4][0][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[6][0][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[8][0][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  if (D2_delta_pv_sv > 3.5) {
-	    if (SR_channel == 3 ) Histos2d[3][0][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	    if (SR_channel == 3 ) Histos2d[5][0][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	    if (SR_channel == 3 ) Histos2d[7][0][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 3 ) Histos2d[9][0][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[3][0][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[5][0][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[7][0][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[9][0][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[3][0][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[5][0][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[7][0][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[9][0][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  }
-	}
-	if (SR_selection   && bjet == 0 ){
-	  if (SR_channel == 3 ) Histos2d[0][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[1][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[2][1][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[4][1][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[6][1][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[8][1][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  //
-	  if (SR_channel == 4 ) Histos2d[0][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[1][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[2][1][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[4][1][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[6][1][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[8][1][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  //
-	  if (SR_channel == 5 ) Histos2d[0][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[1][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[2][1][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[4][1][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[6][1][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[8][1][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  if (D2_delta_pv_sv > 3.5) {
-	    if (SR_channel == 3 ) Histos2d[3][1][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	    if (SR_channel == 3 ) Histos2d[5][1][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	    if (SR_channel == 3 ) Histos2d[7][1][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 3 ) Histos2d[9][1][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[3][1][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[5][1][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[7][1][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 4 ) Histos2d[9][1][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[3][1][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[5][1][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[7][1][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
-	    if (SR_channel == 5 ) Histos2d[9][1][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
-	  }
-
-	}
-      }
-
-
-
 
       // Fin.state  SR_channel
       // ---------------------
@@ -1975,6 +1982,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  }
 	}
       }//<<<<<end histo
+	
     }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<end loop over the entries
     std::cout<<"after end loop all entries"<<std::endl;
 
@@ -1984,76 +1992,76 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   // Theory uncertainties
   //
   /*for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
-    // QCD uncertainties
-    for(size_t ib=0; ib<nBins[0]; ++ib) {
-      //for(size_t ic=0; ic<nCoupling; ++ic) {
-      for(size_t ic=0; ic<2; ++ic) { // skip tau for now
-	double errorByBin = 0.;
-	double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
-	double errorNorm  = 0.;
-	double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
-	for(size_t is=0; is<nQcdVars; ++is) {
-	  double deltabin = iniCont>0. ? std::abs(qcdHistos[is][ic][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
-	  if(deltabin>errorByBin) errorByBin = deltabin;
-	  if(ib==0) {
-	    double deltanorm = iniNorm>0. ? std::abs(qcdHistosNorm[is][ic][ss]->GetBinContent(ib+1) - iniNorm)/iniNorm : 0.;
-	    if(deltanorm>errorNorm) errorNorm = deltanorm;
-	  }
-	}
-	// Shape, down variation
-	plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-	// Shape, up variation
-	plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-	if(ib==0) {
-	  // Normalization, down variation
-	  plots_SR[ic][qcdNorm_index][1][ss]->Scale(1./(1.+errorNorm));
-	  // Normalization, up variation
-	  plots_SR[ic][qcdNorm_index][2][ss]->Scale(1.+errorNorm);
-	}
-      }
-    }
+  // QCD uncertainties
+  for(size_t ib=0; ib<nBins[0]; ++ib) {
+  //for(size_t ic=0; ic<nCoupling; ++ic) {
+  for(size_t ic=0; ic<2; ++ic) { // skip tau for now
+  double errorByBin = 0.;
+  double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
+  double errorNorm  = 0.;
+  double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
+  for(size_t is=0; is<nQcdVars; ++is) {
+  double deltabin = iniCont>0. ? std::abs(qcdHistos[is][ic][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
+  if(deltabin>errorByBin) errorByBin = deltabin;
+  if(ib==0) {
+  double deltanorm = iniNorm>0. ? std::abs(qcdHistosNorm[is][ic][ss]->GetBinContent(ib+1) - iniNorm)/iniNorm : 0.;
+  if(deltanorm>errorNorm) errorNorm = deltanorm;
+  }
+  }
+  // Shape, down variation
+  plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
+  // Shape, up variation
+  plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
+  if(ib==0) {
+  // Normalization, down variation
+  plots_SR[ic][qcdNorm_index][1][ss]->Scale(1./(1.+errorNorm));
+  // Normalization, up variation
+  plots_SR[ic][qcdNorm_index][2][ss]->Scale(1.+errorNorm);
+  }
+  }
+  }
+  //
+  // PDF uncertainties
+  for(size_t ib=0; ib<nBins[0]; ++ib) {
+  //for(size_t ic=0; ic<nCoupling; ++ic) {
+  for(size_t ic=0; ic<2; ++ic) { // skip tau for now
+  double meanByBin  = 0.;
+  double errorByBin = 0.;
+  double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
+  double meanNorm   = 0.;
+  double errorNorm  = 0.;
+  //double iniNorm  = plots_SR[ic][on_index][0][ss]->Integral(1, plots_SR[ic][on_index][0][ss]->GetNbinsX());
+  double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
+  for(size_t is=0; is<nPdfVars; ++is) {
+  double iadd = iniCont>0. ? pdfHistos[is][ic][ss]->GetBinContent(ib+1)/iniCont : 0.;
+  meanByBin += iadd;
+  errorByBin += iadd*iadd;
+  if(ib==0) {
+  double iaddnorm = iniNorm>0. ? pdfHistosNorm[is][ic][ss]->GetBinContent(ib+1)/iniNorm : 0.;
+  meanNorm += iaddnorm;
+  errorNorm += iaddnorm*iaddnorm;
+  }
+  } // end for(size_t is=6; is<106; ++is)
     //
-    // PDF uncertainties
-     for(size_t ib=0; ib<nBins[0]; ++ib) {
-      //for(size_t ic=0; ic<nCoupling; ++ic) {
-      for(size_t ic=0; ic<2; ++ic) { // skip tau for now
-	double meanByBin  = 0.;
-	double errorByBin = 0.;
-	double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
-	double meanNorm   = 0.;
-	double errorNorm  = 0.;
-	//double iniNorm  = plots_SR[ic][on_index][0][ss]->Integral(1, plots_SR[ic][on_index][0][ss]->GetNbinsX());
-	double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
-	for(size_t is=0; is<nPdfVars; ++is) {
-	  double iadd = iniCont>0. ? pdfHistos[is][ic][ss]->GetBinContent(ib+1)/iniCont : 0.;
-	  meanByBin += iadd;
-	  errorByBin += iadd*iadd;
-	  if(ib==0) {
-	    double iaddnorm = iniNorm>0. ? pdfHistosNorm[is][ic][ss]->GetBinContent(ib+1)/iniNorm : 0.;
-	    meanNorm += iaddnorm;
-	    errorNorm += iaddnorm*iaddnorm;
-	  }
-	} // end for(size_t is=6; is<106; ++is)
-	//
-	// Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
-	errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
-	errorByBin = std::sqrt(errorByBin);
-	// Shape, down variation
-	plots_SR[ic][pdfShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-	// Shape, up variation
-	plots_SR[ic][pdfShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-	if(ib==0) {
-	  errorNorm = (errorNorm - (meanNorm*meanNorm/100.))/99.;
-	  errorNorm = std::sqrt(errorNorm);
-	  // Normalization, down variation
-	  plots_SR[ic][pdfNorm_index][1][ss]->Scale(1./(1.+errorNorm));
-	  // Normalization, up variation
-	  plots_SR[ic][pdfNorm_index][2][ss]->Scale(1.+errorNorm);
-	}
-      } // end for(size_t ic=0; ic<nCoupl; ++ic)
+    // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
+    errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
+    errorByBin = std::sqrt(errorByBin);
+    // Shape, down variation
+    plots_SR[ic][pdfShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
+    // Shape, up variation
+    plots_SR[ic][pdfShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
+    if(ib==0) {
+    errorNorm = (errorNorm - (meanNorm*meanNorm/100.))/99.;
+    errorNorm = std::sqrt(errorNorm);
+    // Normalization, down variation
+    plots_SR[ic][pdfNorm_index][1][ss]->Scale(1./(1.+errorNorm));
+    // Normalization, up variation
+    plots_SR[ic][pdfNorm_index][2][ss]->Scale(1.+errorNorm);
+    }
+    } // end for(size_t ic=0; ic<nCoupl; ++ic)
     } // end for(size_t ib=0; ib<nBins[0]; ++ib)
     
-  }*/ // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
+    }*/ // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
 
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
   //                |                         |
@@ -2089,7 +2097,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }	    
     }
   }
-  
+  std::cout<<"after putting at zero"<<std::endl;
   for(int cha = 0; cha < nCoupling; ++cha) {
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -2100,15 +2108,16 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 
 	/*sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
-	sum_expected_SR2[0][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[0][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
-	sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();*/
+	  sum_expected_SR2[0][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[0][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
+	  sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();*/
 
 	
 
       }//end loop up-down
     }// end loop on sys
   }// coupling
-      
+  std::cout<<"after data"<<std::endl;
+
   for(int cha = 0; cha < nCoupling; ++cha) {//--
     if (cha == 2) continue; // no taus for the moment
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
@@ -2119,30 +2128,36 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
 	 
 
-	    /*bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();
-	      bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[0][cha][iSystematics][iVariation][effsam1]->Clone();	  
-	      bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
-	      if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
-	      sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
-	      sum_expected_SR2[0][cha][iSystematics][iVariation]->Add(bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
-	      sum_expected_SR2[1][cha][iSystematics][iVariation]->Add(bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	  /*bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();
+	    bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[0][cha][iSystematics][iVariation][effsam1]->Clone();	  
+	    bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
+	    if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
+	    sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	    sum_expected_SR2[0][cha][iSystematics][iVariation]->Add(bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
+	    sum_expected_SR2[1][cha][iSystematics][iVariation]->Add(bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
 
-	  }*/
+	    }*/
 
 	  
 	}
       }	    
     }
   }//--
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  TCanvas *c_2dhisto[nhist2d][nCat][nFlavor][nSamples_eff];
-  for(unsigned dist = 0; dist < nhist2d; ++dist){
-    for(int cat = 0; cat < nCat; ++cat){
-      for (int flav = 0; flav < nFlavor; ++flav){
-	for(unsigned effsam1 = 0; effsam1 < nSamples_eff+1; ++effsam1){
+  std::cout<<"after bgk"<<std::endl;
 
-	  c_2dhisto[dist][cat][flav][effsam1] = new TCanvas("c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ "_"+ catNames2D[cat],eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ "_"+ catNames[cat], 10,10,600,600);
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  TCanvas *c_2dhisto[nhist2d][nCat2D][nFlavor][number_2d];
+  std::cout<<"cavas"<<std::endl;
+
+  for(unsigned dist = 0; dist < nhist2d; ++dist){
+    for(int cat = 0; cat < nCat2D; ++cat){
+      for (int flav = 0; flav < nFlavor; ++flav){
+	for(unsigned effsam1 = 0; effsam1 < number_2d; ++effsam1){
+	  // std::cout<<"in the loop   "<<dist<<"  "<<cat<<"  "<<flav<<" "<<effsam1<<std::endl;
+	  //									  std::cout<< names2d[effsam1]<<"  "<<Hist2d_ossf[dist]<<"  "<< flavorNames[flav]<<"  "<<catNames2D[cat]<<std::endl;
+	  c_2dhisto[dist][cat][flav][effsam1] = new TCanvas("c_"+ names2d[effsam1]+"_"+Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ catNames2D[cat],names2d[effsam1]+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] + "_"+ catNames[cat], 10,10,600,600);
+	    
 	  c_2dhisto[dist][cat][flav][effsam1]->cd();
 	  gPad->SetRightMargin (0.15);
 	  Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#Delta (PV-SV)_{2D}");
@@ -2151,86 +2166,88 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (dist == 1) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("M_{ll}#left(l_{2}+l_{3} #right) (GeV)");
 	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("y (cm)");
 	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("x (cm)");
-	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.2x0.2 mm^{2})");
+	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.2x0.2 mm^{2})");
 	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y (cm)");
 	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#phi (rad)");
-	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");
+	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");
 
 	  if (dist == 6 || dist == 7 || dist == 8 || dist == 9 ) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y-z (cm)");
 	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#eta");
 	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#theta (rad)");
-	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.01 x 0.1 mm)");
-	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");	  
-
+	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.01 x 0.1 mm)");
+	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");	  
+	  Histos2d[dist][cat][flav][effsam1]->SetStats(0)
 	  //Histos2d[dist][cat][flav][effsam1] -> SetMinimum (0.);
 	  gStyle->SetPalette(kCool);
 	  Histos2d[dist][cat][flav][effsam1] -> Draw("COLZ");
 	  //correlation << eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+ "   ----->   "<< Histos2d[dist][cat][flav][effsam1] -> GetCorrelationFactor()<< std::endl;
-	  c_2dhisto[dist][cat][flav][effsam1]->Print("plot/c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+".pdf");
-	  c_2dhisto[dist][cat][flav][effsam1]->Print("plotroot/c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+".root");
+	  c_2dhisto[dist][cat][flav][effsam1]->Print("plot/c_"+ names2d[effsam1]+"_"+Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ catNames2D[cat]+".pdf");
+	  c_2dhisto[dist][cat][flav][effsam1]->Print("plotroot/c_"+ names2d[effsam1]+"_"+Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ catNames2D[cat]+".root");
 	}
       }
     }
   }
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  int numer_plot_class =0;
-  numer_plot_class = nSamples_eff -  nSamples_signal;
-  for(unsigned dist = 0; dist < nDist; ++dist){
-    for(unsigned cat = 0; cat < nCat; ++cat){
-      for(int cha = 0; cha < nChannel; ++cha){	
-	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
-	  // std::cout<<"in plotting one "<<std::endl;
-	  if (effsam1 == nSamples_eff) put_at_zero(0,0,cha, 1, *&Histos[dist][cha][cat][effsam1]);
-	  if (effsam1 != nSamples_eff) put_at_zero(0,0,cha, 0, *&Histos[dist][cha][cat][effsam1]);
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    int numer_plot_class =0;
+    numer_plot_class = nSamples_eff -  nSamples_signal;
+    for(unsigned dist = 0; dist < nDist; ++dist){
+      for(unsigned cat = 0; cat < nCat; ++cat){
+	for(int cha = 0; cha < nChannel; ++cha){	
+	  for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
+	    // std::cout<<"in plotting one "<<std::endl;
+	    if (effsam1 == nSamples_eff) put_at_zero(0,0,cha, 1, *&Histos[dist][cha][cat][effsam1]);
+	    if (effsam1 != nSamples_eff) put_at_zero(0,0,cha, 0, *&Histos[dist][cha][cat][effsam1]);
 
+	  }
 	}
       }
-    }
-  } 
+    } 
 
-  for(unsigned dist = 0; dist < nDist; ++dist){
-    for(unsigned cat = 0; cat < nCat; ++cat){
-      for(int cha = 0; cha < nChannel; ++cha){               
-	dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
-	//	dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
-
-      }
-    }
-  }
-  
-  for(unsigned dist = 0; dist < nDist; ++dist){//--
-    for(unsigned cat = 0; cat < nCat; ++cat){
-      for(int cha = 0; cha < nChannel; ++cha){	
-	for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
-	  bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
-	  /*bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
-	  if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
-	    dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
-	    }*/
-	  
-	}
-      }
-    }
-  }//--
-  const size_t ntab = 14;
-  
-  if(skipPlotting == false){
     for(unsigned dist = 0; dist < nDist; ++dist){
       for(unsigned cat = 0; cat < nCat; ++cat){
 	for(int cha = 0; cha < nChannel; ++cha){               
-	  for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
-	    signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	  dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][0]->Clone();
+	  //no due unblindng--> 	dataYields[dist][cha][cat] = (TH1D*)Histos[dist][cha][cat][nSamples_signal+1]->Clone();
+
+	}
+      }
+    }
+  
+    for(unsigned dist = 0; dist < nDist; ++dist){//--
+      for(unsigned cat = 0; cat < nCat; ++cat){
+	for(int cha = 0; cha < nChannel; ++cha){	
+	  for(unsigned effsam1 = nSamples_signal+1; effsam1 < nSamples_eff +1 ; ++effsam1){	  
+	    bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();
+
+	    // no due unblindng 
+	    //bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1] = (TH1D*) Histos[dist][cha][cat][effsam1]->Clone();	  
+	    // if(effsam1 > nSamples_signal+1 && effsam1 <= nSamples_eff){	  
+	    //  dataYields[dist][cha][cat]->Add(bkgYields[dist][cha][cat][effsam1 -nSamples_signal-1]);
+	    //   }
+	  
 	  }
-	  plotDataVSMC(cat,cha,dist,
-		       dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
-		       eff_names,numer_plot_class ,
-		       catNames[cat], channelNames[cha],  channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
-		       true,
-		       2, true, signals,  sigNames_short, nSamples_signal, false, year);
-	}//end cha
-      } // end cat
-    } // end histo  
-  } // end if skipPlotting
+	}
+      }
+    }//--
+    const size_t ntab = 14;
+  
+    if(skipPlotting == false){
+      for(unsigned dist = 0; dist < nDist; ++dist){
+	for(unsigned cat = 0; cat < nCat; ++cat){
+	  for(int cha = 0; cha < nChannel; ++cha){               
+	    for (unsigned signal_sample = 0; signal_sample< nSamples_signal; signal_sample++){
+	      signals[signal_sample] =(TH1D*)Histos[dist][cha][cat][signal_sample+1]->Clone() ;     
+	    }
+	    plotDataVSMC(cat,cha,dist,
+			 dataYields[dist][cha][cat], bkgYields[dist][cha][cat],
+			 eff_names,numer_plot_class ,
+			 catNames[cat], channelNames[cha],  channelNames[cha]+"_"+ Histnames_ossf[dist]+"_"+catNames[cat],
+			 true,
+			 2, true, signals,  sigNames_short, nSamples_signal, false, year);
+	  }//end cha
+	} // end cat
+      } // end histo  
+    } // end if skipPlotting
    
 
 
@@ -2238,633 +2255,633 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
   
 
-  if((skipLimits && skipTables)==false) {
-    ////////////////                                    ////////////////
-    //// List of stuff for data cards, shape ROOT files, and tables ////
-    ////////////////                                    ////////////////
-    //
-    // List of couplings
-    //const std::string couplings[] = {"ele", "muo", "tau"};
-    const std::string couplings[] = {"muo", "ele"};
-    const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
+    if((skipLimits && skipTables)==false) {
+      ////////////////                                    ////////////////
+      //// List of stuff for data cards, shape ROOT files, and tables ////
+      ////////////////                                    ////////////////
+      //
+      // List of couplings
+      //const std::string couplings[] = {"ele", "muo", "tau"};
+      const std::string couplings[] = {"muo", "ele"};
+      const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
 
-    // List of backgrounds
-    //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
-    //const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+      // List of backgrounds
+      //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
+      //const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
 
-    const std::string bkgNames[] = {"Xgamma", "nonpromptSF", "nonpromptDF"};
-    const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
+      const std::string bkgNames[] = {"Xgamma", "nonpromptSF", "nonpromptDF"};
+      const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
-    // Output directory for datacards and shape ROOT files
-    std::string datacarddir = "dataCards_shapeRoot";
+      // Output directory for datacards and shape ROOT files
+      std::string datacarddir = "dataCards_shapeRoot";
 
-    // List of signal and background labels (for tables)
-    std::map<std::string, std::string> labelPerProc;
-    labelPerProc["signal"     ] = "signal"; // to be changed...
-    //labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
-    //labelPerProc["ttbar"      ] = "Top";
-    // labelPerProc["WJets"      ] = "$\\PW +$ jets";
-    //labelPerProc["multiboson" ] = "Multiboson";
-    labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
-    //labelPerProc["TTTX"       ] = "Top $+$ X";
-    labelPerProc["nonpromptSF"] = "Nonprompt SF";
-    labelPerProc["nonpromptDF"] = "Nonprompt DF";
+      // List of signal and background labels (for tables)
+      std::map<std::string, std::string> labelPerProc;
+      labelPerProc["signal"     ] = "signal"; // to be changed...
+      //labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
+      //labelPerProc["ttbar"      ] = "Top";
+      // labelPerProc["WJets"      ] = "$\\PW +$ jets";
+      //labelPerProc["multiboson" ] = "Multiboson";
+      labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
+      //labelPerProc["TTTX"       ] = "Top $+$ X";
+      labelPerProc["nonpromptSF"] = "Nonprompt SF";
+      labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
-    // List of systematics
-    //const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
+      // List of systematics
+      //const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
  
-    const std::string systNames[] = {"n", "pu", "xsecNorm", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape","dfLowStat","dfmm","dfem","dfee","lumi", "npsfnorm"};
-    const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
+      const std::string systNames[] = {"n", "pu", "xsecNorm", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape","dfLowStat","dfmm","dfem","dfee","lumi", "npsfnorm"};
+      const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
-    // List of systematics applicable to each process (signal + backgrounds)
-    // (delete sample name from list if the systematic source does not aplpy to it)
-    std::map<std::string, std::string> procPerSyst;
-    //                       Type     Correl.   Processes
-    //                       -------  --------  -------------------------------------------------------------
-    procPerSyst["pu"      ] = "shapeN; not_corr; signal,  Xgamma                           ";
-    procPerSyst["xsecNorm" ] = "shapeN;  is_corr; signal                           ";
-    // procPerSyst["qcdShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    //procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    // procPerSyst["pdfShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["pEle"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["npLeptons_mm"] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["npLeptons_em"] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["npLeptons_ee"] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["jec"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["jer"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["btag"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["trigger" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
-    procPerSyst["dfShape" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
-    procPerSyst["dfLowStat" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
-    procPerSyst["dfmm" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-    procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-    procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-    procPerSyst["lumi"    ] = "lnN   ; not_corr; signal,  Xgamma                          ";
-    procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
+      // List of systematics applicable to each process (signal + backgrounds)
+      // (delete sample name from list if the systematic source does not aplpy to it)
+      std::map<std::string, std::string> procPerSyst;
+      //                       Type     Correl.   Processes
+      //                       -------  --------  -------------------------------------------------------------
+      procPerSyst["pu"      ] = "shapeN; not_corr; signal,  Xgamma                           ";
+      procPerSyst["xsecNorm" ] = "shapeN;  is_corr; signal                           ";
+      // procPerSyst["qcdShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      //procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      // procPerSyst["pdfShape"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["pEle"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["npLeptons_mm"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["npLeptons_em"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["npLeptons_ee"] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["jec"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["jer"     ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["btag"    ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["trigger" ] = "shapeN;  is_corr; signal,  Xgamma                           ";
+      procPerSyst["dfShape" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
+      procPerSyst["dfLowStat" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
+      procPerSyst["dfmm" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+      procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+      procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+      procPerSyst["lumi"    ] = "lnN   ; not_corr; signal,  Xgamma                          ";
+      procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
 
-    /* procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["pdfShape"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["pEle"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["npLeptons"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["jec"     ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["jer"     ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["btag"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["dfShape" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
-    procPerSyst["dfLowStat" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
-    procPerSyst["dfmm" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-    procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-    procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-    procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-    procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
-    */
+      /* procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["pdfShape"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["pEle"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["npLeptons"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["jec"     ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["jer"     ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["btag"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["dfShape" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
+	 procPerSyst["dfLowStat" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
+	 procPerSyst["dfmm" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+	 procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+	 procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
+	 procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
+	 procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
+      */
 
 
-    std::map<std::string, std::vector<std::string> > normSystsPerYear;
-    normSystsPerYear["lumi"    ] = {"1.025", "1.023", "1.025"};
-    normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
-    //normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
+      std::map<std::string, std::vector<std::string> > normSystsPerYear;
+      normSystsPerYear["lumi"    ] = {"1.025", "1.023", "1.025"};
+      normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
+      //normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
 
-    //if(systcat==0) { // print data card only if systcat==0
-    // Size of tab
+      //if(systcat==0) { // print data card only if systcat==0
+      // Size of tab
 
-    for(size_t isign=0; isign<nSamples_signal; ++isign) {
-      std::string sgn = sigNames[isign].Data();
-      for(size_t icoup=0; icoup<nCoupling; ++icoup) {
-	if(icoup==2) continue;     
-	if(icoup==0 && sgn.find("_mu")==std::string::npos) continue;
-	if(icoup==1 && sgn.find("_e" )==std::string::npos) continue;
-	std::string cpl = couplings[icoup];
-	//
-	// ========================================================
-	//   Write shape ROOT files and data cards (NEED TO CHECK AFTER LAST CHANGES!!!!)
-	// ========================================================
-	//
-	if(skipLimits==false) {
-	  std::string appx1 = "";  
-	  if(year==0) appx1 += "_16";
-	  if(year==1) appx1 += "_17";
-	  if(year==2) appx1 += "_18";
+      for(size_t isign=0; isign<nSamples_signal; ++isign) {
+	std::string sgn = sigNames[isign].Data();
+	for(size_t icoup=0; icoup<nCoupling; ++icoup) {
+	  if(icoup==2) continue;     
+	  if(icoup==0 && sgn.find("_mu")==std::string::npos) continue;
+	  if(icoup==1 && sgn.find("_e" )==std::string::npos) continue;
+	  std::string cpl = couplings[icoup];
+	  //
+	  // ========================================================
+	  //   Write shape ROOT files and data cards (NEED TO CHECK AFTER LAST CHANGES!!!!)
+	  // ========================================================
+	  //
+	  if(skipLimits==false) {
+	    std::string appx1 = "";  
+	    if(year==0) appx1 += "_16";
+	    if(year==1) appx1 += "_17";
+	    if(year==2) appx1 += "_18";
       	
 
 
 	  
-	  // ROOT file with shapes
-	  std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+appx1+".root";
-	  TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
-	  rootfile->cd();
-	  sum_expected_SR[icoup][0][0]-> Write ("data_obs");
-	  //sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
-	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
-		      
-	  plots_SR[icoup][0][0][1+isign] ->Write("signal");   
-	  //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
-
-	  // Stream for writing card and tables
-	  std::ofstream card;
-
-	  // Add .txt to name if no file extension is given
-	  std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard" +appx1+".txt";
-	  card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
-	  // Define number of channels, background sources and systematics
-	  card << "imax 1 number of channels\n";
-	  card << "jmax " << nBkg  << " number of backgrounds\n";
-	  card << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
-	  card << "----------------------------------------------------------------------------------------\n";
-
-	  // Shape file
-	  card << "shapes * * " << rootfilename.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
-	  card << "----------------------------------------------------------------------------------------\n";
-
-	  // Define the channels and the number of observed events
-	  card << "bin bin1\n";
-	  // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
-	  card << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR[icoup][0][0]->Integral(0, -1) << "\n";
-	  // Define all backgrounds and their yields
-	  card << left << std::setw(2*ntab) << "bin";
-	  for(unsigned proc=0; proc<nBkg+1; ++proc) {
-	    card << left << std::setw(ntab) << "bin1";
-	  }
-	  card << "\n";
-	  card << left << std::setw(2*ntab) << "process";
-	  card << left << std::setw(ntab)   << "signal";
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    card << left << std::setw(ntab) << bkgNames[bkg];
-	  }
-	  card << "\n";
-	  card << left << std::setw(2*ntab) << "process";
-	  for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
-	    card << left << std::setw(ntab) << bkg;
-	  }
-	  card << "\n";
-	  card << left << std::setw(2*ntab) << "rate";
-	  card << left << std::setw(ntab)   << std::setprecision(5) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
-
-
-	  std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
-	  std::cout<<"sum: "<< sum_expected_SR[icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR[icoup][0][0]->GetNbinsX()<<std::endl;
-
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	    // ROOT file with shapes
+	    std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+appx1+".root";
+	    TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
 	    rootfile->cd();
-	    plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	    float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
-	  
-	    if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
-	    else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
-	  }
-	  card << "\n";
-	  card << "----------------------------------------------------------------------------------------\n";
+	    sum_expected_SR[icoup][0][0]-> Write ("data_obs");
+	    //sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
+	    //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
+		      
+	    plots_SR[icoup][0][0][1+isign] ->Write("signal");   
+	    //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
-	  // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
-	  for(unsigned syst=1; syst<=nSyst; ++syst) {
-	    std::string asyst = systNames[syst];
-	    if(procPerSyst.count(asyst)==0) {
-	      std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
-	      continue;
-	    }
-	    // Correlated or uncorrelated
-	    if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
-	      asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
-	    }
+	    // Stream for writing card and tables
+	    std::ofstream card;
 
-	    card << left << std::setw(ntab) << asyst;
-	    // If shape error, set it to 1.000
-	    std::string errStr = "1.000";
-	    // If normalization error, change it accordingly
-	    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
-	      if(normSystsPerYear.count(systNames[syst])==0) {
-		std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
-		errStr = "2.000";
-	      }
-	      else {
-		errStr = normSystsPerYear[systNames[syst]][year];
-	      }
-	      card << left << std::setw(ntab) << "lnN";
-	    }
-	    else { // all the other systematics: shapeN
-	      card << left << std::setw(ntab) << "shapeN";
-	    }
-	    //
-	    // Fill in systs for all processes:
-	    //
-	    //  - signal
-	    if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
-	      card << left << std::setw(ntab) << "-";
-	    else
-	      card << left << std::setw(ntab) << errStr.c_str();
-	    //
-	    //  - backgrounds
-	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	      if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
-		card << left << std::setw(ntab) << "-";
-	      else
-		card << left << std::setw(ntab) << errStr;
+	    // Add .txt to name if no file extension is given
+	    std::string cardName = datacarddir+"/"+sgn+"_"+cpl+"_datacard" +appx1+".txt";
+	    card.open(cardName + ((cardName.find(".txt") == std::string::npos) ? ".txt" : ""));
+	    // Define number of channels, background sources and systematics
+	    card << "imax 1 number of channels\n";
+	    card << "jmax " << nBkg  << " number of backgrounds\n";
+	    card << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
+	    card << "----------------------------------------------------------------------------------------\n";
+
+	    // Shape file
+	    card << "shapes * * " << rootfilename.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
+	    card << "----------------------------------------------------------------------------------------\n";
+
+	    // Define the channels and the number of observed events
+	    card << "bin bin1\n";
+	    // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
+	    card << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR[icoup][0][0]->Integral(0, -1) << "\n";
+	    // Define all backgrounds and their yields
+	    card << left << std::setw(2*ntab) << "bin";
+	    for(unsigned proc=0; proc<nBkg+1; ++proc) {
+	      card << left << std::setw(ntab) << "bin1";
 	    }
 	    card << "\n";
-	  } // end systs
-
-	  card << "* autoMCStats 0.5\n";
-	  card.close();
-	  rootfile->Close();
-
-
-	  //++++++++++++++++++++++++++++++++++++++++ for ml2l3
-
-	  // ROOT file with shapes
-	  std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+appx1+".root";
-	  TFile *rootfile1 = new TFile((datacarddir+"/"+rootfilename1).c_str(), "RECREATE");
-	  rootfile1->cd();
-	  sum_expected_SR2[0][icoup][0][0]-> Write ("data_obs");
-	  //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
-	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
-
-	  plots_SR2[0][icoup][0][0][1+isign] ->Write("signal");
-	  //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
-
-	  // Stream for writing card1 and tables
-	  std::ofstream card1;
-
-	  // Add .txt to name if no file extension is given
-	  std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_mass"+"_datacard" +appx1+".txt";
-	  card1.open(cardName1 + ((cardName1.find(".txt") == std::string::npos) ? ".txt" : ""));
-	  // Define number of channels, background sources and systematics
-	  card1 << "imax 1 number of channels\n";
-	  card1 << "jmax " << nBkg  << " number of backgrounds\n";
-	  card1 << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
-	  card1 << "----------------------------------------------------------------------------------------\n";
-
-	  // Shape file
-	  card1 << "shapes * * " << rootfilename1.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
-	  card1 << "----------------------------------------------------------------------------------------\n";
-
-	  // Define the channels and the number of observed events
-	  card1 << "bin bin1\n";
-	  // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
-	  card1 << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR2[0][icoup][0][0]->Integral(0, -1) << "\n";
-	  // Define all backgrounds and their yields
-	  card1 << left << std::setw(2*ntab) << "bin";
-	  for(unsigned proc=0; proc<nBkg+1; ++proc) {
-	    card1 << left << std::setw(ntab) << "bin1";
-	  }
-	  card1 << "\n";
-	  card1 << left << std::setw(2*ntab) << "process";
-	  card1 << left << std::setw(ntab)   << "signal";
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    card1 << left << std::setw(ntab) << bkgNames[bkg];
-	  }
-	  card1 << "\n";
-	  card1 << left << std::setw(2*ntab) << "process";
-	  for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
-	    card1 << left << std::setw(ntab) << bkg;
-	  }
-	  card1 << "\n";
-	  card1 << left << std::setw(2*ntab) << "rate";
-	  card1 << left << std::setw(ntab)   << std::setprecision(5) << plots_SR2[0][icoup][0][0][1+isign]->Integral(0, -1);
-
-
-	  std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
-	  std::cout<<"sum: "<< sum_expected_SR2[0][icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR2[0][icoup][0][0]->GetNbinsX()<<std::endl;
-
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    rootfile1->cd();
-	    plots_SR2[0][icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	    float iyield = plots_SR2[0][icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
-    
-	    if(iyield<=0) card1 << left << std::setw(ntab) << "0.0000000";
-	    else          card1 << left << std::setw(ntab) << std::setprecision(7) << iyield;
-	  }
-	  card1 << "\n";
-	  card1 << "----------------------------------------------------------------------------------------\n";
-
-	  // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
-	  for(unsigned syst=1; syst<=nSyst; ++syst) {
-	    std::string asyst = systNames[syst];
-	    if(procPerSyst.count(asyst)==0) {
-	      std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
-	      continue;
-	    }
-	    // Correlated or uncorrelated
-	    if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
-	      asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
-	    }
-    
-	    card1 << left << std::setw(ntab) << asyst;
-	    // If shape error, set it to 1.000
-	    std::string errStr = "1.000";
-	    // If normalization error, change it accordingly
-	    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
-	      if(normSystsPerYear.count(systNames[syst])==0) {
-		std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
-		errStr = "2.000";
-	      }
-	      else {
-		errStr = normSystsPerYear[systNames[syst]][year];
-	      }
-	      card1 << left << std::setw(ntab) << "lnN";
-	    }
-	    else { // all the other systematics: shapeN
-	      card1 << left << std::setw(ntab) << "shapeN";
-	    }
-	    //
-	    // Fill in systs for all processes:
-	    //
-	    //  - signal
-	    if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
-	      card1 << left << std::setw(ntab) << "-";
-	    else
-	      card1 << left << std::setw(ntab) << errStr.c_str();
-	    //
-	    //  - backgrounds
+	    card << left << std::setw(2*ntab) << "process";
+	    card << left << std::setw(ntab)   << "signal";
 	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	      if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
-		card1 << left << std::setw(ntab) << "-";
+	      card << left << std::setw(ntab) << bkgNames[bkg];
+	    }
+	    card << "\n";
+	    card << left << std::setw(2*ntab) << "process";
+	    for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
+	      card << left << std::setw(ntab) << bkg;
+	    }
+	    card << "\n";
+	    card << left << std::setw(2*ntab) << "rate";
+	    card << left << std::setw(ntab)   << std::setprecision(5) << plots_SR[icoup][0][0][1+isign]->Integral(0, -1);
+
+
+	    std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
+	    std::cout<<"sum: "<< sum_expected_SR[icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR[icoup][0][0]->GetNbinsX()<<std::endl;
+
+	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      rootfile->cd();
+	      plots_SR[icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	      float iyield = plots_SR[icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+	  
+	      if(iyield<=0) card << left << std::setw(ntab) << "0.0000000";
+	      else          card << left << std::setw(ntab) << std::setprecision(7) << iyield;
+	    }
+	    card << "\n";
+	    card << "----------------------------------------------------------------------------------------\n";
+
+	    // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
+	    for(unsigned syst=1; syst<=nSyst; ++syst) {
+	      std::string asyst = systNames[syst];
+	      if(procPerSyst.count(asyst)==0) {
+		std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
+		continue;
+	      }
+	      // Correlated or uncorrelated
+	      if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+		asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
+	      }
+
+	      card << left << std::setw(ntab) << asyst;
+	      // If shape error, set it to 1.000
+	      std::string errStr = "1.000";
+	      // If normalization error, change it accordingly
+	      if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
+		if(normSystsPerYear.count(systNames[syst])==0) {
+		  std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
+		  errStr = "2.000";
+		}
+		else {
+		  errStr = normSystsPerYear[systNames[syst]][year];
+		}
+		card << left << std::setw(ntab) << "lnN";
+	      }
+	      else { // all the other systematics: shapeN
+		card << left << std::setw(ntab) << "shapeN";
+	      }
+	      //
+	      // Fill in systs for all processes:
+	      //
+	      //  - signal
+	      if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
+		card << left << std::setw(ntab) << "-";
 	      else
-		card1 << left << std::setw(ntab) << errStr;
+		card << left << std::setw(ntab) << errStr.c_str();
+	      //
+	      //  - backgrounds
+	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
+		  card << left << std::setw(ntab) << "-";
+		else
+		  card << left << std::setw(ntab) << errStr;
+	      }
+	      card << "\n";
+	    } // end systs
+
+	    card << "* autoMCStats 0.5\n";
+	    card.close();
+	    rootfile->Close();
+
+
+	    //++++++++++++++++++++++++++++++++++++++++ for ml2l3
+
+	    // ROOT file with shapes
+	    std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+appx1+".root";
+	    TFile *rootfile1 = new TFile((datacarddir+"/"+rootfilename1).c_str(), "RECREATE");
+	    rootfile1->cd();
+	    sum_expected_SR2[0][icoup][0][0]-> Write ("data_obs");
+	    //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
+	    //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
+
+	    plots_SR2[0][icoup][0][0][1+isign] ->Write("signal");
+	    //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
+
+	    // Stream for writing card1 and tables
+	    std::ofstream card1;
+
+	    // Add .txt to name if no file extension is given
+	    std::string cardName1 = datacarddir+"/"+sgn+"_"+cpl+"_mass"+"_datacard" +appx1+".txt";
+	    card1.open(cardName1 + ((cardName1.find(".txt") == std::string::npos) ? ".txt" : ""));
+	    // Define number of channels, background sources and systematics
+	    card1 << "imax 1 number of channels\n";
+	    card1 << "jmax " << nBkg  << " number of backgrounds\n";
+	    card1 << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
+	    card1 << "----------------------------------------------------------------------------------------\n";
+
+	    // Shape file
+	    card1 << "shapes * * " << rootfilename1.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
+	    card1 << "----------------------------------------------------------------------------------------\n";
+
+	    // Define the channels and the number of observed events
+	    card1 << "bin bin1\n";
+	    // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
+	    card1 << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR2[0][icoup][0][0]->Integral(0, -1) << "\n";
+	    // Define all backgrounds and their yields
+	    card1 << left << std::setw(2*ntab) << "bin";
+	    for(unsigned proc=0; proc<nBkg+1; ++proc) {
+	      card1 << left << std::setw(ntab) << "bin1";
 	    }
 	    card1 << "\n";
-	  } // end systs
-
-	  card1 << "* autoMCStats 0.5\n";
-	  card1.close();
-	  rootfile1->Close();
-
-	  //++++++++++++++++++++++++++++++++++++++++ for delta2d
-
-	  // ROOT file with shapes
-	  std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+appx1+".root";
-	  TFile *rootfile2 = new TFile((datacarddir+"/"+rootfilename2).c_str(), "RECREATE");
-	  rootfile2->cd();
-	  sum_expected_SR2[1][icoup][0][0]-> Write ("data_obs");
-	  //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
-	  //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
-
-	  plots_SR2[1][icoup][0][0][1+isign] ->Write("signal");
-	  //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
-
-	  // Stream for writing card2 and tables
-	  std::ofstream card2;
-
-	  // Add .txt to name if no file extension is given
-	  std::string cardName2 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+"_datacard" +appx1+".txt";
-	  card2.open(cardName2 + ((cardName2.find(".txt") == std::string::npos) ? ".txt" : ""));
-	  // Define number of channels, background sources and systematics
-	  card2 << "imax 1 number of channels\n";
-	  card2 << "jmax " << nBkg  << " number of backgrounds\n";
-	  card2 << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
-	  card2 << "----------------------------------------------------------------------------------------\n";
-
-	  // Shape file
-	  card2 << "shapes * * " << rootfilename2.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
-	  card2 << "----------------------------------------------------------------------------------------\n";
-
-	  // Define the channels and the number of observed events
-	  card2 << "bin bin1\n";
-	  // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
-	  card2 << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR2[1][icoup][0][0]->Integral(0, -1) << "\n";
-	  // Define all backgrounds and their yields
-	  card2 << left << std::setw(2*ntab) << "bin";
-	  for(unsigned proc=0; proc<nBkg+1; ++proc) {
-	    card2 << left << std::setw(ntab) << "bin1";
-	  }
-	  card2 << "\n";
-	  card2 << left << std::setw(2*ntab) << "process";
-	  card2 << left << std::setw(ntab)   << "signal";
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    card2 << left << std::setw(ntab) << bkgNames[bkg];
-	  }
-	  card2 << "\n";
-	  card2 << left << std::setw(2*ntab) << "process";
-	  for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
-	    card2 << left << std::setw(ntab) << bkg;
-	  }
-	  card2 << "\n";
-	  card2 << left << std::setw(2*ntab) << "rate";
-	  card2 << left << std::setw(ntab)   << std::setprecision(5) << plots_SR2[1][icoup][0][0][1+isign]->Integral(0, -1);
-
-
-	  std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
-	  std::cout<<"sum: "<< sum_expected_SR2[1][icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR2[1][icoup][0][0]->GetNbinsX()<<std::endl;
-
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    rootfile2->cd();
-	    plots_SR2[1][icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
-	    float iyield = plots_SR2[1][icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
-    
-	    if(iyield<=0) card2 << left << std::setw(ntab) << "0.0000000";
-	    else          card2 << left << std::setw(ntab) << std::setprecision(7) << iyield;
-	  }
-	  card2 << "\n";
-	  card2 << "----------------------------------------------------------------------------------------\n";
-
-	  // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
-	  for(unsigned syst=1; syst<=nSyst; ++syst) {
-	    std::string asyst = systNames[syst];
-	    if(procPerSyst.count(asyst)==0) {
-	      std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
-	      continue;
-	    }
-	    // Correlated or uncorrelated
-	    if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
-	      asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
-	    }
-    
-	    card2 << left << std::setw(ntab) << asyst;
-	    // If shape error, set it to 1.000
-	    std::string errStr = "1.000";
-	    // If normalization error, change it accordingly
-	    if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
-	      if(normSystsPerYear.count(systNames[syst])==0) {
-		std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
-		errStr = "2.000";
-	      }
-	      else {
-		errStr = normSystsPerYear[systNames[syst]][year];
-	      }
-	      card2 << left << std::setw(ntab) << "lnN";
-	    }
-	    else { // all the other systematics: shapeN
-	      card2 << left << std::setw(ntab) << "shapeN";
-	    }
-	    //
-	    // Fill in systs for all processes:
-	    //
-	    //  - signal
-	    if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
-	      card2 << left << std::setw(ntab) << "-";
-	    else
-	      card2 << left << std::setw(ntab) << errStr.c_str();
-	    //
-	    //  - backgrounds
+	    card1 << left << std::setw(2*ntab) << "process";
+	    card1 << left << std::setw(ntab)   << "signal";
 	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	      if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
-		card2 << left << std::setw(ntab) << "-";
+	      card1 << left << std::setw(ntab) << bkgNames[bkg];
+	    }
+	    card1 << "\n";
+	    card1 << left << std::setw(2*ntab) << "process";
+	    for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
+	      card1 << left << std::setw(ntab) << bkg;
+	    }
+	    card1 << "\n";
+	    card1 << left << std::setw(2*ntab) << "rate";
+	    card1 << left << std::setw(ntab)   << std::setprecision(5) << plots_SR2[0][icoup][0][0][1+isign]->Integral(0, -1);
+
+
+	    std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
+	    std::cout<<"sum: "<< sum_expected_SR2[0][icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR2[0][icoup][0][0]->GetNbinsX()<<std::endl;
+
+	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      rootfile1->cd();
+	      plots_SR2[0][icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	      float iyield = plots_SR2[0][icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+    
+	      if(iyield<=0) card1 << left << std::setw(ntab) << "0.0000000";
+	      else          card1 << left << std::setw(ntab) << std::setprecision(7) << iyield;
+	    }
+	    card1 << "\n";
+	    card1 << "----------------------------------------------------------------------------------------\n";
+
+	    // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
+	    for(unsigned syst=1; syst<=nSyst; ++syst) {
+	      std::string asyst = systNames[syst];
+	      if(procPerSyst.count(asyst)==0) {
+		std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
+		continue;
+	      }
+	      // Correlated or uncorrelated
+	      if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+		asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
+	      }
+    
+	      card1 << left << std::setw(ntab) << asyst;
+	      // If shape error, set it to 1.000
+	      std::string errStr = "1.000";
+	      // If normalization error, change it accordingly
+	      if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
+		if(normSystsPerYear.count(systNames[syst])==0) {
+		  std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
+		  errStr = "2.000";
+		}
+		else {
+		  errStr = normSystsPerYear[systNames[syst]][year];
+		}
+		card1 << left << std::setw(ntab) << "lnN";
+	      }
+	      else { // all the other systematics: shapeN
+		card1 << left << std::setw(ntab) << "shapeN";
+	      }
+	      //
+	      // Fill in systs for all processes:
+	      //
+	      //  - signal
+	      if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
+		card1 << left << std::setw(ntab) << "-";
 	      else
-		card2 << left << std::setw(ntab) << errStr;
+		card1 << left << std::setw(ntab) << errStr.c_str();
+	      //
+	      //  - backgrounds
+	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
+		  card1 << left << std::setw(ntab) << "-";
+		else
+		  card1 << left << std::setw(ntab) << errStr;
+	      }
+	      card1 << "\n";
+	    } // end systs
+
+	    card1 << "* autoMCStats 0.5\n";
+	    card1.close();
+	    rootfile1->Close();
+
+	    //++++++++++++++++++++++++++++++++++++++++ for delta2d
+
+	    // ROOT file with shapes
+	    std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+appx1+".root";
+	    TFile *rootfile2 = new TFile((datacarddir+"/"+rootfilename2).c_str(), "RECREATE");
+	    rootfile2->cd();
+	    sum_expected_SR2[1][icoup][0][0]-> Write ("data_obs");
+	    //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
+	    //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
+
+	    plots_SR2[1][icoup][0][0][1+isign] ->Write("signal");
+	    //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
+
+	    // Stream for writing card2 and tables
+	    std::ofstream card2;
+
+	    // Add .txt to name if no file extension is given
+	    std::string cardName2 = datacarddir+"/"+sgn+"_"+cpl+"_disp"+"_datacard" +appx1+".txt";
+	    card2.open(cardName2 + ((cardName2.find(".txt") == std::string::npos) ? ".txt" : ""));
+	    // Define number of channels, background sources and systematics
+	    card2 << "imax 1 number of channels\n";
+	    card2 << "jmax " << nBkg  << " number of backgrounds\n";
+	    card2 << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties)\n";
+	    card2 << "----------------------------------------------------------------------------------------\n";
+
+	    // Shape file
+	    card2 << "shapes * * " << rootfilename2.c_str() << " $PROCESS $PROCESS_$SYSTEMATIC\n";
+	    card2 << "----------------------------------------------------------------------------------------\n";
+
+	    // Define the channels and the number of observed events
+	    card2 << "bin bin1\n";
+	    // While we are blinded, dataYields[0][couplidx[icoup]][6] is filled with sum of backgrounds
+	    card2 << "observation " << std::fixed << std::setprecision(7) << sum_expected_SR2[1][icoup][0][0]->Integral(0, -1) << "\n";
+	    // Define all backgrounds and their yields
+	    card2 << left << std::setw(2*ntab) << "bin";
+	    for(unsigned proc=0; proc<nBkg+1; ++proc) {
+	      card2 << left << std::setw(ntab) << "bin1";
 	    }
 	    card2 << "\n";
-	  } // end systs
+	    card2 << left << std::setw(2*ntab) << "process";
+	    card2 << left << std::setw(ntab)   << "signal";
+	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      card2 << left << std::setw(ntab) << bkgNames[bkg];
+	    }
+	    card2 << "\n";
+	    card2 << left << std::setw(2*ntab) << "process";
+	    for(unsigned bkg=0; bkg<nBkg+1; ++bkg){
+	      card2 << left << std::setw(ntab) << bkg;
+	    }
+	    card2 << "\n";
+	    card2 << left << std::setw(2*ntab) << "rate";
+	    card2 << left << std::setw(ntab)   << std::setprecision(5) << plots_SR2[1][icoup][0][0][1+isign]->Integral(0, -1);
 
-	  card2 << "* autoMCStats 0.5\n";
-	  card2.close();
-	  rootfile2->Close();
+
+	    std::cout<<"check: cpupling "<<icoup<<" .  signal: "<<sgn<<std::endl;
+	    std::cout<<"sum: "<< sum_expected_SR2[1][icoup][0][0]->Integral(0, -1) <<" .  "<< sum_expected_SR2[1][icoup][0][0]->GetNbinsX()<<std::endl;
+
+	    for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+	      rootfile2->cd();
+	      plots_SR2[1][icoup][0][0][1+nSamples_signal+bkg] -> Write(bkgNames[bkg].c_str());
+	      float iyield = plots_SR2[1][icoup][0][0][1+nSamples_signal+bkg]->Integral(0, -1);
+    
+	      if(iyield<=0) card2 << left << std::setw(ntab) << "0.0000000";
+	      else          card2 << left << std::setw(ntab) << std::setprecision(7) << iyield;
+	    }
+	    card2 << "\n";
+	    card2 << "----------------------------------------------------------------------------------------\n";
+
+	    // Define sources of systematic uncertainty, what distibution they follow and how large their effect is
+	    for(unsigned syst=1; syst<=nSyst; ++syst) {
+	      std::string asyst = systNames[syst];
+	      if(procPerSyst.count(asyst)==0) {
+		std::cout << " >>> WARNING: systematic source " << asyst << " not found in the list procPerSyst! <<<" << std::endl;
+		continue;
+	      }
+	      // Correlated or uncorrelated
+	      if(procPerSyst[asyst].find("not_corr")!=std::string::npos) {
+		asyst += (year==0 ? "_16" : (year==1 ? "_17" : "_18"));
+	      }
+    
+	      card2 << left << std::setw(ntab) << asyst;
+	      // If shape error, set it to 1.000
+	      std::string errStr = "1.000";
+	      // If normalization error, change it accordingly
+	      if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) { // normalization error: lnN
+		if(normSystsPerYear.count(systNames[syst])==0) {
+		  std::cout << " >>> WARNING: normalization systematic uncertainty " << asyst << " not found in the list normSystsPerYear! Set it to 100%! <<<" << std::endl;
+		  errStr = "2.000";
+		}
+		else {
+		  errStr = normSystsPerYear[systNames[syst]][year];
+		}
+		card2 << left << std::setw(ntab) << "lnN";
+	      }
+	      else { // all the other systematics: shapeN
+		card2 << left << std::setw(ntab) << "shapeN";
+	      }
+	      //
+	      // Fill in systs for all processes:
+	      //
+	      //  - signal
+	      if(procPerSyst[systNames[syst]].find("signal")==std::string::npos)
+		card2 << left << std::setw(ntab) << "-";
+	      else
+		card2 << left << std::setw(ntab) << errStr.c_str();
+	      //
+	      //  - backgrounds
+	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		if(procPerSyst[systNames[syst]].find(bkgNames[bkg])==std::string::npos)
+		  card2 << left << std::setw(ntab) << "-";
+		else
+		  card2 << left << std::setw(ntab) << errStr;
+	      }
+	      card2 << "\n";
+	    } // end systs
+
+	    card2 << "* autoMCStats 0.5\n";
+	    card2.close();
+	    rootfile2->Close();
 
 	  
-	} // end if(skipLimits)
+	  } // end if(skipLimits)
 
-	// if(skipTables==false) {
-	//   tabletexS.close();
-	//   tabletexL.close();
-	// }
-      } // end for(size_t icoup=0; icoup<nCoupling; ++icoup)
-    } // end for(size_t isign=0; isign<nSamples_signal; ++isign)
-    //  } // end if(systcat==0)
+	  // if(skipTables==false) {
+	  //   tabletexS.close();
+	  //   tabletexL.close();
+	  // }
+	} // end for(size_t icoup=0; icoup<nCoupling; ++icoup)
+      } // end for(size_t isign=0; isign<nSamples_signal; ++isign)
+      //  } // end if(systcat==0)
 
-    //else { // if(systcat!=0)
-    if(skipLimits==false) {
-      std::string appx1 = "";  
-      if(year==0) appx1 += "_16";
-      if(year==1) appx1 += "_17";
-      if(year==2) appx1 += "_18";
+      //else { // if(systcat!=0)
+      if(skipLimits==false) {
+	std::string appx1 = "";  
+	if(year==0) appx1 += "_16";
+	if(year==1) appx1 += "_17";
+	if(year==2) appx1 += "_18";
       	
 
       
-      for(unsigned syst=1; syst<=nSyst; ++syst) {
-	if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
-	for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
-	  std::string appx = "_" + systNames[syst];
-	  if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
-	    if(year==0) appx += "_16";
-	    if(year==1) appx += "_17";
-	    if(year==2) appx += "_18";
-	  }	     	
-	  appx += (iVariation==1 ? "Down" : "Up");    
+	for(unsigned syst=1; syst<=nSyst; ++syst) {
+	  if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
+	  for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
+	    std::string appx = "_" + systNames[syst];
+	    if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
+	      if(year==0) appx += "_16";
+	      if(year==1) appx += "_17";
+	      if(year==2) appx += "_18";
+	    }	     	
+	    appx += (iVariation==1 ? "Down" : "Up");    
 	    
-	  for(size_t isign=0; isign<nSamples_signal; ++isign) {
-	    std::string sgn = sigNames[isign].Data();
-	    for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
-	      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
-	      std::string cpl = couplings[icoup];
+	    for(size_t isign=0; isign<nSamples_signal; ++isign) {
+	      std::string sgn = sigNames[isign].Data();
+	      for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+		if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+		if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+		std::string cpl = couplings[icoup];
 
-	      // ROOT file with shapes
-	      std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+appx1+".root";
-	      TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
-	      rootfile->cd();	    
-	      plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+		// ROOT file with shapes
+		std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+appx1+".root";
+		TFile *rootfile = TFile::Open((datacarddir+"/"+rootfilename).c_str(), "UPDATE");
+		rootfile->cd();	    
+		plots_SR[icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
 
 	  
-	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	      	if (bkg == nBkg -2) continue;
-		rootfile->cd(); 	
-		plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
-	      }
-	      rootfile->Close();
-	    } // end couplings
-	  } // end signal samples
-	} // variation up down
-      } // loop sty
+		for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		  if (bkg == nBkg -2) continue;
+		  rootfile->cd(); 	
+		  plots_SR[icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+		}
+		rootfile->Close();
+	      } // end couplings
+	    } // end signal samples
+	  } // variation up down
+	} // loop sty
 
 
-      //++++++++++++++++++++++++++++++++++++++++ for ml2l3
+	//++++++++++++++++++++++++++++++++++++++++ for ml2l3
 
-      for(unsigned syst=1; syst<=nSyst; ++syst) {
-        if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
-        for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
-	  std::string appx = "_" + systNames[syst];
-	  if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
-	    if(year==0) appx += "_16";
-	    if(year==1) appx += "_17";
-	    if(year==2) appx += "_18";
-	  }
-	  appx += (iVariation==1 ? "Down" : "Up");
+	for(unsigned syst=1; syst<=nSyst; ++syst) {
+	  if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
+	  for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
+	    std::string appx = "_" + systNames[syst];
+	    if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
+	      if(year==0) appx += "_16";
+	      if(year==1) appx += "_17";
+	      if(year==2) appx += "_18";
+	    }
+	    appx += (iVariation==1 ? "Down" : "Up");
             
-	  for(size_t isign=0; isign<nSamples_signal; ++isign) {
-	    std::string sgn = sigNames[isign].Data();
-	    for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
-	      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
-	      std::string cpl = couplings[icoup];
+	    for(size_t isign=0; isign<nSamples_signal; ++isign) {
+	      std::string sgn = sigNames[isign].Data();
+	      for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+		if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+		if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+		std::string cpl = couplings[icoup];
                     
-	      // ROOT file with shapes
-	      std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+appx1+".root";
-	      TFile *rootfile1 = TFile::Open((datacarddir+"/"+rootfilename1).c_str(), "UPDATE");
-	      rootfile1->cd();
-	      plots_SR2[0][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
-                    
-                    
-	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-		if (bkg == nBkg -2) continue;
+		// ROOT file with shapes
+		std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+appx1+".root";
+		TFile *rootfile1 = TFile::Open((datacarddir+"/"+rootfilename1).c_str(), "UPDATE");
 		rootfile1->cd();
-		plots_SR2[0][icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
-	      }
-	      rootfile1->Close();
-	    } // end couplings
-	  } // end signal samples
-        } // variation up down
-      } // loop sty
+		plots_SR2[0][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+                    
+                    
+		for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		  if (bkg == nBkg -2) continue;
+		  rootfile1->cd();
+		  plots_SR2[0][icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+		}
+		rootfile1->Close();
+	      } // end couplings
+	    } // end signal samples
+	  } // variation up down
+	} // loop sty
 
-      //++++++++++++++++++++++++++++++++++++++++ for delta2d
-      for(unsigned syst=1; syst<=nSyst; ++syst) {
-        if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
-        for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
-	  std::string appx = "_" + systNames[syst];
-	  if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
-	    if(year==0) appx += "_16";
-	    if(year==1) appx += "_17";
-	    if(year==2) appx += "_18";
-	  }
-	  appx += (iVariation==1 ? "Down" : "Up");
+	//++++++++++++++++++++++++++++++++++++++++ for delta2d
+	for(unsigned syst=1; syst<=nSyst; ++syst) {
+	  if(procPerSyst[systNames[syst]].find("lnN")!=std::string::npos) continue;
+	  for (unsigned iVariation = 1; iVariation < nVariation; iVariation++) { //loop on up-down
+	    std::string appx = "_" + systNames[syst];
+	    if(procPerSyst[systNames[syst]].find("not_corr")!=std::string::npos) {
+	      if(year==0) appx += "_16";
+	      if(year==1) appx += "_17";
+	      if(year==2) appx += "_18";
+	    }
+	    appx += (iVariation==1 ? "Down" : "Up");
             
-	  for(size_t isign=0; isign<nSamples_signal; ++isign) {
-	    std::string sgn = sigNames[isign].Data();
-	    for(size_t icoup=0; icoup<nCoupl; ++icoup) {
-	      if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
-	      if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
-	      std::string cpl = couplings[icoup];
+	    for(size_t isign=0; isign<nSamples_signal; ++isign) {
+	      std::string sgn = sigNames[isign].Data();
+	      for(size_t icoup=0; icoup<nCoupl; ++icoup) {
+		if(icoup==0 && sgn.find("_mu" )==std::string::npos) continue;
+		if(icoup==1 && sgn.find("_e")==std::string::npos) continue;
+		std::string cpl = couplings[icoup];
                     
-	      // ROOT file with shapes
-	      std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+appx1+".root";
-	      TFile *rootfile2 = TFile::Open((datacarddir+"/"+rootfilename2).c_str(), "UPDATE");
-	      rootfile2->cd();
-	      plots_SR2[1][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
-                    
-                    
-	      for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-		if (bkg == nBkg -2) continue;
+		// ROOT file with shapes
+		std::string rootfilename2 = outfilename+"_"+sgn+"_"+cpl+"_disp"+appx1+".root";
+		TFile *rootfile2 = TFile::Open((datacarddir+"/"+rootfilename2).c_str(), "UPDATE");
 		rootfile2->cd();
-		plots_SR2[1][icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
-	      }
-	      rootfile2->Close();
-	    } // end couplings
-	  } // end signal samples
-        } // variation up down
-      } // loop sty
+		plots_SR2[1][icoup][syst][iVariation][1+isign] ->Write(("signal"+appx).c_str());
+                    
+                    
+		for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+		  if (bkg == nBkg -2) continue;
+		  rootfile2->cd();
+		  plots_SR2[1][icoup][syst][iVariation][1+nSamples_signal+bkg]->Write((bkgNames[bkg]+appx).c_str());
+		}
+		rootfile2->Close();
+	      } // end couplings
+	    } // end signal samples
+	  } // variation up down
+	} // loop sty
 
 
  
-    } // end if(skipLimits==false)
-    // } // end if(systcat!=0)
+      } // end if(skipLimits==false)
+      // } // end if(systcat!=0)
 
-  } // end of if((skipLimits && skipTables)==false)
+    } // end of if((skipLimits && skipTables)==false)
 
-  std::cout << "  === This is the end of all hope ===" << std::endl;
+    std::cout << "  === This is the end of all hope ===" << std::endl;
 
 } // end analisi
 
 
 
-//___________________________________________________________________
-double Analysis_mc::pu_weight ( TH1D *histo, double numberInteractions){
-  double nI = numberInteractions;   
-  double factore=0;
-  factore = histo->GetBinContent(histo->FindBin(nI));
-  return factore;
-}
+  //___________________________________________________________________
+  double Analysis_mc::pu_weight ( TH1D *histo, double numberInteractions){
+    double nI = numberInteractions;   
+    double factore=0;
+    factore = histo->GetBinContent(histo->FindBin(nI));
+    return factore;
+  }
 
  
 double Analysis_mc::displMuoVars(double idispl, double ipt) {
@@ -2960,137 +2977,137 @@ double Analysis_mc::displMuoVars(double idispl, double ipt) {
 
 /*
 //
-	// ========================================================
-	//   Write tables (NEED TO CHECK AFTER LAST CHANGES!!!!)
-	// ========================================================
-	//
-	if(skipTables==false) {
-	  std::ofstream tabletexS, tabletexL;
-	  tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
-	  tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
-	  size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
-	  std::vector<double> totconts(nsrbins+3, 0.0);
-	  std::vector<double> totstats(nsrbins+3, 0.0);
-	  std::vector<double> binconts(3, 0.0);
-	  std::vector<double> binstats(3, 0.0);
-	  //
-	  // Write table: signal
-	  // Row header
-	  tabletexL << left << std::setw(2*ntab) << "  signal";
-	  tabletexS << left << std::setw(2*ntab) << "  signal";
-	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & $"   << left << std::setw(ntab/2) <<  plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)
-		      << "$";
-	    // Group by final state
-	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-	    binconts[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1);
-	    binstats[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1);
-	  }
-	  //
-	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-		      << "$";
-	    binconts[ibintmp] = 0.;
-	    binstats[ibintmp] = 0.;
-	  }
-	  //
-	  tabletexL << " \\\\\n  \\hline\n";
-	  tabletexS << " \\\\\n  \\hline\n";
+// ========================================================
+//   Write tables (NEED TO CHECK AFTER LAST CHANGES!!!!)
+// ========================================================
+//
+if(skipTables==false) {
+std::ofstream tabletexS, tabletexL;
+tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
+tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
+size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
+std::vector<double> totconts(nsrbins+3, 0.0);
+std::vector<double> totstats(nsrbins+3, 0.0);
+std::vector<double> binconts(3, 0.0);
+std::vector<double> binstats(3, 0.0);
+//
+// Write table: signal
+// Row header
+tabletexL << left << std::setw(2*ntab) << "  signal";
+tabletexS << left << std::setw(2*ntab) << "  signal";
+for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+tabletexL << " & $"   << left << std::setw(ntab/2) <<  plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)
+<< "$";
+// Group by final state
+/// >>> WARNING: if bin numbering changes, this needs to be updated!
+size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+binconts[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1);
+binstats[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1);
+}
+//
+for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+<< "$";
+binconts[ibintmp] = 0.;
+binstats[ibintmp] = 0.;
+}
+//
+tabletexL << " \\\\\n  \\hline\n";
+tabletexS << " \\\\\n  \\hline\n";
  
-	  //
-	  // Write table: backgrounds
-	  for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-	    // Row header
-	    tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-	    tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-	    for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	      tabletexL << " & $"   << left << std::setw(ntab/2)  << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
-			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)
-			<< "$";
-	      // Add to total background
-	      totconts[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-	      totstats[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	      // Group by final state
-	      /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	      size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-	      binconts[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-	      binstats[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	      // Add to total background!
-	      totconts[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-	      totstats[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-	    }
-	    //
-	    for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	      tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
-			<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-			<< "$";
-	      binconts[ibintmp] = 0.;
-	      binstats[ibintmp] = 0.;
-	    }
-	    //
-	    tabletexL << " \\\\\n  \\hline\n";
-	    tabletexS << " \\\\\n  \\hline\n";
-	  }
+//
+// Write table: backgrounds
+for(unsigned bkg=0; bkg<nBkg; ++bkg) {
+// Row header
+tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
+tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
+for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+tabletexL << " & $"   << left << std::setw(ntab/2)  << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)
+<< "$";
+// Add to total background
+totconts[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+totstats[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+// Group by final state
+/// >>> WARNING: if bin numbering changes, this needs to be updated!
+size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+binconts[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+binstats[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+// Add to total background!
+totconts[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
+totstats[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
+}
+//
+for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+<< "$";
+binconts[ibintmp] = 0.;
+binstats[ibintmp] = 0.;
+}
+//
+tabletexL << " \\\\\n  \\hline\n";
+tabletexS << " \\\\\n  \\hline\n";
+}
 
-	  //
-	  // Write table: total background
-	  // Row header
-	  tabletexL << left << std::setw(2*ntab) << "  Total background";
-	  tabletexS << left << std::setw(2*ntab) << "  Total background";
-	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
-		      << "$";
-	    totconts[ibin] = 0.;
-	    totstats[ibin] = 0.;
-	  }
-	  //
-	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
-		      << "$";
-	    totconts[nsrbins+ibintmp] = 0.;
-	    totstats[nsrbins+ibintmp] = 0.;
-	  }
-	  //
-	  tabletexL << " \\\\\n  \\hline\n";
-	  tabletexS << " \\\\\n  \\hline\n";
+//
+// Write table: total background
+// Row header
+tabletexL << left << std::setw(2*ntab) << "  Total background";
+tabletexS << left << std::setw(2*ntab) << "  Total background";
+for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
+<< "$";
+totconts[ibin] = 0.;
+totstats[ibin] = 0.;
+}
+//
+for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
+<< "$";
+totconts[nsrbins+ibintmp] = 0.;
+totstats[nsrbins+ibintmp] = 0.;
+}
+//
+tabletexL << " \\\\\n  \\hline\n";
+tabletexS << " \\\\\n  \\hline\n";
 
-	  //
-	  // Write table: data
-	  // Row header
-	  tabletexL << left << std::setw(2*ntab) << "  Observed";
-	  tabletexS << left << std::setw(2*ntab) << "  Observed";
-	  for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-	    tabletexL << " & $"   << left << std::setw(ntab/2)  << 0 //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << 0 //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
-		      << "$";
-	    // Group by final state
-	    /// >>> WARNING: if bin numbering changes, this needs to be updated!
-	    size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-	    binconts[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
-	    binstats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
-	  }
-	  //
-	  for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-	    tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-		      << " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-		      << "$";
-	    binconts[ibintmp] = 0.;
-	    binstats[ibintmp] = 0.;
-	  }
-	  //
-	  tabletexL << " \\\\\n  \\hline\n";
-	  tabletexS << " \\\\\n  \\hline\n";
+//
+// Write table: data
+// Row header
+tabletexL << left << std::setw(2*ntab) << "  Observed";
+tabletexS << left << std::setw(2*ntab) << "  Observed";
+for(size_t ibin=0; ibin<nsrbins; ++ibin) {
+tabletexL << " & $"   << left << std::setw(ntab/2)  << 0 //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << 0 //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
+<< "$";
+// Group by final state
+/// >>> WARNING: if bin numbering changes, this needs to be updated!
+size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
+binconts[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
+binstats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
+}
+//
+for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
+tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
+<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
+<< "$";
+binconts[ibintmp] = 0.;
+binstats[ibintmp] = 0.;
+}
+//
+tabletexL << " \\\\\n  \\hline\n";
+tabletexS << " \\\\\n  \\hline\n";
 
-	  tabletexS.close();
-	  tabletexL.close();
-	  //
-	  // ========================================================
-	  //
-	} // end if(skipTables==false)
+tabletexS.close();
+tabletexL.close();
+//
+// ========================================================
+//
+} // end if(skipTables==false)
 */
 

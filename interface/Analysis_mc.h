@@ -1315,12 +1315,17 @@ UInt_t            _zgEventType;
 
 
   
-  const static int nCat2D=2;
+  const static int nCat2D=1;
   const static  int nFlavor=6;  
   const TString flavorNames[nFlavor]= {"mmm","mmeOS","mmeSS","eee", "eemOS","eemSS"};
-  const TString catNames2D[nCat2D]= {"_0","_final"};
-  const static int nhist2d=10;  
-  TH2D* Histos2d[nhist2d][nCat2D][nFlavor][max_nSamples_eff+1];
+  const TString catNames2D[nCat2D]= {"_"};
+  const static int nhist2d=10;
+  const static int number_2d=3;
+  const TString names2d[number_2d] = {"obs", "signal","pred"};
+  TH2D* Histos2d[nhist2d][nCat2D][nFlavor][number_2d];
+  
+  // TH2D* Histos2d[nhist2d][nCat2D][nFlavor][1];
+
   const TString Hist2d_ossf[nhist2d] = {"2D_mass", "2D_masszoom",
 					"position","position_3",
 					"phirho", "phirho_3",
@@ -1341,11 +1346,11 @@ UInt_t            _zgEventType;
   const double XHistMin2d[nhist2d] = {0,0,
 				      -25,-25,
 				      -3,-3,
-				      -4,-4
+				      -4,-4,
 				      -3.14,-3.14};
   const double XHistMax2d[nhist2d] = {100,5,
 				      25,25,
-				      3,3
+				      3,3,
 				      4,4,
 				      3.14,3.14};
   const double YHistMin2d[nhist2d] = {0,0,
@@ -1355,7 +1360,7 @@ UInt_t            _zgEventType;
 				      0,0};
   const double YHistMax2d[nhist2d] = {15,5,
 				      25,25,
-				      25,25
+				      25,25,
 				      25,25,
 				      25,25};		
   const int XnBins2d[nhist2d] =      {200,100,
