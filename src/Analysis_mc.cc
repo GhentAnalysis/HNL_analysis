@@ -1717,7 +1717,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (isDataYield) central_total_weight_ele = 1.;
 
       if (isDataYield && SR_selection  && bjet == 0){
-	std::cout<<"event: "<<"SR_channel: "<< SR_channel<<"   --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<"               deltaR: "<<v4l2.DeltaR(v4l3)<<"   displaced: "<<D2_delta_pv_sv<<"   mass: "<< M_l2l3_combined<<"   sumPT: "<<v4l2.Pt()+v4l3.Pt()<<std::endl;
+	std::cout<<"event: "<<"SR_channel: "<< SR_channel<<"   --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<"               deltaR: "<<v4l2.DeltaR(v4l3)<<"   displaced: "<<D2_delta_pv_sv<<"   mass: "<< M_l2l3_combined<<"   sumPT: "<<v4l2.Pt()+v4l3.Pt()<<" conv veto l1: "<< _lElectronPassConvVeto[l1]<< " conv veto l2: "<< _lElectronPassConvVeto[l2]<<" conv veto l3: "<< _lElectronPassConvVeto[l3]<<std::endl;
       }
       unsigned fill_2d = effsam;
 
