@@ -1819,7 +1819,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (SR_channel == 4 ) Histos2d[6][0][4][fill_2d] -> Fill(_vertex_eta, _vertex_R,1);
 	  if (SR_channel == 4 ) Histos2d[8][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  //
-	  if (SR_channel == 5 ) Histos2d[0][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
+	  if (SR_channel == 5 ) Histos2d[0][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);s
 	  if (SR_channel == 5 ) Histos2d[1][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
 	  if (SR_channel == 5 ) Histos2d[2][0][5][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
 	  if (SR_channel == 5 ) Histos2d[4][0][5][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
@@ -2176,7 +2176,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#theta (rad)");
 	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.01 x 0.1 mm)");
 	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");	  
-	  Histos2d[dist][cat][flav][effsam1]->SetStats(0)
+	  Histos2d[dist][cat][flav][effsam1]->SetStats(0);
 	  //Histos2d[dist][cat][flav][effsam1] -> SetMinimum (0.);
 	  gStyle->SetPalette(kCool);
 	  Histos2d[dist][cat][flav][effsam1] -> Draw("COLZ");
