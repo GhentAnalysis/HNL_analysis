@@ -20,6 +20,7 @@
 #include "TFile.h"
 #include "TCanvas.h"
 #include "TLegend.h"
+#include "TColor.h"
 #include "TPad.h"
 #include "TF1.h"
 #include "TF2.h"
@@ -990,7 +991,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       unsigned        l1,l2,l3=0;
       TLorentzVector  v4l1,v4l2,v4l3;
       TLorentzVector  v4l2_propagated,v4l3_propagated;
-      double            _vertex_X,_vertex_Y,_vertex_Z,_vertex_errX,_vertex_errY,_vertex_errZ,_vertex_chi2,_vertex_normchi2,_vertex_ndf=-1;
+      double            _vertex_X,_vertex_Y,_vertex_Z,_vertex_r, _vertex_phi,_vertex_eta, _vertex_theta, _vertex_R,_vertex_errX,_vertex_errY,_vertex_errZ,_vertex_chi2,_vertex_normchi2,_vertex_ndf=-1;
  
       // initializations!!!
       goodjet=0;
@@ -1109,6 +1110,18 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       _vertex_chi2=_vertices[index_l2l3][11];
       _vertex_normchi2= _vertices[index_l2l3][11]/_vertices[index_l2l3][10];
       _vertex_ndf =_vertices[index_l2l3][10];
+
+      _vertex_r = TMath::Sqrt(_vertex_X*_vertex_X + _vertex_Y*_vertex_Y);
+      _vertex_R = TMath::Sqrt(_vertex_X*_vertex_X + _vertex_Y*_vertex_Y + _vertex_Z*_vertex_Z);
+
+      if (_vertex_r == 0)  _vertex_phi = 0.;
+      else _vertex_phi= (_vertex_Y >= 0) ? TMath::ACos(_vertex_X/_vertex_r) : -(TMath::ACos(_vertex_X/_vertex_r));
+      if (_vertex_R == 0) _vertex_theta = -10;
+      else _vertex_theta = TMath::ACos (_vertex_Z/ _vertex_R);
+      if (_vertex_R == 0) _vertex_eta = -10;
+      else _vertex_eta = -TMath::Log(TMath::Tan(_vertex_theta*0.5));
+
+      
       // ------------ ==================== -----------------------------------------------//
       // ------------   tight selection   -----------------------------------------------//
       unsigned* _isT= new unsigned[_nL];
@@ -1712,37 +1725,151 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	if (selection_0){
 	  if (SR_channel == 0 ) Histos2d[0][0][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 0 ) Histos2d[1][0][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[2][0][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[4][0][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[6][0][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[8][0][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  //
 	  if (SR_channel == 1 ) Histos2d[0][0][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 1 ) Histos2d[1][0][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[2][0][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[4][0][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[6][0][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[8][0][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  //
 	  if (SR_channel == 2 ) Histos2d[0][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 2 ) Histos2d[1][0][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[2][0][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[4][0][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[6][0][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[8][0][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  if (D2_delta_pv_sv > 3.5) {
+	    if (SR_channel == 0 ) Histos2d[3][0][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	    if (SR_channel == 0 ) Histos2d[5][0][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	    if (SR_channel == 0 ) Histos2d[7][0][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 0 ) Histos2d[9][0][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[3][0][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[5][0][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[7][0][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[9][0][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[3][0][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[5][0][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[7][0][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[9][0][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  }	  
 	}
+	
 	if (SR_selection  && bjet == 0 ){
 	  if (SR_channel == 0 ) Histos2d[0][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 0 ) Histos2d[1][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[2][1][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[4][1][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[6][1][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	  if (SR_channel == 0 ) Histos2d[8][1][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  //
 	  if (SR_channel == 1 ) Histos2d[0][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 1 ) Histos2d[1][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[2][1][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[4][1][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[6][1][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	  if (SR_channel == 1 ) Histos2d[8][1][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  //
 	  if (SR_channel == 2 ) Histos2d[0][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
 	  if (SR_channel == 2 ) Histos2d[1][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[2][1][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[4][1][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[6][1][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	  if (SR_channel == 2 ) Histos2d[8][1][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  if (D2_delta_pv_sv > 3.5) {
+	    if (SR_channel == 0 ) Histos2d[3][1][0][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	    if (SR_channel == 0 ) Histos2d[5][1][0][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	    if (SR_channel == 0 ) Histos2d[7][1][0][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 0 ) Histos2d[9][1][0][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[3][1][1][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[5][1][1][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[7][1][1][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 1 ) Histos2d[9][1][1][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[3][1][2][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[5][1][2][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[7][1][2][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_mu);
+	    if (SR_channel == 2 ) Histos2d[9][1][2][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_mu);
+	  }	  
 	}
       }
 
       if (SR_channel > 2) {
 	if (selection_0){
-	  if (SR_channel == 3 ) Histos2d[0][0][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[1][0][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);	  
-	  if (SR_channel == 4 ) Histos2d[0][0][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[1][0][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[0][0][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[1][0][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[0][0][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[1][0][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[2][0][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[4][0][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[6][0][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[8][0][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  //
+	  if (SR_channel == 4 ) Histos2d[0][0][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[1][0][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[2][0][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[4][0][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[6][0][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[8][0][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  //
+	  if (SR_channel == 5 ) Histos2d[0][0][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[1][0][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[2][0][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[4][0][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[6][0][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[8][0][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  if (D2_delta_pv_sv > 3.5) {
+	    if (SR_channel == 3 ) Histos2d[3][0][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	    if (SR_channel == 3 ) Histos2d[5][0][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	    if (SR_channel == 3 ) Histos2d[7][0][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 3 ) Histos2d[9][0][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[3][0][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[5][0][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[7][0][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[9][0][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[3][0][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[5][0][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[7][0][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[9][0][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  }
 	}
 	if (SR_selection   && bjet == 0 ){
-	  if (SR_channel == 3 ) Histos2d[0][1][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 3 ) Histos2d[1][1][3][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);	  
-	  if (SR_channel == 4 ) Histos2d[0][1][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 4 ) Histos2d[1][1][4][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[0][1][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
-	  if (SR_channel == 5 ) Histos2d[1][1][5][fill] -> Fill(D2_delta_pv_sv,  M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[0][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[1][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[2][1][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[4][1][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[6][1][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	  if (SR_channel == 3 ) Histos2d[8][1][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  //
+	  if (SR_channel == 4 ) Histos2d[0][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[1][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[2][1][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[4][1][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[6][1][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	  if (SR_channel == 4 ) Histos2d[8][1][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  //
+	  if (SR_channel == 5 ) Histos2d[0][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[1][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[2][1][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[4][1][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[6][1][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	  if (SR_channel == 5 ) Histos2d[8][1][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  if (D2_delta_pv_sv > 3.5) {
+	    if (SR_channel == 3 ) Histos2d[3][1][3][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	    if (SR_channel == 3 ) Histos2d[5][1][3][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	    if (SR_channel == 3 ) Histos2d[7][1][3][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 3 ) Histos2d[9][1][3][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[3][1][4][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[5][1][4][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[7][1][4][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 4 ) Histos2d[9][1][4][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[3][1][5][fill] -> Fill(_vertex_X, _vertex_Y,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[5][1][5][fill] -> Fill(_vertex_phi, _vertex_r,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[7][1][5][fill] -> Fill(_vertex_eta, _vertex_R,scal*central_total_weight_ele);
+	    if (SR_channel == 5 ) Histos2d[9][1][5][fill] -> Fill(_vertex_theta, _vertex_R,scal*central_total_weight_ele);
+	  }
+
 	}
       }
 
@@ -2017,10 +2144,26 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
 	  c_2dhisto[dist][cat][flav][effsam1] = new TCanvas("c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ "_"+ catNames2D[cat],eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ "_"+ catNames[cat], 10,10,600,600);
 	  c_2dhisto[dist][cat][flav][effsam1]->cd();
+	  gPad->SetRightMargin (0.15);
 	  Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#Delta (PV-SV)_{2D}");
+	  
 	  if (dist == 0) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("M_{ll}#left(l_{2}+l_{3} #right) (GeV)");
 	  if (dist == 1) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("M_{ll}#left(l_{2}+l_{3} #right) (GeV)");
+	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("y (cm)");
+	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("x (cm)");
+	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.2x0.2 mm^{2})");
+	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y (cm)");
+	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#phi (rad)");
+	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");
+
+	  if (dist == 6 || dist == 7 || dist == 8 || dist == 9 ) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y-z (cm)");
+	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#eta");
+	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#theta (rad)");
+	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.01 x 0.1 mm)");
+	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");	  
+
 	  //Histos2d[dist][cat][flav][effsam1] -> SetMinimum (0.);
+	  gStyle->SetPalette(kCool);
 	  Histos2d[dist][cat][flav][effsam1] -> Draw("COLZ");
 	  //correlation << eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+ "   ----->   "<< Histos2d[dist][cat][flav][effsam1] -> GetCorrelationFactor()<< std::endl;
 	  c_2dhisto[dist][cat][flav][effsam1]->Print("plot/c_"+ eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+".pdf");
