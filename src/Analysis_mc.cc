@@ -629,7 +629,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   // std::ofstream four("four.txt"); 
   // std::ofstream ratios_n_1("ratios_n_1.txt"); 
   // std::ofstream yields_check("yields_check.txt");
-  std::ofstream single_fake("single_fake.txt");
+  std::ofstream single_fake_txt("single_fake.txt");
 
 
   cout<<"in analisi"<<endl;
@@ -1725,21 +1725,21 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       
       if (isDataDrivenBgk && SR_selection  && bjet == 0 && single_fake){
-	if (single_fake) single_fake<<"event: "<<"SR_channel: "<< SR_channel<<"   --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<std::endl;
-	if (single_fake) single_fake<< " deltaR: "<<v4l2.DeltaR(v4l3)<<"   displaced: "<<D2_delta_pv_sv<<"   mass: "<< M_l2l3_combined<<"   sumPT: "<<v4l2.Pt()+v4l3.Pt()<<" conv veto l1: "<< _lElectronPassConvVeto[l1]<< " conv veto l2: "<< _lElectronPassConvVeto[l2]<<" conv veto l3: "<< _lElectronPassConvVeto[l3]<<std::endl;
-	single_fake<< "l2: "<< _lFlavor[l2]<<"  "<< v4l2.Pt()<<std::endl;
-	single_fake<< "l3: "<< _lFlavor[l3]<<"  "<< v4l3.Pt()<<std::endl;
+	if (single_fake) single_fake_txt<<"event: "<<"SR_channel: "<< SR_channel<<"   --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<std::endl;
+	if (single_fake) single_fake_txt<< " deltaR: "<<v4l2.DeltaR(v4l3)<<"   displaced: "<<D2_delta_pv_sv<<"   mass: "<< M_l2l3_combined<<"   sumPT: "<<v4l2.Pt()+v4l3.Pt()<<" conv veto l1: "<< _lElectronPassConvVeto[l1]<< " conv veto l2: "<< _lElectronPassConvVeto[l2]<<" conv veto l3: "<< _lElectronPassConvVeto[l3]<<std::endl;
+	single_fake_txt<< "l2: "<< _lFlavor[l2]<<"  "<< v4l2.Pt()<<std::endl;
+	single_fake_txt<< "l3: "<< _lFlavor[l3]<<"  "<< v4l3.Pt()<<std::endl;
 
-	if (single_fake) single_fake<<"------- scal "<<scal<< " Tl2: "<<_isT[l2]<<" Tl3: "<<_isT[l3]<<std::endl;
-	if (single_fake && !_isT[l2] ) single_fake<<"------- scal "<<scal<< " Tl2: "<<_isT[l2]<<" Tl3: "<<_isT[l3]<<"   fr: "<< FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+	if (single_fake) single_fake_txt<<"------- scal "<<scal<< " Tl2: "<<_isT[l2]<<" Tl3: "<<_isT[l3]<<std::endl;
+	if (single_fake && !_isT[l2] ) single_fake_txt<<"------- scal "<<scal<< " Tl2: "<<_isT[l2]<<" Tl3: "<<_isT[l3]<<"   fr: "<< FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
 																	   _lEta[l2], _lFlavor[l2], v4l2.Pt(), index_eta,flav_dRF, momentum_jet)<<std::endl;
-	if (single_fake && !_isT[l3] ) single_fake<<"------- scal "<<scal<< " Tl2: "<<_isT[l2]<<" Tl3: "<<_isT[l3]<<"   fr: "<< FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
+	if (single_fake && !_isT[l3] ) single_fake_txt<<"------- scal "<<scal<< " Tl2: "<<_isT[l2]<<" Tl3: "<<_isT[l3]<<"   fr: "<< FR_weight (*&fakeRate_mu, *&fakeRate_e, *&fakeRate_mumu,*&fakeRate_ee,*&fakeRate_mue,single_fake, Double_fake,
 																	   _lEta[l3], _lFlavor[l3], v4l3.Pt(), index_eta,flav_dRF, momentum_jet)<<std::endl;
 
-	if (!_isT[l2] && !_isT[l3])single_fake<<" both loose not tight"<<std::endl;
-	if ((_isT[l2] && !_isT[l3])    ||    (!_isT[l2] && _isT[l3])) single_fake<<" only 1 loose not tight"<<std::endl;
-	single_fake<<""<<std::endl;
-	single_fake<<""<<std::endl;
+	if (!_isT[l2] && !_isT[l3])single_fake_txt<<" both loose not tight"<<std::endl;
+	if ((_isT[l2] && !_isT[l3])    ||    (!_isT[l2] && _isT[l3])) single_fake_txt<<" only 1 loose not tight"<<std::endl;
+	single_fake_txt<<""<<std::endl;
+	single_fake_txt<<""<<std::endl;
       }
 
 
