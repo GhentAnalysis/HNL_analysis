@@ -131,7 +131,9 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   } // end for(size_t is=0; is<samples.size(); ++is)
 
   // Add single- and double-fake backgrounds
-  eff_names[nSamples_eff] = "nonprompt SF";
+  eff_names[nSamples_eff] = "nonprompt SF neg";
+  ++nSamples_eff;
+  eff_names[nSamples_eff] = "nonprompt SF pos";
   ++nSamples_eff;
   eff_names[nSamples_eff] = "nonprompt DF";
   ++nSamples_eff;
@@ -190,7 +192,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
     maxBinC[i] = Histos[i][0][0][0]->GetBinCenter(Histos[i][0][0][0]->GetNbinsX());
   }
 
-  for(int i = 0; i < nhist2d; ++i){
+  /*for(int i = 0; i < nhist2d; ++i){
     for(size_t effsam = 0; effsam < number_2d; ++effsam){
       for(int cat = 0; cat < nCat2D; ++cat){
 	for(int flav = 0; flav < nFlavor; ++flav){
@@ -204,7 +206,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
       }
     }
   }
-
+  */
 
 
   
@@ -1275,6 +1277,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (_lIsPrompt[l3] || _lProvenanceCompressed[l3]==0) promptC++;
       if (!samples[sam].isData() && promptC!=3) continue;
       // -----------------    applying the FRs    --------------------------------//
+      bool singleSF_negative= false;
+      bool singleSF_positive= false;
+      if (single_fake &&  tightC == 0) singleSF_negative = true;
+      if (single_fake &&  tightC == 1) singleSF_positive = true;
+
+      
       if (sideBandRegion){
 	if ( samples[sam].isData() )   scal *= -1;
 	if (!samples[sam].isData() )   scal  = 1 * scal;
@@ -1405,7 +1413,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       bool isDataYield= false;
       if (samples[sam].isData() && !tightFail_sFR    && single_fake)     isDataYield= true;
       if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)     isDataYield= true;
-      if (isDataDrivenBgk &&  single_fake) fill = nSamples_eff - 1;
+      if (isDataDrivenBgk &&  single_fake && singleSF_negative) fill = nSamples_eff - 2;
+      if (isDataDrivenBgk &&  single_fake && singleSF_positve) fill =  nSamples_eff - 1;    
       if (isDataDrivenBgk &&  Double_fake) fill = nSamples_eff;
       if (isSignal &&  tightFail_sFR     && single_fake) continue;
       if (isSignal &&  loose_lepton_dFR  && Double_fake) continue;
@@ -1715,7 +1724,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	} // end MC
       } // end SR_selection
 
-      if (isDataYield) central_total_weight_mu = 1.;
+      /*if (isDataYield) central_total_weight_mu = 1.;
       if (isDataYield) central_total_weight_ele = 1.;
 
       if (isDataYield && SR_selection  && bjet == 0){
@@ -1742,11 +1751,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	single_fake_txt<<""<<std::endl;
       }
 
+      */
 
 
 
-
-
+      /*
 
 
       
@@ -1795,42 +1804,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  }
 	}
     
-	/*if (SR_selection  && bjet == 0 ){
-	  if (SR_channel == 0 ) Histos2d[0][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 0 ) Histos2d[1][1][0][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 0 ) Histos2d[2][1][0][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 0 ) Histos2d[4][1][0][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 0 ) Histos2d[6][1][0][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 0 ) Histos2d[8][1][0][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	  //
-	  if (SR_channel == 1 ) Histos2d[0][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 1 ) Histos2d[1][1][1][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 1 ) Histos2d[2][1][1][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 1 ) Histos2d[4][1][1][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[6][1][1][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[8][1][1][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	  //
-	  if (SR_channel == 2 ) Histos2d[0][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 2 ) Histos2d[1][1][2][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 2 ) Histos2d[2][1][2][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 2 ) Histos2d[4][1][2][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[6][1][2][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[8][1][2][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	  if (D2_delta_pv_sv > 3.5) {
-	  if (SR_channel == 0 ) Histos2d[3][1][0][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 0 ) Histos2d[5][1][0][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 0 ) Histos2d[7][1][0][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 0 ) Histos2d[9][1][0][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[3][1][1][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 1 ) Histos2d[5][1][1][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[7][1][1][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[9][1][1][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[3][1][2][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 2 ) Histos2d[5][1][2][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[7][1][2][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[9][1][2][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	  }
-	  }*/
+
       }
 
 
@@ -1871,46 +1845,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    if (SR_channel == 5 ) Histos2d[9][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
 	  }
         }
-	/* if (SR_selection   && bjet == 0 ){
-	   if (SR_channel == 3 ) Histos2d[0][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	   if (SR_channel == 3 ) Histos2d[1][1][3][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	   if (SR_channel == 3 ) Histos2d[2][1][3][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	   if (SR_channel == 3 ) Histos2d[4][1][3][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	   if (SR_channel == 3 ) Histos2d[6][1][3][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	   if (SR_channel == 3 ) Histos2d[8][1][3][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	   //
-	   if (SR_channel == 4 ) Histos2d[0][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	   if (SR_channel == 4 ) Histos2d[1][1][4][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	   if (SR_channel == 4 ) Histos2d[2][1][4][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	   if (SR_channel == 4 ) Histos2d[4][1][4][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	   if (SR_channel == 4 ) Histos2d[6][1][4][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	   if (SR_channel == 4 ) Histos2d[8][1][4][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	   //
-	   if (SR_channel == 5 ) Histos2d[0][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	   if (SR_channel == 5 ) Histos2d[1][1][5][fill] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	   if (SR_channel == 5 ) Histos2d[2][1][5][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	   if (SR_channel == 5 ) Histos2d[4][1][5][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	   if (SR_channel == 5 ) Histos2d[6][1][5][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	   if (SR_channel == 5 ) Histos2d[8][1][5][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	   if (D2_delta_pv_sv > 3.5) {
-	   if (SR_channel == 3 ) Histos2d[3][1][3][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	   if (SR_channel == 3 ) Histos2d[5][1][3][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	   if (SR_channel == 3 ) Histos2d[7][1][3][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	   if (SR_channel == 3 ) Histos2d[9][1][3][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	   if (SR_channel == 4 ) Histos2d[3][1][4][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	   if (SR_channel == 4 ) Histos2d[5][1][4][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	   if (SR_channel == 4 ) Histos2d[7][1][4][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	   if (SR_channel == 4 ) Histos2d[9][1][4][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	   if (SR_channel == 5 ) Histos2d[3][1][5][fill] -> Fill(_vertex_X, _vertex_Y,1);
-	   if (SR_channel == 5 ) Histos2d[5][1][5][fill] -> Fill(_vertex_phi, _vertex_r,1);
-	   if (SR_channel == 5 ) Histos2d[7][1][5][fill] -> Fill(_vertex_eta, _vertex_r,1);
-	   if (SR_channel == 5 ) Histos2d[9][1][5][fill] -> Fill(_vertex_theta, _vertex_r,1);
-	   }
-     
-	   }*/
+
       }
 
-
+*/
 
 
       
@@ -2120,6 +2058,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
 	  }
+	  else if (effsam1 == nSamples_eff-2){
+	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
+	  }
 	  else {
 	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
@@ -2179,7 +2122,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  TCanvas *c_2dhisto[nhist2d][nCat2D][nFlavor][number_2d];
+  /* TCanvas *c_2dhisto[nhist2d][nCat2D][nFlavor][number_2d];
   std::cout<<"cavas"<<std::endl;
 
   for(unsigned dist = 0; dist < nhist2d; ++dist){
@@ -2219,7 +2162,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	}
       }
     }
-  }
+    }*/
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     int numer_plot_class =0;
     numer_plot_class = nSamples_eff -  nSamples_signal;
@@ -2302,7 +2245,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
       //const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
 
-      const std::string bkgNames[] = {"Xgamma", "nonpromptSF", "nonpromptDF"};
+      const std::string bkgNames[] = {"Xgamma", "nonpromptSFneg", "nonpromptSFpos","nonpromptDF"};
       const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
       // Output directory for datacards and shape ROOT files
@@ -2317,7 +2260,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //labelPerProc["multiboson" ] = "Multiboson";
       labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
       //labelPerProc["TTTX"       ] = "Top $+$ X";
-      labelPerProc["nonpromptSF"] = "Nonprompt SF";
+      labelPerProc["nonpromptSFneg"] = "Nonprompt SF neg";
+      labelPerProc["nonpromptSFpos"] = "Nonprompt SF pos";
       labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
       // List of systematics
@@ -2351,7 +2295,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
       procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
       procPerSyst["lumi"    ] = "lnN   ; not_corr; signal,  Xgamma                          ";
-      procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
+      procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                            nonpromptSFneg,  nonpromptSFpos           ";
+
 
       /* procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
 	 procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
