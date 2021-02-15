@@ -1216,10 +1216,14 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
 	std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;
 	std::cout<<" iSystematics: "<<iSystematics<<"  iVariation: "<<iVariation<<" channel "<<channel<<" bin: "<<i+1<<std::endl;
       }
-      if (histo->GetBinContent( i+1)  <= 0 ){
+      if (histo->GetBinContent( i+1)  == 0 ){
 	histo-> SetBinContent(i+1, 0.0);
 	histo->SetBinError(i+1, 3.09*0.1); //mumu
-      }  
+      }
+      if (histo->GetBinContent( i+1)  < 0 ){
+	//histo-> SetBinContent(i+1, 0.0);
+	//histo->SetBinError(i+1, 3.09*0.1); //mumu
+      } 
     }
   }//option 2
 
