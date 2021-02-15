@@ -1414,7 +1414,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (samples[sam].isData() && !tightFail_sFR    && single_fake)     isDataYield= true;
       if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)     isDataYield= true;
       if (isDataDrivenBgk &&  single_fake && singleSF_negative) fill = nSamples_eff - 2;
-      if (isDataDrivenBgk &&  single_fake && singleSF_positve) fill =  nSamples_eff - 1;    
+      if (isDataDrivenBgk &&  single_fake && singleSF_positive) fill = nSamples_eff - 1;    
       if (isDataDrivenBgk &&  Double_fake) fill = nSamples_eff;
       if (isSignal &&  tightFail_sFR     && single_fake) continue;
       if (isSignal &&  loose_lepton_dFR  && Double_fake) continue;
