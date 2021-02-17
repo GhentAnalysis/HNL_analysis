@@ -1736,8 +1736,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       float JECl2       ;
       float JECl3      ;
 
-      TLorentzVector  lepAwareJetl2[] ;
-      TLorentzVector  lepAwareJetl3[] ;
+      TLorentzVector  lepAwareJetl2[1] ;
+      TLorentzVector  lepAwareJetl3[1] ;
       lJet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
       lJet[1].SetPxPyPzE(_closest_l1JetPx[l3],_closest_l1JetPy[l3],_closest_l1JetPz[l3],_closest_l1JetE[l3]);
 
