@@ -2212,8 +2212,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	for(int cha = 0; cha < nChannel; ++cha){	
 	  for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
 	    // std::cout<<"in plotting one "<<std::endl;
-	    if (effsam1 == nSamples_eff) put_at_zero(0,0,cha, 1, *&Histos[dist][cha][cat][effsam1]);
-	    if (effsam1 != nSamples_eff) put_at_zero(0,0,cha, 0, *&Histos[dist][cha][cat][effsam1]);
+	    if (effsam1 == nSamples_eff) put_at_zero(year,0,0,cha, 1, *&Histos[dist][cha][cat][effsam1]);
+	    if (effsam1 != nSamples_eff) put_at_zero(year,0,0,cha, 0, *&Histos[dist][cha][cat][effsam1]);
 
 	  }
 	}
