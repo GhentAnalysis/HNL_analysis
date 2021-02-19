@@ -1175,17 +1175,17 @@ void Analysis_mc::put_at_zero(int anno, int iSystematics,int iVariation,int chan
   double mm_sf =0.;
   if (anno == 0){
     ee_sf =0.38;
-    em_sf =0.20.;
+    em_sf =0.20;
     mm_sf =0.21;
   }
   if (anno == 1){
     ee_sf =0.59;
-    em_sf =0.33.;
+    em_sf =0.33;
     mm_sf =0.26;
   }
   if (anno == 2){
     ee_sf =0.47;
-    em_sf =0.31.;
+    em_sf =0.31;
     mm_sf =0.26;
   }
 
