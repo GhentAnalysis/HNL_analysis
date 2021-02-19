@@ -1166,17 +1166,31 @@ void Analysis_mc::printDataCard(const double obsYield, const double sigYield, co
 
 
 //_______________________________________________________ constructor_____
-void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int option, TH1D *histo){
+void Analysis_mc::put_at_zero(int anno, int iSystematics,int iVariation,int channel, int option, TH1D *histo){
   //option 1 --> non prompt
   //option 0 --> MC
 
+  double ee_sf =0.;
+  double em_sf =0.;
+  double mm_sf =0.;
+  if (anno == 0){
+    ee_sf =0.38;
+    em_sf =0.20.;
+    mm_sf =0.21;
+  }
+  if (anno == 1){
+    ee_sf =0.59;
+    em_sf =0.33.;
+    mm_sf =0.26;
+  }
+  if (anno == 2){
+    ee_sf =0.47;
+    em_sf =0.31.;
+    mm_sf =0.26;
+  }
 
   if (option == 0){
     for (int i =0; i < histo-> GetNbinsX(); i++){
-      if (std::isnan(histo->GetBinContent( i+1))) {
-	std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;
-	std::cout<<" iSystematics: "<<iSystematics<<"  iVariation: "<<iVariation<<" channel "<<channel<<" bin: "<<i+1<<std::endl;
-      }
       double error_original =0;
       double error_to_add =0;
       double error_final =0;
@@ -1186,8 +1200,6 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
 	error_final=TMath::Sqrt(error_original*error_original   +    error_to_add*error_to_add );
 	histo-> SetBinContent(i+1, 0.000001);
 	histo-> SetBinError(i+1, 0.000001);
-	//if (error_final == 0) histo-> SetBinError(i+1,  0.);
-	//if (error_final < 0.000001) histo-> SetBinError(i+1,  0.);
       }
     }
   }//option 0
@@ -1196,41 +1208,22 @@ void Analysis_mc::put_at_zero(int iSystematics,int iVariation,int channel, int o
     for (int i =0; i < histo-> GetNbinsX(); i++){
       if (histo->GetBinContent( i+1)  <= 0 ){
 	histo-> SetBinContent(i+1, 0.0);
-	//histo->SetBinErrorOption(TH1::kPoisson2);
-	if (channel == 0 && i < 6) histo->SetBinError(i+1, 3.09*0.15); //mumu
-	if (channel == 0 && i >= 6) histo->SetBinError(i+1, 3.09*0.12); //mue
-	if (channel == 1 && i < 6) histo->SetBinError(i+1, 3.09*0.15); //ee
-	if (channel == 1 && i >= 6) histo->SetBinError(i+1, 3.09*0.12); //mue
-	/* obtained with the fit --> if (channel == 0 && i < 6) histo->SetBinError(i+1, 3.6888795*0.05); //mumu
-	   if (channel == 0 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
-	   if (channel == 1 && i < 6) histo->SetBinError(i+1, 3.6888795*0.09); //ee
-	   if (channel == 1 && i >= 6) histo->SetBinError(i+1, 3.6888795*0.045); //mue
-	*/
+	if (channel == 0 && i < 6) histo->SetBinError(i+1, mm_sf); //mumu
+	if (channel == 0 && i >= 6) histo->SetBinError(i+1, em_sf); //mue
+	if (channel == 1 && i < 6) histo->SetBinError(i+1, ee_sf); //ee
+	if (channel == 1 && i >= 6) histo->SetBinError(i+1, em_sf); //mue
       }     
     }
   }//option 1
 
   if (option == 2){
     for (int i =0; i < histo-> GetNbinsX(); i++){
-      if (std::isnan(histo->GetBinContent( i+1))) {
-	std::cout<<"aiutooooooooooo .    sono nanannnnnnn "<<std::endl;
-	std::cout<<" iSystematics: "<<iSystematics<<"  iVariation: "<<iVariation<<" channel "<<channel<<" bin: "<<i+1<<std::endl;
-      }
       if (histo->GetBinContent( i+1)  == 0 ){
 	histo-> SetBinContent(i+1, 0.0);
-	histo->SetBinError(i+1, 3.09*0.1); //mumu
+	histo->SetBinError(i+1, 0.45); //mumu
       }
-      if (histo->GetBinContent( i+1)  < 0 ){
-	//histo-> SetBinContent(i+1, 0.0);
-	//histo->SetBinError(i+1, 3.09*0.1); //mumu
-      } 
     }
   }//option 2
-
-  for (int i =0; i < histo-> GetNbinsX(); i++){
-    if (histo->GetBinContent( i+1) < 0.000001 || histo->GetBinContent( i+1) == 0.0) continue; 
-    if (histo->GetBinContent( i+1) < histo-> GetBinError(i+1))  histo-> SetBinError(i+1, histo->GetBinContent( i+1) ); // 100% uncertaintains 
-  }
 }
 
 

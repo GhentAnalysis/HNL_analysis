@@ -1082,20 +1082,50 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       l2=index_to_use_for_l2_l3[0];
       l3=index_to_use_for_l2_l3[1];
       v4l1.SetPtEtaPhiE(_lPt[l1],_lEta[l1], _lPhi[l1], _lE[l1]);
+      // first definition 
+      v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
+      v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);      
       //-----------------------------------------------
       bool single_fake=false;
       bool Double_fake=false;     
+     
+      TLorentzVector  lJet[2] ;
+      float JECl2       ;
+      float JECl3      ;
+      TLorentzVector  lepAwareJetl2[1] ;
+      TLorentzVector  lepAwareJetl3[1] ;
+      lJet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
+      lJet[1].SetPxPyPzE(_closest_l1JetPx[l3],_closest_l1JetPy[l3],_closest_l1JetPz[l3],_closest_l1JetE[l3]);
+      JECl2             = _closestJEC[l2];
+      JECl3             = _closestJEC[l3];
+      lepAwareJetl2[0] = (lJet[0] - v4l2 )*JECl2 + v4l2;
+      lepAwareJetl3[0] = (lJet[1] - v4l3 )*JECl3 + v4l3;
+       // ------------ closest jet info --------------------------------------//
+      TLorentzVector  l1Jet[1] ;
+      float JEC       ;
+      TLorentzVector  lepAwareJet[1] ;
+      l1Jet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
+      JEC             = _closestJEC[l2];
+      lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
+     
       if ( _closest_l1JetE[l2] ==  _closest_l1JetE[l3] ) Double_fake = true;
-      if (!Double_fake) single_fake = true;
-      if(Double_fake && _closest_l1JetE[l2] ==0) {
-	single_fake = true;
-	Double_fake = false;
+      if (v4l2.DeltaR(v4l3) < 0.4) {
+	Double_fake = true;
+	lepAwareJet[0] = lepAwareJetl2[0] + lepAwareJetl3[0];
       }
+      if(v4l2.DeltaR(v4l3) > 0.4 && (_closest_l1JetE[l2] ==0 || _closest_l1JetE[l3] ==0)) {
+	Double_fake = true;
+	lepAwareJet[0] = lepAwareJetl2[0] + lepAwareJetl3[0];
+      }
+      if (!Double_fake) single_fake = true;
+      
+      double momentum_jet=0.;
+      momentum_jet = lepAwareJet[0].Pt();
+      if (momentum_jet<10) momentum_jet=12;
+      
       //-----------------------------------------------
       if (single_fake)  v4l2.SetPtEtaPhiE(_lPt[l2]*(1+std::max(_relIso[l2]-0.2,0.)),_lEta[l2], _lPhi[l2], _lE[l2]*(1+std::max(_relIso[l2]-0.2,0.)));
-      if (Double_fake)  v4l2.SetPtEtaPhiE(_lPt[l2],_lEta[l2], _lPhi[l2], _lE[l2]);
       if (single_fake)  v4l3.SetPtEtaPhiE(_lPt[l3]*(1+std::max(_relIso[l3]-0.2,0.)),_lEta[l3], _lPhi[l3], _lE[l3]*(1+std::max(_relIso[l3]-0.2,0.)));
-      if (Double_fake)  v4l3.SetPtEtaPhiE(_lPt[l3],_lEta[l3], _lPhi[l3], _lE[l3]);     
       flavors_3l[0]=_lFlavor[l1];
       flavors_3l[1]=_lFlavor[l2];
       flavors_3l[2]=_lFlavor[l3];
@@ -1239,17 +1269,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (SR_channel > 2 && !(_HLT_Ele27_WPTight_Gsf || _HLT_Ele32_WPTight_Gsf || _HLT_Ele35_WPTight_Gsf  || _HLT_Ele32_WPTight_Gsf_L1DoubleEG)) continue;
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    
-      // ------------ closest jet info --------------------------------------//
-      TLorentzVector  l1Jet[1] ;
-      float JEC       ;
-      TLorentzVector  lepAwareJet[1] ;
-      l1Jet[0].SetPxPyPzE(_closest_l1JetPx[l2],_closest_l1JetPy[l2],_closest_l1JetPz[l2],_closest_l1JetE[l2]);
-      JEC             = _closestJEC[l2];
-      lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
-      double momentum_jet=0.;
-      momentum_jet = lepAwareJet[0].Pt();
-      if (momentum_jet<10) momentum_jet=12;
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     sFR and  dRF   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<      
       // ------------ closest jet info --------------------------------------//
       int flav_dRF = -1;
       if (_lFlavor[l2]==1 && _lFlavor[l3]==1) flav_dRF=1;
@@ -1732,7 +1752,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       }
       */
-      TLorentzVector  lJet[2] ;
+      /* TLorentzVector  lJet[2] ;
       float JECl2       ;
       float JECl3      ;
 
@@ -1771,7 +1791,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	single_fake_txt<<""<<std::endl;
 	single_fake_txt<<""<<std::endl;
       }
-
+      */
       
 
 
@@ -2070,24 +2090,24 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
 	  std::cout<<"   nSamples_eff  "<<nSamples_eff<<"  "<<eff_names[nSamples_eff]<<std::endl;
 	  if (effsam1 == nSamples_eff){
-	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 1, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 1, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 1, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 1, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
 	  }
 	  else if (effsam1 == nSamples_eff-1){
-	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
+	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
 	  }
 	  else if (effsam1 == nSamples_eff-2){
-	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
+	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
 	  }
 	  else {
-	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(iSystematics,iVariation,cha, 0, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 0, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
+	    put_at_zero(year,iSystematics,iVariation,cha, 0, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);
 	  }	  
 	}
       }	    

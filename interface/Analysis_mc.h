@@ -806,7 +806,7 @@ UInt_t            _zgEventType;
 
 		
   void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
-  void put_at_zero(int iSystematics,int iVariation,int channel, int option, TH1D *histo);
+  void put_at_zero(int anno, int iSystematics,int iVariation,int channel, int option, TH1D *histo);
 
 
   
