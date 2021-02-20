@@ -1015,13 +1015,13 @@ double Analysis_mc::sFR_factor_e (TGraphAsymmErrors *fakeRate[3],
   }// <70
   else {
     if (eta < 0.8){
-      factore = fakeRate_histo[0]->GetBinContent(fakeRate_histo[0]->FindBin(68));
+      factore = fakeRate_histo[0]->GetBinContent(fakeRate_histo[0]->FindBin(60));
     }//eta1
     else if (eta > 0.8 && eta<1.479){
-      factore = fakeRate_histo[1]->GetBinContent(fakeRate_histo[1]->FindBin(68));
+      factore = fakeRate_histo[1]->GetBinContent(fakeRate_histo[1]->FindBin(60));
     }//eta1
     else {
-      factore = fakeRate_histo[2]->GetBinContent(fakeRate_histo[2]->FindBin(68));
+      factore = fakeRate_histo[2]->GetBinContent(fakeRate_histo[2]->FindBin(60));
     }//eta1
   }
  
@@ -1061,13 +1061,13 @@ double Analysis_mc::sFR_factor_mu (TGraphAsymmErrors *fakeRate[3],
   }// <70
   else {
     if (eta < 0.8){
-      factore = fakeRate_histo[0]->GetBinContent(fakeRate_histo[0]->FindBin(68));
+      factore = fakeRate_histo[0]->GetBinContent(fakeRate_histo[0]->FindBin(60));
     }//eta1
     else if (eta > 0.8 && eta<1.479){
-      factore = fakeRate_histo[1]->GetBinContent(fakeRate_histo[1]->FindBin(68));
+      factore = fakeRate_histo[1]->GetBinContent(fakeRate_histo[1]->FindBin(60));
     }//eta1
     else {
-      factore = fakeRate_histo[2]->GetBinContent(fakeRate_histo[2]->FindBin(68));
+      factore = fakeRate_histo[2]->GetBinContent(fakeRate_histo[2]->FindBin(60));
     }//eta1
   }
  
@@ -1218,7 +1218,7 @@ void Analysis_mc::put_at_zero(int anno, int iSystematics,int iVariation,int chan
 
   if (option == 2){
     for (int i =0; i < histo-> GetNbinsX(); i++){
-      if (histo->GetBinContent( i+1)  == 0 ){
+      if (histo->GetBinContent( i+1)  == 0.0 ){
 	histo-> SetBinContent(i+1, 0.0);
 	histo->SetBinError(i+1, 0.45); //mumu
       }
