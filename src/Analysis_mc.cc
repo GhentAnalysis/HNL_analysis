@@ -1756,7 +1756,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
       
       if (isDataDrivenBgk && SR_selection  && bjet == 0 && single_fake){
-	if (single_fake) single_fake_txt<<"event: "<<"SR_channel: "<< SR_channel<<"   "<< bin_SR_eleCouplin>>"  "<<bin_SR_muonCouplin<<" --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<std::endl;
+	if (single_fake) single_fake_txt<<"event: "<<"SR_channel: "<< SR_channel<<"   "<< bin_SR_eleCouplin<<"  "<<bin_SR_muonCouplin<<" --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<std::endl;
 	if (single_fake) single_fake_txt<< " deltaR: "<<v4l2.DeltaR(v4l3)<<"   displaced: "<<D2_delta_pv_sv<<"   mass: "<< M_l2l3_combined<<"   sumPT: "<<v4l2.Pt()+v4l3.Pt()<<" conv veto l1: "<< _lElectronPassConvVeto[l1]<< " conv veto l2: "<< _lElectronPassConvVeto[l2]<<" conv veto l3: "<< _lElectronPassConvVeto[l3]<<std::endl;
 	single_fake_txt<< "l2: "<< _lFlavor[l2]<<"  "<< v4l2.Pt()<< " relIso: "<< _relIso[l2]<< std::endl;
 	single_fake_txt<<  "closest jet ---> px,py,pz,E  "<<_closest_l1JetPx[l2]<<" "<<_closest_l1JetPy[l2]<<" "<<_closest_l1JetPz[l2]<<" "<<_closest_l1JetE[l2]<<"   pt: "<<lepAwareJetl2[0].Pt()<< std::endl;
