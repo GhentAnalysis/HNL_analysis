@@ -1109,11 +1109,15 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       lepAwareJet[0] = (l1Jet[0] - v4l2 - v4l3)*JEC + v4l3 + v4l2;  
      
       if ( _closest_l1JetE[l2] ==  _closest_l1JetE[l3] ) Double_fake = true;
-      if (v4l2.DeltaR(v4l3) < 0.45) {
+      if (v4l2.DeltaR(v4l3) < 0.45 && _closest_l1JetE[l2] !=  _closest_l1JetE[l3]) {
 	Double_fake = true;
 	lepAwareJet[0] = lepAwareJetl2[0] + lepAwareJetl3[0];
       }
-      if(v4l2.DeltaR(v4l3) > 0.45 && (_closest_l1JetE[l2] ==0 || _closest_l1JetE[l3] ==0)) {
+      if (v4l2.DeltaR(v4l3) < 0.45 && _closest_l1JetE[l2] ==  _closest_l1JetE[l3] && _closest_l1JetE[l3]== 0) {
+	Double_fake = true;
+	lepAwareJet[0] = lepAwareJetl2[0] + lepAwareJetl3[0];
+      }
+      if(v4l2.DeltaR(v4l3) > 0.45 && (_closest_l1JetE[l2] ==0 || _closest_l1JetE[l3] ==0)  && _closest_l1JetE[l2] !=  _closest_l1JetE[l3]) {
 	Double_fake = true;
 	lepAwareJet[0] = lepAwareJetl2[0] + lepAwareJetl3[0];
       }
