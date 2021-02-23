@@ -1001,6 +1001,7 @@ double Analysis_mc::sFR_factor_e (TGraphAsymmErrors *fakeRate[3],
     from_TGraph_to_TH1D(*&fakeRate[i],*&fakeRate_histo[i],5);
   }
   double momentum = lptcone;
+  if (lptcone < 10 ) momentum = 11.;
   double factore=0;
   if (momentum < 70){
     if (eta < 0.8){

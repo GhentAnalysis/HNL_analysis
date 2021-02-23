@@ -1122,6 +1122,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	lepAwareJet[0] = lepAwareJetl2[0] + lepAwareJetl3[0];
       }
       if (!Double_fake) single_fake = true;
+
+      
       
       double momentum_jet=0.;
       momentum_jet = lepAwareJet[0].Pt();
@@ -1177,10 +1179,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (_isT[l2]) tightC++;
       if (_isT[l3]) tightC++;
       // -----------------------------------------------------------//
-      if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
-      if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
-      if (!isSignal && single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
-      if (!isSignal && single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
+      //if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
+      //if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
+      //if (!isSignal && single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
+      //if (!isSignal && single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
      
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1748,14 +1750,14 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	} // end MC
       } // end SR_selection
 
-      /*if (isDataYield) central_total_weight_mu = 1.;
+      if (isDataYield) central_total_weight_mu = 1.;
       if (isDataYield) central_total_weight_ele = 1.;
 
       if (isDataYield && SR_selection  && bjet == 0){
 	std::cout<<"event: "<<"SR_channel: "<< SR_channel<<"   --->>>   _runNb: "<<_runNb<<"   _lumiBlock:  "<<_lumiBlock<<" _eventNb:  "<<_eventNb<<"               deltaR: "<<v4l2.DeltaR(v4l3)<<"   displaced: "<<D2_delta_pv_sv<<"   mass: "<< M_l2l3_combined<<"   sumPT: "<<v4l2.Pt()+v4l3.Pt()<<" conv veto l1: "<< _lElectronPassConvVeto[l1]<< " conv veto l2: "<< _lElectronPassConvVeto[l2]<<" conv veto l3: "<< _lElectronPassConvVeto[l3]<<std::endl;
 
       }
-      */
+      
       
 
       
