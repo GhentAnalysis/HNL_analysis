@@ -131,9 +131,7 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
   } // end for(size_t is=0; is<samples.size(); ++is)
 
   // Add single- and double-fake backgrounds
-  eff_names[nSamples_eff] = "nonprompt SF neg";
-  ++nSamples_eff;
-  eff_names[nSamples_eff] = "nonprompt SF pos";
+  eff_names[nSamples_eff] = "nonprompt SF";
   ++nSamples_eff;
   eff_names[nSamples_eff] = "nonprompt DF";
   ++nSamples_eff;
@@ -1307,6 +1305,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       bool singleSF_positive= false;
       if (single_fake &&  tightC == 0) singleSF_negative = true;
       if (single_fake &&  tightC == 1) singleSF_positive = true;
+      if (singleSF_negative) continue;
 
       
       if (sideBandRegion){
@@ -1439,7 +1438,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       bool isDataYield= false;
       if (samples[sam].isData() && !tightFail_sFR    && single_fake)     isDataYield= true;
       if (samples[sam].isData() && tight_lepton_dFR  && Double_fake)     isDataYield= true;
-      if (isDataDrivenBgk &&  single_fake && singleSF_negative) fill = nSamples_eff - 2;
+      //if (isDataDrivenBgk &&  single_fake && singleSF_negative) fill = nSamples_eff - 2;
       if (isDataDrivenBgk &&  single_fake && singleSF_positive) fill = nSamples_eff - 1;    
       if (isDataDrivenBgk &&  Double_fake) fill = nSamples_eff;
       if (isSignal &&  tightFail_sFR     && single_fake) continue;
@@ -2091,11 +2090,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
 	  }
-	  else if (effsam1 == nSamples_eff-2){
-	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
-	    put_at_zero(year,iSystematics,iVariation,cha, 2, *&plots_SR2[1][cha][iSystematics][iVariation][effsam1]);	  
-	  }
 	  else {
 	    put_at_zero(year,iSystematics,iVariation,cha, 0, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(year,iSystematics,iVariation,cha, 0, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
@@ -2278,7 +2272,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
       //const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
 
-      const std::string bkgNames[] = {"Xgamma", "nonpromptSFneg", "nonpromptSFpos","nonpromptDF"};
+      const std::string bkgNames[] = {"Xgamma", "nonpromptSF","nonpromptDF"};
       const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
 
       // Output directory for datacards and shape ROOT files
@@ -2293,8 +2287,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //labelPerProc["multiboson" ] = "Multiboson";
       labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
       //labelPerProc["TTTX"       ] = "Top $+$ X";
-      labelPerProc["nonpromptSFneg"] = "Nonprompt SF neg";
-      labelPerProc["nonpromptSFpos"] = "Nonprompt SF pos";
+      labelPerProc["nonpromptSF"] = "Nonprompt SF";
       labelPerProc["nonpromptDF"] = "Nonprompt DF";
 
       // List of systematics
@@ -2328,7 +2321,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
       procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
       procPerSyst["lumi"    ] = "lnN   ; not_corr; signal,  Xgamma                          ";
-      procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                            nonpromptSFneg,  nonpromptSFpos           ";
+      procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                            nonpromptSF          ";
 
 
       /* procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
