@@ -1224,7 +1224,7 @@ void Analysis_mc::put_at_zero(int anno, int iSystematics,int iVariation,int chan
     for (int i =0; i < histo-> GetNbinsX(); i++){
       if (histo->GetBinContent( i+1)  == 0.0 ){
 	histo-> SetBinContent(i+1, 0.0);
-	histo->SetBinError(i+1, 0.40/(1-0.40)); //mumu
+	histo->SetBinError(i+1, 0.45/(1-0.45)); //mumu
       }
     }
   }//option 2
