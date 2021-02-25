@@ -1189,6 +1189,9 @@ void Analysis_mc::put_at_zero(int anno, int iSystematics,int iVariation,int chan
     em_sf =0.31;
     mm_sf =0.26;
   }
+  ee_sf = ee_sf / (1-ee_sf);
+  em_sf = em_sf / (1-em_sf);
+  mm_sf = mm_sf / (1-mm_sf);
 
   if (option == 0){
     for (int i =0; i < histo-> GetNbinsX(); i++){
@@ -1221,7 +1224,7 @@ void Analysis_mc::put_at_zero(int anno, int iSystematics,int iVariation,int chan
     for (int i =0; i < histo-> GetNbinsX(); i++){
       if (histo->GetBinContent( i+1)  == 0.0 ){
 	histo-> SetBinContent(i+1, 0.0);
-	histo->SetBinError(i+1, 0.45); //mumu
+	histo->SetBinError(i+1, 0.40/(1-0.40)); //mumu
       }
     }
   }//option 2
