@@ -13,7 +13,7 @@ To set: year and flags regarding the decision about: which samples to run on, wh
 
 unsigned year = 0;  // 2016: 0; 2017: 1; 2018: 2;
 
-//                            skipData, skipSignal, skipBackground, skipPlotting, skipLimits
+       //                              skipData, skipSignal, skipBackground, skipPlotting, skipLimits
 
 all.analisi(basename.c_str(), false    , false     , false          , false        , false    );
 
