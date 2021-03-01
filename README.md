@@ -8,6 +8,15 @@ make -f makeFiles/makeAnalisi
 to run:
 ./analisi_hnl
 
+# analisi.C
+To set: year and flags regarding the decision about: which samples to run on, which txt use, which samples' folder, produce limits, produce plots. 
+
+unsigned year = 0;  // 2016: 0; 2017: 1; 2018: 2;
+
+//                            skipData, skipSignal, skipBackground, skipPlotting, skipLimits, skipTables, skipXcheck
+
+all.analisi(basename.c_str(), false    , false     , false          , false        , false     , true    , false  /*, 0, 0*/);
+
 # Analysis_mc.cc
 this is the "main" where all the other classes are called
 
