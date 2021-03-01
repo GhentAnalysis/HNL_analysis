@@ -1,0 +1,30 @@
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon SR 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 16
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon SR 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 17
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon SR 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 18
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon SR 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon M 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 16
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon M 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 17
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon M 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 18
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon M 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon D 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 16
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon D 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 17
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon D 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7 18
+python readDatacard_martina.py martinaCards/M-4_V-0.0015843_mu_muo_datacard martinaCards/M-5_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard martinaCards/M-6_V-0.0011225_mu_muo_datacard muon D 4GeV 5GeV 6GeV 2_3=6 1_3=6 9_2=7
+
+
+
+
+
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele SR 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 16
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele SR 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 17
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele SR 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 18
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele SR 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele M 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 16
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele M 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 17
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele M 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 18
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele M 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele D 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 16
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele D 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 17
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele D 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6 18
+python readDatacard_martina.py martinaCards/M-4_V-0.00251197_mu_muo_datacard martinaCards/M-5_V-0.00177764_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard martinaCards/M-6_V-0.00141421_mu_muo_datacard ele D 4GeV 5GeV 6GeV 6_2=6 3_3=6 2_0=6
+
