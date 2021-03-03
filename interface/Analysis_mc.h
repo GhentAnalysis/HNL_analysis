@@ -704,11 +704,7 @@ UInt_t            _zgEventType;
 		 bool skipSignal     = false,
 		 bool skipBackground = false,
 		 bool skipPlotting   = false,
-		 bool skipLimits     = false,
-		 bool skipTables     = false,
-	  	 bool skipXCheck     = false
-		 //int systcat = 0,
-		 //int systdir = 0
+		 bool skipLimits     = false
 		 );
 
   double pu_weight ( TH1D *histo, double numberInteractions);
