@@ -619,7 +619,7 @@ void Analysis_mc::initTree(TTree *tree, const bool isData, const bool isNewPhys)
 void Analysis_mc::analisi( //const std::string& list, const std::string& directory,
 			  std::string outfilename,
 			  bool skipData, bool skipSignal, bool skipBackground,
-			  bool skipPlotting, bool skipLimits, bool skipTables, bool skipXCheck 
+			  bool skipPlotting, bool skipLimits 
 			  /*int systcat, int systdir*/) {
 
   // std::ofstream zero("zero.txt"); 
@@ -642,26 +642,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   // Are we running in local or on T2B?
   TString cwd(gSystem->pwd());
   bool ist2b = true;
-  //bool ist2b = cwd.BeginsWith("/storage_mnt");
-  //bool isdtl = (ist2b==false && cwd.Contains("trocino"));
-  //if(isdtl==false) ist2b = true;
-
   // ------------ pile up -----------------------------------------------//
-  //TH1D *pileUpWeight[1];
-  // TFile *hfile_pu = ist2b ?
-  //   TFile::Open("/user/mvit/CMSSW_9_4_4/src/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root") :
-  //   TFile::Open("/Users/trocino/Documents/Work/Analysis/HeavyNeutrino/ANALYSIS/20190419_MartinasCode/HNL_analysis/PU/puWeights_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root");
-  //pileUpWeight[0] = (TH1D*)hfile_pu->Get("puw_Run2016Inclusive_central");
-
   const TString names_FR_files[5]= {"FR/" +std::to_string(year)+ "/fake_rate_mu.root",
 				    "FR/" +std::to_string(year)+ "/fake_rate_e.root",
 				    "FR/" +std::to_string(year)+ "/fake_rate_mumu_1eta.root",
 				    "FR/" +std::to_string(year)+ "/fake_rate_ee_1eta.root",
 				    "FR/" +std::to_string(year)+ "/fake_rate_emu_1eta.root"};
 	
-	
-	
-
 
   // FR histograms
   TGraphAsymmErrors *fakeRate_mu[3];
@@ -861,33 +848,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   const unsigned nQcdVars = qcdSystVars.size();
   const unsigned nPdfVars = pdfSystVars.size();
 
-  /*TH1D* qcdHistos[nQcdVars][nCoupling][nSamples_eff+1];
-    TH1D* qcdHistosNorm[nQcdVars][nCoupling][nSamples_eff+1];
-    TH1D* pdfHistos[nPdfVars][nCoupling][nSamples_eff+1];
-    TH1D* pdfHistosNorm[nPdfVars][nCoupling][nSamples_eff+1];
-    //if(runtheosyst) {
-    float binWidth = (HistMax[0] - HistMin[0])/nBins[0];
-    std::ostringstream strs; strs << binWidth; std::string Yaxis = strs.str();
-    for(size_t effsam=0; effsam<nSamples_eff+1; ++effsam) {
-    for(int cha=0; cha<nCoupling; ++cha) {
-    //if(cha!=6 && cha!=7) continue;
-    // Only for theory systs
-    for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
-    qcdHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSyst_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-    qcdHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_qcdSystNorm_" + std::to_string(qcdSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
-    qcdHistos    [sidx][cha][effsam]->Sumw2();
-    qcdHistosNorm[sidx][cha][effsam]->Sumw2();
-    }
-    for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
-    pdfHistos    [sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSyst_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events/" + Yaxis + Units[0], nBins[0], HistMin[0], HistMax[0]);
-    pdfHistosNorm[sidx][cha][effsam] = new TH1D(eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + chaNames[cha] + "_" + Histnames_ossf[0] , eff_names[effsam] + "_pdfSystNorm_" + std::to_string(pdfSystVars[sidx]) + "_" + Histnames_ossf[0] + ";" + Xaxes[0] + ";events", 1, 0., 2.);
-    pdfHistos    [sidx][cha][effsam]->Sumw2();
-    pdfHistosNorm[sidx][cha][effsam]->Sumw2();
-    }
-    }
-    }*/
-  //}
-	
   // ------------   run over samples -----------------------------------------------//
   std::set<std::tuple<long, long, long> > usedEvents;
   for(size_t sam=0, effsam=0; sam<samples.size(); ++sam, ++effsam) {
@@ -986,7 +946,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
       //ctWeight = 1;
       double scal = 0;
-      //scal = scale * _weight * ctWeight * pu_weight(*&pileUpWeight[0],_nTrueInt);
       scal = scale * _weight * ctWeight; 
       bwght = 1.;
       if (samples[sam].isData()) scal =1.;
@@ -1177,11 +1136,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if (_isT[l2]) tightC++;
       if (_isT[l3]) tightC++;
       // -----------------------------------------------------------//
-      //if (single_fake && flavors_3l[1] == 1 && v4l2.Pt() < 5) continue;
-      //if (single_fake && flavors_3l[2] == 1 && v4l3.Pt() < 5) continue;
-      //if (!isSignal && single_fake && flavors_3l[1] == 0 && v4l2.Pt() < 10) continue;
-      //if (!isSignal && single_fake && flavors_3l[2] == 0 && v4l3.Pt() < 10) continue;
-     
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     analysis   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       // ----------------- conversion overlap removal    --------------------------------//
@@ -1715,37 +1669,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    } //end loop up-down
 	  } // end loop on sys
 	    //
-		
-	    // For QCD scale uncertainties
-	    /*if(bjet == 0) {
-	      for(unsigned sidx=0; sidx<nQcdVars; ++sidx) {
-	      double wghtCorr     = _lheWeight[qcdSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(qcdSystVars[sidx]));
-	      double wghtCorrNorm = _lheWeight[qcdSystVars[sidx]-1];
-	      if(SR_channel> 2) {
-	      qcdHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
-	      qcdHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
-	      }
-	      if(SR_channel<=2) {
-	      qcdHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
-	      qcdHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
-	      }
-	      }
-	      //
-	      // For PDF uncertainties
-	      for(unsigned sidx=0; sidx<nPdfVars; ++sidx) {
-	      double wghtCorr     = _lheWeight[pdfSystVars[sidx]-1] * (sumSimulatedEventWeights/hLheCounter->GetBinContent(pdfSystVars[sidx]));
-	      double wghtCorrNorm = _lheWeight[pdfSystVars[sidx]-1];
-	      if(SR_channel> 2) {
-	      pdfHistos    [sidx][ ele_case][fill]->Fill(static_cast<double>(bin_SR_eleCoupling) , scal*central_total_weight_ele*wghtCorr    );
-	      pdfHistosNorm[sidx][ ele_case][fill]->Fill(1.                                      , scal*central_total_weight_ele*wghtCorrNorm);
-	      }
-	      if(SR_channel<=2) {
-	      pdfHistos    [sidx][muon_case][fill]->Fill(static_cast<double>(bin_SR_muonCoupling), scal*central_total_weight_mu *wghtCorr    );
-	      pdfHistosNorm[sidx][muon_case][fill]->Fill(1.                                      , scal*central_total_weight_mu *wghtCorrNorm);
-	      }
-	      }
-	      } // end if(bjet == 0)
-	    */
 	} // end MC
       } // end SR_selection
 
@@ -1785,104 +1708,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }
       
      
-
-
-      /*
-
-
-      
-      unsigned fill_2d = effsam;
-
-      if (isDataYield) fill_2d = 0;
-      if (isSignal) fill_2d = 1;
-      if (isDataDrivenBgk) fill_2d=2;
-      
-      //D2_delta_pv_sv
-      if (SR_channel <= 2) {
-        if (SR_selection   && bjet == 0){
-	  if (SR_channel == 0 ) Histos2d[0][0][0][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 0 ) Histos2d[1][0][0][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 0 ) Histos2d[2][0][0][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 0 ) Histos2d[4][0][0][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 0 ) Histos2d[6][0][0][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 0 ) Histos2d[8][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  //
-	  if (SR_channel == 1 ) Histos2d[0][0][1][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 1 ) Histos2d[1][0][1][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 1 ) Histos2d[2][0][1][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 1 ) Histos2d[4][0][1][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[6][0][1][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 1 ) Histos2d[8][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  //
-	  if (SR_channel == 2 ) Histos2d[0][0][2][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 2 ) Histos2d[1][0][2][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 2 ) Histos2d[2][0][2][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 2 ) Histos2d[4][0][2][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[6][0][2][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 2 ) Histos2d[8][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  if (D2_delta_pv_sv > 3.5) {
-	    if (SR_channel == 0 ) Histos2d[3][0][0][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	    if (SR_channel == 0 ) Histos2d[5][0][0][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	    if (SR_channel == 0 ) Histos2d[7][0][0][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 0 ) Histos2d[9][0][0][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	    if (SR_channel == 1 ) Histos2d[3][0][1][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	    if (SR_channel == 1 ) Histos2d[5][0][1][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	    if (SR_channel == 1 ) Histos2d[7][0][1][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 1 ) Histos2d[9][0][1][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	    if (SR_channel == 2 ) Histos2d[3][0][2][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	    if (SR_channel == 2 ) Histos2d[5][0][2][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	    if (SR_channel == 2 ) Histos2d[7][0][2][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 2 ) Histos2d[9][0][2][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  }
-	}
-    
-
-      }
-
-
-      if (SR_channel > 2) {
-	if (SR_selection   && bjet == 0){
-	  if (SR_channel == 3 ) Histos2d[0][0][3][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 3 ) Histos2d[1][0][3][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 3 ) Histos2d[2][0][3][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 3 ) Histos2d[4][0][3][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 3 ) Histos2d[6][0][3][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 3 ) Histos2d[8][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  //
-	  if (SR_channel == 4 ) Histos2d[0][0][4][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 4 ) Histos2d[1][0][4][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 4 ) Histos2d[2][0][4][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 4 ) Histos2d[4][0][4][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 4 ) Histos2d[6][0][4][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 4 ) Histos2d[8][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  //
-	  if (SR_channel == 5 ) Histos2d[0][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 5 ) Histos2d[1][0][5][fill_2d] -> Fill(D2_delta_pv_sv, M_l2l3_combined,1);
-	  if (SR_channel == 5 ) Histos2d[2][0][5][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	  if (SR_channel == 5 ) Histos2d[4][0][5][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	  if (SR_channel == 5 ) Histos2d[6][0][5][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	  if (SR_channel == 5 ) Histos2d[8][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  if (D2_delta_pv_sv > 3.5) {
-	    if (SR_channel == 3 ) Histos2d[3][0][3][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	    if (SR_channel == 3 ) Histos2d[5][0][3][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	    if (SR_channel == 3 ) Histos2d[7][0][3][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 3 ) Histos2d[9][0][3][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	    if (SR_channel == 4 ) Histos2d[3][0][4][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	    if (SR_channel == 4 ) Histos2d[5][0][4][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	    if (SR_channel == 4 ) Histos2d[7][0][4][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 4 ) Histos2d[9][0][4][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	    if (SR_channel == 5 ) Histos2d[3][0][5][fill_2d] -> Fill(_vertex_X, _vertex_Y,1);
-	    if (SR_channel == 5 ) Histos2d[5][0][5][fill_2d] -> Fill(_vertex_phi, _vertex_r,1);
-	    if (SR_channel == 5 ) Histos2d[7][0][5][fill_2d] -> Fill(_vertex_eta, _vertex_r,1);
-	    if (SR_channel == 5 ) Histos2d[9][0][5][fill_2d] -> Fill(_vertex_theta, _vertex_R,1);
-	  }
-        }
-
-      }
-
-*/
-
-
       
 
       // Fin.state  SR_channel
@@ -1990,81 +1815,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
     delete hLheCounter;
   }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< loop over samples
-
-  // Theory uncertainties
-  //
-  /*for(size_t ss=0; ss<nSamples_eff+1; ++ss) {
-  // QCD uncertainties
-  for(size_t ib=0; ib<nBins[0]; ++ib) {
-  //for(size_t ic=0; ic<nCoupling; ++ic) {
-  for(size_t ic=0; ic<2; ++ic) { // skip tau for now
-  double errorByBin = 0.;
-  double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
-  double errorNorm  = 0.;
-  double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
-  for(size_t is=0; is<nQcdVars; ++is) {
-  double deltabin = iniCont>0. ? std::abs(qcdHistos[is][ic][ss]->GetBinContent(ib+1) - iniCont)/iniCont : 0.;
-  if(deltabin>errorByBin) errorByBin = deltabin;
-  if(ib==0) {
-  double deltanorm = iniNorm>0. ? std::abs(qcdHistosNorm[is][ic][ss]->GetBinContent(ib+1) - iniNorm)/iniNorm : 0.;
-  if(deltanorm>errorNorm) errorNorm = deltanorm;
-  }
-  }
-  // Shape, down variation
-  plots_SR[ic][qcdShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-  // Shape, up variation
-  plots_SR[ic][qcdShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-  if(ib==0) {
-  // Normalization, down variation
-  plots_SR[ic][qcdNorm_index][1][ss]->Scale(1./(1.+errorNorm));
-  // Normalization, up variation
-  plots_SR[ic][qcdNorm_index][2][ss]->Scale(1.+errorNorm);
-  }
-  }
-  }
-  //
-  // PDF uncertainties
-  for(size_t ib=0; ib<nBins[0]; ++ib) {
-  //for(size_t ic=0; ic<nCoupling; ++ic) {
-  for(size_t ic=0; ic<2; ++ic) { // skip tau for now
-  double meanByBin  = 0.;
-  double errorByBin = 0.;
-  double iniCont    = plots_SR[ic][on_index][0][ss]->GetBinContent(ib+1);
-  double meanNorm   = 0.;
-  double errorNorm  = 0.;
-  //double iniNorm  = plots_SR[ic][on_index][0][ss]->Integral(1, plots_SR[ic][on_index][0][ss]->GetNbinsX());
-  double iniNorm    = plots_SR[ic][on_index][0][ss]->Integral();
-  for(size_t is=0; is<nPdfVars; ++is) {
-  double iadd = iniCont>0. ? pdfHistos[is][ic][ss]->GetBinContent(ib+1)/iniCont : 0.;
-  meanByBin += iadd;
-  errorByBin += iadd*iadd;
-  if(ib==0) {
-  double iaddnorm = iniNorm>0. ? pdfHistosNorm[is][ic][ss]->GetBinContent(ib+1)/iniNorm : 0.;
-  meanNorm += iaddnorm;
-  errorNorm += iaddnorm*iaddnorm;
-  }
-  } // end for(size_t is=6; is<106; ++is)
-    //
-    // Var[x] = [1/(N-1)] * [Sum(xi^2) - (Sum(xi))^2/N]
-    errorByBin = (errorByBin - (meanByBin*meanByBin/100.))/99.;
-    errorByBin = std::sqrt(errorByBin);
-    // Shape, down variation
-    plots_SR[ic][pdfShape_index][1][ss]->SetBinContent(ib+1, iniCont/(1.+errorByBin));
-    // Shape, up variation
-    plots_SR[ic][pdfShape_index][2][ss]->SetBinContent(ib+1, iniCont*(1.+errorByBin));
-    if(ib==0) {
-    errorNorm = (errorNorm - (meanNorm*meanNorm/100.))/99.;
-    errorNorm = std::sqrt(errorNorm);
-    // Normalization, down variation
-    plots_SR[ic][pdfNorm_index][1][ss]->Scale(1./(1.+errorNorm));
-    // Normalization, up variation
-    plots_SR[ic][pdfNorm_index][2][ss]->Scale(1.+errorNorm);
-    }
-    } // end for(size_t ic=0; ic<nCoupl; ++ic)
-    } // end for(size_t ib=0; ib<nBins[0]; ++ib)
-    
-    }*/ // end for(size_t ss=0; ss<nSamples_eff+1; ++ss)
-
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
   //                |                         |
   //                V                         V
@@ -2108,7 +1858,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	sum_expected_SR2[0][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[0][cha][iSystematics][iVariation][0]->Clone();
 	sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][0]->Clone();
 
-
+	// WHEN IT IS BLIND!!!!
 	/*sum_expected_SR[cha][iSystematics][iVariation] = (TH1D*)plots_SR[cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
 	  sum_expected_SR2[0][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[0][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();
 	  sum_expected_SR2[1][cha][iSystematics][iVariation] = (TH1D*)plots_SR2[1][cha][iSystematics][iVariation][nSamples_signal+1]->Clone();*/
@@ -2129,7 +1879,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	  bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[0][cha][iSystematics][iVariation][effsam1]->Clone();	  
 	  bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
 	 
-
+	  // WHEN IT IS BLIND!!!!
 	  /*bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR[cha][iSystematics][iVariation][effsam1]->Clone();
 	    bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[0][cha][iSystematics][iVariation][effsam1]->Clone();	  
 	    bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1] = (TH1D*) plots_SR2[1][cha][iSystematics][iVariation][effsam1]->Clone();	  	  
@@ -2137,10 +1887,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    sum_expected_SR[cha][iSystematics][iVariation]->Add(bkgYields_SR[cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
 	    sum_expected_SR2[0][cha][iSystematics][iVariation]->Add(bkgYields_SR2[0][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
 	    sum_expected_SR2[1][cha][iSystematics][iVariation]->Add(bkgYields_SR2[1][cha][iSystematics][iVariation][effsam1 -nSamples_signal-1]);
-
-	    }*/
-
-	  
+	    }*/	  
 	}
       }	    
     }
@@ -2149,47 +1896,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  /* TCanvas *c_2dhisto[nhist2d][nCat2D][nFlavor][number_2d];
-  std::cout<<"cavas"<<std::endl;
-
-  for(unsigned dist = 0; dist < nhist2d; ++dist){
-    for(int cat = 0; cat < nCat2D; ++cat){
-      for (int flav = 0; flav < nFlavor; ++flav){
-	for(unsigned effsam1 = 0; effsam1 < number_2d; ++effsam1){
-	  // std::cout<<"in the loop   "<<dist<<"  "<<cat<<"  "<<flav<<" "<<effsam1<<std::endl;
-	  //									  std::cout<< names2d[effsam1]<<"  "<<Hist2d_ossf[dist]<<"  "<< flavorNames[flav]<<"  "<<catNames2D[cat]<<std::endl;
-	  c_2dhisto[dist][cat][flav][effsam1] = new TCanvas("c_"+ names2d[effsam1]+"_"+Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ catNames2D[cat],names2d[effsam1]+ Hist2d_ossf[dist]+"_"+  flavorNames[flav] + "_"+ catNames[cat], 10,10,600,600);
-	    
-	  c_2dhisto[dist][cat][flav][effsam1]->cd();
-	  gPad->SetRightMargin (0.15);
-	  Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#Delta (PV-SV)_{2D}");
-	  
-	  if (dist == 0) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("M_{ll}#left(l_{2}+l_{3} #right) (GeV)");
-	  if (dist == 1) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("M_{ll}#left(l_{2}+l_{3} #right) (GeV)");
-	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("y (cm)");
-	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("x (cm)");
-	  if (dist == 2 || dist == 3) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.2x0.2 mm^{2})");
-	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y (cm)");
-	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#phi (rad)");
-	  if (dist == 4 || dist == 5) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.008 rad x 0.1 mm)");
-
-	  if (dist == 6 || dist == 7 || dist == 8 || dist == 9 ) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y (cm)");
-	  if ( dist == 8 || dist == 9 ) Histos2d[dist][cat][flav][effsam1] ->GetYaxis()->SetTitle("r, x-y-z (cm)");
-	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#eta");
-	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetXaxis()->SetTitle("#theta (rad)");
-	  if (dist == 6 || dist == 7) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.01 x 0.1 mm)");
-	  if (dist == 8 || dist == 9) Histos2d[dist][cat][flav][effsam1] ->GetZaxis()->SetTitle("Events/(0.004 rad x 0.1 mm)");	  
-	  Histos2d[dist][cat][flav][effsam1]->SetStats(0);
-	  //Histos2d[dist][cat][flav][effsam1] -> SetMinimum (0.);
-	  gStyle->SetPalette(kCool);
-	  Histos2d[dist][cat][flav][effsam1] -> Draw("COLZ");
-	  //correlation << eff_names[effsam1]+"_"+ Hist2d_ossf[dist]+"_"+ flavorNames[flav] +"_""_"+ "_"+catNames2D[cat]+ "   ----->   "<< Histos2d[dist][cat][flav][effsam1] -> GetCorrelationFactor()<< std::endl;
-	  c_2dhisto[dist][cat][flav][effsam1]->Print("plot/c_"+ names2d[effsam1]+"_"+Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ catNames2D[cat]+".pdf");
-	  c_2dhisto[dist][cat][flav][effsam1]->Print("plotroot/c_"+ names2d[effsam1]+"_"+Hist2d_ossf[dist]+"_"+  flavorNames[flav] +"_"+ catNames2D[cat]+".root");
-	}
-      }
-    }
-    }*/
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     int numer_plot_class =0;
     numer_plot_class = nSamples_eff -  nSamples_signal;
@@ -2258,7 +1964,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
   
 
-    if((skipLimits && skipTables)==false) {
+    if(skipLimits ==false) {
       ////////////////                                    ////////////////
       //// List of stuff for data cards, shape ROOT files, and tables ////
       ////////////////                                    ////////////////
@@ -2267,10 +1973,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       //const std::string couplings[] = {"ele", "muo", "tau"};
       const std::string couplings[] = {"muo", "ele"};
       const size_t nCoupl = sizeof(couplings)/sizeof(couplings[0]);
-
-      // List of backgrounds
-      //const std::string bkgNames[] = {"DY", "ttbar", "WJets", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
-      //const std::string bkgNames[] = {"DY", "multiboson", "Xgamma", "TTTX", "nonpromptSF", "nonpromptDF"};
 
       const std::string bkgNames[] = {"Xgamma", "nonpromptSF","nonpromptDF"};
       const size_t nBkg = sizeof(bkgNames)/sizeof(bkgNames[0]);
@@ -2281,18 +1983,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       // List of signal and background labels (for tables)
       std::map<std::string, std::string> labelPerProc;
       labelPerProc["signal"     ] = "signal"; // to be changed...
-      //labelPerProc["DY"         ] = "$\\PZ\\rarr\\lept\\lept$";
-      //labelPerProc["ttbar"      ] = "Top";
-      // labelPerProc["WJets"      ] = "$\\PW +$ jets";
-      //labelPerProc["multiboson" ] = "Multiboson";
       labelPerProc["Xgamma"     ] = "X $+ \\gamma$";
-      //labelPerProc["TTTX"       ] = "Top $+$ X";
       labelPerProc["nonpromptSF"] = "Nonprompt SF";
       labelPerProc["nonpromptDF"] = "Nonprompt DF";
-
-      // List of systematics
-      //const TString systNamesT[nSystematic] 	= { "on", "pu", "qcdNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons", "jec", "jer", "btag", "trigger","dfShape"};
- 
+      
       const std::string systNames[] = {"n", "pu", "xsecNorm", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape","dfLowStat","dfmm","dfem","dfee","lumi", "npsfnorm"};
       const size_t nSyst = sizeof(systNames)/sizeof(systNames[0]) - 1;
 
@@ -2323,36 +2017,10 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       procPerSyst["lumi"    ] = "lnN   ; not_corr; signal,  Xgamma                          ";
       procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                            nonpromptSF          ";
 
-
-      /* procPerSyst["pu"      ] = "shapeN; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["qcdNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["qcdShape"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["pdfNorm" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["pdfShape"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["pEle"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["pMuo"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["npLeptons"] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["jec"     ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["jer"     ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["btag"    ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["trigger" ] = "shapeN;  is_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["dfShape" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
-	 procPerSyst["dfLowStat" ] = "shapeN;  is_corr;                                                                  nonpromptDF";
-	 procPerSyst["dfmm" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-	 procPerSyst["dfem" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-	 procPerSyst["dfee" ] = "shapeN;  not_corr;                                                                  nonpromptDF";
-	 procPerSyst["lumi"    ] = "lnN   ; not_corr; signal, DY,  multiboson, Xgamma, TTTX                          ";
-	 procPerSyst["npsfnorm"] = "lnN   ;  is_corr;                                                     nonpromptSF             ";
-      */
-
-
       std::map<std::string, std::vector<std::string> > normSystsPerYear;
       normSystsPerYear["lumi"    ] = {"1.025", "1.023", "1.025"};
       normSystsPerYear["npsfnorm"] = {"1.400", "1.400", "1.400"};
-      //normSystsPerYear["npdfnorm"] = {"1.400", "1.400", "1.400"};
 
-      //if(systcat==0) { // print data card only if systcat==0
-      // Size of tab
 
       for(size_t isign=0; isign<nSamples_signal; ++isign) {
 	std::string sgn = sigNames[isign].Data();
@@ -2371,20 +2039,13 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    if(year==0) appx1 += "_16";
 	    if(year==1) appx1 += "_17";
 	    if(year==2) appx1 += "_18";
-      	
 
-
-	  
 	    // ROOT file with shapes
 	    std::string rootfilename = outfilename+"_"+sgn+"_"+cpl+appx1+".root";
 	    TFile *rootfile = new TFile((datacarddir+"/"+rootfilename).c_str(), "RECREATE");
 	    rootfile->cd();
-	    sum_expected_SR[icoup][0][0]-> Write ("data_obs");
-	    //sum_observed_SR[icoup][0][0]-> Write ("data_obs");      
-	    //dataYields[0][couplidx[icoup]][6]->Write("data_obs"); 
-		      
+	    sum_expected_SR[icoup][0][0]-> Write ("data_obs");	 	      
 	    plots_SR[icoup][0][0][1+isign] ->Write("signal");   
-	    //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
 	    // Stream for writing card and tables
 	    std::ofstream card;
@@ -2500,12 +2161,8 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    std::string rootfilename1 = outfilename+"_"+sgn+"_"+cpl+"_mass"+appx1+".root";
 	    TFile *rootfile1 = new TFile((datacarddir+"/"+rootfilename1).c_str(), "RECREATE");
 	    rootfile1->cd();
-	    sum_expected_SR2[0][icoup][0][0]-> Write ("data_obs");
-	    //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
-	    //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
-
+	    sum_expected_SR2[0][icoup][0][0]-> Write ("data_obs");       
 	    plots_SR2[0][icoup][0][0][1+isign] ->Write("signal");
-	    //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
 	    // Stream for writing card1 and tables
 	    std::ofstream card1;
@@ -2621,11 +2278,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    TFile *rootfile2 = new TFile((datacarddir+"/"+rootfilename2).c_str(), "RECREATE");
 	    rootfile2->cd();
 	    sum_expected_SR2[1][icoup][0][0]-> Write ("data_obs");
-	    //sum_observed_SR[icoup][0][0]-> Write ("data_obs");
-	    //dataYields[0][couplidx[icoup]][6]->Write("data_obs");
-
 	    plots_SR2[1][icoup][0][0][1+isign] ->Write("signal");
-	    //Histos[0][couplidx[icoup]][6][1+isign]->Write("signal");
 
 	    // Stream for writing card2 and tables
 	    std::ofstream card2;
@@ -2735,12 +2388,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	    rootfile2->Close();
 
 	  
-	  } // end if(skipLimits)
-
-	  // if(skipTables==false) {
-	  //   tabletexS.close();
-	  //   tabletexL.close();
-	  // }
+	  } // end if(skipLimits)	  
 	} // end for(size_t icoup=0; icoup<nCoupling; ++icoup)
       } // end for(size_t isign=0; isign<nSamples_signal; ++isign)
       //  } // end if(systcat==0)
@@ -2888,230 +2536,3 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
   }
 
  
-double Analysis_mc::displMuoVars(double idispl, double ipt) {
-  double ieff = 1.0;
-  // 2016
-  if(year==0) {
-    if     (idispl<0.2) {
-      if     (ipt< 6.) ieff = 0.995;
-      else if(ipt<10.) ieff = 0.995;
-      else if(ipt<20.) ieff = 1.000;
-      else             ieff = 0.987;
-    }
-    else if(idispl<0.5) {
-      if     (ipt< 6.) ieff = 1.005;
-      else if(ipt<10.) ieff = 1.002;
-      else if(ipt<20.) ieff = 1.002;
-      else             ieff = 0.991;
-    }
-    else if(idispl<1.0) {
-      if     (ipt< 6.) ieff = 1.018;
-      else if(ipt<10.) ieff = 1.007;
-      else if(ipt<20.) ieff = 0.985;
-      else             ieff = 1.013;
-    }
-    else {
-      if     (ipt< 6.) ieff = 1.008;
-      else if(ipt<10.) ieff = 1.021;
-      else if(ipt<20.) ieff = 0.976;
-      else             ieff = 1.012;
-    }
-  }
-  // 2017
-  else if(year==1) {
-    if     (idispl<0.2) {
-      if     (ipt< 6.) ieff = 0.995;
-      else if(ipt<10.) ieff = 0.995;
-      else if(ipt<20.) ieff = 1.000;
-      else             ieff = 0.987;
-    }
-    else if(idispl<0.5) {
-      if     (ipt< 6.) ieff = 1.005;
-      else if(ipt<10.) ieff = 1.002;
-      else if(ipt<20.) ieff = 1.002;
-      else             ieff = 0.991;
-    }
-    else if(idispl<1.0) {
-      if     (ipt< 6.) ieff = 1.018;
-      else if(ipt<10.) ieff = 1.007;
-      else if(ipt<20.) ieff = 0.985;
-      else             ieff = 1.013;
-    }
-    else {
-      if     (ipt< 6.) ieff = 1.008;
-      else if(ipt<10.) ieff = 1.021;
-      else if(ipt<20.) ieff = 0.976;
-      else             ieff = 1.012;
-    }
-  }
-  // 2018
-  else {
-    if     (idispl<0.2) {
-      if     (ipt< 6.) ieff = 0.994;
-      else if(ipt<10.) ieff = 0.996;
-      else if(ipt<20.) ieff = 0.991;
-      else             ieff = 0.986;
-    }
-    else if(idispl<0.5) {
-      if     (ipt< 6.) ieff = 0.993;
-      else if(ipt<10.) ieff = 0.996;
-      else if(ipt<20.) ieff = 0.997;
-      else             ieff = 1.003;
-    }
-    else if(idispl<1.0) {
-      if     (ipt< 6.) ieff = 0.992;
-      else if(ipt<10.) ieff = 0.994;
-      else if(ipt<20.) ieff = 1.009;
-      else             ieff = 0.999;
-    }
-    else {
-      if     (ipt< 6.) ieff = 1.011;
-      else if(ipt<10.) ieff = 1.023;
-      else if(ipt<20.) ieff = 0.997;
-      else             ieff = 0.995;
-    }
-  }
-
-  return ieff;
-}
-
-
-
-
-
-/*
-//
-// ========================================================
-//   Write tables (NEED TO CHECK AFTER LAST CHANGES!!!!)
-// ========================================================
-//
-if(skipTables==false) {
-std::ofstream tabletexS, tabletexL;
-tabletexS.open("tabelle/tables_"+sgn+"_"+cpl+"_short.txt");
-tabletexL.open("tabelle/tables_"+sgn+"_"+cpl+"_long.txt");
-size_t nsrbins = plots_SR[icoup][0][0][1+isign]->GetNbinsX();
-std::vector<double> totconts(nsrbins+3, 0.0);
-std::vector<double> totstats(nsrbins+3, 0.0);
-std::vector<double> binconts(3, 0.0);
-std::vector<double> binstats(3, 0.0);
-//
-// Write table: signal
-// Row header
-tabletexL << left << std::setw(2*ntab) << "  signal";
-tabletexS << left << std::setw(2*ntab) << "  signal";
-for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-tabletexL << " & $"   << left << std::setw(ntab/2) <<  plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1)
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1)
-<< "$";
-// Group by final state
-/// >>> WARNING: if bin numbering changes, this needs to be updated!
-size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-binconts[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinContent(ibin+1);
-binstats[ibintmp] += plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+isign]->GetBinError(ibin+1);
-}
-//
-for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-<< "$";
-binconts[ibintmp] = 0.;
-binstats[ibintmp] = 0.;
-}
-//
-tabletexL << " \\\\\n  \\hline\n";
-tabletexS << " \\\\\n  \\hline\n";
- 
-//
-// Write table: backgrounds
-for(unsigned bkg=0; bkg<nBkg; ++bkg) {
-// Row header
-tabletexL << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-tabletexS << left << std::setw(2*ntab) << ("  "+labelPerProc[bkgNames[bkg]]);
-for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-tabletexL << " & $"   << left << std::setw(ntab/2)  << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1)
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1)
-<< "$";
-// Add to total background
-totconts[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-totstats[ibin] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-// Group by final state
-/// >>> WARNING: if bin numbering changes, this needs to be updated!
-size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-binconts[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-binstats[ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-// Add to total background!
-totconts[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinContent(ibin+1);
-totstats[nsrbins+ibintmp] += plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1) * plots_SR[icoup][0][0][1+nSamples_signal+bkg]->GetBinError(ibin+1);
-}
-//
-for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-tabletexS << " & $"   << left << std::setw(ntab/2) << binconts[ibintmp]
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-<< "$";
-binconts[ibintmp] = 0.;
-binstats[ibintmp] = 0.;
-}
-//
-tabletexL << " \\\\\n  \\hline\n";
-tabletexS << " \\\\\n  \\hline\n";
-}
-
-//
-// Write table: total background
-// Row header
-tabletexL << left << std::setw(2*ntab) << "  Total background";
-tabletexS << left << std::setw(2*ntab) << "  Total background";
-for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-tabletexL << " & $"   << left << std::setw(ntab/2) << totconts[ibin]
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[ibin])
-<< "$";
-totconts[ibin] = 0.;
-totstats[ibin] = 0.;
-}
-//
-for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-tabletexS << " & $"   << left << std::setw(ntab/2)  << totconts[nsrbins+ibintmp]
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(totstats[nsrbins+ibintmp])
-<< "$";
-totconts[nsrbins+ibintmp] = 0.;
-totstats[nsrbins+ibintmp] = 0.;
-}
-//
-tabletexL << " \\\\\n  \\hline\n";
-tabletexS << " \\\\\n  \\hline\n";
-
-//
-// Write table: data
-// Row header
-tabletexL << left << std::setw(2*ntab) << "  Observed";
-tabletexS << left << std::setw(2*ntab) << "  Observed";
-for(size_t ibin=0; ibin<nsrbins; ++ibin) {
-tabletexL << " & $"   << left << std::setw(ntab/2)  << 0 //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1)
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << 0 //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1)
-<< "$";
-// Group by final state
-/// >>> WARNING: if bin numbering changes, this needs to be updated!
-size_t ibintmp = (ibin<6 ? 0 : (ibin<12 ? 1 : 2));
-binconts[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinContent(ibin+1);
-binstats[ibintmp] += 0; //dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1) * dataYields[0][couplidx[icoup]][6]->GetBinError(ibin+1);
-}
-//
-for(size_t ibintmp=0; ibintmp<3; ++ibintmp) {
-tabletexS << " & $"   << left << std::setw(ntab/2)  << binconts[ibintmp]
-<< " \\pm " << left << std::setw(ntab/2) << std::setprecision(2) << std::sqrt(binstats[ibintmp])
-<< "$";
-binconts[ibintmp] = 0.;
-binstats[ibintmp] = 0.;
-}
-//
-tabletexL << " \\\\\n  \\hline\n";
-tabletexS << " \\\\\n  \\hline\n";
-
-tabletexS.close();
-tabletexL.close();
-//
-// ========================================================
-//
-} // end if(skipTables==false)
-*/
-

@@ -33,12 +33,6 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
 
       if (mass_bool_more && disp_bool_first)    bin =5;
       if (mass_bool_more && D2_delta_pv_sv > 	value_displaced_first_cut)   bin =6;
-      
-      //if (mass_bool_more && disp_bool_first)    bin =5;
-      //if (mass_bool_more && disp_bool_second)   bin =6;
-      //if (mass_bool_more && disp_bool_third)    bin =7;
-      //if (mass_bool_more && disp_bool_fourth)   bin =8;
-	    
     }
     // numeration vould be different with 24 bins
     if (channel == 1){
@@ -48,8 +42,7 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
       if (mass_bool_less && disp_bool_fourth)   bin =10;
       if (mass_bool_more && disp_bool_first)    bin =11;
       if (mass_bool_more && D2_delta_pv_sv > 	value_displaced_first_cut)   bin =12;
-      //if (mass_bool_more && disp_bool_third)    bin =15;
-      //if (mass_bool_more && disp_bool_fourth)   bin =16;
+    
 
     }
     if (channel == 2){
@@ -59,8 +52,7 @@ int Analysis_mc::SR_bin_muon(int channel,double D2_delta_pv_sv,  double M_l2l3_c
       if (mass_bool_less && disp_bool_fourth)   bin =16;
       if (mass_bool_more && disp_bool_first)    bin =17;
       if (mass_bool_more && D2_delta_pv_sv > 	value_displaced_first_cut)   bin =18;
-      //if (mass_bool_more && disp_bool_third)    bin =23;
-      //if (mass_bool_more && disp_bool_fourth)   bin =24;
+     
     }
   }
   return bin;
@@ -96,8 +88,6 @@ int Analysis_mc::SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_co
       if (mass_bool_less && disp_bool_fourth)   bin =4;
       if (mass_bool_more && disp_bool_first)    bin =5;
       if (mass_bool_more && D2_delta_pv_sv > 	value_displaced_first_cut)   bin =6;
-      //if (mass_bool_more && disp_bool_third)    bin =7;
-      //if (mass_bool_more && disp_bool_fourth)   bin =8;
     }
     if (channel == 4){
       if (mass_bool_less && disp_bool_first)    bin =7;
@@ -106,9 +96,6 @@ int Analysis_mc::SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_co
       if (mass_bool_less && disp_bool_fourth)   bin =10;
       if (mass_bool_more && disp_bool_first)    bin =11;
       if (mass_bool_more && D2_delta_pv_sv > 	value_displaced_first_cut)   bin =12;
-      //if (mass_bool_more && disp_bool_third)    bin =15;
-      //if (mass_bool_more && disp_bool_fourth)   bin =16;
-
     }
     if (channel == 5){
       if (mass_bool_less && disp_bool_first)    bin =13;
@@ -117,9 +104,6 @@ int Analysis_mc::SR_bin_ele(int channel,double D2_delta_pv_sv,  double M_l2l3_co
       if (mass_bool_less && disp_bool_fourth)   bin =16;
       if (mass_bool_more && disp_bool_first)    bin =17;
       if (mass_bool_more && D2_delta_pv_sv > 	value_displaced_first_cut)   bin =18;
-      //if (mass_bool_more && disp_bool_third)    bin =23;
-      //if (mass_bool_more && disp_bool_fourth)   bin =24;
-
     }
   }
   return bin;
@@ -1097,73 +1081,6 @@ void Analysis_mc::from_TGraph_to_TH1D (TGraphAsymmErrors *graph, TH1D *histo, in
   }
 }
 
-
-
-
-//___________________________________________________________________
-void Analysis_mc::printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin){
-
-  //stream for writing card
-  std::ofstream card;
-
-  //add .txt to name if no file extension is given
-  card.open(cardName + ((cardName.find(".") == std::string::npos) ? ".txt" : "") ); //add .txt to name if no file extension is given
-
-  //define number of channels, background sources and systematics
-  card << "imax 1 number of channels \n";
-  card << "jmax " << nBkg << " number of backgrounds \n";
-  card << "kmax " << nSyst << " number of nuisance parameters (sources of systematical uncertainties) \n";
-  card << "---------------------------------------------------------------------------------------- \n";
-
-  //define the channels and the number of observed events
-  card << "bin bin1 \n";
-  card << "observation " << obsYield << "\n";
-
-  //define all backgrounds and their yields
-  card << "---------------------------------------------------------------------------------------- \n";
-  if(shapeCard){
-    card << "shapes * * " << shapeFileName + ".root  $PROCESS $PROCESS_$SYSTEMATIC\n";
-    card << "---------------------------------------------------------------------------------------- \n";
-  }
-  card << "bin   ";
-  for(unsigned proc = 0; proc < nBkg + 1; ++proc){
-    card << "	" << "bin1";
-  }
-  card << "\n";
-  card << "process";
-  card << "	" << sigName;
-  for(unsigned bkg = 0; bkg < nBkg; ++bkg){
-    card << "	" << bkgNames[bkg];
-  }
-  card << "\n";
-  card << "process";
-  for(unsigned bkg = 0; bkg < nBkg + 1; ++bkg){
-    card << "	" << bkg;
-  }
-  card << "\n";
-  card <<	"rate";
-  card << "	" << sigYield;
-  for(unsigned bkg = 0; bkg < nBkg; ++bkg){
-    if(bkgYield[bkg] <= 0) card << "	" << "0.00";
-    else card << "	" << bkgYield[bkg];
-  }
-  card << "\n";
-  card << "---------------------------------------------------------------------------------------- \n";
-
-  //define sources of systematic uncertainty, what distibution they follow and how large their effect is
-  for(unsigned syst = 0; syst < nSyst; ++syst){
-    if (number_bin<10 )card << systNames[syst]+"0"+std::to_string(number_bin) << "	" << systDist[syst];
-    if (number_bin>=10)card << systNames[syst]+std::to_string(number_bin) << "	" << systDist[syst];
-
-    for(unsigned proc = 0; proc < nBkg + 1; ++proc){
-      card << "	";
-      if(systUnc[syst][proc] == 0) card << "-";
-      else card << systUnc[syst][proc];
-    }
-    card << "\n";
-  }
-  card.close();		
-}
 
 
 //_______________________________________________________ constructor_____
