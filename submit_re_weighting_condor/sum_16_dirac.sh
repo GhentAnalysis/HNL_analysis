@@ -1,3 +1,4 @@
+rm jobs/*/*
 python submit_limits.py sampleLists/DIRAC/2016_signal_01_new.txt
 python submit_limits.py sampleLists/DIRAC/2016_signal_02.txt
 python submit_limits.py sampleLists/DIRAC/2016_signal_03.txt
