@@ -67,7 +67,7 @@ int main(){
   Analysis_mc all(year, alist, adir);
 
   std::string basename = "shape_file";
-  //                            skipData, skipSignal, skipBackground, skipPlotting, skipLimits, skipTables
-  all.analisi(basename.c_str(), true    , false     , true          , true        , false     , true, true      /*, 0, 0*/);
+  //                            skipData, skipSignal, skipBackground, skipPlotting, skipLimits
+  all.analisi(basename.c_str(), true    , false     , true          , true        , false    );
   return 0;
 }
