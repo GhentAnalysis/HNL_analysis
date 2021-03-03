@@ -66,8 +66,11 @@ int main(){
   //std::string alist = "sampleLists/signal_M_08_2018.txt";
   //
   // 2016: "2016_new.txt"; 2017: "2017.txt"; 2018: "2018.txt"
-  std::string alist = "sampleLists/2016_new.txt";
-
+  std::string alist = "sampleLists/2016_few.txt";
+  if(year==1) std::string alist = "sampleLists/2017_few.txt";
+  if(year==2) std::string alist = "sampleLists/2018_few.txt";
+  
+  
   Analysis_mc all(year, alist, adir);
 
   std::string basename = "shape_file";
