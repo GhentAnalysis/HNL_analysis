@@ -716,9 +716,6 @@ UInt_t            _zgEventType;
   double puWeight(const unsigned unc = 0) const;
   void initializeWeights();
 
-	
-	
-  double displMuoVars(double idisp, double ipt);
 
 
   //______________________      object functions       ________________________________// 
@@ -797,15 +794,12 @@ UInt_t            _zgEventType;
   double SF_trigger_muon_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_trigger_ele(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
   double SF_trigger_ele_error(TH2F *muon_sf_histogram[1], const unsigned leptonIndex);
-  
   double SF_btag_eff(TH2F *sf_btag_eff[3], const double eta, const double pt, const int flav);
 
   
   double displaced_weight (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3,double displ2, double displ3,  double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1], TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3);
   double displaced_weight_error (int  flavors_3l[3],int channel,unsigned _lElectronMissingHits_l2, unsigned _lElectronMissingHits_l3,double displ2, double displ3,  double sum_pt, double D2_delta_pv_sv, double displEleVars[8], TH2F *sf_sv_effcy_num[1], TH2F *sf_sv_effcy_den[1] , TH2F *sf_isoID_nPMuon[1],TH2F *sf_isoID_nPMuon_syst[1],const unsigned leptonIndexl2,const unsigned leptonIndexl3);
-
 		
-  void printDataCard(const double obsYield, const double sigYield, const std::string& sigName, const double* bkgYield, const unsigned nBkg, const std::string* bkgNames, const std::vector<std::vector<double> >& systUnc, const unsigned nSyst, const std::string* systNames, const std::string* systDist, const std::string& cardName, const bool shapeCard, const std::string& shapeFileName,int number_bin);
   void put_at_zero(int anno, int iSystematics,int iVariation,int channel, int option, TH1D *histo);
 
 
@@ -925,138 +919,15 @@ UInt_t            _zgEventType;
   unsigned int nSamples_eff;   // when there was still ttx
 	
   TString eff_names[max_nSamples_eff+1];
-  // const TString eff_names[max_nSamples_eff+1] = {
-  //   "obs",      
-  //   "M-1_V-0.0949736805647_mu",
-  //   "M-1_V-0.212367605816_mu",
-  //   "M-2_V-0.0110905365064_mu",
-  //   "M-2_V-0.0248394846967_mu",
-  //   "M-3_V-0.00707813534767_mu",
-  //   "M-4_V-0.00290516780927_mu",
-  //   "M-5_V-0.00145602197786_mu",
-  //   "M-6_V-0.00202484567313_mu",
-  //   "M-8_V-0.00151327459504_mu",
-  //   "M-10_V-0.000756967634711_mu",
-  //   "M-1_V-0.0949736805647_e",
-  //   "M-1_V-0.212367605816_e",
-  //   "M-2_V-0.0110905365064_e",
-  //   "M-2_V-0.0248394846967_e",
-  //   "M-3_V-0.00707813534767_e",
-  //   "M-4_V-0.00290516780927_e",
-  //   "M-5_V-0.00145602197786_e",
-  //   "M-6_V-0.00202484567313_e",
-  //   "M-8_V-0.00151327459504_e",
-  //   "M-10_V-0.000756967634711_e",
-  //   "DY",  
-  //   "ttbar",
-  //   "WJets",
-  //   "multiboson", 
-  //   "Xgamma",    
-  //   "TTX",		
-  //   "nonprompt SF",
-  //   "nonprompt DF"
-  // };
-
-  std::string string_sigNames_e[max_nSamples_signal_e];
-  // const std::string string_sigNames_e[max_nSamples_signal_e] = {
-  //   "M-1_V-0.0949736805647_e",
-  //   "M-1_V-0.212367605816_e",
-  //   "M-2_V-0.0110905365064_e",
-  //   "M-2_V-0.0248394846967_e",
-  //   "M-3_V-0.00707813534767_e",
-  //   "M-4_V-0.00290516780927_e",
-  //   "M-5_V-0.00145602197786_e",
-  //   "M-6_V-0.00202484567313_e",
-  //   "M-8_V-0.00151327459504_e",
-  //   "M-10_V-0.000756967634711_e"
-  // };
+ 
+  std::string string_sigNames_e[max_nSamples_signal_e]; 
   std::string string_sigNames_mu[max_nSamples_signal_mu];
-  // const std::string string_sigNames_mu[max_nSamples_signal_mu] = {
-  //   "M-1_V-0.0949736805647_mu",
-  //   "M-1_V-0.212367605816_mu",
-  //   "M-2_V-0.0110905365064_mu",
-  //   "M-2_V-0.0248394846967_mu",
-  //   "M-3_V-0.00707813534767_mu",
-  //   "M-4_V-0.00290516780927_mu",
-  //   "M-5_V-0.00145602197786_mu",
-  //   "M-6_V-0.00202484567313_mu",
-  //   "M-8_V-0.00151327459504_mu",
-  //   "M-10_V-0.000756967634711_mu"
-  // };
-  TString sigNames_e[max_nSamples_signal_e];
-  // const TString sigNames_e[max_nSamples_signal_e] = {
-  //   "M-1_V-0.0949736805647_e",
-  //   "M-1_V-0.212367605816_e",
-  //   "M-2_V-0.0110905365064_e",
-  //   "M-2_V-0.0248394846967_e",
-  //   "M-3_V-0.00707813534767_e",
-  //   "M-4_V-0.00290516780927_e",
-  //   "M-5_V-0.00145602197786_e",
-  //   "M-6_V-0.00202484567313_e",
-  //   "M-8_V-0.00151327459504_e",
-  //   "M-10_V-0.000756967634711_e"
-  // };
+
+  TString sigNames_e[max_nSamples_signal_e]; 
   TString sigNames_mu[max_nSamples_signal_mu];
-  // const TString sigNames_mu[max_nSamples_signal_mu] = {
-  //   "M-1_V-0.0949736805647_mu",
-  //   "M-1_V-0.212367605816_mu",
-  //   "M-2_V-0.0110905365064_mu",
-  //   "M-2_V-0.0248394846967_mu",
-  //   "M-3_V-0.00707813534767_mu",
-  //   "M-4_V-0.00290516780927_mu",
-  //   "M-5_V-0.00145602197786_mu",
-  //   "M-6_V-0.00202484567313_mu",
-  //   "M-8_V-0.00151327459504_mu",
-  //   "M-10_V-0.000756967634711_mu"
-  // };
-
   TString sigNames[max_nSamples_signal];
-  // const TString sigNames[max_nSamples_signal] = {
-  //   "M-1_V-0.0949736805647_mu",
-  //   "M-1_V-0.212367605816_mu",
-  //   "M-2_V-0.0110905365064_mu",
-  //   "M-2_V-0.0248394846967_mu",
-  //   "M-3_V-0.00707813534767_mu",
-  //   "M-4_V-0.00290516780927_mu",
-  //   "M-5_V-0.00145602197786_mu",
-  //   "M-6_V-0.00202484567313_mu",
-  //   "M-8_V-0.00151327459504_mu",
-  //   "M-10_V-0.000756967634711_mu",
-  //   "M-1_V-0.0949736805647_e",
-  //   "M-1_V-0.212367605816_e",
-  //   "M-2_V-0.0110905365064_e",
-  //   "M-2_V-0.0248394846967_e",
-  //   "M-3_V-0.00707813534767_e",
-  //   "M-4_V-0.00290516780927_e",
-  //   "M-5_V-0.00145602197786_e",
-  //   "M-6_V-0.00202484567313_e",
-  //   "M-8_V-0.00151327459504_e",
-  //   "M-10_V-0.000756967634711_e"
-  // };
-
   TString sigNames_short[max_nSamples_signal];
-  // const TString sigNames_short[max_nSamples_signal] = {
-  //   "M_{1} c#tau=74mm",
-  //   "M=1 V=0.2123",
-  //   "M=2 V=0.0110",
-  //   "M_{2} c#tau=32mm",
-  //   "M=3 V=0.0070",
-  //   "M_{4} c#tau=57mm",
-  //   "M=5 V=0.0014",
-  //   "M_{6} c#tau=14mm",
-  //   "M=8 V=0.0015",
-  //   "M_{10} c#tau=7mm",
-  //   "M_{1} c#tau=74mm",
-  //   "M=1 V=0.2123",
-  //   "M=2 V=0.0110",
-  //   "M_{2} c#tau=32mm",
-  //   "M=3 V=0.0070",
-  //   "M_{4} c#tau=57mm",
-  //   "M=5 V=0.0014",
-  //   "M_{6} c#tau=14mm",
-  //   "M=8 V=0.0015",
-  //   "M_{10} c#tau=7mm",
-  // };
+
 	
 	/*"M=1 V=0.0949 #mu",
     "M=1 V=0.2123 #mu",
@@ -1387,9 +1258,7 @@ UInt_t            _zgEventType;
   const static int nSystematic = 17;
   const static int nCoupling  = 3;  
   const static int nVariation  = 3;	
-  //const TString systNames[nSystematic] 	= { "on", "pu", "qcd", "pdf", "pEle", "pMuo", "npEle", "npMuo", "jec", "jer", "btag", "trigger"};	
   const TString systNamesT[nSystematic] 	= { "on", "pu", "xsecNorm", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
-  // const TString systNamesT[nSystematic] 	= { "on", "pu", "xsecNorm", "qcdShape", "pdfNorm", "pdfShape", "pEle", "pMuo", "npLeptons_mm","npLeptons_em","npLeptons_ee", "jec", "jer", "btag", "trigger","dfShape", "dfLowStat", "dfmm","dfem","dfee"};
 
   const TString varNames[nVariation] 	= { "central", "down", "up"};
   const TString chaNames[nCoupling] 	= { "mu", "e", "tau"};
@@ -1439,22 +1308,7 @@ UInt_t            _zgEventType;
   const int dfem_index  = 15;
   const int dfee_index  = 16;
 
-  
-  // const int on_index =    0;	// is the SR SR plot
-  // const int pu_index =    1;
-  // const int qcd_index =   2;
-  // const int pdf_index =   3;
-  // const int pEle_index =  4;	
-  // const int pMuo_index =  5;
-  // const int npEle_index = 6;
-  // const int npMuo_index = 7;
-  // const int jec_index =   8;
-  // const int jer_index =   9;
-  // const int btag_index =  10;
-  // const int trigger_index =  11;
-	
-
-  
+ 
   // prompt muon SF: for trigger and ID
   //ID + syst ID
   const TString names_SF_muon_files[3] = {      "SF_leptons_trigger/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root",
