@@ -3,10 +3,12 @@
 This repository has the code to make SR plots-tables and produce dataCards and shapeFile. 
 
 To compile:
-make -f makeFiles/makeAnalisi
+           
+           make -f makeFiles/makeAnalisi
 
 to run:
-./analisi_hnl
+           
+           ./analisi_hnl
 
 # analisi.C
 To set: year and flags regarding the decision about: which samples to run on, which txt use, which samples' folder, produce limits, produce plots. 
