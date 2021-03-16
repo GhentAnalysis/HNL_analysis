@@ -53,6 +53,8 @@ class Sample{
 
         bool useLNCeventsOnly() const { return useLNConly; }
 
+        bool isAMergedSample() const { return isMergedSample; }
+
         bool isData() const { return isDataSample; }
 
         bool isMC() const { return !isDataSample; }
@@ -96,6 +98,7 @@ class Sample{
         bool isDiracHnl;
         bool convMajToDir;
         bool useLNConly;
+        bool isMergedSample;
         double massHnl;
         double v2Hnl;
         double ctauHnl;
