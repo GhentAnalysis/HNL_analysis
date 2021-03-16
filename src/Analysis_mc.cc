@@ -869,6 +869,35 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       hLheCounter->Read("lheCounter");
     }
 
+    // If a merged HNL sample, get re-weighting function
+    TF1 *hnlWeight = nullptr;
+    bool reweightMerged = false;
+    if(samples[sam].isAMergedSample()) {
+      reweightMerged = true;
+      TH1D *hMergingWeightParams = new TH1D("mergingWeightParams", ";parameter index;parameter value", 20, 0., 20.);
+      hMergingWeightParams->Read("mergingWeightParams");
+      unsigned npars = unsigned(hMergingWeightParams->GetBinContent(1)+0.5);
+      if(npars<4 || (npars%2)!=0) {
+	std::cout << " >>> ERROR: invalid number of parameters for reweighting function: " << npars << " <<<" << std::endl;
+	throw std::invalid_argument(" >>> invalid parameter <<<");
+      }
+      TString wFormula = "[0]*exp(-x/[1])/(";
+      for(size_t i=0; i<(npars/2-1); ++i) {
+	if(i>0) wFormula += "+";
+	wFormula += "[";
+	wFormula += (i*2 + 2);
+	wFormula += "]*exp(-x/[";
+	wFormula += (i*2 + 3);
+	wFormula += "])";
+      }
+      wFormula += ")";
+      hnlWeight = new TF1("mergingWeights", wFormula.Data(), 0., 1000.);
+      for(size_t i=0; i<npars; ++i) {
+	hnlWeight->FixParameter(i, hMergingWeightParams->GetBinContent(2+i));
+      }
+      delete hMergingWeightParams;
+    }
+
     //check consistency
     std::cout << "sample initialized: --> " << std::endl;
     std::cout << "fileName: " << samples[sam].getFileName() << "  process name: " << samples[sam].getProcessName() << "   xsec: " << samples[sam].getXSec() << std::endl;
@@ -938,9 +967,11 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       }	    
 
       double ctWeight(1.);
-      //if(isSignal && samples[sam].getHNLV2New()>0.) {
+      if(reweightMerged) {
+	ctWeight = hnlWeight->Eval(_ctauHN);
+      }
       if(transformCtau) {
-	ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
+	ctWeight *= ((ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN));
       }
 
       // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
