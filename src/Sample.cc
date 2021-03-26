@@ -85,8 +85,10 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     std::cout << " isMergedSample : " << isAMergedSample()        << std::endl;
     std::cout << " massHnl        : " << getHNLmass()             << std::endl;
     std::cout << " v2Hnl          : " << getHNLV2()               << std::endl;
+    std::cout << " v2HnlOrig      : " << getHNLV2Orig()           << std::endl;
     std::cout << " v2HnlNew       : " << getHNLV2New()            << std::endl;
     std::cout << " ctauHnl        : " << getHNLctau()             << std::endl;
+    std::cout << " ctauHnlOrig    : " << getHNLctauOrig()         << std::endl;
     std::cout << " ctauHnlNew     : " << getHNLctauNew()          << std::endl;
     std::cout << " xSec           : " << getXSec()                << std::endl;
     std::cout << " xSecOrig       : " << getXSecOrig()            << std::endl;

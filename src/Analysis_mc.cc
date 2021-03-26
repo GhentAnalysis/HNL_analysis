@@ -105,7 +105,9 @@ Analysis_mc::Analysis_mc(unsigned jaar, const std::string& list, const std::stri
       sigNames_short[nSamples_signal] = "M = ";
       sigNames_short[nSamples_signal] += samples[is].getHNLmass();
       sigNames_short[nSamples_signal] += "GeV, |V_{NYY}|^{2} = ";
-      sigNames_short[nSamples_signal] += (samples[is].getHNLV2New()>0. ? samples[is].getHNLV2New() : samples[is].getHNLV2());
+      sigNames_short[nSamples_signal] += samples[is].getHNLV2();
+      // Now we have getHNLV2Orig and getHNLV2New, no need to do the following
+      //sigNames_short[nSamples_signal] += (samples[is].getHNLV2New()>0. ? samples[is].getHNLV2New() : samples[is].getHNLV2());
       //if(eff_names[nSamples_eff].EndsWith("_e")) {
       if(eff_names[nSamples_eff].Contains("_e")) {
 	if(nSamples_signal_e==max_nSamples_signal_e) throw std::runtime_error("nSamples_signal_e == max_nSamples_signal_e");
@@ -891,9 +893,27 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	wFormula += "])";
       }
       wFormula += ")";
+      // Sanity check, can skip once this is validated
+      if(samples[sam].getHNLctau()<0.) {
+      	double tmpSimEvts = hMergingWeightParams->GetBinContent(2)*hMergingWeightParams->GetBinContent(3);
+      	if( (tmpSimEvts-sumSimulatedEventWeights)/sumSimulatedEventWeights>1.e-3 ) {
+      	  std::cout << " >>> WARNING: This is a merged sample with NO ctau reweighting, but #sim.evts = "
+      		    << tmpSimEvts << " vs " << sumSimulatedEventWeights << " <<<" << std::endl;
+      	}
+      }
       hnlWeight = new TF1("mergingWeights", wFormula.Data(), 0., 1000.);
-      for(size_t i=0; i<npars; ++i) {
+      std::cout << "  --- Reweighting function:  " << wFormula.Data() << std::endl;
+      size_t i = 0;
+      if(samples[sam].getHNLctau()>0.) {
+	i = 2;
+	hnlWeight->FixParameter(0, sumSimulatedEventWeights/samples[sam].getHNLctau());
+	hnlWeight->FixParameter(1, samples[sam].getHNLctau());
+	std::cout << "       par[0] = " << sumSimulatedEventWeights/samples[sam].getHNLctau() << std::endl;
+	std::cout << "       par[1] = " << samples[sam].getHNLctau() << std::endl;
+      }
+      for(; i<npars; ++i) {
 	hnlWeight->FixParameter(i, hMergingWeightParams->GetBinContent(2+i));
+	std::cout << "       par[" << i << "] = " << hMergingWeightParams->GetBinContent(2+i) << std::endl;
       }
       delete hMergingWeightParams;
     }
@@ -924,22 +944,19 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 
     
     // For lifetime re-weighting (hip hip hip hurray)
-    double ctauOld(0.), ctauNew(0.); //, ctWeight(1.);
+    double ctauOld(0.), ctauNew(0.);
     if(isSignal) {
       std::cout << " is signal" << std::endl;
-      //if(samples[sam].getHNLV2New()>0.) {
       if(samples[sam].getHNLctauNew()>0.) {
 	transformCtau = true;
 	skipSignalLNV = samples[sam].useLNCeventsOnly();
 	useAllMajEvts = samples[sam].isMajoranaToDiracSimul() && !skipSignalLNV;
-	ctauOld = samples[sam].getHNLctau();
+	ctauOld = samples[sam].getHNLctauOrig();
 	ctauNew = samples[sam].getHNLctauNew();
 	std::cout << "  ==> HNL lifetime re-weighting: " << std::endl;
-	std::cout << "      (" << samples[sam].getHNLV2()    << ", " << ctauOld
-		  << ") --> (" << samples[sam].getHNLV2New() << ", " << ctauNew
+	std::cout << "      (" << samples[sam].getHNLV2Orig() << ", " << ctauOld
+		  << ") --> (" << samples[sam].getHNLV2New()  << ", " << ctauNew
 		  << ")" << std::endl;
-
-	//ctWeight = (ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN);
       }
     }
     // ------------   run over entries -----------------------------------------------//  
@@ -970,12 +987,12 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       if(reweightMerged) {
 	ctWeight = hnlWeight->Eval(_ctauHN);
       }
-      if(transformCtau) {
-	ctWeight *= ((ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN));
+      else {  // DO NOT combine merged-sample reweighting with ctau reweighting!
+	if(transformCtau) {
+	  ctWeight = ((ctauOld/ctauNew) * TMath::Exp(((1./ctauOld)-(1./ctauNew))*_ctauHN));
+	}
       }
 
-      // N.B.: ctWeight = 1 unless it is a ctau-reweighted signal sample
-      //ctWeight = 1;
       double scal = 0;
       scal = scale * _weight * ctWeight; 
       bwght = 1.;
@@ -1738,8 +1755,6 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
 	single_fake_txt<<""<<std::endl;
       }
       
-     
-      
 
       // Fin.state  SR_channel
       // ---------------------
@@ -1845,6 +1860,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     std::cout<<"after end loop all entries"<<std::endl;
 
     delete hLheCounter;
+    delete hnlWeight;
   }//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< loop over samples
   // THIS IS THE UNBLIND PLOT ===>IT HAS TO SILENT IN THE PLOTTING!!!!!!!!!!!!!!!!!!
   //                |                         |
@@ -1860,7 +1876,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     for (int iSystematics = 0; iSystematics <  nSystematic; iSystematics++){// loop on sys
       for (int iVariation = 0; iVariation < nVariation; iVariation++){//loop on up-down
 	for(unsigned effsam1 = 1; effsam1 < nSamples_eff +1 ; ++effsam1){
-	  std::cout<<"   nSamples_eff  "<<nSamples_eff<<"  "<<eff_names[nSamples_eff]<<std::endl;
+	  //std::cout<<"   nSamples_eff  "<<nSamples_eff<<"  "<<eff_names[nSamples_eff]<<std::endl;
 	  if (effsam1 == nSamples_eff){
 	    put_at_zero(year,iSystematics,iVariation,cha, 1, *&plots_SR[cha][iSystematics][iVariation][effsam1]);
 	    put_at_zero(year,iSystematics,iVariation,cha, 1, *&plots_SR2[0][cha][iSystematics][iVariation][effsam1]);
