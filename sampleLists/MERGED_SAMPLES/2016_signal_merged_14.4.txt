@@ -1,0 +1,44 @@
+Obs                          data_2016_2.root                                                                                       
+M-14.4_V-0.0003162278_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.00e-7   
+M-14.4_V-0.0003549648_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.26e-7   
+M-14.4_V-0.0003974921_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.58e-7   
+M-14.4_V-0.0004472136_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       2.00e-7   
+M-14.4_V-0.0005009990_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       2.51e-7   
+M-14.4_V-0.0005621388_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       3.16e-7   
+M-14.4_V-0.0006308724_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       3.98e-7   
+M-14.4_V-0.0007078135_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       5.01e-7   
+M-14.4_V-0.0007943551_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       6.31e-7   
+M-14.4_V-0.0008910668_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       7.94e-7   
+M-14.4_V-0.0010000000_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.00e-6   
+M-14.4_V-0.0011224972_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.26e-6   
+M-14.4_V-0.0012569805_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.58e-6   
+M-14.4_V-0.0014142136_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       2.00e-6   
+M-14.4_V-0.0015842980_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       2.51e-6   
+M-14.4_V-0.0017776389_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       3.16e-6   
+M-14.4_V-0.0019949937_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       3.98e-6   
+M-14.4_V-0.0022383029_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       5.01e-6   
+M-14.4_V-0.0025119713_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       6.31e-6   
+M-14.4_V-0.0028178006_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       7.94e-6   
+M-14.4_V-0.0031622777_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.00e-5   
+M-14.4_V-0.0035496479_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.26e-5   
+M-14.4_V-0.0039749214_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       1.58e-5   
+M-14.4_V-0.0044721360_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       2.00e-5   
+M-14.4_V-0.0050099900_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       2.51e-5   
+M-14.4_V-0.0056213877_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       3.16e-5   
+M-14.4_V-0.0063087241_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       3.98e-5   
+M-14.4_V-0.0070781353_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       5.01e-5   
+M-14.4_V-0.0079435508_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       6.31e-5   
+M-14.4_V-0.0089106678_mu     HeavyNeutrino_trilepton_M-14.4_V-0.00141421356237_mu_massiveAndCKM_LO_2016_MERGED.root     8.194e-03    0.3045       7.94e-5   
+Xgamma                       DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root                  18610       
+Xgamma                       DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root                      6077.22     
+Xgamma                       WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                      0.2086      
+Xgamma                       WZTo3LNu_mllmin01_13TeV-powheg-pythia8_ext1_Summer16.root                                  4.42965     
+Xgamma                       WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                      0.04123     
+Xgamma                       WWG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                      0.2147      
+Xgamma                       WWToLNuQQ_13TeV-powheg_Summer16.root                                                       49.997      
+Xgamma                       WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                      0.05565     
+Xgamma                       ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                      0.01398     
+Xgamma                       ZZTo4L_13TeV-amcatnloFXFX-pythia8_Summer16.root                                            1.256       
+Xgamma                       WGToLNuG_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root                              489         
+Xgamma                       ZGToLLG_01J_5f_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root                       50.2        
+Xgamma                       ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root                                      0.00        

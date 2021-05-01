@@ -876,7 +876,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
     bool reweightMerged = false;
     if(samples[sam].isAMergedSample()) {
       reweightMerged = true;
-      TH1D *hMergingWeightParams = new TH1D("mergingWeightParams", ";parameter index;parameter value", 20, 0., 20.);
+      TH1D *hMergingWeightParams = new TH1D("mergingWeightParams", ";parameter index;parameter value", 80, 0., 80.);
       hMergingWeightParams->Read("mergingWeightParams");
       unsigned npars = unsigned(hMergingWeightParams->GetBinContent(1)+0.5);
       if(npars<4 || (npars%2)!=0) {
