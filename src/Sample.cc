@@ -40,6 +40,7 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     isDiracHnl       = false;
     convMajToDir     = false;
     useLNConly       = false;
+    isMergedSample   = false;
     massHnl          = -1.;
     xSecNew          = -1.;
     ctauHnlNew       = -1.;
@@ -70,25 +71,28 @@ Sample::Sample( const std::string& line, const std::string& sampleDirectory ) :
     //setOptions(optionString);
 
     // Tmp
-    std::cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"          << std::endl;
-    std::cout << " Process     : " << getProcessName()         << std::endl;
-    std::cout << " File        : " << getFileName()            << std::endl;
-    std::cout << " is HNL      : " << isNewPhysicsSignal()     << std::endl;
-    std::cout << " is data     : " << isData()                 << std::endl;
-    std::cout << " is 2017     : " << is2017()                 << std::endl;
-    std::cout << " is 2018     : " << is2018()                 << std::endl;
-    std::cout << " couplHnl    : " << getHNLcoupling()         << std::endl;
-    std::cout << " isDiracHnl  : " << isHNLdirac()             << std::endl;
-    std::cout << " convMajToDir: " << isMajoranaToDiracSimul() << std::endl;
-    std::cout << " useLNConly  : " << useLNCeventsOnly()       << std::endl;
-    std::cout << " massHnl     : " << getHNLmass()             << std::endl;
-    std::cout << " v2Hnl       : " << getHNLV2()               << std::endl;
-    std::cout << " v2HnlNew    : " << getHNLV2New()            << std::endl;
-    std::cout << " ctauHnl     : " << getHNLctau()             << std::endl;
-    std::cout << " ctauHnlNew  : " << getHNLctauNew()          << std::endl;
-    std::cout << " xSec        : " << getXSec()                << std::endl;
-    std::cout << " xSecOrig    : " << getXSecOrig()            << std::endl;
-    std::cout << " xSecNew     : " << getXSecNew()             << std::endl;
+    std::cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"              << std::endl;
+    std::cout << " Process        : " << getProcessName()         << std::endl;
+    std::cout << " File           : " << getFileName()            << std::endl;
+    std::cout << " is HNL         : " << isNewPhysicsSignal()     << std::endl;
+    std::cout << " is data        : " << isData()                 << std::endl;
+    std::cout << " is 2017        : " << is2017()                 << std::endl;
+    std::cout << " is 2018        : " << is2018()                 << std::endl;
+    std::cout << " couplHnl       : " << getHNLcoupling()         << std::endl;
+    std::cout << " isDiracHnl     : " << isHNLdirac()             << std::endl;
+    std::cout << " convMajToDir   : " << isMajoranaToDiracSimul() << std::endl;
+    std::cout << " useLNConly     : " << useLNCeventsOnly()       << std::endl;
+    std::cout << " isMergedSample : " << isAMergedSample()        << std::endl;
+    std::cout << " massHnl        : " << getHNLmass()             << std::endl;
+    std::cout << " v2Hnl          : " << getHNLV2()               << std::endl;
+    std::cout << " v2HnlOrig      : " << getHNLV2Orig()           << std::endl;
+    std::cout << " v2HnlNew       : " << getHNLV2New()            << std::endl;
+    std::cout << " ctauHnl        : " << getHNLctau()             << std::endl;
+    std::cout << " ctauHnlOrig    : " << getHNLctauOrig()         << std::endl;
+    std::cout << " ctauHnlNew     : " << getHNLctauNew()          << std::endl;
+    std::cout << " xSec           : " << getXSec()                << std::endl;
+    std::cout << " xSecOrig       : " << getXSecOrig()            << std::endl;
+    std::cout << " xSecNew        : " << getXSecNew()             << std::endl;
 }
 
 
@@ -125,6 +129,7 @@ void Sample::setHNL(){
 	pos = tmpstr.find("_");
 	couplHnl = tmpstr.substr(0, pos);
 	isDiracHnl = (tmpstr.find("Dirac" ) != std::string::npos);
+	isMergedSample = (tmpstr.find("MERGED" ) != std::string::npos);
 	if(isDiracHnl==false && process.find("Dirac")!=std::string::npos) {
 	  if(ctauHnl>0.) {
 	    ctauHnlNew = 2*ctauHnl;

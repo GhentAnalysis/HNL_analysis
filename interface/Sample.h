@@ -37,13 +37,17 @@ class Sample{
 
         double getHNLmass() const { return massHnl; }
 
-        double getHNLV2() const { return v2Hnl; }
+        double getHNLV2Orig() const { return v2Hnl; }
 
         double getHNLV2New() const { return v2HnlNew; }
 
-        double getHNLctau() const { return ctauHnl; }
+        double getHNLV2() const { return (v2HnlNew<0. ? v2Hnl : v2HnlNew); }
+
+        double getHNLctauOrig() const { return ctauHnl; }
 
         double getHNLctauNew() const { return ctauHnlNew; }
+
+        double getHNLctau() const { return (ctauHnlNew<0. ? ctauHnl : ctauHnlNew); }
 
         std::string getHNLcoupling() const { return couplHnl; }
 
@@ -52,6 +56,8 @@ class Sample{
         bool isMajoranaToDiracSimul() const { return convMajToDir; }
 
         bool useLNCeventsOnly() const { return useLNConly; }
+
+        bool isAMergedSample() const { return isMergedSample; }
 
         bool isData() const { return isDataSample; }
 
@@ -96,6 +102,7 @@ class Sample{
         bool isDiracHnl;
         bool convMajToDir;
         bool useLNConly;
+        bool isMergedSample;
         double massHnl;
         double v2Hnl;
         double ctauHnl;

@@ -1,0 +1,135 @@
+Obs                          data_2017.root                                                                                         
+M-3.0_V-0.0010000000_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.00e-6   
+M-3.0_V-0.0011224972_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.26e-6   
+M-3.0_V-0.0012569805_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.58e-6   
+M-3.0_V-0.0014142136_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.00e-6   
+M-3.0_V-0.0015842980_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.51e-6   
+M-3.0_V-0.0017776389_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.16e-6   
+M-3.0_V-0.0019949937_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.98e-6   
+M-3.0_V-0.0022383029_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      5.01e-6   
+M-3.0_V-0.0025119713_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      6.31e-6   
+M-3.0_V-0.0028178006_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      7.94e-6   
+M-3.0_V-0.0031622777_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.00e-5   
+M-3.0_V-0.0035496479_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.26e-5   
+M-3.0_V-0.0039749214_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.58e-5   
+M-3.0_V-0.0044721360_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.00e-5   
+M-3.0_V-0.0050099900_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.51e-5   
+M-3.0_V-0.0056213877_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.16e-5   
+M-3.0_V-0.0063087241_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.98e-5   
+M-3.0_V-0.0070781353_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      5.01e-5   
+M-3.0_V-0.0079435508_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      6.31e-5   
+M-3.0_V-0.0089106678_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      7.94e-5   
+M-3.0_V-0.0100000000_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.00e-4   
+M-3.0_V-0.0112249722_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.26e-4   
+M-3.0_V-0.0125698051_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.58e-4   
+M-3.0_V-0.0141421356_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.00e-4   
+M-3.0_V-0.0158429795_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.51e-4   
+M-3.0_V-0.0177763888_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.16e-4   
+M-3.0_V-0.0199499373_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.98e-4   
+M-3.0_V-0.0223830293_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      5.01e-4   
+M-3.0_V-0.0251197134_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      6.31e-4   
+M-3.0_V-0.0281780056_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      7.94e-4   
+M-3.0_V-0.0316227766_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.00e-3   
+M-3.0_V-0.0354964787_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.26e-3   
+M-3.0_V-0.0397492138_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.58e-3   
+M-3.0_V-0.0447213595_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.00e-3   
+M-3.0_V-0.0500999002_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.51e-3   
+M-3.0_V-0.0562138773_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.16e-3   
+M-3.0_V-0.0630872412_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.98e-3   
+M-3.0_V-0.0707813535_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      5.01e-3   
+M-3.0_V-0.0794355084_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      6.31e-3   
+M-3.0_V-0.0891066776_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      7.94e-3   
+M-3.0_V-0.1000000000_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.00e-2   
+M-3.0_V-0.1122497216_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.26e-2   
+M-3.0_V-0.1256980509_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.58e-2   
+M-3.0_V-0.1414213562_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.00e-2   
+M-3.0_V-0.1584297952_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.51e-2   
+M-3.0_V-0.1777638883_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.16e-2   
+M-3.0_V-0.1994993734_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.98e-2   
+M-3.0_V-0.2238302929_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      5.01e-2   
+M-3.0_V-0.2511971337_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      6.31e-2   
+M-3.0_V-0.2817800561_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      7.94e-2   
+M-3.0_V-0.3162277660_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.00e-1   
+M-3.0_V-0.3549647870_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.26e-1   
+M-3.0_V-0.3974921383_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      1.58e-1   
+M-3.0_V-0.4472135955_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.00e-1   
+M-3.0_V-0.5009990020_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      2.51e-1   
+M-3.0_V-0.5621387729_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.16e-1   
+M-3.0_V-0.6308724118_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      3.98e-1   
+M-3.0_V-0.7078135348_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      5.01e-1   
+M-3.0_V-0.7943550843_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      6.31e-1   
+M-3.0_V-0.8910667764_e       HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_e_massiveAndCKM_LO_2017_MERGED.root       2.014e-01    45.5525      7.94e-1   
+M-3.0_V-0.0010000000_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.00e-6   
+M-3.0_V-0.0011224972_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.26e-6   
+M-3.0_V-0.0012569805_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.58e-6   
+M-3.0_V-0.0014142136_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.00e-6   
+M-3.0_V-0.0015842980_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.51e-6   
+M-3.0_V-0.0017776389_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.16e-6   
+M-3.0_V-0.0019949937_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.98e-6   
+M-3.0_V-0.0022383029_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      5.01e-6   
+M-3.0_V-0.0025119713_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      6.31e-6   
+M-3.0_V-0.0028178006_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      7.94e-6   
+M-3.0_V-0.0031622777_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.00e-5   
+M-3.0_V-0.0035496479_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.26e-5   
+M-3.0_V-0.0039749214_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.58e-5   
+M-3.0_V-0.0044721360_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.00e-5   
+M-3.0_V-0.0050099900_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.51e-5   
+M-3.0_V-0.0056213877_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.16e-5   
+M-3.0_V-0.0063087241_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.98e-5   
+M-3.0_V-0.0070781353_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      5.01e-5   
+M-3.0_V-0.0079435508_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      6.31e-5   
+M-3.0_V-0.0089106678_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      7.94e-5   
+M-3.0_V-0.0100000000_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.00e-4   
+M-3.0_V-0.0112249722_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.26e-4   
+M-3.0_V-0.0125698051_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.58e-4   
+M-3.0_V-0.0141421356_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.00e-4   
+M-3.0_V-0.0158429795_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.51e-4   
+M-3.0_V-0.0177763888_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.16e-4   
+M-3.0_V-0.0199499373_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.98e-4   
+M-3.0_V-0.0223830293_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      5.01e-4   
+M-3.0_V-0.0251197134_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      6.31e-4   
+M-3.0_V-0.0281780056_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      7.94e-4   
+M-3.0_V-0.0316227766_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.00e-3   
+M-3.0_V-0.0354964787_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.26e-3   
+M-3.0_V-0.0397492138_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.58e-3   
+M-3.0_V-0.0447213595_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.00e-3   
+M-3.0_V-0.0500999002_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.51e-3   
+M-3.0_V-0.0562138773_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.16e-3   
+M-3.0_V-0.0630872412_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.98e-3   
+M-3.0_V-0.0707813535_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      5.01e-3   
+M-3.0_V-0.0794355084_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      6.31e-3   
+M-3.0_V-0.0891066776_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      7.94e-3   
+M-3.0_V-0.1000000000_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.00e-2   
+M-3.0_V-0.1122497216_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.26e-2   
+M-3.0_V-0.1256980509_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.58e-2   
+M-3.0_V-0.1414213562_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.00e-2   
+M-3.0_V-0.1584297952_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.51e-2   
+M-3.0_V-0.1777638883_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.16e-2   
+M-3.0_V-0.1994993734_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.98e-2   
+M-3.0_V-0.2238302929_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      5.01e-2   
+M-3.0_V-0.2511971337_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      6.31e-2   
+M-3.0_V-0.2817800561_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      7.94e-2   
+M-3.0_V-0.3162277660_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.00e-1   
+M-3.0_V-0.3549647870_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.26e-1   
+M-3.0_V-0.3974921383_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      1.58e-1   
+M-3.0_V-0.4472135955_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.00e-1   
+M-3.0_V-0.5009990020_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      2.51e-1   
+M-3.0_V-0.5621387729_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.16e-1   
+M-3.0_V-0.6308724118_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      3.98e-1   
+M-3.0_V-0.7078135348_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      5.01e-1   
+M-3.0_V-0.7943550843_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      6.31e-1   
+M-3.0_V-0.8910667764_mu      HeavyNeutrino_trilepton_M-3.0_V-0.00707813534767_mu_massiveAndCKM_LO_2017_MERGED.root      2.014e-01    45.5525      7.94e-1   
+Xgamma                       DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v10_Fall17.root            18610       
+Xgamma                       DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root               6077.22     
+Xgamma                       WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                            0.1651      
+Xgamma                       WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                            0.2086      
+Xgamma                       WZG_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v10_Fall17.root                               0.04123     
+Xgamma                       WGGJets_TuneCP5_13TeV_madgraphMLM_pythia8_realistic_v11_Fall17.root                        0.2147      
+Xgamma                       WWTo2L2Nu_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root                   12.178      
+Xgamma                       WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root                   49.997      
+Xgamma                       WZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                               0.05565     
+Xgamma                       ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root                               0.01398     
+Xgamma                       ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root                                      1.256       
+Xgamma                       WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v14_Fall17.root                       489         
+Xgamma                       ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root                50.2        
+Xgamma                       ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root                                      0.00        
