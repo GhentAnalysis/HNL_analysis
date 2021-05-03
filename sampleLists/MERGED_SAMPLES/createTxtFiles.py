@@ -280,10 +280,10 @@ pts = ['1.00', '1.26', '1.58', '2.00', '2.51', '3.16', '3.98', '5.01', '6.31', '
 
 for mass, emin, emax, smps in file_xs_ctau:
     for yr in yrs:
-        #outf_m = open(yr+'_signal_merged_'      +mass+'.txt' , 'w')
+        outf_m = open(yr+'_signal_merged_'      +mass+'.txt' , 'w')
         outf_d = open(yr+'_signal_Dirac_merged_'+mass+'.txt' , 'w')
         datasmpl = bkgs[yr][0].split()[0]
-        #outf_m.write(bkgs[yr][0])
+        outf_m.write(bkgs[yr][0])
         outf_d.write(bkgs[yr][0].replace(datasmpl, datasmpl+(' '*addspc)))
         srcs = []
         tmplist = [smp for smp in smps if yr+'_MERGED' in smp[0] and '_e_' in smp[0]]
@@ -297,13 +297,13 @@ for mass, emin, emax, smps in file_xs_ctau:
                 for pt in pts:
                     v2 = pt+'e'+str(e)
                     pntname = 'M-%s_V-%12.10f_%s'       % (mass, math.sqrt(float(v2)), src[0])
-                    #outf_m.write(line_m % (pntname         , src[1], src[2], src[3], v2))
+                    outf_m.write(line_m % (pntname         , src[1], src[2], src[3], v2))
                     outf_d.write(line_d % (pntname+'_Dirac', src[1], src[2], src[3], v2))
         for i in range(1, len(bkgs[yr])):
             bkg = bkgs[yr][i].split()[0]
-            #outf_m.write(bkgs[yr][i])
+            outf_m.write(bkgs[yr][i])
             outf_d.write(bkgs[yr][i].replace(bkg, bkg+(' '*addspc)))
-        #outf_m.close()
+        outf_m.close()
         outf_d.close()
 
 
