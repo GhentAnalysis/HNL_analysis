@@ -207,79 +207,84 @@ file_xs_ctau = [
     ]]
 ]
 
-line = '%-28s %-90s %-12s\n'
+line_m = '%-28s %-90s %-12s\n'
 yrs = ['2016', '2017', '2018']
+
 bkgs = {'2016' :
         [
-            line % ('Obs'   , 'data_2016_2.root'                                                         , ''       ),
-            line % ('Xgamma', 'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root', '18610'  ),
-            line % ('Xgamma', 'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root'    , '6077.22'),
-            line % ('Xgamma', 'WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.2086' ),
-            line % ('Xgamma', 'WZTo3LNu_mllmin01_13TeV-powheg-pythia8_ext1_Summer16.root'                , '4.42965'),
-            line % ('Xgamma', 'WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.04123'),
-            line % ('Xgamma', 'WWG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.2147' ),
-            line % ('Xgamma', 'WWToLNuQQ_13TeV-powheg_Summer16.root'                                     , '49.997' ),
-            line % ('Xgamma', 'WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.05565'),
-            line % ('Xgamma', 'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.01398'),
-            line % ('Xgamma', 'ZZTo4L_13TeV-amcatnloFXFX-pythia8_Summer16.root'                          , '1.256'  ),
-            line % ('Xgamma', 'WGToLNuG_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root'            , '489'    ),
-            line % ('Xgamma', 'ZGToLLG_01J_5f_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root'     , '50.2'   ),
-            line % ('Xgamma', 'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.00'   )
+            line_m % ('Obs'   , 'data_2016_2.root'                                                         , ''       ),
+            line_m % ('Xgamma', 'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root', '18610'  ),
+            line_m % ('Xgamma', 'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root'    , '6077.22'),
+            line_m % ('Xgamma', 'WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.2086' ),
+            line_m % ('Xgamma', 'WZTo3LNu_mllmin01_13TeV-powheg-pythia8_ext1_Summer16.root'                , '4.42965'),
+            line_m % ('Xgamma', 'WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.04123'),
+            line_m % ('Xgamma', 'WWG_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.2147' ),
+            line_m % ('Xgamma', 'WWToLNuQQ_13TeV-powheg_Summer16.root'                                     , '49.997' ),
+            line_m % ('Xgamma', 'WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.05565'),
+            line_m % ('Xgamma', 'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.01398'),
+            line_m % ('Xgamma', 'ZZTo4L_13TeV-amcatnloFXFX-pythia8_Summer16.root'                          , '1.256'  ),
+            line_m % ('Xgamma', 'WGToLNuG_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_Summer16.root'            , '489'    ),
+            line_m % ('Xgamma', 'ZGToLLG_01J_5f_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_Summer16.root'     , '50.2'   ),
+            line_m % ('Xgamma', 'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_Summer16.root'                    , '0.00'   )
         ],
         '2017' :
         [
-            line % ('Obs'   , 'data_2017.root'                                                                 , ''       ),
-            line % ('Xgamma', 'DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v10_Fall17.root', '18610'  ),
-            line % ('Xgamma', 'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root'   , '6077.22'),
-            line % ('Xgamma', 'WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                , '0.1651' ),
-            line % ('Xgamma', 'WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                , '0.2086' ),
-            line % ('Xgamma', 'WZG_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v10_Fall17.root'                   , '0.04123'),
-            line % ('Xgamma', 'WGGJets_TuneCP5_13TeV_madgraphMLM_pythia8_realistic_v11_Fall17.root'            , '0.2147' ),
-            line % ('Xgamma', 'WWTo2L2Nu_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root'       , '12.178' ),
-            line % ('Xgamma', 'WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root'       , '49.997' ),
-            line % ('Xgamma', 'WZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                   , '0.05565'),
-            line % ('Xgamma', 'ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                   , '0.01398'),
-            line % ('Xgamma', 'ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root'                          , '1.256'  ),
-            line % ('Xgamma', 'WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v14_Fall17.root'           , '489'    ),
-            line % ('Xgamma', 'ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root'    , '50.2'   ),
-            line % ('Xgamma', 'ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root'                          , '0.00'   )
+            line_m % ('Obs'   , 'data_2017.root'                                                                 , ''       ),
+            line_m % ('Xgamma', 'DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v10_Fall17.root', '18610'  ),
+            line_m % ('Xgamma', 'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root'   , '6077.22'),
+            line_m % ('Xgamma', 'WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                , '0.1651' ),
+            line_m % ('Xgamma', 'WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                , '0.2086' ),
+            line_m % ('Xgamma', 'WZG_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v10_Fall17.root'                   , '0.04123'),
+            line_m % ('Xgamma', 'WGGJets_TuneCP5_13TeV_madgraphMLM_pythia8_realistic_v11_Fall17.root'            , '0.2147' ),
+            line_m % ('Xgamma', 'WWTo2L2Nu_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root'       , '12.178' ),
+            line_m % ('Xgamma', 'WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8_realistic_v10_Fall17.root'       , '49.997' ),
+            line_m % ('Xgamma', 'WZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                   , '0.05565'),
+            line_m % ('Xgamma', 'ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_realistic_v11_Fall17.root'                   , '0.01398'),
+            line_m % ('Xgamma', 'ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root'                          , '1.256'  ),
+            line_m % ('Xgamma', 'WGToLNuG_TuneCP5_13TeV-madgraphMLM-pythia8_realistic_v14_Fall17.root'           , '489'    ),
+            line_m % ('Xgamma', 'ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_realistic_v14_Fall17.root'    , '50.2'   ),
+            line_m % ('Xgamma', 'ZZTo4L_13TeV_powheg_pythia8_realistic_v14_Fall17.root'                          , '0.00'   )
         ],
         '2018' :
         [
-            line % ('Obs'   ,  'data2018.root'                                                        , ''       ),
-            line % ('Xgamma',  'DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root'  , '18610'  ),
-            line % ('Xgamma',  'DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root'      , '6077.22'),
-            line % ('Xgamma',  'WWZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                     , '0.1651' ),
-            line % ('Xgamma',  'WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                  , '0.2086' ),
-            line % ('Xgamma',  'WZTo3LNu_TuneCP5_13TeV-powheg-pythia8_Autumn18.root'                  , '4.42965'),
-            line % ('Xgamma',  'WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'            , '5.595'  ),
-            line % ('Xgamma',  'WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'         , '49.997' ),
-            line % ('Xgamma',  'WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8_Autumn18.root'         , '49.997' ),
-            line % ('Xgamma',  'WZZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                     , '0.05565'),
-            line % ('Xgamma',  'ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                     , '0.01398'),
-            line % ('Xgamma',  'ZZTo2Q2Nu_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'   , '4.04'   ),
-            line % ('Xgamma',  'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'            , '3.22'   ),
-            line % ('Xgamma',  'ZZTo4L_TuneCP5_13TeV_powheg_pythia8_Autumn18.root'                    , '1.256'  ),
-            line % ('Xgamma',  'TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_Autumn18.root'     , '3.697'  ),
-            line % ('Xgamma',  'TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_Autumn18.root', '0.2043' ),
-            line % ('Xgamma',  'TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'        , '0.2728' ),
-            line % ('Xgamma',  'WGToLNuG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root'     , '489'    ),
-            line % ('Xgamma',  'ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root'      , '50.2'   ),
-            line % ('Xgamma',  'ZZTo4L_TuneCP5_13TeV_powheg_pythia8_Autumn18.root'                    , '0.00'   )
+            line_m % ('Obs'   ,  'data2018.root'                                                        , ''       ),
+            line_m % ('Xgamma',  'DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root'  , '18610'  ),
+            line_m % ('Xgamma',  'DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root'      , '6077.22'),
+            line_m % ('Xgamma',  'WWZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                     , '0.1651' ),
+            line_m % ('Xgamma',  'WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                  , '0.2086' ),
+            line_m % ('Xgamma',  'WZTo3LNu_TuneCP5_13TeV-powheg-pythia8_Autumn18.root'                  , '4.42965'),
+            line_m % ('Xgamma',  'WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'            , '5.595'  ),
+            line_m % ('Xgamma',  'WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'         , '49.997' ),
+            line_m % ('Xgamma',  'WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8_Autumn18.root'         , '49.997' ),
+            line_m % ('Xgamma',  'WZZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                     , '0.05565'),
+            line_m % ('Xgamma',  'ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'                     , '0.01398'),
+            line_m % ('Xgamma',  'ZZTo2Q2Nu_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'   , '4.04'   ),
+            line_m % ('Xgamma',  'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root'            , '3.22'   ),
+            line_m % ('Xgamma',  'ZZTo4L_TuneCP5_13TeV_powheg_pythia8_Autumn18.root'                    , '1.256'  ),
+            line_m % ('Xgamma',  'TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_Autumn18.root'     , '3.697'  ),
+            line_m % ('Xgamma',  'TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_Autumn18.root', '0.2043' ),
+            line_m % ('Xgamma',  'TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root'        , '0.2728' ),
+            line_m % ('Xgamma',  'WGToLNuG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root'     , '489'    ),
+            line_m % ('Xgamma',  'ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root'      , '50.2'   ),
+            line_m % ('Xgamma',  'ZZTo4L_TuneCP5_13TeV_powheg_pythia8_Autumn18.root'                    , '0.00'   )
         ]
 }
 
+nstr = int(line_m.split('-')[1].split('s')[0])
+addspc = 6
 
+line_m = line_m.split('\n')[0]+' %-12s %-10s\n'
+line_d = line_m.replace(str(nstr), str(nstr+addspc), 1)
 
-line = '%-28s %-90s %-12s %-12s %-10s\n'
 pts = ['1.00', '1.26', '1.58', '2.00', '2.51', '3.16', '3.98', '5.01', '6.31', '7.94']
-
-outfile = open('../2016_signal_merged_01.txt' , 'w')
 
 for mass, emin, emax, smps in file_xs_ctau:
     for yr in yrs:
-        outf = open(yr+'_signal_merged_'+mass+'.txt' , 'w')
-        outf.write(bkgs[yr][0])
+        #outf_m = open(yr+'_signal_merged_'      +mass+'.txt' , 'w')
+        outf_d = open(yr+'_signal_Dirac_merged_'+mass+'.txt' , 'w')
+        datasmpl = bkgs[yr][0].split()[0]
+        #outf_m.write(bkgs[yr][0])
+        outf_d.write(bkgs[yr][0].replace(datasmpl, datasmpl+(' '*addspc)))
         srcs = []
         tmplist = [smp for smp in smps if yr+'_MERGED' in smp[0] and '_e_' in smp[0]]
         if len(tmplist)>0:
@@ -291,9 +296,14 @@ for mass, emin, emax, smps in file_xs_ctau:
             for e in range(emin, emax):
                 for pt in pts:
                     v2 = pt+'e'+str(e)
-                    pntname = 'M-%s_V-%12.10f_%s' % (mass, math.sqrt(float(v2)), src[0])
-                    outf.write(line % (pntname, src[1], src[2], src[3], v2))
-        for i in range(1, len(bkgs[yr])): outf.write(bkgs[yr][i])
-        outf.close()
+                    pntname = 'M-%s_V-%12.10f_%s'       % (mass, math.sqrt(float(v2)), src[0])
+                    #outf_m.write(line_m % (pntname         , src[1], src[2], src[3], v2))
+                    outf_d.write(line_d % (pntname+'_Dirac', src[1], src[2], src[3], v2))
+        for i in range(1, len(bkgs[yr])):
+            bkg = bkgs[yr][i].split()[0]
+            #outf_m.write(bkgs[yr][i])
+            outf_d.write(bkgs[yr][i].replace(bkg, bkg+(' '*addspc)))
+        #outf_m.close()
+        outf_d.close()
 
 

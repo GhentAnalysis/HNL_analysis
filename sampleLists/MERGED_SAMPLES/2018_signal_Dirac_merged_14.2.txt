@@ -1,0 +1,80 @@
+Obs                                data2018.root                                                                                          
+M-14.2_V-0.0003162278_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.00e-7   
+M-14.2_V-0.0003549648_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.26e-7   
+M-14.2_V-0.0003974921_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.58e-7   
+M-14.2_V-0.0004472136_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       2.00e-7   
+M-14.2_V-0.0005009990_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       2.51e-7   
+M-14.2_V-0.0005621388_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       3.16e-7   
+M-14.2_V-0.0006308724_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       3.98e-7   
+M-14.2_V-0.0007078135_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       5.01e-7   
+M-14.2_V-0.0007943551_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       6.31e-7   
+M-14.2_V-0.0008910668_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       7.94e-7   
+M-14.2_V-0.0010000000_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.00e-6   
+M-14.2_V-0.0011224972_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.26e-6   
+M-14.2_V-0.0012569805_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.58e-6   
+M-14.2_V-0.0014142136_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       2.00e-6   
+M-14.2_V-0.0015842980_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       2.51e-6   
+M-14.2_V-0.0017776389_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       3.16e-6   
+M-14.2_V-0.0019949937_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       3.98e-6   
+M-14.2_V-0.0022383029_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       5.01e-6   
+M-14.2_V-0.0025119713_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       6.31e-6   
+M-14.2_V-0.0028178006_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       7.94e-6   
+M-14.2_V-0.0031622777_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.00e-5   
+M-14.2_V-0.0035496479_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.26e-5   
+M-14.2_V-0.0039749214_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       1.58e-5   
+M-14.2_V-0.0044721360_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       2.00e-5   
+M-14.2_V-0.0050099900_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       2.51e-5   
+M-14.2_V-0.0056213877_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       3.16e-5   
+M-14.2_V-0.0063087241_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       3.98e-5   
+M-14.2_V-0.0070781353_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       5.01e-5   
+M-14.2_V-0.0079435508_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       6.31e-5   
+M-14.2_V-0.0089106678_e_Dirac      HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_e_massiveAndCKM_LO_2018_MERGED.root      8.192e-03    0.3272       7.94e-5   
+M-14.2_V-0.0003162278_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.00e-7   
+M-14.2_V-0.0003549648_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.26e-7   
+M-14.2_V-0.0003974921_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.58e-7   
+M-14.2_V-0.0004472136_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       2.00e-7   
+M-14.2_V-0.0005009990_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       2.51e-7   
+M-14.2_V-0.0005621388_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       3.16e-7   
+M-14.2_V-0.0006308724_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       3.98e-7   
+M-14.2_V-0.0007078135_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       5.01e-7   
+M-14.2_V-0.0007943551_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       6.31e-7   
+M-14.2_V-0.0008910668_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       7.94e-7   
+M-14.2_V-0.0010000000_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.00e-6   
+M-14.2_V-0.0011224972_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.26e-6   
+M-14.2_V-0.0012569805_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.58e-6   
+M-14.2_V-0.0014142136_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       2.00e-6   
+M-14.2_V-0.0015842980_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       2.51e-6   
+M-14.2_V-0.0017776389_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       3.16e-6   
+M-14.2_V-0.0019949937_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       3.98e-6   
+M-14.2_V-0.0022383029_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       5.01e-6   
+M-14.2_V-0.0025119713_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       6.31e-6   
+M-14.2_V-0.0028178006_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       7.94e-6   
+M-14.2_V-0.0031622777_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.00e-5   
+M-14.2_V-0.0035496479_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.26e-5   
+M-14.2_V-0.0039749214_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       1.58e-5   
+M-14.2_V-0.0044721360_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       2.00e-5   
+M-14.2_V-0.0050099900_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       2.51e-5   
+M-14.2_V-0.0056213877_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       3.16e-5   
+M-14.2_V-0.0063087241_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       3.98e-5   
+M-14.2_V-0.0070781353_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       5.01e-5   
+M-14.2_V-0.0079435508_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       6.31e-5   
+M-14.2_V-0.0089106678_mu_Dirac     HeavyNeutrino_trilepton_M-14.2_V-0.00141421356237_mu_massiveAndCKM_LO_2018_MERGED.root     8.192e-03    0.3272       7.94e-5   
+Xgamma                             DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root                        18610       
+Xgamma                             DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_Autumn18.root                            6077.22     
+Xgamma                             WWZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root                                           0.1651      
+Xgamma                             WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root                                        0.2086      
+Xgamma                             WZTo3LNu_TuneCP5_13TeV-powheg-pythia8_Autumn18.root                                        4.42965     
+Xgamma                             WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root                                  5.595       
+Xgamma                             WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root                               49.997      
+Xgamma                             WWToLNuQQ_NNPDF31_TuneCP5_13TeV-powheg-pythia8_Autumn18.root                               49.997      
+Xgamma                             WZZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root                                           0.05565     
+Xgamma                             ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root                                           0.01398     
+Xgamma                             ZZTo2Q2Nu_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root                         4.04        
+Xgamma                             ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8_Autumn18.root                                  3.22        
+Xgamma                             ZZTo4L_TuneCP5_13TeV_powheg_pythia8_Autumn18.root                                          1.256       
+Xgamma                             TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_Autumn18.root                           3.697       
+Xgamma                             TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_Autumn18.root                      0.2043      
+Xgamma                             TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_Autumn18.root                              0.2728      
+Xgamma                             WGToLNuG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root                           489         
+Xgamma                             ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_Autumn18.root                            50.2        
+Xgamma                             ZZTo4L_TuneCP5_13TeV_powheg_pythia8_Autumn18.root                                          0.00        
