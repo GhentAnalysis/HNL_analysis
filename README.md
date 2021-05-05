@@ -25,19 +25,23 @@ To set: year and flags regarding the decision about: which samples to run on, wh
 
 it produces ~100 data/shape output files for each mass in /dataCards_shapeRoot.
 In  /dataCards_shapeRoot:
-           mkdir mass
-           mkdir sr
-           mkdir disp
-           mv *_mass* mass/
-           mv *_disp* disp/
-           mv shape* sr
-           mv M* sr        
+
+    mkdir mass
+    mkdir sr
+    mkdir disp
+    mv *_mass* mass/
+    mv *_disp* disp/
+    mv shape* sr
+    mv M* sr       
+    
 They run over only signal samples so the obs/nonpromptDF/SF/Xgamma are ==0. 
 They have to be merged --> mergeDatacardsRootfiles.py with the complete output files. 
 In HNL_ANALYIS
-           python mergeDatacardsRootfiles.py
-           python mergeDatacardsRootfiles_mass.py
-           python mergeDatacardsRootfiles_disp.py
+
+    python mergeDatacardsRootfiles.py
+    python mergeDatacardsRootfiles_mass.py
+    python mergeDatacardsRootfiles_disp.py
+    
 and the output files are in merged_datacards_rootfiles_2016/
 
 
