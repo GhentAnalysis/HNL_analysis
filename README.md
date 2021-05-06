@@ -60,3 +60,13 @@ To produce plots:
     
 This corresponds to plotting 4 signal samples, muon/ele coupling,
 SR,M,D type of distribution, 1_6=4 coupling for legend --> 1.6 *10^-4.
+
+# CR counts
+
+To produce CR event counts:
+
+    mv src/Analysis_mc.cc src/Analysis_mc_forSR.cc
+    mv src/Analysis_mc_forSB.cc src/Analysis_mc.cc
+    
+and repeat the HNL_analysis procedure.
+    
