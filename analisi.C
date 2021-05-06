@@ -75,6 +75,6 @@ int main(){
 
   std::string basename = "shape_file";
   //                            skipData, skipSignal, skipBackground, skipPlotting, skipLimits
-  all.analisi(basename.c_str(), false    , false     , false          , false        , false     );
+  all.analisi(basename.c_str(), false    , false     , false          , true        , false     );
   return 0;
 }
