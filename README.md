@@ -49,7 +49,7 @@ and the output files are in merged_datacards_rootfiles_2016/
 
 To make plots and tables 
 
-Input files should be in martinaCards/
+Input files should be in making_plots/martinaCards/
 
 example:             
                               
