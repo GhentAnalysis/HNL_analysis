@@ -21,7 +21,7 @@ To set: year and flags regarding the decision about: which samples to run on, wh
 
 # Re-weighting procedure, ONLY on m2, using condor. 
 
-/submit_re_weighting_condor/sum_1*_*.sh
+source submit_re_weighting_condor/sum_16.sh
 
 it produces ~100 data/shape output files for each mass in /dataCards_shapeRoot.
 In  /dataCards_shapeRoot:
