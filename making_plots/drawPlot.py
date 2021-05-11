@@ -269,9 +269,9 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
     v2_name = v2_name.replace('=', '#times10^{#minus' )
     v3_name = v3_name.replace('_', '.' )
     v3_name = v3_name.replace('=', '#times10^{#minus' )
-    legend_label_signal1 = 'M = ' + mass1_name + ", |V|^{2} = " + v1_name + '}'
-    legend_label_signal2 = 'M = ' + mass2_name + ", |V|^{2} = " + v2_name + '}'
-    legend_label_signal3 = 'M = ' + mass3_name + ", |V|^{2} = " + v3_name + '}'
+    legend_label_signal1 = '$M_{N} = ' + mass1_name + ", |V|^{2} = " + v1_name + '}$'
+    legend_label_signal2 = '$M_{N} = ' + mass2_name + ", |V|^{2} = " + v2_name + '}$'
+    legend_label_signal3 = '$M_{N} = ' + mass3_name + ", |V|^{2} = " + v3_name + '}$'
     print   legend_label_signal1   
     print   legend_label_signal2  
     print   legend_label_signal3   
@@ -566,9 +566,9 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
     v2_name = v2_name.replace('=', ' \cdot10^{-' )
     v3_name = v3_name.replace('_', '.' )
     v3_name = v3_name.replace('=', ' \cdot10^{-' )
-    legend_label_signal1 = '$M = ' + mass1_name + ", \lvert V^{2} \\rvert = " + v1_name + '}$       '
-    legend_label_signal2 = '$M = ' + mass2_name + ", \lvert V^{2} \\rvert = " + v2_name + '}$       '
-    legend_label_signal3 = '$M = ' + mass3_name + ", \lvert V^{2} \\rvert = " + v3_name + '}$       '
+    legend_label_signal1 = '$M_{N} = ' + mass1_name + ", \lvert V^{2} \\rvert = " + v1_name + '}$       '
+    legend_label_signal2 = '$M_{N} = ' + mass2_name + ", \lvert V^{2} \\rvert = " + v2_name + '}$       '
+    legend_label_signal3 = '$M_{N} = ' + mass3_name + ", \lvert V^{2} \\rvert = " + v3_name + '}$       '
     print legend_label_signal1
             
     simb = '\\\\'
