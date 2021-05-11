@@ -528,7 +528,6 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
     bkg_p_onlysyst = processCollection.pBkgWithSystErrors()
     bkg_p_onlystat = processCollection.pBkgWithStatErrors()
 
-
     signal_histo1 =  processCollection.signal_get()
     signal_histo1_onlysyst = processCollection.signalWithSystErrors()
     signal_histo1_onlystat = processCollection.signalWithStatErrors()
@@ -599,17 +598,33 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
     print'\hline'
     if flav_name == 'ele': print'$\Pe\Pe\Pe$ & & & & & & ' +simb
     if flav_name == 'muon': print'$\PGm\PGm\PGm$   & & & & & &  ' +simb
+
     print'Total bkg        ',
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b > 6: continue
-        tt =  str("%.2g" %bkg_total_syst.GetBinContent( b ) if bkg_total_syst.GetBinContent( b ) > 0.01 else 0)
-        ttt = str("%.1g" %math.sqrt(bkg_total_onlystat.GetBinError(b)* bkg_total_onlystat.GetBinError(b)  + bkg_total_onlysyst.GetBinError( b )*bkg_total_onlysyst.GetBinError( b )))      
+    for b in range( bkg_total_syst.GetN() ):
+        if b > 5: continue
+        nom = bkg_total_syst.GetY()[b]
+        low = bkg_total_onlystat[1].GetEYlow()[b]
+        high = bkg_total_onlystat[1].GetEYhigh()[b]
+        syst = bkg_total_onlysyst.GetBinError(b+1)
+        totLow = math.sqrt(low*low + syst*syst)
+        if nom-totLow < 0: totLow = nom
+        tt =  str("%.2g" %nom if nom > 0.01 else 0)
+        tttLow = str("%.2g" %totLow)
+        tttHigh = str("%.2g" %math.sqrt(high*high + syst*syst))
         print ('&  $  '),
-        if tt == '1e-06' : tt = 0        
+        if tt == '1e-06' : tt = 0
+        if tttLow == '1e-06' : tttLow = 0
+        if tttHigh == '1e-06' : tttHigh = 0
         print (tt),
-        print ('  \pm   '),
-        print (ttt),
+        if nom > 1e-05:
+            print ('_{-'),
+            print (tttLow),
+            print ('}'),
+        print ('^{+'),
+        print (tttHigh),
+        print ('}'),
         print (' $     '),
+        
     print simb
     print 'Observed        ',
     for g in range( 1, data.GetNbinsX() + 1 ):
@@ -619,51 +634,83 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print ('&  $  '),
         if tt == '1e-06' : tt = 0        
         print (tt),
-        print ('  \pm   '),
-        print (ttt),
+#        print ('  \pm   '),
+#        print (ttt),
         print (' $     '),
     print simb
+ 
     print'\hline'
     if flav_name == 'ele': print ' $\Pe^\pm\Pe^\mp\PGm^\pm$  & & & & & & ' +simb
     if flav_name == 'muon': print ' $\PGm^\pm\PGm^\mp\Pe^\pm$  & & & & & & ' +simb      
     print'Total bkg       ',
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 6 or b>12: continue
-        tt =  str("%.2g" %bkg_total_syst.GetBinContent( b ) if bkg_total_syst.GetBinContent( b ) > 0.01 else 0)
-        ttt = str("%.1g" %math.sqrt(bkg_total_onlystat.GetBinError(b)* bkg_total_onlystat.GetBinError(b)  + bkg_total_onlysyst.GetBinError( b )*bkg_total_onlysyst.GetBinError( b )))      
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 5 or b>11: continue
+        nom = bkg_total_syst.GetY()[b]
+        low = bkg_total_onlystat[1].GetEYlow()[b]
+        high = bkg_total_onlystat[1].GetEYhigh()[b]
+        syst = bkg_total_onlysyst.GetBinError(b+1)
+        totLow = math.sqrt(low*low + syst*syst)
+        if nom-totLow < 0: totLow = nom
+        tt =  str("%.2g" %nom if nom > 0.01 else 0)
+        tttLow = str("%.2g" %totLow)
+        tttHigh = str("%.2g" %math.sqrt(high*high + syst*syst))
         print ('&  $  '),
-        if tt == '1e-06' : tt = 0                
+        if tt == '1e-06' : tt = 0
+        if tttLow == '1e-06' : ttLow = 0
+        if tttHigh == '1e-06' : ttHigh = 0
         print (tt),
-        print ('  \pm   '),
-        print (ttt),
+        if nom > 1e-05:
+            print ('_{-'),
+            print (tttLow),
+            print ('}'),
+        print ('^{+'),
+        print (tttHigh),
+        print ('}'),
         print (' $    '),
     print simb
+    
     print 'Observed        ',
     for b in range( 1, data.GetNbinsX() + 1 ):
         if b <= 6 or b>12: continue
         tt =  str("%.2g" %data.GetBinContent( b ))
         ttt = str("%.1g" %data.GetBinError(b))      
         print ('&  $  '),
-        if tt == '1e-06' : tt = 0        
+        if tt == '1e-06' : tt = 0
         print (tt),
-        print ('  \pm   '),
-        print (ttt),
+#        print ('  \pm   '),
+#        print (ttt),
         print (' $     '),
     print simb
+    
     print'\hline'
     if flav_name == 'ele': print '$\Pe^\pm\Pe^\pm\PGm^\mp$  & & & & & & ' +simb
     if flav_name == 'muon': print '$\PGm^\pm\PGm^\pm\Pe^\mp$  & & & & & & ' +simb       
     print'Total bkg        ',
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 12: continue
-        tt =  str("%.2g" %bkg_total_syst.GetBinContent( b ) if bkg_total_syst.GetBinContent( b ) > 0.01 else 0)
-        ttt = str("%.1g" %math.sqrt(bkg_total_onlystat.GetBinError(b)* bkg_total_onlystat.GetBinError(b)  + bkg_total_onlysyst.GetBinError( b )*bkg_total_onlysyst.GetBinError( b )))      
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 11: continue
+        nom = bkg_total_syst.GetY()[b]
+        low = bkg_total_onlystat[1].GetEYlow()[b]
+        high = bkg_total_onlystat[1].GetEYhigh()[b]
+        syst = bkg_total_onlysyst.GetBinError(b+1)
+        totLow = math.sqrt(low*low + syst*syst)
+        if nom-totLow < 0: totLow = nom
+        tt =  str("%.2g" %nom if nom > 0.01 else 0)
+        tttLow = str("%.2g" %totLow)
+        tttHigh = str("%.2g" %math.sqrt(high*high + syst*syst))
         print ('&  $  '),
-        if tt == '1e-06' : tt = 0                
+        if tt == '1e-06' : tt = 0
+        if tttLow == '1e-06' : ttLow = 0
+        if tttHigh == '1e-06' : ttHigh = 0
         print (tt),
-        print ('  \pm   '),
-        print (ttt),
-        print (' $     '),
+        if nom > 1e-05:
+            print ('_{-'),
+            print (tttLow),
+            print ('}'),
+        print ('^{+'),
+        print (tttHigh),
+        print ('}'),
+        print (' $    '),
+ 
     print simb
     print 'Observed        ',
     for b in range( 1, data.GetNbinsX() + 1 ):
@@ -673,10 +720,11 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print ('&  $  '),
         if tt == '1e-06' : tt = 0        
         print (tt),
-        print ('  \pm   '),
-        print (ttt),
+#        print ('  \pm   '),
+#        print (ttt),
         print (' $     '),
     print simb
+    
     print'\hline'
     print'\end{tabular}'
     print'\end{table}'
@@ -713,25 +761,27 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
     print'\hline'
     print legend_label_signal1 +'  & & & & & & ' +simb   
     print label_xxx ,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b > 6: continue
-        ss =  str("%.2g" %signal_histo1.GetBinContent( b ) if signal_histo1.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo1_onlystat.GetBinError(b)* signal_histo1_onlystat.GetBinError(b)  + signal_histo1_onlysyst.GetBinError( b )*signal_histo1_onlysyst.GetBinError( b )) if math.sqrt(signal_histo1_onlystat.GetBinError(b)* signal_histo1_onlystat.GetBinError(b)  + signal_histo1_onlysyst.GetBinError( b )*signal_histo1_onlysyst.GetBinError( b )) > 0.001 else 0)    
+    sys.exit()
+    for b in range( bkg_total_syst.GetN() ):
+        if b > 5: continue
+        ss =  str("%.2g" %signal_histo1.GetBinContent( b+1 ) if signal_histo1.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo1_onlystat.GetBinError(b+1)* signal_histo1_onlystat.GetBinError(b+1)  + signal_histo1_onlysyst.GetBinError( b+1 )*signal_histo1_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo1_onlystat.GetBinError(b+1)* signal_histo1_onlystat.GetBinError(b+1)  + signal_histo1_onlysyst.GetBinError( b+1 )*signal_histo1_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
         if ss == '3e-06' : ss = 0
-        if sss == '1.7e-06' : sss = 0            
+        if sss == '1.7e-06' : sss = 0
         print ('&  $  '),
         print (ss),
         print ('  \pm   '),
         print (sss),
-        print (' $     '),    
+        print (' $     '),
     print simb
+    
     print label_xxOS,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 6 or b>12: continue
-        ss =  str("%.2g" %signal_histo1.GetBinContent( b ) if signal_histo1.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo1_onlystat.GetBinError(b)* signal_histo1_onlystat.GetBinError(b)  + signal_histo1_onlysyst.GetBinError( b )*signal_histo1_onlysyst.GetBinError( b )) if math.sqrt(signal_histo1_onlystat.GetBinError(b)* signal_histo1_onlystat.GetBinError(b)  + signal_histo1_onlysyst.GetBinError( b )*signal_histo1_onlysyst.GetBinError( b )) > 0.001 else 0)    
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 5 or b>11: continue
+        ss =  str("%.2g" %signal_histo1.GetBinContent( b+1 ) if signal_histo1.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo1_onlystat.GetBinError(b+1)* signal_histo1_onlystat.GetBinError(b+1)  + signal_histo1_onlysyst.GetBinError( b+1 )*signal_histo1_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo1_onlystat.GetBinError(b+1)* signal_histo1_onlystat.GetBinError(b+1)  + signal_histo1_onlysyst.GetBinError( b+1 )*signal_histo1_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -742,11 +792,12 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print (sss),
         print (' $      '),    
     print simb
+    
     print label_xxSS,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 12: continue
-        ss =  str("%.2g" %signal_histo1.GetBinContent( b ) if signal_histo1.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo1_onlystat.GetBinError(b)* signal_histo1_onlystat.GetBinError(b)  + signal_histo1_onlysyst.GetBinError( b )*signal_histo1_onlysyst.GetBinError( b )) if math.sqrt(signal_histo1_onlystat.GetBinError(b)* signal_histo1_onlystat.GetBinError(b)  + signal_histo1_onlysyst.GetBinError( b )*signal_histo1_onlysyst.GetBinError( b )) > 0.001 else 0)    
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 11: continue
+        ss =  str("%.2g" %signal_histo1.GetBinContent( b+1 ) if signal_histo1.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo1_onlystat.GetBinError(b+1)* signal_histo1_onlystat.GetBinError(b+1)  + signal_histo1_onlysyst.GetBinError( b+1 )*signal_histo1_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo1_onlystat.GetBinError(b+1)* signal_histo1_onlystat.GetBinError(b+1)  + signal_histo1_onlysyst.GetBinError( b+1 )*signal_histo1_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -760,10 +811,10 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
     print'\hline'
     print legend_label_signal2 +'  & & & & & &' +simb  
     print label_xxx ,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b > 6: continue
-        ss =  str("%.2g" %signal_histo2.GetBinContent( b ) if signal_histo2.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo2_onlystat.GetBinError(b)* signal_histo2_onlystat.GetBinError(b)  + signal_histo2_onlysyst.GetBinError( b )*signal_histo2_onlysyst.GetBinError( b )) if math.sqrt(signal_histo2_onlystat.GetBinError(b)* signal_histo2_onlystat.GetBinError(b)  + signal_histo2_onlysyst.GetBinError( b )*signal_histo2_onlysyst.GetBinError( b )) > 0.001 else 0)
+    for b in range( bkg_total_syst.GetN() ):
+        if b > 5: continue
+        ss =  str("%.2g" %signal_histo2.GetBinContent( b+1 ) if signal_histo2.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo2_onlystat.GetBinError(b+1)* signal_histo2_onlystat.GetBinError(b+1)  + signal_histo2_onlysyst.GetBinError( b+1 )*signal_histo2_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo2_onlystat.GetBinError(b+1)* signal_histo2_onlystat.GetBinError(b+1)  + signal_histo2_onlysyst.GetBinError( b+1 )*signal_histo2_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -774,11 +825,12 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print (sss),
         print (' $     '),    
     print simb
+    
     print label_xxOS,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 6 or b>12: continue
-        ss =  str("%.2g" %signal_histo2.GetBinContent( b ) if signal_histo2.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo2_onlystat.GetBinError(b)* signal_histo2_onlystat.GetBinError(b)  + signal_histo2_onlysyst.GetBinError( b )*signal_histo2_onlysyst.GetBinError( b )) if math.sqrt(signal_histo2_onlystat.GetBinError(b)* signal_histo2_onlystat.GetBinError(b)  + signal_histo2_onlysyst.GetBinError( b )*signal_histo2_onlysyst.GetBinError( b )) > 0.001 else 0)
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 5 or b>11: continue
+        ss =  str("%.2g" %signal_histo2.GetBinContent( b+1 ) if signal_histo2.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo2_onlystat.GetBinError(b+1)* signal_histo2_onlystat.GetBinError(b+1)  + signal_histo2_onlysyst.GetBinError( b+1 )*signal_histo2_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo2_onlystat.GetBinError(b+1)* signal_histo2_onlystat.GetBinError(b+1)  + signal_histo2_onlysyst.GetBinError( b+1 )*signal_histo2_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -789,11 +841,12 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print (sss),
         print (' $      '),    
     print simb
+    
     print label_xxSS,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 12: continue
-        ss =  str("%.2g" %signal_histo2.GetBinContent( b ) if signal_histo2.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo2_onlystat.GetBinError(b)* signal_histo2_onlystat.GetBinError(b)  + signal_histo2_onlysyst.GetBinError( b )*signal_histo2_onlysyst.GetBinError( b )) if math.sqrt(signal_histo2_onlystat.GetBinError(b)* signal_histo2_onlystat.GetBinError(b)  + signal_histo2_onlysyst.GetBinError( b )*signal_histo2_onlysyst.GetBinError( b )) > 0.001 else 0)
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 11: continue
+        ss =  str("%.2g" %signal_histo2.GetBinContent( b+1 ) if signal_histo2.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo2_onlystat.GetBinError(b+1)* signal_histo2_onlystat.GetBinError(b+1)  + signal_histo2_onlysyst.GetBinError( b+1 )*signal_histo2_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo2_onlystat.GetBinError(b+1)* signal_histo2_onlystat.GetBinError(b+1)  + signal_histo2_onlysyst.GetBinError( b+1 )*signal_histo2_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -804,13 +857,14 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print (sss),
         print (' $      '),    
     print simb
-    print'\hline'
+    
+    print'\hline'    
     print legend_label_signal3 +'  & & & & & & ' +simb   
     print label_xxx ,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b > 6: continue
-        ss =  str("%.2g" %signal_histo3.GetBinContent( b ) if signal_histo3.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo3_onlystat.GetBinError(b)* signal_histo3_onlystat.GetBinError(b)  + signal_histo3_onlysyst.GetBinError( b )*signal_histo3_onlysyst.GetBinError( b )) if math.sqrt(signal_histo3_onlystat.GetBinError(b)* signal_histo3_onlystat.GetBinError(b)  + signal_histo3_onlysyst.GetBinError( b )*signal_histo3_onlysyst.GetBinError( b )) > 0.001 else 0)
+    for b in range( bkg_total_syst.GetN() ):
+        if b > 5: continue
+        ss =  str("%.2g" %signal_histo3.GetBinContent( b+1 ) if signal_histo3.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo3_onlystat.GetBinError(b+1)* signal_histo3_onlystat.GetBinError(b+1)  + signal_histo3_onlysyst.GetBinError( b+1 )*signal_histo3_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo3_onlystat.GetBinError(b+1)* signal_histo3_onlystat.GetBinError(b+1)  + signal_histo3_onlysyst.GetBinError( b+1 )*signal_histo3_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -821,11 +875,12 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print (sss),
         print (' $     '),    
     print simb
+    
     print label_xxOS,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 6 or b>12: continue
-        ss =  str("%.2g" %signal_histo3.GetBinContent( b ) if signal_histo3.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo3_onlystat.GetBinError(b)* signal_histo3_onlystat.GetBinError(b)  + signal_histo3_onlysyst.GetBinError( b )*signal_histo3_onlysyst.GetBinError( b )) if math.sqrt(signal_histo3_onlystat.GetBinError(b)* signal_histo3_onlystat.GetBinError(b)  + signal_histo3_onlysyst.GetBinError( b )*signal_histo3_onlysyst.GetBinError( b )) > 0.001 else 0)
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 5 or b>11: continue
+        ss =  str("%.2g" %signal_histo3.GetBinContent( b+1 ) if signal_histo3.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo3_onlystat.GetBinError(b+1)* signal_histo3_onlystat.GetBinError(b+1)  + signal_histo3_onlysyst.GetBinError( b+1 )*signal_histo3_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo3_onlystat.GetBinError(b+1)* signal_histo3_onlystat.GetBinError(b+1)  + signal_histo3_onlysyst.GetBinError( b+1 )*signal_histo3_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -836,11 +891,12 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print (sss),
         print (' $      '),    
     print simb
+    
     print label_xxSS,
-    for b in range( 1, bkg_total_syst.GetNbinsX() + 1 ):
-        if b <= 12: continue
-        ss =  str("%.2g" %signal_histo3.GetBinContent( b ) if signal_histo3.GetBinContent( b ) > 0.01 else 0)
-        sss = str("%.1g" %math.sqrt(signal_histo3_onlystat.GetBinError(b)* signal_histo3_onlystat.GetBinError(b)  + signal_histo3_onlysyst.GetBinError( b )*signal_histo3_onlysyst.GetBinError( b )) if math.sqrt(signal_histo3_onlystat.GetBinError(b)* signal_histo3_onlystat.GetBinError(b)  + signal_histo3_onlysyst.GetBinError( b )*signal_histo3_onlysyst.GetBinError( b )) > 0.001 else 0)
+    for b in range( bkg_total_syst.GetN() ):
+        if b <= 11: continue
+        ss =  str("%.2g" %signal_histo3.GetBinContent( b+1 ) if signal_histo3.GetBinContent( b+1 ) > 0.01 else 0)
+        sss = str("%.2g" %math.sqrt(signal_histo3_onlystat.GetBinError(b+1)* signal_histo3_onlystat.GetBinError(b+1)  + signal_histo3_onlysyst.GetBinError( b+1 )*signal_histo3_onlysyst.GetBinError( b+1 )) if math.sqrt(signal_histo3_onlystat.GetBinError(b+1)* signal_histo3_onlystat.GetBinError(b+1)  + signal_histo3_onlysyst.GetBinError( b+1 )*signal_histo3_onlysyst.GetBinError( b+1 )) > 0.001 else 0)
         print ('&  $  '),
         if ss == '1e-06' : ss = 0
         if sss == '1e-06' : sss = 0
@@ -851,6 +907,7 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
         print (sss),
         print (' $      '),    
     print simb
+    
     print'\hline'
     print'\end{tabular}'
     print'\end{table}'
