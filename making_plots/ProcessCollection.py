@@ -156,6 +156,7 @@ class ProcessCollection:
         
         total_bkg_hist = None
         low, high = None, None
+
         for p in self.__processes:
             if p.isSignal():
                 continue
@@ -178,8 +179,8 @@ class ProcessCollection:
                 for ib in range(nbins):
                     low[ib] += math.pow(p.nominal().GetBinError(ib), 2)
                     high[ib] += math.pow(p.nominal().GetBinError(ib), 2)
-                    
-        for i in range(len(low)):
+                            
+        for ib in range(len(low)):
             low[ib] = math.sqrt(low[ib])
             high[ib] = math.sqrt(high[ib])
                     
