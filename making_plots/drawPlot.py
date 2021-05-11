@@ -761,7 +761,7 @@ def writeTables_sumErrors(data, processCollection, processCollection2, processCo
     print'\hline'
     print legend_label_signal1 +'  & & & & & & ' +simb   
     print label_xxx ,
-    sys.exit()
+    
     for b in range( bkg_total_syst.GetN() ):
         if b > 5: continue
         ss =  str("%.2g" %signal_histo1.GetBinContent( b+1 ) if signal_histo1.GetBinContent( b+1 ) > 0.01 else 0)
