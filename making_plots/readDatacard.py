@@ -113,14 +113,12 @@ if __name__ == '__main__':
     datacard_paths4 = [ '{}_{}.txt'.format( base_card_path4, y ) for y in years ]
     datacards4 = [ Datacard( path ) for path in datacard_paths4 ]
 
-    crdatacard_paths = [ '{}_{}.txt'.format( cr_card_path, y ) for y in years ]
-    crdatacards = [ Datacard( path ) for path in crdatacard_paths ]
-
-    sf, df = None, None
-    for i, cardcr in enumerate( crdatacards ):
-        root_file = TFile( cardcr.shapeFilePath(), 'READ' )
-        sf = root_file.Get('nonpromptSF').Clone('sf')
-        df = root_file.Get('nonpromptDF').Clone('df')
+    crf, sf, df = [], [], []
+    for y in years:
+        if flav[0] == 'muon': crf.append(TFile( cr_card_path+'/muon_'+y+'.root', 'READ' ))
+        else: crf.append(TFile( cr_card_path+'/ele_CR_'+y+'.root', 'READ' ))
+        sf.append(crf[-1].Get('nonpromptSFpos').Clone('sf'+y))
+        df.append(crf[-1].Get('nonpromptDF').Clone('df'+y))
     
     processCollections = []
     total_data = None
@@ -129,8 +127,8 @@ if __name__ == '__main__':
         histogram_dict = buildHistogramDictionary( card.shapeFilePath() )
         process_list = []
         for p in card.processNames():
-            process_list.append( Process( p, histogram_dict, card, 'signal' in p ) )  
-        processCollections.append( ProcessCollection( process_list, sf = sf, df = df ) )
+            process_list.append( Process( p, histogram_dict, card, 'signal' in p ) )
+        processCollections.append( ProcessCollection( process_list, sf = sf[i], df = df[i] ) )
         #merge the data
         if total_data is None:
             total_data = histogram_dict[ 'data_obs' ]
@@ -146,8 +144,8 @@ if __name__ == '__main__':
         histogram_dict2 = buildHistogramDictionary( card2.shapeFilePath() )
         process_list2 = []
         for p in card2.processNames():
-            process_list2.append( Process( p, histogram_dict2, card2, 'signal' in p ) )  
-        processCollections2.append( ProcessCollection( process_list2, sf = sf, df = df ) )   
+            process_list2.append( Process( p, histogram_dict2, card2, 'signal' in p ) )
+        processCollections2.append( ProcessCollection( process_list2, sf = sf[i], df = df[i] ) )
     total_process_collection2 = processCollections2[0]
     for col in processCollections2[1:]:
         total_process_collection2 += col
@@ -158,8 +156,8 @@ if __name__ == '__main__':
         histogram_dict3 = buildHistogramDictionary( card3.shapeFilePath() )
         process_list3 = []
         for p in card3.processNames():
-            process_list3.append( Process( p, histogram_dict3, card3, 'signal' in p ) )  
-        processCollections3.append( ProcessCollection( process_list3, sf = sf, df = df ) )   
+            process_list3.append( Process( p, histogram_dict3, card3, 'signal' in p ) )
+        processCollections3.append( ProcessCollection( process_list3, sf = sf[i], df = df[i] ) )
     total_process_collection3 = processCollections3[0]
     for col in processCollections3[1:]:
         total_process_collection3 += col
@@ -170,8 +168,8 @@ if __name__ == '__main__':
         histogram_dict4 = buildHistogramDictionary( card4.shapeFilePath() )
         process_list4 = []
         for p in card4.processNames():
-            process_list4.append( Process( p, histogram_dict4, card4, 'signal' in p ) )  
-        processCollections4.append( ProcessCollection( process_list4, sf = sf, df = df ) )
+            process_list4.append( Process( p, histogram_dict4, card4, 'signal' in p ) )
+        processCollections4.append( ProcessCollection( process_list4, sf = sf[i], df = df[i] ) )
     total_process_collection4 = processCollections4[0]
     for col in processCollections4[1:]:
         total_process_collection4 += col

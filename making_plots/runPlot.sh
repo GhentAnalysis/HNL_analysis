@@ -10,7 +10,7 @@ ${sr}/M-5.0_V-0.0044721360_mu_muo_datacard \
 ${sr}/M-9.0_V-0.0011224972_mu_muo_datacard \
 ${sr}/M-9.0_V-0.0008910668_mu_muo_datacard \
 muon SR 2GeV 5GeV 9GeV 8_0=5 2_0=5 1_2=6 Run2 \
-${cr}/M-2.0_V-0.0089106678_mu_muo_datacard
+${cr}
 
 #python \
 #readDatacard.py \
