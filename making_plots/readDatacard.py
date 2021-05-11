@@ -61,7 +61,7 @@ if __name__ == '__main__':
     else: v3 = ['01']
 
     if len( sys.argv ) > 13: years = [ sys.argv[13] ]
-    else: years = ['16', '17', '18' ]
+    if sys.argv[13] == 'Run2': years = ['16', '17', '18' ]
     
     if len( sys.argv ) > 14: cr_card_path = sys.argv[14]
 
