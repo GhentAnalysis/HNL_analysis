@@ -103,6 +103,8 @@ def setStyle():
     style.SetPadTickX(1)
     style.SetPadTickY(1)
     
+    style.SetEndErrorSize(0.)
+    
     ##Change for log plots:
     #gStyle->SetOptLogx(0);
     #gStyle->SetOptLogy(0);

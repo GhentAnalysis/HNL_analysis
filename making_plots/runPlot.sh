@@ -1,22 +1,33 @@
 #!/bin/bash
 
-sr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/majorana"
-cr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/majorana/CR"
+hnl="majorana"
+#hnl="dirac"
 
-python \
-readDatacard.py \
-${sr}/M-2.0_V-0.0089106678_mu_muo_datacard \
-${sr}/M-5.0_V-0.0044721360_mu_muo_datacard \
-${sr}/M-9.0_V-0.0011224972_mu_muo_datacard \
-${sr}/M-9.0_V-0.0008910668_mu_muo_datacard \
-muon SR 2GeV 5GeV 9GeV 8_0=5 2_0=5 1_2=6 Run2 \
-${cr}
+sr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/${hnl}"
+cr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/${hnl}/CR"
 
-#python \
-#readDatacard.py \
-#${sr}/M-1_V-0.022383_mu_muo_datacard \
-#${sr}/M-2_V-0.00447214_mu_muo_datacard \
-#${sr}/M-3_V-0.0022383_mu_muo_datacard \
-#${sr}/M-3_V-0.0022383_mu_muo_datacard \
-#muon SR 1GeV 2GeV 3GeV 1_6=4 1_8=5 5_2=6 16 \
-#${cr}/M-1_V-0.212367605816_mu_muo_datacard
+chan=("ele" "muon")
+year=("16" "17" "18" "Run2")
+
+for ch in ${chan[@]}
+do
+
+  if [[ ${ch} == "ele" ]]; then 
+    chname="e_ele"
+  else
+    chname="mu_muo"
+  fi
+  
+  for y in ${year[@]}
+  do
+    python \
+    readDatacard.py \
+    ${sr}/M-2.0_V-0.0089106678_${chname}_datacard \
+    ${sr}/M-6.0_V-0.0011224972_${chname}_datacard \
+    ${sr}/M-12.0_V-0.0010000000_${chname}_datacard \
+    ${sr}/M-12.0_V-0.0010000000_${chname}_datacard \
+    ${ch} SR 2 6 12 0_8=4 1_3=6 1_0=6 ${y} \
+    ${cr}
+  done
+  
+done
