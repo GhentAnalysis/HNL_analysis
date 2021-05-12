@@ -1,7 +1,7 @@
 #!/bin/bash
 
-hnl="majorana"
-#hnl="dirac"
+#hnl="majorana"
+hnl="dirac"
 
 sr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/${hnl}"
 cr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/${hnl}/CR"
@@ -12,10 +12,16 @@ year=("16" "17" "18" "Run2")
 for ch in ${chan[@]}
 do
 
-  if [[ ${ch} == "ele" ]]; then 
+  if [[ ${ch} == "ele" ]]; then
     chname="e_ele"
+    if [[ ${hnl} == "dirac" ]]; then
+      chname="e_Dirac_ele"
+    fi
   else
     chname="mu_muo"
+    if [[ ${hnl} == "dirac" ]]; then
+      chname="mu_Dirac_muo"
+    fi
   fi
   
   for y in ${year[@]}
