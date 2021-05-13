@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#hnl="majorana"
-hnl="dirac"
+hnl="majorana"
+#hnl="dirac"
 
 sr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/${hnl}"
 cr="/user/kskovpen/analysis/HNL/CMSSW_10_2_13/src/Limits/input/3L/${hnl}/CR"
