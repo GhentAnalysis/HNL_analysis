@@ -115,8 +115,8 @@ if __name__ == '__main__':
 
     crf, sf, df = [], [], []
     for y in years:
-        if flav[0] == 'muon': crf.append(TFile( cr_card_path+'/muon_'+y+'.root', 'READ' ))
-        else: crf.append(TFile( cr_card_path+'/ele_CR_'+y+'.root', 'READ' ))
+        if flav[0] == 'muon': crf.append(TFile( cr_card_path+'/muon_'+plot[0]+'_'+y+'.root', 'READ' ))
+        else: crf.append(TFile( cr_card_path+'/ele_'+plot[0]+'_'+y+'.root', 'READ' ))
         sf.append(crf[-1].Get('nonpromptSFpos').Clone('sf'+y))
         df.append(crf[-1].Get('nonpromptDF').Clone('df'+y))
     

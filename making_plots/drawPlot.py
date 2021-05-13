@@ -447,8 +447,8 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
         if flav_name == 'muon': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', '' )
         if flav_name == 'ele': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', '' )
     else:
-        if flav_name == 'muon': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', '#mu#mu + l' )
-        if flav_name == 'ele': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', 'ee + l' )
+        if flav_name == 'muon': drawCMSHeader( upper_pad, lumi_text, '', '#mu#mu + l' )
+        if flav_name == 'ele': drawCMSHeader( upper_pad, lumi_text, '', 'ee + l' )
 
     upper_pad.RedrawAxis()
     
@@ -488,9 +488,9 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
     if plot_axis == 'SR':
         relative_bkg_totalLow_unc.GetXaxis().SetTitle( '#Delta(PV-SV)_{2D} (cm)' )
     elif plot_axis == 'massl2l3':
-        relative_bkg_totalLow_unc.GetXaxis().SetTitle( 'm_(ll)#left(l_{2}+l_{3} #right) (GeV)' )
+        relative_bkg_totalLow_unc.GetXaxis().SetTitle( 'm(l_{2}l_{3}) (GeV)' )
     elif plot_axis == 'displacement':
-        relative_bkg_totalLow_unc.GetXaxis().SetTitle( '#Delta (PV-SV)_{2D} (cm)' )
+        relative_bkg_totalLow_unc.GetXaxis().SetTitle( '#Delta(PV-SV)_{2D} (cm)' )
     elif plot_axis == 'mass3':
         relative_bkg_totalLow_unc.GetXaxis().SetTitle( 'm_(lll) (GeV)' )      
     #set label sizes for ratio plot
