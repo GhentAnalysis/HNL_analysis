@@ -117,7 +117,8 @@ if __name__ == '__main__':
     for y in years:
         if flav[0] == 'muon': crf.append(TFile( cr_card_path+'/muon_'+plot[0]+'_'+y+'.root', 'READ' ))
         else: crf.append(TFile( cr_card_path+'/ele_'+plot[0]+'_'+y+'.root', 'READ' ))
-        sf.append(crf[-1].Get('nonpromptSFpos').Clone('sf'+y))
+#        sf.append(crf[-1].Get('nonpromptSFpos').Clone('sf'+y))
+        sf.append(crf[-1].Get('nonpromptSF').Clone('sf'+y))
         df.append(crf[-1].Get('nonpromptDF').Clone('df'+y))
     
     processCollections = []
@@ -212,9 +213,10 @@ if __name__ == '__main__':
     base_card_path = base_card_path.replace( '.', 'p' )
     plot_name = os.path.basename( base_card_path ) + '_' + year_name + '_' + plot_label
     
-#    colors = { 'nonpromptDF' : ROOT.kGreen, 'nonpromptSF' : ROOT.kGreen + 2, 'Xgamma' : ROOT.kViolet+1 }
-    colors = { 'nonpromptDF' : ROOT.kGreen-9, 'nonpromptSF' : ROOT.kGreen + 1, 'Xgamma' : ROOT.kYellow-8 }
-    legend_names = { 'nonpromptDF' : 'Nonprompt (DF)', 'nonpromptSF' : 'Nonprompt (SF)', 'Xgamma' : 'Conversions' }
+#    colors = { 'nonpromptDF' : ROOT.kGreen-9, 'nonpromptSF' : ROOT.kGreen + 1, 'Xgamma' : ROOT.kYellow-8 }
+#    legend_names = { 'nonpromptDF' : 'Nonprompt (DF)', 'nonpromptSF' : 'Nonprompt (SF)', 'Xgamma' : 'Conversions' }
+    colors = { 'nonpromptDF' : ROOT.kGreen-9, 'nonpromptSF' : ROOT.kGreen + 1, 'Xgamma' : ROOT.kYellow-8, 'TTTX' : ROOT.kAzure-9, 'DY' : ROOT.kAzure-9, 'multiboson' : ROOT.kAzure-9, 'Other' : ROOT.kAzure-9 }
+    legend_names = { 'nonpromptDF' : 'Nonprompt (DF)', 'nonpromptSF' : 'Nonprompt (SF)', 'Xgamma' : 'Conversions', 'TTTX' : 'Other', 'multiboson' : 'Other', 'DY' : 'Other' }
     
     drawPlot( total_data, total_process_collection, \
     total_process_collection2, total_process_collection3, \

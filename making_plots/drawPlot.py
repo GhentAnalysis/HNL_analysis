@@ -68,6 +68,7 @@ def makeUpperLegend( data, processCollection, bkg_total, plot_axis= 'SR', legend
     legend.SetBorderSize(0)
 
     legend.AddEntry( data, 'Data', 'pl' )
+    hasOther = False
     for p in processCollection:
         if p.isSignal(): continue
         name = p.name()
@@ -75,10 +76,13 @@ def makeUpperLegend( data, processCollection, bkg_total, plot_axis= 'SR', legend
             try:
                 name = legend_names[ p.name () ]
             except KeyError:
-                pass            
+                pass
+        if p.name() in ['multiboson', 'TTTX', 'DY']:
+            if hasOther: continue
+            hasOther = True
         legend.AddEntry( p.nominal(), name, 'f' )
     legend.AddEntry( bkg_total, 'Total unc.', 'f' )
-    legend.AddEntry( None, "", "");
+##    legend.AddEntry( None, "", "");
     return legend
 
 #compute maximum entry to be drawn on plot
