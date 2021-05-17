@@ -1386,7 +1386,7 @@ void Analysis_mc::analisi( //const std::string& list, const std::string& directo
       sel_8 = sel_7 && prob_vertex > 0.001;
       sel_9 = sel_8 && D2_delta_pv_svSig > 20;
       sel_10= sel_9 && M_l2l3_combined < 20;
-      _0 = SR_selection;
+      _0 = selection_final;
       _1 = M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<20 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
       _2 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<20 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&bjet == 0 &&vetoes;
       _3 = v4l2.DeltaR(v4l3)<1 && M_3L_combined>50 && M_3L_combined<80 && min_delta_phi>1 && vtxRvtxPcosAlpha>0.99 && M_l2l3_combined<20 && sum_vec_l2l3>15 && D2_delta_pv_svSig>20 && prob_vertex>0.001 &&vetoes;
