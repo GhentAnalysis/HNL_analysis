@@ -9,7 +9,7 @@ def drawCMSHeader( pad, lumi_text, extra_text, flav_text ):
     top_margin = pad.GetTopMargin();
     header_offset = top_margin * 0.2
 
-    left_margin = pad.GetLeftMargin()*1.27;
+    left_margin = pad.GetLeftMargin()*1.33;
 
     header = TLatex( left_margin, 0.8, 'CMS' )
     header.SetNDC()
@@ -20,13 +20,14 @@ def drawCMSHeader( pad, lumi_text, extra_text, flav_text ):
     cmsLabelSize = top_margin * 1.3
     header.SetTextSize( cmsLabelSize )
     cms_x_position = header.GetXsize()
-    header.DrawLatex( left_margin, 0.8, 'CMS' )
+    header.DrawLatex( left_margin, 0.78, 'CMS' )
 
     
     extra_text_size = cmsLabelSize * 0.76
     header.SetTextFont( 52 )
     header.SetTextSize( extra_text_size )
-    header.DrawLatex( left_margin + 1.2 * cms_x_position, 1 - top_margin + header_offset, extra_text )
+#    header.DrawLatex( left_margin + 1.2 * cms_x_position, 1 - top_margin + header_offset, extra_text )
+    header.DrawLatex( left_margin, 0.67, extra_text )
     
 
     lumi_text_size = top_margin * 0.7
