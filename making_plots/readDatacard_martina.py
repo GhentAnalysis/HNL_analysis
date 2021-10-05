@@ -35,40 +35,17 @@ if __name__ == '__main__':
     #set plotting style
     style = setStyle()
 
-
     if len( sys.argv ) > 1:
         base_card_path = sys.argv[1]
-    else:
-        print( 'Hello Martina' )
-        print( '----- Didar is typing---- ' )
-        time.sleep( 5 )
-        print( 'Himmmmmmmmmmm' )
-        sys.exit()
 
     if len( sys.argv ) > 2:
         base_card_path2 = sys.argv[2]     
-    else:
-        print( 'Hello Martina' )
-        print( '----- Didar is typing---- ' )
-        time.sleep( 5 )
-        print( 'Himmmmmmmmmmm' )
-        sys.exit()
+
     if len( sys.argv ) > 3:
-        base_card_path3 = sys.argv[3]     
-    else:
-        print( 'Hello Martina' )
-        print( '----- Didar is typing---- ' )
-        time.sleep( 5 )
-        print( 'Himmmmmmmmmmm' )
-        sys.exit()
+        base_card_path3 = sys.argv[3]
+        
     if len( sys.argv ) > 4:
         base_card_path4 = sys.argv[4]     
-    else:
-        print( 'Hello Martina' )
-        print( '----- Didar is typing---- ' )
-        time.sleep( 5 )
-        print( 'Himmmmmmmmmmm' )
-        sys.exit()
 
     if len( sys.argv ) > 5:
         flav = [ sys.argv[5] ]

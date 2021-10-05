@@ -1,4 +1,3 @@
-
 import sys
 import os
 import time
@@ -115,9 +114,10 @@ if __name__ == '__main__':
 
     crf, sf, df = [], [], []
     for y in years:
-        if flav[0] == 'muon': crf.append(TFile( cr_card_path+'/muon_'+y+'.root', 'READ' ))
-        else: crf.append(TFile( cr_card_path+'/ele_CR_'+y+'.root', 'READ' ))
+        if flav[0] == 'muon': crf.append(TFile( cr_card_path+'/muon_'+plot[0]+'_'+y+'.root', 'READ' ))
+        else: crf.append(TFile( cr_card_path+'/ele_'+plot[0]+'_'+y+'.root', 'READ' ))
         sf.append(crf[-1].Get('nonpromptSFpos').Clone('sf'+y))
+#        sf.append(crf[-1].Get('nonpromptSF').Clone('sf'+y))
         df.append(crf[-1].Get('nonpromptDF').Clone('df'+y))
     
     processCollections = []
@@ -212,15 +212,18 @@ if __name__ == '__main__':
     base_card_path = base_card_path.replace( '.', 'p' )
     plot_name = os.path.basename( base_card_path ) + '_' + year_name + '_' + plot_label
     
-#    colors = { 'nonpromptDF' : ROOT.kGreen, 'nonpromptSF' : ROOT.kGreen + 2, 'Xgamma' : ROOT.kViolet+1 }
-    colors = { 'nonpromptDF' : ROOT.kGreen-9, 'nonpromptSF' : ROOT.kGreen + 1, 'Xgamma' : ROOT.kYellow-8 }
-    legend_names = { 'nonpromptDF' : 'Nonprompt (DF)', 'nonpromptSF' : 'Nonprompt (SF)', 'Xgamma' : 'Conversions' }
+#    colors = { 'nonpromptDF' : ROOT.kGreen-9, 'nonpromptSF' : ROOT.kGreen + 1, 'Xgamma' : ROOT.kYellow-8 }
+#    legend_names = { 'nonpromptDF' : 'Nonprompt (DF)', 'nonpromptSF' : 'Nonprompt (SF)', 'Xgamma' : 'Conversions' }
+#    colors = { 'nonpromptDF' : ROOT.kGreen-9, 'nonpromptSF' : ROOT.kGreen + 1, 'Xgamma' : ROOT.kYellow-8, 'TTTX' : ROOT.kAzure-9, 'DY' : ROOT.kYellow-8, 'multiboson' : ROOT.kYellow-8, 'Other' : ROOT.kAzure-9 }
+#    legend_names = { 'nonpromptDF' : 'DB Leptons', 'nonpromptSF' : 'SB Leptons', 'Xgamma' : 'Conversions', 'TTTX' : 'Other', 'multiboson' : 'Conversions', 'DY' : 'Conversions' }
+    colors = { 'nonpromptDF' : ROOT.kGreen-9, 'nonpromptSF' : ROOT.kGreen + 1, 'Xgamma' : ROOT.kYellow-8, 'TTTX' : ROOT.kYellow-8, 'DY' : ROOT.kYellow-8, 'multiboson' : ROOT.kYellow-8}
+    legend_names = { 'nonpromptDF' : 'DB Leptons', 'nonpromptSF' : 'SB Leptons', 'Xgamma' : 'Other', 'TTTX' : 'Other', 'multiboson' : 'Other', 'DY' : 'Other' }
     
     drawPlot( total_data, total_process_collection, \
     total_process_collection2, total_process_collection3, \
     total_process_collection4, plot_name, colors, \
     legend_names = legend_names, lumi_text = lumi_label, \
     plot_axis= plot_label, flav_name = flav_label, mass1_name = mass1_label, \
-    mass2_name = mass2_label,mass3_name = mass3_label, v1_name = v1_label, v2_name = v2_label,v3_name = v3_label)
+    mass2_name = mass2_label,mass3_name = mass3_label, v1_name = v1_label, v2_name = v2_label,v3_name = v3_label, lower_pad_fraction = 0.35)
     
     if plot_label == 'SR': writeTables_sumErrors( total_data, total_process_collection,total_process_collection2,total_process_collection3, total_process_collection4, plot_name, plot_axis= plot_label, flav_name = flav_label, year_label = year_name, mass1_name = mass1_label, mass2_name = mass2_label,mass3_name = mass3_label, v1_name = v1_label, v2_name = v2_label,v3_name = v3_label)

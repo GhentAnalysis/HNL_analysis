@@ -3,9 +3,14 @@ import math
 import sys
 
 import ROOT
-from ROOT import TCanvas, TPad, TGraphAsymmErrors, TLegend, TLine, TLatex
+from ROOT import TCanvas, TPad, TGraphAsymmErrors, TLegend, TLine, TLatex, TMathText
 
 from drawCMSHeader import drawCMSHeader
+
+isCR = False
+isMass = True # only used for SR
+isDispl = False # only used for SR
+isPAS = False
 
 def colorHistogram( hist, color ):
 	
@@ -23,21 +28,32 @@ def colorProcesses( processCollection, color_dict ):
 def prepareData( data ):
 
     #set poison errors
-    data.SetBinErrorOption( ROOT.TH1.kPoisson )
+    data.SetBinErrorOption( ROOT.TH1.kPoisson )    
 
     #build TGraphAsymmErrors for plotting
     data_graph = TGraphAsymmErrors( data )
+    data_zeros = TGraphAsymmErrors( data )
     for b in range( 1, data.GetNbinsX() + 1 ):
         bin_content = data.GetBinContent( b )
         data_graph.SetPointError( b - 1, 0, 0,  data.GetBinErrorLow( b ) if bin_content >= 0. else 0., data.GetBinErrorUp( b ) if bin_content >= 0. else 0. )
+        data_zeros.SetPointError( b - 1, 0, 0,  data.GetBinErrorLow( b ) if bin_content >= 0. else 0., data.GetBinErrorUp( b ) if bin_content >= 0. else 0. )
 
     #hack for not displaying points at zero 
-    maximum = ( data.GetBinContent( data.GetMaximumBin() ) + data.GetBinErrorUp( data.GetMaximumBin() ) )
-    for b in range( 1, data.GetNbinsX() + 1 ):
-        if data.GetBinContent( b ) < 1e-8:
-            data_graph.GetY()[b - 1] += ( maximum * 1e8 )
+#    maximum = ( data.GetBinContent( data.GetMaximumBin() ) + data.GetBinErrorUp( data.GetMaximumBin() ) )
+#    for b in range( 1, data.GetNbinsX() + 1 ):
+#        if data.GetBinContent( b ) < 1e-8:
+#            data_graph.GetY()[b - 1] += ( maximum * 1e8 )
 
-    return data, data_graph
+    for b in range( 1, data.GetNbinsX() + 1 ):
+        if data.GetBinContent( b ) < 0.1:
+            data_graph.GetY()[b - 1] = 1e-20
+            data_zeros.GetY()[b - 1] = 0.
+        else:
+            data_zeros.GetY()[b - 1] = 1E+10
+            
+    data_zeros.SetMarkerStyle(0)
+
+    return data, data_graph, data_zeros
     
 def makeAndDivideCanvas( width, height, lower_pad_fraction ):
     
@@ -50,7 +66,7 @@ def makeAndDivideCanvas( width, height, lower_pad_fraction ):
 
     lower_pad = TPad( "", "", 0, 0, 1, lower_pad_fraction )
     lower_pad.SetTopMargin( 0. )
-    lower_pad.SetBottomMargin( 0.4 )
+    lower_pad.SetBottomMargin( 0.5 )
     lower_pad.SetLeftMargin( 0.1 )
 
     return c, upper_pad, lower_pad
@@ -60,8 +76,12 @@ def makeUpperLegend( data, processCollection, bkg_total, plot_axis= 'SR', legend
 #    if plot_axis == 'SR': legend = TLegend(0.12, 0.73, 0.92, 0.90, '', 'brNDC');
 #    else : legend = TLegend(0.12, 0.70, 0.92, 0.90, '', 'brNDC');
 
-    if plot_axis == 'SR': legend = TLegend(0.26, 0.73, 0.92, 0.90, '', 'brNDC');
-    else : legend = TLegend(0.26, 0.70, 0.92, 0.90, '', 'brNDC');
+#    if plot_axis == 'SR':
+#        legend = TLegend(0.26, 0.73, 0.92, 0.90, '', 'brNDC');
+#    else : legend = TLegend(0.26, 0.70, 0.92, 0.90, '', 'brNDC');
+
+    if (not isMass and not isDispl) or isCR: legend = TLegend(0.26, 0.72, 0.92, 0.89, '', 'brNDC');
+    else: legend = TLegend(0.26, 0.70, 0.92, 0.86, '', 'brNDC');
     
     legend.SetNColumns( 3 )
     legend.SetFillStyle( 0 ) #avoid box
@@ -76,9 +96,15 @@ def makeUpperLegend( data, processCollection, bkg_total, plot_axis= 'SR', legend
                 name = legend_names[ p.name () ]
             except KeyError:
                 pass            
+        if p.name() in ['multiboson', 'DY', 'Xgamma'] and isCR: continue
+        if p.name() in ['multiboson', 'DY'] and (not isCR) and isMass and ('_mu_' in data.GetName()): continue
+        if p.name() in ['multiboson', 'DY', 'Xgamma'] and (not isCR) and isMass and ('_e_' in data.GetName()): continue
+        if p.name() in ['multiboson', 'DY', 'Xgamma'] and (not isCR) and isDispl: continue
+        if p.name() in ['multiboson', 'DY'] and (not isCR) and (not isMass) and (not isDispl) and ('_mu_' in data.GetName()): continue
+        if p.name() in ['multiboson', 'DY', 'Xgamma'] and (not isCR) and (not isMass) and (not isDispl) and ('_e_' in data.GetName()): continue
         legend.AddEntry( p.nominal(), name, 'f' )
     legend.AddEntry( bkg_total, 'Total unc.', 'f' )
-    legend.AddEntry( None, "", "");
+##    legend.AddEntry( None, "", "");
     return legend
 
 #compute maximum entry to be drawn on plot
@@ -112,7 +138,8 @@ def rangeLinear( data, background, signal):
 def rangeLog( data, background,signal, flav_name, plot_axis, lumi_text  ):
 	
     total_min = minimum( data, background )
-    total_max = maximum( signal, background )
+#    total_max = maximum( signal, background )
+    total_max = maximum( data, background )
 
     if total_min < 0.08:
        total_min = 0.08
@@ -138,29 +165,39 @@ def setRelativeUncStyle( relative_unc, color ):
 	relative_unc.SetFillColor( color )
 	relative_unc.SetLineColor( color )
 
-def setRatioPlotStyle( first_hist, lower_pad_fraction,plot_axis ):
-    scale_factor = ( 1. - lower_pad_fraction ) / lower_pad_fraction 
+def setRatioPlotStyle( first_hist, stack, bkg_total_syst, lower_pad_fraction,plot_axis, data_graph, data_zeros ):
+    scale_factor = ( 1. - lower_pad_fraction ) / lower_pad_fraction
     first_hist.GetYaxis().SetTitleOffset( 0.8 / scale_factor )
-    first_hist.GetXaxis().SetTitleOffset( 1.15 )
+    if isDispl or isMass: first_hist.GetXaxis().SetTitleOffset( 1.3 )
+    else: first_hist.GetXaxis().SetTitleOffset( 2.0 )
     first_hist.GetYaxis().SetTitleSize( scale_factor * .06 )
     first_hist.GetXaxis().SetTitleSize( scale_factor * .06 )
     first_hist.GetYaxis().SetLabelSize( scale_factor * .05 )
-    first_hist.GetYaxis().SetLabelOffset( 0.013 )    
-    first_hist.GetXaxis().SetLabelSize( scale_factor * .06 )
-    first_hist.GetXaxis().LabelsOption("vu");
-    first_hist.GetXaxis().SetLabelOffset( scale_factor * 0.01 )
+    first_hist.GetYaxis().SetLabelOffset( 0.013 )
+    if (not isMass and not isDispl) or isCR:
+        first_hist.GetXaxis().SetLabelSize( scale_factor * .075 )
+    else:
+        first_hist.GetXaxis().SetLabelSize( scale_factor * .062 )
+    first_hist.GetXaxis().LabelsOption("v");
+    first_hist.GetXaxis().SetLabelOffset( scale_factor * 0.02 )
     if plot_axis == 'massl2l3':
         first_hist.GetXaxis().SetNdivisions(206)
         first_hist.GetXaxis().SetTickLength(0.08)
     if plot_axis == 'displacement':
         first_hist.GetXaxis().SetNdivisions(506)
-        first_hist.GetXaxis().SetTickLength(0.08)    
+        first_hist.GetXaxis().SetTickLength(0.08)
     labels_sr=["0-0.5","0.5-1.5","1.5-4",">4","0-0.5",">0.5","0-0.5","0.5-1.5","1.5-4",">4","0-0.5",">0.5","0-0.5","0.5-1.5","1.5-4",">4","0-0.5",">0.5"]
+    if isCR or (not isMass and not isDispl):
+        first_hist.GetXaxis().SetNdivisions(-len(labels_sr))
+        stack.GetHistogram().GetXaxis().SetNdivisions(-len(labels_sr))
+        bkg_total_syst.GetHistogram().GetXaxis().SetNdivisions(-len(labels_sr))
+        data_graph.GetHistogram().GetXaxis().SetNdivisions(-len(labels_sr))
+        data_zeros.GetHistogram().GetXaxis().SetNdivisions(-len(labels_sr))
     if plot_axis == 'SR':
         for b in range( 1, first_hist.GetNbinsX() + 1 ):
             name = labels_sr[b-1]
             first_hist.GetXaxis().SetBinLabel(b, name)
-            first_hist.GetXaxis().LabelsOption("vu");
+            first_hist.GetXaxis().LabelsOption("v");
 
 #make uncertainty band for ratio plot
 def relativeUncBand( bkg ):
@@ -227,16 +264,36 @@ def verticalLine_2( data, center,line_begin,line_end  ):
 
 #make ratio plot legend
 def makeLowerLegend( obs_over_pred, relative_bkg_statLow_unc, relative_bkg_statHigh_unc, relative_bkg_totalLow_unc, relative_bkg_totalHigh_unc ):
-    
-    legendStat = TLegend( 0.12, 0.75, 0.34, 0.90, '', 'brNDC' )
+
+    if (not isCR) and isDispl: legendStat = TLegend( 0.14, 0.805, 0.36, 0.955, '', 'brNDC' )
+    elif (not isCR) and isMass and '_mu_' in obs_over_pred.GetName(): legendStat = TLegend( 0.115, 0.825, 0.335, 0.935, '', 'brNDC' )
+    elif (not isCR) and isMass and '_e_' in obs_over_pred.GetName(): legendStat = TLegend( 0.155, 0.835, 0.375, 0.945, '', 'brNDC' )
+    elif (not isCR): legendStat = TLegend( 0.385, 0.805, 0.59, 0.955, '', 'brNDC' )
+    else:
+#        if '_e_' not in relative_bkg_statLow_unc.GetName():            
+#            legendStat = TLegend( 0.11, 0.78, 0.33, 0.93, '', 'brNDC' )
+#        else:
+        legendStat = TLegend( 0.385, 0.78, 0.59, 0.93, '', 'brNDC' )
     legendStat.SetFillStyle( 0 )
     legendStat.SetBorderSize( 0 )
-    legendStat.AddEntry( relative_bkg_statLow_unc, 'Stat.', 'f' )
+    legendStat.AddEntry( relative_bkg_statLow_unc, 'Stat. unc.', 'f' )
+    if not (isMass and not isCR):
+        legendStat.SetTextSize(0.07)
+    else:
+        legendStat.SetTextSize(0.05)
 
-    legendTot = TLegend( 0.40, 0.75, 0.62, 0.90, '', 'brNDC' )
+    if (not isCR) and isDispl: legendTot = TLegend( 0.30, 0.805, 0.52, 0.955, '', 'brNDC' )
+    elif (not isCR) and isMass and '_mu_' in obs_over_pred.GetName(): legendTot = TLegend( 0.230, 0.825, 0.450, 0.935, '', 'brNDC' )
+    elif (not isCR) and isMass and '_e_' in obs_over_pred.GetName(): legendTot = TLegend( 0.155, 0.745, 0.375, 0.855, '', 'brNDC' )
+    elif (not isCR): legendTot = TLegend( 0.672, 0.805, 0.87, 0.955, '', 'brNDC' )
+    else: legendTot = TLegend( 0.672, 0.78, 0.87, 0.93, '', 'brNDC' )
     legendTot.SetFillStyle( 0 )
     legendTot.SetBorderSize( 0 )
-    legendTot.AddEntry( relative_bkg_totalLow_unc, 'Total', 'f' )
+    legendTot.AddEntry( relative_bkg_totalLow_unc, 'Total unc.', 'f' )
+    if not (isMass and not isCR):
+        legendTot.SetTextSize(0.07)
+    else:
+        legendTot.SetTextSize(0.05)
 
     return [legendStat, legendTot]
 
@@ -245,7 +302,20 @@ def makeLabel1( label_text, xposition, yposition, taglias ):
     #label.SetNDC()
     label.SetTextAlign( 21 )
     label.SetTextFont( 42 )
-    label.SetTextColor( ROOT.kCyan+3 )
+#    label.SetTextColor( ROOT.kCyan+3 )
+    label.SetTextColor( ROOT.kBlack )
+    label.SetTextSize(  taglias )
+    label.SetTextAngle( 0 )
+    return label
+
+def makeLabel2( label_text, xposition, yposition, taglias ):	
+    label = TMathText( )
+    #label.SetNDC()
+#    label.SetTextAlign( 21 )
+    label.SetTextAlign( 13 )
+    label.SetTextFont( 42 )
+#    label.SetTextColor( ROOT.kCyan+3 )
+    label.SetTextColor( ROOT.kBlack )
     label.SetTextSize(  taglias )
     label.SetTextAngle( 0 )
     return label
@@ -259,7 +329,16 @@ def makeLabel( label_text, xposition, yposition, taglias ):
     label.SetTextSize( taglias )
     label.SetTextAngle( 0 )
     return label    
-        
+
+def makeLabelMath( label_text, xposition, yposition, taglias ):
+    label = TMathText()
+    #label.SetNDC()
+    label.SetTextAlign( 13 )
+    label.SetTextFont( 42 )
+    label.SetTextColor( ROOT.kBlack )
+    label.SetTextSize( taglias )
+    return label    
+
 def drawPlot( data, processCollection, processCollection2, processCollection3,processCollection4, plot_name, color_dict = None, log = False, lower_pad_fraction = 0.3, legend_names = None, lumi_text = '137 fb^{-1} (13 TeV)',plot_axis = 'SR',flav_name = 'muon',mass1_name = '1gev',mass2_name = '2gev',mass3_name = '3gev',v1_name = 'v1',v2_name = 'v2',v3_name = 'v3',width = 800, height = 500, additional_label = 'pippo', additional_label2 = 'pippo'):
     
     if plot_axis == 'SR':
@@ -293,7 +372,7 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
         colorProcesses( processCollection, color_dict )
         
     #Replace data by TGRaphAsymmErrors for plotting
-    data, data_graph = prepareData( data )
+    data, data_graph, data_zeros = prepareData( data )
         
     stack = processCollection.backgroundStack()
     bkg_total_syst = processCollection.totalBkgWithAllErrors()
@@ -312,22 +391,27 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
                 gry[b] = errorHigh / 2
 
     bkg_total_syst.SetFillStyle( 3005 )
-    bkg_total_syst.SetFillColor( ROOT.kGray + 2 )
+#    bkg_total_syst.SetFillStyle( 3002 )
+    bkg_total_syst.SetFillColorAlpha(ROOT.kBlack, 0.5)
+#    bkg_total_syst.SetFillColor( ROOT.kGray + 2 )
+    bkg_total_syst.SetFillColor( ROOT.kBlack )
     bkg_total_syst.SetMarkerStyle( 0 )
     signal_histo.SetMarkerStyle( 1 )
     signal_histo.SetLineColor(ROOT.kBlack )
-    signal_histo.SetLineWidth( 3 )
+    signal_histo.SetLineWidth( 2 )
     signal_histo.SetMarkerColor( ROOT.kBlack )
 
     signal_histo2.SetMarkerStyle( 1 )
-    signal_histo2.SetLineColor(ROOT.kBlue )
-    signal_histo2.SetLineWidth( 3 )
-    signal_histo2.SetMarkerColor( ROOT.kBlue  )
+    signal_histo2.SetLineColor(ROOT.kBlack )
+    signal_histo2.SetLineWidth( 2 )
+    signal_histo2.SetLineStyle( 7 )
+    signal_histo2.SetMarkerColor( ROOT.kBlack  )
 
     signal_histo3.SetMarkerStyle( 1 )
-    signal_histo3.SetLineColor(ROOT.kRed   )
-    signal_histo3.SetLineWidth( 3 )
-    signal_histo3.SetMarkerColor( ROOT.kRed  )
+    signal_histo3.SetLineColor(ROOT.kBlack   )
+    signal_histo3.SetLineWidth( 2 )
+    signal_histo3.SetLineStyle( 3 )
+    signal_histo3.SetMarkerColor( ROOT.kBlack  )
 
     signal_histo4.SetMarkerStyle( 1 )
     signal_histo4.SetLineColor(ROOT.kMagenta )
@@ -356,7 +440,8 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
 #    bkg_total_syst.SetMaximum( 40. )
 
     #massimo = maximum( signal_histo, bkg_total_syst )
-    massimo = maximum( signal_histo, data )
+#    massimo = maximum( signal_histo, data )
+    massimo = maximum( data, bkg_total_syst )
     
     #only draw labels in bottom pad
     bkg_total_syst.GetXaxis().SetLabelSize(0);
@@ -366,32 +451,64 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
 #    bkg_total_syst.Draw( 'e2' )
     stack.Draw( 'hist' )
     stack.SetMinimum(0.1)
-    if flav_name == 'muon': stack.SetMaximum(6000)
-    else: stack.SetMaximum(200)
+#    if flav_name == 'muon': stack.SetMaximum(6000)
+#    else: stack.SetMaximum(200)
+    if isCR:
+        if flav_name == 'muon': stack.SetMaximum(50000)
+        else: stack.SetMaximum(7000)
+    else:
+        if flav_name == 'muon':
+            if isMass: stack.SetMaximum(10000)
+            elif isDispl: stack.SetMaximum(4000)
+            else: stack.SetMaximum(20000)
+        else:
+            if isDispl: stack.SetMaximum(500)
+            elif isMass: stack.SetMaximum(2000)
+            else: stack.SetMaximum(1000)
     stack.GetHistogram().GetYaxis().SetTitle( 'Events' )
     stack.GetHistogram().GetYaxis().SetTitleSize(0.08)
     stack.GetHistogram().GetYaxis().SetLabelSize(0.06)
-    stack.GetHistogram().GetYaxis().SetTitleOffset( 0.55 )
+    if (not isMass and not isDispl) or isCR:
+        stack.GetHistogram().GetYaxis().SetTitleOffset( 0.55 )
+    else:
+        stack.GetHistogram().GetYaxis().SetTitleOffset( 0.60 )
     bkg_total_syst.Draw( 'e2 same' )
+    
     #legend.AddEntry (signal_histo,  'M = 2GeV, |V|^{2} = 1x10^{-4}')
     #legend.AddEntry (signal_histo2,  'M = 4GeV, |V|^{2} = 8x10^{-6}')
     #legend.AddEntry (signal_histo3,  'M = 8GeV, |V|^{2} = 2x10^{-6}')
-    legend.AddEntry (signal_histo,   legend_label_signal1  )
-    legend.AddEntry (signal_histo2,  legend_label_signal2  )
-    legend.AddEntry (signal_histo3,  legend_label_signal3  )
+    if not isCR:
+        legend.AddEntry (signal_histo,   legend_label_signal1  )
+        legend.AddEntry (signal_histo2,  legend_label_signal2  )
+        legend.AddEntry (signal_histo3,  legend_label_signal3  )
     legend.Draw( 'same' )
-    
-    max_flav_line = massimo*4.5
-    max_flav_name = massimo*4
-    max_mass_line = massimo*1.9
-    max_mass_name = massimo*1.4
+
+    if isCR:
         
-    if flav_name == 'ele':
-        max_flav_line = massimo*10
-        max_flav_name = massimo*10.
-        max_mass_line = massimo*5
-        max_mass_name = massimo*5
-             
+        max_flav_line = massimo*8.5
+        max_flav_name = massimo*11.0
+        max_mass_line = massimo*8.5
+        max_mass_name = massimo*2.5
+
+        if flav_name == 'ele':
+            max_flav_line = massimo*3.5
+            max_flav_name = massimo*3.3
+            max_mass_line = massimo*3.5
+            max_mass_name = massimo*0.9
+            
+    else:
+        
+        max_flav_line = massimo*7.0
+        max_flav_name = massimo*8.7
+        max_mass_line = massimo*7.0
+        max_mass_name = massimo*3.0
+        
+        if flav_name == 'ele':
+            max_flav_line = massimo*1.8
+            max_flav_name = massimo*2.5
+            max_mass_line = massimo*1.8
+            max_mass_name = massimo*1.2
+        
     #lines for cosmesi
     line1 = verticalLine_1( data, 6.5, range_min, max_flav_line)
     line2 = verticalLine_1( data, 12.5, range_min, max_flav_line)
@@ -407,50 +524,80 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
 
     #labales channels
     if flav_name == 'muon':
-        label1 = makeLabel1( "#mu#mu#mu", 3, max_flav_name, 0.08 )
-        label2 = makeLabel1( "#mu^{#pm}#mu^{#mp}e",9, max_flav_name, 0.08 )
-        label3 = makeLabel1( "#mu^{#pm}#mu^{#pm}e", 15, max_flav_name, 0.08 )
+#        lab1 = "#mu#mu#mu"
+#        lab2 = "#mu^{#pm}#mu^{#mp}e"
+#        lab3 = "#mu^{#pm}#mu^{#pm}e"
+        lab1 = "\\mu\\mu\\mu"
+        lab2 = "\\mu^{\\pm}\\mu^{\\mp}\\text{e}"
+        lab3 = "\\mu^{\\pm}\\mu^{\\pm}\\text{e}"
+        label1 = makeLabel2( lab1, 3, max_flav_name, 0.07 )
+        label2 = makeLabel2( lab2,9, max_flav_name, 0.07 )
+        label3 = makeLabel2( lab3, 15, max_flav_name, 0.07 )
     if flav_name == 'ele':     
-        label1 = makeLabel1( "eee", 3,  max_flav_name, 0.08 )
-        label2 = makeLabel1( "e^{#pm}e^{#mp}#mu", 9,  max_flav_name, 0.08 )
-        label3 = makeLabel1( "e^{#pm}e^{#pm}#mu", 15,  max_flav_name, 0.08 )
+#        lab1 = "eee"
+#        lab2 = "e^{#pm}e^{#mp}#mu"
+#        lab3 = "e^{#pm}e^{#pm}#mu"
+        lab1 = "\\text{eee}"
+        lab2 = "\\text{e}^{\\pm}\\text{e}^{\\mp}\\mu"
+        lab3 = "\\text{e}^{\\pm}\\text{e}^{\\pm}\\mu"
+        label1 = makeLabel2( lab1, 3,  max_flav_name, 0.07 )
+        label2 = makeLabel2( lab2, 9,  max_flav_name, 0.07 )
+        label3 = makeLabel2( lab3, 15,  max_flav_name, 0.07 )
     if plot_axis == 'SR':
-        label1.Draw( 'same' )
-        label2.Draw( 'same' )
-        label3.Draw( 'same' )
+#        label1.DrawMathText( 'same' )
+#        label2.DrawMathText( 'same' )
+#        label3.DrawMathText( 'same' )
+        label1.DrawMathText(2,  max_flav_name, lab1)
+        label2.DrawMathText(8, 1.2*max_flav_name, lab2)
+        label3.DrawMathText(14, 1.2*max_flav_name, lab3)
 
-    label11 = makeLabel( "m(ll) < 4 GeV", 3.4, max_mass_name, 0.04 )
-    label22 = makeLabel( "m(ll) > 4 GeV", 5.5, max_mass_name, 0.04 )
-    label33 = makeLabel( "m(ll) < 4 GeV", 9.4, max_mass_name, 0.04 )
-    label44 = makeLabel( "m(ll) > 4 GeV", 11.5, max_mass_name, 0.04 )
-    label55 = makeLabel( "m(ll) < 4 GeV", 15.4, max_mass_name, 0.04 )
-    label66 = makeLabel( "m(ll) > 4 GeV", 17.5, max_mass_name, 0.04 )
-
+    label11 = makeLabelMath( "#splitline{m(ll)}{< 4 GeV}", 3.4, max_mass_name, 0.05 )
+    label22 = makeLabelMath( "#splitline{m(ll)}{> 4 GeV}", 4.5, max_mass_name, 0.05 )
+    label33 = makeLabelMath( "#splitline{m(ll)}{< 4 GeV}", 9.4, max_mass_name, 0.05 )
+    label44 = makeLabelMath( "#splitline{m(ll)}{> 4 GeV}", 10.5, max_mass_name, 0.05 )
+    label55 = makeLabelMath( "#splitline{m(ll)}{< 4 GeV}", 15.4, max_mass_name, 0.05 )
+    label66 = makeLabelMath( "#splitline{m(ll)}{> 4 GeV}", 16.5, max_mass_name, 0.05 )
+    
     if plot_axis == 'SR':
-        label11.Draw( 'same' )
-        label22.Draw( 'same' )
-        label33.Draw( 'same' )
-        label44.Draw( 'same' )
-        label55.Draw( 'same' )
-        label66.Draw( 'same' )
+#        label11.Draw( 'same' )
+#        label22.Draw( 'same' )
+#        label33.Draw( 'same' )
+#        label44.Draw( 'same' )
+#        label55.Draw( 'same' )
+#        label66.Draw( 'same' )
+
+        label11.DrawMathText( 3.2, max_mass_name, "\\splitline{\\text{m(}\\ell\ell\\text{)}}{\\text{< 4 GeV}}" )
+        label22.DrawMathText( 4.7, max_mass_name, "\\splitline{\\text{m(}\\ell\ell\\text{)}}{\\text{> 4 GeV}}" )
+        label33.DrawMathText( 9.2, max_mass_name, "\\splitline{\\text{m(}\\ell\ell\\text{)}}{\\text{< 4 GeV}}" )
+        label44.DrawMathText( 10.7, max_mass_name, "\\splitline{\\text{m(}\\ell\ell\\text{)}}{\\text{> 4 GeV}}" )
+        label55.DrawMathText( 15.2, max_mass_name, "\\splitline{\\text{m(}\\ell\ell\\text{)}}{\\text{< 4 GeV}}" )
+        label66.DrawMathText( 16.7, max_mass_name, "\\splitline{\\text{m(}\\ell\ell\\text{)}}{\\text{> 4 GeV}}" )
         
     #redraw total background uncertainty so it overlays the stack
     bkg_total_syst.SetLineColor( ROOT.kGray )
     bkg_total_syst.Draw( 'e2same' )
     data_graph.Draw( 'pe1 same' )
-    signal_histo.Draw('histe same')
-    signal_histo2.Draw('histe same')
-    signal_histo3.Draw('histe same')
+    data_zeros.Draw( 'e1 same' )
     
-    upper_pad.RedrawAxis()
-    if plot_axis == 'SR':
+    if not isCR:
+        signal_histo.Draw('histe same')
+        signal_histo2.Draw('histe same')
+        signal_histo3.Draw('histe same')
+    
+###    upper_pad.RedrawAxis()
+##    if plot_axis == 'SR':
+    if isPAS:
         if flav_name == 'muon': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', '' )
         if flav_name == 'ele': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', '' )
     else:
-        if flav_name == 'muon': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', '#mu#mu + l' )
-        if flav_name == 'ele': drawCMSHeader( upper_pad, lumi_text, 'Preliminary', 'ee + l' )
+        if flav_name == 'muon': drawCMSHeader( upper_pad, lumi_text, '', '' )
+        if flav_name == 'ele': drawCMSHeader( upper_pad, lumi_text, '', '' )
+            
+##    else:
+##        if flav_name == 'muon': drawCMSHeader( upper_pad, lumi_text, '', '#mu#mu + l' )
+##        if flav_name == 'ele': drawCMSHeader( upper_pad, lumi_text, '', 'ee + l' )
 
-    upper_pad.RedrawAxis()
+###    upper_pad.RedrawAxis()
     
    #  if additional_label is not None:
    #  	label = makeLabel( additional_label )
@@ -477,7 +624,8 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
     #set name and range of ratio plot
     lower_pad.SetGridy()
     relative_bkg_totalLow_unc.SetMinimum( 0. )
-    relative_bkg_totalLow_unc.SetMaximum( 2.45 )
+#    relative_bkg_totalLow_unc.SetMaximum( 2.45 )
+    relative_bkg_totalLow_unc.SetMaximum( 2.95 )
     relative_bkg_totalLow_unc.GetYaxis().SetNdivisions(506)
     relative_bkg_totalLow_unc.GetYaxis().SetTitle( 'Data/Pred.' )
     relative_bkg_totalLow_unc.GetYaxis().SetLabelSize( 0.7 )
@@ -486,15 +634,15 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
     lower_pad.RedrawAxis()
 
     if plot_axis == 'SR':
-        relative_bkg_totalLow_unc.GetXaxis().SetTitle( '#Delta(PV-SV)_{2D} (cm)' )
+        relative_bkg_totalLow_unc.GetXaxis().SetTitle( '#Delta_{2D} (cm)' )
     elif plot_axis == 'massl2l3':
-        relative_bkg_totalLow_unc.GetXaxis().SetTitle( 'm_(ll)#left(l_{2}+l_{3} #right) (GeV)' )
+        relative_bkg_totalLow_unc.GetXaxis().SetTitle( '\\text{m(}^{}\\ell_{\\text{2}}^{}\\ell_{\\text{3}}\\text{) (GeV)}' )
     elif plot_axis == 'displacement':
-        relative_bkg_totalLow_unc.GetXaxis().SetTitle( '#Delta (PV-SV)_{2D} (cm)' )
+        relative_bkg_totalLow_unc.GetXaxis().SetTitle( '#Delta_{2D} (cm)' )
     elif plot_axis == 'mass3':
         relative_bkg_totalLow_unc.GetXaxis().SetTitle( 'm_(lll) (GeV)' )      
     #set label sizes for ratio plot
-    setRatioPlotStyle( relative_bkg_totalLow_unc, lower_pad_fraction, plot_axis )
+    setRatioPlotStyle( relative_bkg_totalLow_unc, stack, bkg_total_syst, lower_pad_fraction, plot_axis, data_graph, data_zeros )
     
     #make legend for ratio plot
     lower_legend = makeLowerLegend( obs_over_pred, relative_bkg_statLow_unc, relative_bkg_statHigh_unc, relative_bkg_totalLow_unc, relative_bkg_totalHigh_unc )
@@ -503,39 +651,55 @@ def drawPlot( data, processCollection, processCollection2, processCollection3,pr
     relative_bkg_statLow_unc.Draw( 'e2 same' )
     relative_bkg_statHigh_unc.Draw( 'e2 same' )
     obs_over_pred.Draw( 'pe1 same' )
+    ars = []
+    for ib in range(obs_over_pred.GetN()):
+#        if obs_over_pred.GetY()[ib] > 2.45:
+        if obs_over_pred.GetY()[ib] > 2.95:
+#            ars.append(ROOT.TArrow(obs_over_pred.GetX()[ib], 1.50, obs_over_pred.GetX()[ib], 2.45, 0.01, "|>"))
+            ars.append(ROOT.TArrow(obs_over_pred.GetX()[ib], 1.50, obs_over_pred.GetX()[ib], 2.95, 0.01, "|>"))
+            ars[-1].Draw()
+####    obs_over_pred.Draw( 'pe0 same' )
     for leg in lower_legend: leg.Draw( 'same' )
-    if plot_axis == 'SR': relative_bkg_totalLow_unc.GetXaxis().LabelsOption("vu");  
+    if plot_axis == 'SR': relative_bkg_totalLow_unc.GetXaxis().LabelsOption("v");
     #relative_bkg_total_unc.GetXaxis().LabelsOption("v");
     
     #draw horizontal line at 1 on ratio plot
     line = horizontalLine( data, 1. )
     line.Draw('same')
     
-    line11 = verticalLine_1( relative_bkg_totalLow_unc, 6.5, 0.,2.45 )
-    line22 = verticalLine_1( relative_bkg_totalLow_unc, 12.5,0.,2.45 )
-    line33 = verticalLine_2( relative_bkg_totalLow_unc, 4.5, 0.,2.45 )
-    line44 = verticalLine_2( relative_bkg_totalLow_unc, 10.5,0.,2.45 )
-    line55 = verticalLine_2( relative_bkg_totalLow_unc, 16.5, 0.,2.45 )
+#    line11 = verticalLine_1( relative_bkg_totalLow_unc, 6.5, 0.,2.45 )
+#    line22 = verticalLine_1( relative_bkg_totalLow_unc, 12.5,0.,2.45 )
+#    line33 = verticalLine_2( relative_bkg_totalLow_unc, 4.5, 0.,2.45 )
+#    line44 = verticalLine_2( relative_bkg_totalLow_unc, 10.5,0.,2.45 )
+#    line55 = verticalLine_2( relative_bkg_totalLow_unc, 16.5, 0.,2.45 )
+    line11 = verticalLine_1( relative_bkg_totalLow_unc, 6.5, 0.,2.95 )
+    line22 = verticalLine_1( relative_bkg_totalLow_unc, 12.5,0.,2.95 )
+    line33 = verticalLine_2( relative_bkg_totalLow_unc, 4.5, 0.,2.95 )
+    line44 = verticalLine_2( relative_bkg_totalLow_unc, 10.5,0.,2.95 )
+    line55 = verticalLine_2( relative_bkg_totalLow_unc, 16.5, 0.,2.95 )
     if plot_axis == 'SR':
         line11.Draw('same')    
         line22.Draw('same')
         line33.Draw('same')    
         line44.Draw('same')
         line55.Draw('same')
+        
+    obs_over_pred.Draw( 'pe1 same' )
     
     lower_pad.RedrawAxis()
     lower_pad.RedrawAxis("g")
-    lower_pad.RedrawAxis()    
+    lower_pad.RedrawAxis()
 
     #remove possible file extension from plot name and print it as pdf and png
     plot_name = os.path.splitext( plot_name )[0]
     c.SaveAs( 'pPdf/'+ plot_name + '.pdf' )
+    c.SaveAs( 'pPdf/'+ plot_name + '.eps' )
     c.SaveAs( 'pPng/'+ plot_name + '.png' )
     c.SaveAs('pRoot/' + plot_name + '.root' )
     
 def writeTables_sumErrors(data, processCollection, processCollection2, processCollection3,processCollection4, plot_name,plot_axis = 'SR',flav_name = 'muon', year_label = '16',mass1_name = '1gev',mass2_name = '2gev',mass3_name = '3gev',v1_name = 'v1',v2_name = 'v2',v3_name = 'v3'):
     
-    data, data_graph = prepareData( data )
+    data, data_graph, data_zeros = prepareData( data )
  
     stack = processCollection.backgroundStack()
     bkg_total_syst = processCollection.totalBkgWithAllErrors()
